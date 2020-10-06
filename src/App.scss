@@ -1,0 +1,45 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  padding-bottom: 1.5625rem;
+  background-color: #f7f7ff;
+  min-height: 20vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  border-bottom: dashed 1px #577399;
+
+  img {
+    margin: 2rem 1.3rem 1rem 1.3rem;
+    width: 10rem;
+  }
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.fixed-checkout {
+  background-color: #ffffff;
+  position: fixed;
+  bottom: 0rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+
+  .checkout-button {
+    width: 63%;
+    background-color: #011627;
+    font-weight: 600;
+    border: #011627;
+  }
+  .checkout-button:hover {
+    background-color: #013057;
+  }
+}
