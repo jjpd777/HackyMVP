@@ -38,7 +38,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src="https://images.squarespace-cdn.com/content/502eafb484ae7fae2e634f8b/1488919372181-XYOXZE2C90WDZYF4RRVG/LogoChinitoVeloz.png" />
-        <h3>EL CHINITO VELOZ</h3>
+        <h3>Taquería los Tíos</h3>
         <h6>Servicio en zonas:</h6>
         <p>1,2,3,9,10,11,12,13,14 y Mixco</p>
         <p> lunes a sábado de 11 a 15 hs y de 19 a 23 30hs </p>
