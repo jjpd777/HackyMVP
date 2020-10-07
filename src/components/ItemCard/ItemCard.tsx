@@ -71,8 +71,7 @@ function ItemCard(props: ItemCardProps) {
           <img width="150" src={menuItem.image} />
           <div className="card-content">
             <CardTitle>{menuItem.name}</CardTitle>
-            <CardSubtitle>Card subtitle</CardSubtitle>
-
+            <CardSubtitle>{menuItem.brief}</CardSubtitle>
             <p>{menuItem.description}</p>
           </div>
           <div className="card-price">Qtz.{menuItem.price}</div>
@@ -85,7 +84,7 @@ function ItemCard(props: ItemCardProps) {
         className="button"
         theme="secondary"
       >
-        Add to Order - (
+        Añadir a la orden: (
         {cart.find((x) => x.itemId === menuItem.id)?.quantity || 0})
       </Button>
 
@@ -113,7 +112,7 @@ function ItemCard(props: ItemCardProps) {
                   }}
                   theme="secondary"
                 >
-                  -1
+                  -
                 </Button>
               </InputGroupAddon>
               <FormInput
@@ -132,7 +131,7 @@ function ItemCard(props: ItemCardProps) {
                   }}
                   theme="secondary"
                 >
-                  +1
+                  +
                 </Button>
               </InputGroupAddon>
             </InputGroup>

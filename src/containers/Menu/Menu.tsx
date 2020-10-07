@@ -19,6 +19,7 @@ export interface MenuItem {
   price: number;
   image: string;
   description: string;
+  brief: string;
 }
 
 interface MenuProps {
@@ -72,11 +73,11 @@ function Menu(props: MenuProps) {
 
   return (
     <div className="container">
-      <div className="tagline">Sabores Árabes y Libanés en Nueva Córdoba</div>
+      <div className="tagline">Comer algo diferente no es suerte!🥠</div>
       <div className="search">
         <InputGroup>
           <FormInput
-            placeholder="Ingresá lo que estás buscando.."
+            placeholder="¿Qué se te antoja?"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -88,7 +89,7 @@ function Menu(props: MenuProps) {
               className="button"
               theme="secondary"
             >
-              Clear
+              Buscar
             </Button>
           </InputGroupAddon>
         </InputGroup>
