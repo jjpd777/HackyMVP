@@ -65,8 +65,8 @@ function Checkout(props: CheckoutProps) {
     if(!checkName || !checkAddress) return
     
     let baseURL = "https://wa.me/50256243902?text=";
-    let textBody="Hola El Chinito Veloz!%0AMi nombre es " +String(checkName)+" y me interesa hacer un pedido a *"+String(checkAddress)+"*.%0AMi pedido es el siguiente:%0A";
-    let finalpart = "%0A*Total*%20%QTZ" +String(props.totalCartValue)+ "Muchas gracias de antemano%21"
+    let textBody="Hola El Chinito Veloz!%0AMi nombre es *" +String(checkName)+"* y me interesa hacer un pedido a *"+String(checkAddress)+"*.%0AMi pedido es el siguiente:%0A";
+    let finalpart = "*Total*%20Qtz." +String(props.totalCartValue)+ "%0AMuchas gracias de antemano%21"
 
     cart.forEach((cartItem) => {
       menuItems.map((menuItem) => {
@@ -77,7 +77,7 @@ function Checkout(props: CheckoutProps) {
       });
     });
     textBody=craftString(textBody);
-    var purchase = baseURL+textBody+finalpart;
+    var purchase = baseURL+textBody+"%0A"+finalpart;
     return purchase;
   }
   return (
