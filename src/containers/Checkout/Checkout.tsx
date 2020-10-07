@@ -35,6 +35,7 @@ interface CheckoutProps {
 function Checkout(props: CheckoutProps) {
   const { menuItems, cart } = props;
   const [name, setName] = useState();
+  const [address,setAddress] = useState();
 
   const getCartItems = () => {
     let cartItems: any[] = [];
@@ -52,6 +53,33 @@ function Checkout(props: CheckoutProps) {
     });
     return cartItems;
   };
+  const craftString = (message) =>{
+    var blank = / /gi;
+    var hashtag = /#/gi;
+    message = message.replace(hashtag,"%23")
+    message = message.replace(hashtag,"%20")
+    return message;
+  }
+
+  const letsCheckout = (checkName,checkAddress) =>{
+    if(!checkName || !checkAddress) return
+    
+    let baseURL = "https://wa.me/50256243902?text=";
+    let textBody="Hola El Chinito Veloz!%0AMi nombre es *" +String(checkName)+"* y me interesa hacer un pedido a *"+String(checkAddress)+"*.%0AMi pedido es el siguiente:%0A";
+    let finalpart = "*Total*%20Qtz.%20" +String(props.totalCartValue)+ "%0AMuchas gracias de antemano%21"
+
+    cart.forEach((cartItem) => {
+      menuItems.map((menuItem) => {
+        if (cartItem.itemId === menuItem.id) {
+          const tmp = "-(%20*x*%20"+ String(cartItem.quantity) +")%20" + menuItem.name + "%0A"
+          textBody+=tmp
+        }
+      });
+    });
+    textBody=craftString(textBody);
+    var purchase = baseURL+textBody+"%0A"+finalpart;
+    return purchase;
+  }
   return (
     <div className="checkout-container">
       <div className="order-summary">
@@ -72,6 +100,7 @@ function Checkout(props: CheckoutProps) {
             className="list-item"
             key={'total'}
           >
+            <p>here</p>
             <div>Total</div>
             <div>Qtz. {props.totalCartValue}</div>
           </ListGroupItem>
@@ -81,7 +110,7 @@ function Checkout(props: CheckoutProps) {
       <div className="shipping-info">
         <FormInput
           className="input"
-          placeholder="Full Name"
+          placeholder="Nombre completo"
           value={name}
           onChange={(e) => {
             setName(e.target.value);
@@ -90,17 +119,18 @@ function Checkout(props: CheckoutProps) {
 
         <FormTextarea
           className="input"
-          placeholder="Address"
-          onChange={() => {}}
+          placeholder="Dirección del domicilio"
+          onChange={(e) => {
+            setAddress(e.target.value);
+          }}
         />
       </div>
       <br></br>
-      <Button className="button" block>
-        Checkout via WhatsApp
+      <Button href={letsCheckout(name,address)} className="button" block>
+        Pedir via WhatsApp
       </Button>
-
       <Button onClick={props.onBack} className="button-secondary" outline block>
-        Back to Menu
+        Regresar al Menu
       </Button>
     </div>
   );
