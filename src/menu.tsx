@@ -73,7 +73,7 @@ export const menuItemsMock = [
     id: 8,
     category: 'Sopas y Caldos',
     name: 'Combo familiar',
-    description: '4 sopas de tortilla o caldo Tlalpenño',
+    description: '4 sopas de tortilla o caldo Tlalpeño',
     price: 99.0,
     brief:'(Puedes hacer combinaciones)',
     image:
@@ -83,7 +83,7 @@ export const menuItemsMock = [
     id: 9,
     category: 'Sopas y Caldos',
     name: 'Super familiar 4 Personas',
-    description: '4 sopas de tortilla o caldo Tlalpenño + combo fiestón de tacos + 4 gaseosas en lata',
+    description: '4 sopas de tortilla o caldo Tlalpeño + combo fiestón de tacos + 4 gaseosas en lata',
     price: 28.0,
     brief:'(Puedes hacer combinaciones)',
     image:
