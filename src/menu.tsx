@@ -1,13 +1,13 @@
 export const menuItemsMock = [
   {
     id: 1,
-    category: 'Especiales',
-    name: 'Arroz Chifa de Mariscos',
-    description: 'Nuestro famosísimo Arroz del Chinito con carmarón, calamar y surimi.',
-    price: 70.0,
-    brief:'',
+    category: 'Carne sellada al vacío',
+    name: 'Carne preparada por libra',
+    description: 'Tu carne por librea para preparar con tacos, quesadillas, nachos, tortas, sandwiches y muchas otras combinaciones.',
+    price: 55.0,
+    brief:'Al pastor (cerdo), Cochinita pibil (cerdo), Pollo a la plancha, pollo al pastor, pollo pibil',
     image:
-      'https://images.squarespace-cdn.com/content/v1/502eafb484ae7fae2e634f8b/1594682858703-45WEESL47U41OPU85G55/ke17ZwdGBToddI8pDm48kPJXHKy2-mnvrsdpGQjlhod7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z5QHyNOqBUUEtDDsRWrJLTmihaE5rlzFBImxTetd_yW5btdZx37rH5fuWDtePBPDaHF5LxdCVHkNEqSYPsUQCdT/Arroz-Chifa.jpg',
+      'https://drive.google.com/uc?export=view&id=1rSeTN7Ppfr91x5Nbk_yEhHkryC-UHOaL',
   },
   {
     id: 2,
