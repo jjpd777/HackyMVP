@@ -40,9 +40,8 @@ function App() {
         <img src= "https://drive.google.com/uc?export=view&id=1rRwn6h7f7tGsGuZflxz7CtTughrvMtgX" />
         <h3>Don Taco Fiestón</h3>
         <h6>Servicio en zonas:</h6>
-        <p>1,2,3,9,10,11,12,13,14 y Mixco</p>
-        <p> lunes a sábado de 11 a 15 hs y de 19 a 23 30hs </p>
-        <p>Pedidos por glovo y hugo</p>
+        <p>9,10,13,14,15,16 y Carretera a El Salvador</p>
+        <p> lunes a domingo de 12:00-8:00PM </p>
         <p> Efectivo, débito</p>
       </header>
       <section className="container">
