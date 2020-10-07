@@ -66,7 +66,7 @@ function Checkout(props: CheckoutProps) {
     
     let baseURL = "https://wa.me/50256243902?text=";
     let textBody="Hola El Chinito Veloz!%0AMi nombre es *" +String(checkName)+"* y me interesa hacer un pedido a *"+String(checkAddress)+"*.%0AMi pedido es el siguiente:%0A";
-    let finalpart = "*Total*%20Qtz." +String(props.totalCartValue)+ "%0AMuchas gracias de antemano%21"
+    let finalpart = "*Total*%20Qtz.%20" +String(props.totalCartValue)+ "%0AMuchas gracias de antemano%21"
 
     cart.forEach((cartItem) => {
       menuItems.map((menuItem) => {
