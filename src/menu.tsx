@@ -34,7 +34,7 @@ export const menuItemsMock = [
     category: 'Carne sellada al vacío',
     name: 'Combo fiestón',
     description: 'Incluye salsa de aguacate, salsa de tomate, picante chipotle o  la casa, 24 tortillas para 12 tacos (tortillas delgadas 2 x taco), cebolla, cilantro y limón ',
-    price: 65.0,
+    price: 69.0,
     brief:'Al pastor (cerdo), Cochinita pibil (cerdo), Pollo a la plancha, pollo al pastor, pollo pibil',
     image:
       '',
@@ -44,7 +44,7 @@ export const menuItemsMock = [
     category: 'Carne sellada al vacío',
     name: 'Combo fiestón familiar',
     description: 'Incluye salsa de aguacate, salsa de tomate, picante chipotle o  la casa,  4 gaseosas en lata, 48 tortillas para 24 tacos (tortillas delgadas 2 x taco), cebolla, cilantro y limón ',
-    price: 65.0,
+    price: 149.0,
     brief:'2 libras de carne, Al pastor (cerdo), Cochinita pibil (cerdo), Pollo a la plancha, pollo al pastor, pollo pibil',
     image:
       '',
@@ -84,7 +84,7 @@ export const menuItemsMock = [
     category: 'Sopas y Caldos',
     name: 'Super familiar 4 Personas',
     description: '4 sopas de tortilla o caldo Tlalpeño + combo fiestón de tacos + 4 gaseosas en lata',
-    price: 28.0,
+    price: 179.0,
     brief:'(Puedes hacer combinaciones)',
     image:
       '',
