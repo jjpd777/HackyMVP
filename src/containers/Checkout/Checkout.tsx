@@ -98,9 +98,7 @@ function Checkout(props: CheckoutProps) {
           <ListGroupItem
             style={{ fontWeight: 600 }}
             className="list-item"
-            key={'total'}
-          >
-            <p>here</p>
+            key={'total'}>
             <div>Total</div>
             <div>Qtz. {props.totalCartValue}</div>
           </ListGroupItem>
