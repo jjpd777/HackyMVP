@@ -65,7 +65,7 @@ function Checkout(props: CheckoutProps) {
     if(!checkName || !checkAddress) return
     
     let baseURL = "https://wa.me/50247627381?text=";
-    let textBody="Hola Taqueriía los Tíos!%0AMi nombre es *" +String(checkName)+"* y me interesa hacer un pedido a *"+String(checkAddress)+"*.%0A%0AMi pedido es el siguiente:%0A";
+    let textBody="Hola Taquería los Tíos!%0AMi nombre es *" +String(checkName)+"* y me interesa hacer un pedido a *"+String(checkAddress)+"*.%0A%0AMi pedido es el siguiente:%0A";
     let finalpart = "*Total*%20Qtz.%20" +String(props.totalCartValue)+ "%0A%0AMuchas gracias de antemano%21"
 
     cart.forEach((cartItem) => {
@@ -88,7 +88,7 @@ function Checkout(props: CheckoutProps) {
             return (
               <ListGroupItem className="list-item" key={index}>
                 <div>
-                  {item.name} x {item.quantity}
+                  {item.name} ( x {item.quantity} ) 
                 </div>
                 <div>Qtz. {item.price * item.quantity}</div>
               </ListGroupItem>
@@ -100,7 +100,6 @@ function Checkout(props: CheckoutProps) {
             className="list-item"
             key={'total'}
           >
-            <p>here</p>
             <div>Total</div>
             <div>Qtz. {props.totalCartValue}</div>
           </ListGroupItem>

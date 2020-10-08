@@ -40,6 +40,7 @@ function App() {
         <img src="https://instagram.fgua2-1.fna.fbcdn.net/v/t51.2885-19/s320x320/58733194_394157244518079_7491451054840610816_n.jpg?_nc_ht=instagram.fgua2-1.fna.fbcdn.net&_nc_ohc=F3Nkv9fWUZQAX8uNUT1&oh=96767fa6d0f76c4fc3bcbb4f0aba44de&oe=5FA8426A" />
         <h3></h3>
         <h6>Servicio a toda Guatemala</h6>
+        <p><a href="https://www.instagram.com/taquerialostios/">Instagram 📸</a></p>
         <p><b>📞 z.10:</b> 2212-9175</p>
         <p><b>📞 z.15:</b> 2219-3840</p>
         <p> Lunes a domingo de 12PM a 8PM </p>
