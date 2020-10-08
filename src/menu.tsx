@@ -6,8 +6,7 @@ export const menuItemsMock = [
     description: 'Pasto, pollo, chorizo, longaniza, macisa, lengua, asada, ojo, ubre, mushque, pastor con chicharrón',
     price: 25.0,
     brief:'2 tacos + 1 soda',
-    image:
-      'https://images.squarespace-cdn.com/content/v1/502eafb484ae7fae2e634f8b/1594682858703-45WEESL47U41OPU85G55/ke17ZwdGBToddI8pDm48kPJXHKy2-mnvrsdpGQjlhod7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z5QHyNOqBUUEtDDsRWrJLTmihaE5rlzFBImxTetd_yW5btdZx37rH5fuWDtePBPDaHF5LxdCVHkNEqSYPsUQCdT/Arroz-Chifa.jpg',
+    image:'',
   },
   {
     id: 2,
@@ -16,8 +15,7 @@ export const menuItemsMock = [
     description: 'Pasto, pollo, chorizo, longaniza, macisa, lengua, asada, ojo, ubre, mushque, pastor con chicharrón',
     price: 45.0,
     brief:'4 tacos + 1 soda',
-    image:
-      'https://images.squarespace-cdn.com/content/v1/502eafb484ae7fae2e634f8b/1594682858703-45WEESL47U41OPU85G55/ke17ZwdGBToddI8pDm48kPJXHKy2-mnvrsdpGQjlhod7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z5QHyNOqBUUEtDDsRWrJLTmihaE5rlzFBImxTetd_yW5btdZx37rH5fuWDtePBPDaHF5LxdCVHkNEqSYPsUQCdT/Arroz-Chifa.jpg',
+    image:'',
   },
   {
     id: 3,
@@ -26,8 +24,7 @@ export const menuItemsMock = [
     description: 'Pasto, pollo, chorizo, longaniza, macisa, lengua, asada, ojo, ubre, mushque, pastor con chicharrón',
     price: 27.0,
     brief:'2 gringas + 1 soda',
-    image:
-      'https://images.squarespace-cdn.com/content/v1/502eafb484ae7fae2e634f8b/1594682858703-45WEESL47U41OPU85G55/ke17ZwdGBToddI8pDm48kPJXHKy2-mnvrsdpGQjlhod7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z5QHyNOqBUUEtDDsRWrJLTmihaE5rlzFBImxTetd_yW5btdZx37rH5fuWDtePBPDaHF5LxdCVHkNEqSYPsUQCdT/Arroz-Chifa.jpg',
+    image:'',
   },
   {
     id: 4,
@@ -36,8 +33,7 @@ export const menuItemsMock = [
     description: 'Pasto, pollo, chorizo, longaniza, macisa, lengua, asada, ojo, ubre, mushque, pastor con chicharrón',
     price: 45.0,
     brief:'4 gringas + 1 soda',
-    image:
-      'https://images.squarespace-cdn.com/content/v1/502eafb484ae7fae2e634f8b/1594682858703-45WEESL47U41OPU85G55/ke17ZwdGBToddI8pDm48kPJXHKy2-mnvrsdpGQjlhod7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z5QHyNOqBUUEtDDsRWrJLTmihaE5rlzFBImxTetd_yW5btdZx37rH5fuWDtePBPDaHF5LxdCVHkNEqSYPsUQCdT/Arroz-Chifa.jpg',
+    image:'',
   },
   {
     id: 5,
@@ -46,17 +42,15 @@ export const menuItemsMock = [
     description: 'Pasto, pollo, chorizo, longaniza, macisa, lengua, asada, ojo, ubre, mushque, pastor con chicharrón',
     price: 140.0,
     brief:'6 tacos + 6 gringas + 3 sodas',
-    image:
-      'https://images.squarespace-cdn.com/content/v1/502eafb484ae7fae2e634f8b/1594682858703-45WEESL47U41OPU85G55/ke17ZwdGBToddI8pDm48kPJXHKy2-mnvrsdpGQjlhod7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z5QHyNOqBUUEtDDsRWrJLTmihaE5rlzFBImxTetd_yW5btdZx37rH5fuWDtePBPDaHF5LxdCVHkNEqSYPsUQCdT/Arroz-Chifa.jpg',
+    image:'',
   },
   {
     id: 6,
     category: 'Combos',
-    name: 'Combo 2',
+    name: 'Combo 6',
     description: 'Pasto, pollo, chorizo, longaniza, macisa, lengua, asada, ojo, ubre, mushque, pastor con chicharrón',
     price: 30.0,
     brief:'1 chapina + 1 soda',
-    image:
-      'https://images.squarespace-cdn.com/content/v1/502eafb484ae7fae2e634f8b/1594682858703-45WEESL47U41OPU85G55/ke17ZwdGBToddI8pDm48kPJXHKy2-mnvrsdpGQjlhod7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z5QHyNOqBUUEtDDsRWrJLTmihaE5rlzFBImxTetd_yW5btdZx37rH5fuWDtePBPDaHF5LxdCVHkNEqSYPsUQCdT/Arroz-Chifa.jpg',
+    image:'',
   },
 ];

@@ -73,7 +73,7 @@ function Menu(props: MenuProps) {
 
   return (
     <div className="container">
-      <div className="tagline">Comer algo diferente no es suerte!🥠</div>
+      <div className="tagline">Los mejores de Guate! 🇬🇹🌮</div>
       <div className="search">
         <InputGroup>
           <FormInput
