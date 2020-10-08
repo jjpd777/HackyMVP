@@ -10,7 +10,9 @@ import {
   faMotorcycle,
   faHandshake,
   faPhone,
+  faCreditCard,
   faMapPin,
+  faShoppingBasket,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -58,7 +60,9 @@ function App() {
           <FontAwesomeIcon icon={faClock} /> lunes a sábado de 11 a 15 hs y de
           19 a 23 30hs{' '}
         </p>
-        <p>Pedidos por glovo y hugo</p>
+        <p>
+          <FontAwesomeIcon icon={faShoppingBasket}/>
+          Pedidos por glovo y hugo</p>
         <p>
           <FontAwesomeIcon icon={faHandshake} /> Efectivo, débito
         </p>
