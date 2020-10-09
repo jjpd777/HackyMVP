@@ -4,6 +4,20 @@ import Menu, { MenuItem } from './containers/Menu/Menu';
 import { Button } from 'shards-react';
 import Checkout from './containers/Checkout/Checkout';
 import { menuItemsMock } from './menu';
+import {
+  faLocationArrow,
+  faClock,
+  faMotorcycle,
+  faHandshake,
+  faPhone,
+  faCreditCard,
+  faMapPin,
+  faMoneyBill,
+  faCamera,
+  
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 export interface CartItem {
   itemId: number;
   quantity: number;
@@ -38,12 +52,14 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src="https://images.squarespace-cdn.com/content/502eafb484ae7fae2e634f8b/1488919372181-XYOXZE2C90WDZYF4RRVG/LogoChinitoVeloz.png" />
-        <h3>EL CHINITO VELOZ</h3>
-        <h6>Servicio en zonas:</h6>
-        <p>1,2,3,9,10,11,12,13,14 y Mixco</p>
-        <p> lunes a sábado de 11 a 15 hs y de 19 a 23 30hs </p>
-        <p>Pedidos por glovo y hugo</p>
-        <p> Efectivo, débito</p>
+        <h6><FontAwesomeIcon icon={faCamera}/><a href="https://www.instagram.com/elchinitoveloz.gt/"> @elchinitoveloz.gt 🇬🇹</a></h6>
+        <p><FontAwesomeIcon icon={faMapPin} />zonas: 1,2,3,9,10,11,12,13,14, San Miguel Petapa, Mixco</p>
+        <p><FontAwesomeIcon icon={faMapPin} /> Villa Nueva, Villa Hermosa, Bárcenas, San José</p>
+        <p><FontAwesomeIcon icon={faMapPin} /> Antigua, Jocotenango, Pastores, San Felipe</p>
+        <p><FontAwesomeIcon icon={faMapPin} /> Cobán, Carchá y alrededores </p>
+        <p><FontAwesomeIcon icon={faClock} /> 10:30 - 8:30PM </p>
+        <p><FontAwesomeIcon icon={faHandshake}/>{' '}Pedidos por glovo y hugo</p>
+        <p><FontAwesomeIcon icon={faMoneyBill}/> Efectivo, débito</p>
       </header>
       <section className="container">
         {currentPage === PageEnum.MENU && (

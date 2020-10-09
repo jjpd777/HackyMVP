@@ -10,7 +10,7 @@ import {
 import { Card, CardBody, CardTitle, CardSubtitle } from 'shards-react';
 import { Collapse } from 'shards-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { faArrowUp, faAngleDoubleDown } from '@fortawesome/free-solid-svg-icons';
 import { CartItem } from '../../App';
 import { groupBy } from 'lodash';
 import { MenuItem } from '../../containers/Menu/Menu';
@@ -24,14 +24,16 @@ interface SectionProps {
 }
 
 function Section(props: SectionProps) {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="section-container">
       <div className="section-header">
-        <h4>{props.title}</h4>
         <div onClick={() => setIsOpen(!isOpen)}>
-          {!isOpen && <FontAwesomeIcon icon={faArrowDown} />}{' '}
-          {isOpen && <FontAwesomeIcon icon={faArrowUp} />}
+          <h4>{props.title}</h4>
+          <div>
+            {!isOpen && <FontAwesomeIcon icon={faAngleDoubleDown} />}{' '}
+            {isOpen && <FontAwesomeIcon icon={faArrowUp} />}
+          </div>
         </div>
       </div>
 
