@@ -43,6 +43,8 @@ function Checkout(props: CheckoutProps) {
   const { menuItems, cart } = props;
   const [name, setName] = useState();
   const [address,setAddress] = useState();
+  const [phone,setPhone] = useState();
+
 
   const [payMethod,setPayment] = useState(true)
 
@@ -101,7 +103,7 @@ function Checkout(props: CheckoutProps) {
             return (
               <ListGroupItem className="list-item" key={index}>
                 <div>
-                  {item.name} x {item.quantity}
+                  ( x{item.quantity} )  {item.name}
                 </div>
                 <div>Qtz. {item.price * item.quantity}</div>
               </ListGroupItem>
@@ -113,7 +115,6 @@ function Checkout(props: CheckoutProps) {
             className="list-item"
             key={'total'}
           >
-            <p>here</p>
             <div>Total</div>
             <div>Qtz. {props.totalCartValue}</div>
           </ListGroupItem>
@@ -151,12 +152,18 @@ function Checkout(props: CheckoutProps) {
             setName(e.target.value);
           }}
         />
-
         <FormTextarea
           className="input"
           placeholder="Dirección del domicilio"
           onChange={(e) => {
             setAddress(e.target.value);
+          }}
+        />
+         <FormTextarea
+          className="input"
+          placeholder="Celular"
+          onChange={(e) => {
+            setPhone(e.target.value);
           }}
         />
       </div>
