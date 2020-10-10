@@ -41,10 +41,10 @@ interface CheckoutProps {
 
 function Checkout(props: CheckoutProps) {
   const { menuItems, cart } = props;
+
   const [name, setName] = useState();
   const [address,setAddress] = useState();
   const [phone,setPhone] = useState();
-
 
   const [payMethod,setPayment] = useState(true)
 
@@ -74,8 +74,8 @@ function Checkout(props: CheckoutProps) {
     return message;
   }
 
-  const letsCheckout = (checkName,checkAddress,payment) =>{
-    if(!checkName || !checkAddress) return
+  const letsCheckout = (checkName,checkAddress,thisphone,payment) =>{
+    if(!checkName || !checkAddress || !thisphone) return
     const getPayment = payment ? 'efectivo' : 'tarjeta';
 
     let baseURL = "https://wa.me/50256243902?text=";
@@ -92,7 +92,7 @@ function Checkout(props: CheckoutProps) {
     });
     textBody=craftString(textBody);
     var purchase = baseURL+textBody+"%0A"+finalpart;
-    console.log(purchase)
+
     return purchase;
   }
   return (
@@ -168,7 +168,7 @@ function Checkout(props: CheckoutProps) {
         />
       </div>
       <br></br>
-      <Button href={letsCheckout(name,address,payMethod)} className="button" block>
+      <Button href={letsCheckout(name,address,phone,payMethod)} className="button" block>
         Pedir via WhatsApp
       </Button>
       <Button onClick={props.onBack} className="button-secondary" outline block>
