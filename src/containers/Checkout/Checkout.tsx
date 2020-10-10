@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import './Checkout.scss';
 import {
+  faIdCardAlt,
+  faCashRegister,
+  faCarAlt
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
   InputGroup,
   InputGroupText,
   InputGroupAddon,
@@ -19,6 +25,7 @@ import {
   Form,
   FormInput,
   FormGroup,
+  FormRadio,
 } from 'shards-react';
 
 import { CartItem } from '../../App';
@@ -36,6 +43,10 @@ function Checkout(props: CheckoutProps) {
   const { menuItems, cart } = props;
   const [name, setName] = useState();
   const [address,setAddress] = useState();
+
+  const [payMethod,setPayment] = useState(true)
+
+
 
   const getCartItems = () => {
     let cartItems: any[] = [];
@@ -61,12 +72,13 @@ function Checkout(props: CheckoutProps) {
     return message;
   }
 
-  const letsCheckout = (checkName,checkAddress) =>{
+  const letsCheckout = (checkName,checkAddress,payment) =>{
     if(!checkName || !checkAddress) return
-    
+    const getPayment = payment ? 'efectivo' : 'tarjeta';
+
     let baseURL = "https://wa.me/50256243902?text=";
-    let textBody="Hola El Chinito Veloz!%0AMi nombre es *" +String(checkName)+"* y me interesa hacer un pedido a *"+String(checkAddress)+"*.%0A%0AMi pedido es el siguiente:%0A";
-    let finalpart = "*Total*%20Qtz.%20" +String(props.totalCartValue)+ "%0A%0AMuchas gracias de antemano%21"
+    let textBody="Hola El Chinito Veloz!%0AMi nombre es *" +String(checkName)+"* y me interesa hacer un pedido a *"+String(checkAddress)+"*." + ".%0A%0AMi pedido es el siguiente:%0A";
+    let finalpart = "*Total*%20Qtz.%20" +String(props.totalCartValue)+ "%0A%0AQuiero por favor pagar en *"+ getPayment+ "*. Muchas gracias de antemano%21"
 
     cart.forEach((cartItem) => {
       menuItems.map((menuItem) => {
@@ -78,6 +90,7 @@ function Checkout(props: CheckoutProps) {
     });
     textBody=craftString(textBody);
     var purchase = baseURL+textBody+"%0A"+finalpart;
+    console.log(purchase)
     return purchase;
   }
   return (
@@ -107,6 +120,28 @@ function Checkout(props: CheckoutProps) {
         </ListGroup>
       </div>
       <br />
+      <div>
+      <FormRadio
+            inline
+            name="cash"
+            checked={payMethod}
+            onChange={() => {
+              setPayment(true);
+            }}
+          >
+            Efectivo
+      </FormRadio>
+      <FormRadio
+            inline
+            name="card"
+            checked={!payMethod}
+            onChange={() => {
+              setPayment(false);
+            }}
+          >
+            Tarjeta
+      </FormRadio>
+      </div>
       <div className="shipping-info">
         <FormInput
           className="input"
@@ -126,7 +161,7 @@ function Checkout(props: CheckoutProps) {
         />
       </div>
       <br></br>
-      <Button href={letsCheckout(name,address)} className="button" block>
+      <Button href={letsCheckout(name,address,payMethod)} className="button" block>
         Pedir via WhatsApp
       </Button>
       <Button onClick={props.onBack} className="button-secondary" outline block>
