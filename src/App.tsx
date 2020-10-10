@@ -4,7 +4,6 @@ import Menu, { MenuItem } from './containers/Menu/Menu';
 import { Button } from 'shards-react';
 import Checkout from './containers/Checkout/Checkout';
 import { menuItemsMock } from './menu';
-import { restDetails } from './restaurant';
 import Header from './containers/Header/Header'
 
 import {
@@ -37,6 +36,7 @@ function App() {
     // Call API to load the menu
     setMenuItems(menuItemsMock);
   }, []);
+
 
   const getTotalCartValue = () => {
     let totalVal = 0;
@@ -86,7 +86,7 @@ function App() {
             className="checkout-button"
             block
           >
-            Ver tu pedido! - Qtz.{getTotalCartValue()}
+            Hacer el pedido! - Qtz.{getTotalCartValue()}
           </Button>
         </div>
       )) ||
