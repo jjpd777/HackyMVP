@@ -33,26 +33,28 @@ function Header(){
 return (
   <div>
         <img src="https://images.squarespace-cdn.com/content/502eafb484ae7fae2e634f8b/1488919372181-XYOXZE2C90WDZYF4RRVG/LogoChinitoVeloz.png" />
-        <h6><FontAwesomeIcon icon={faCamera}/>
-          <a href={restDetails["instaURL"]}>{restDetails["atrestaurant"]}</a>
+        <h6>
+          La Llorona GT
         </h6>
         <p>
           <FontAwesomeIcon icon={faClock} /> {' '} {restDetails["schedule"]}
         </p>
-        <p><FontAwesomeIcon icon={faPhoneAlt}/> 
-          <a href={restDetails["cellphones"][0]}>phone goes here</a>
-        </p>
-
         {restDetails["serviceZones"].map((zones)=>
           <p>
             <FontAwesomeIcon icon={faMapPin} />{' '} {zones}
           </p>
         )}
+        
         <p>
-          <FontAwesomeIcon icon={faShoppingBasket}/>{' '} {restDetails["otherApps"].map((zones)=> zones)}
+          <FontAwesomeIcon icon={faShoppingBasket}/>{' También disponible en '} {restDetails["otherApps"].map((zones)=> zones)}
         </p>
         <p>
           <FontAwesomeIcon icon={faHandshake} />{' '} {restDetails["payments"]}
+        </p>
+        <p><FontAwesomeIcon icon={faPhoneAlt}/> 
+          <a href={restDetails["cellphones"][0]}>tambieén puedes llamar</a> {'  '}
+          <FontAwesomeIcon icon={faCamera}/>
+          <a href={restDetails["instaURL"]}>{restDetails["atrestaurant"]}</a>
         </p>
   </div>
   );
