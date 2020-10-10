@@ -4,6 +4,9 @@ import Menu, { MenuItem } from './containers/Menu/Menu';
 import { Button } from 'shards-react';
 import Checkout from './containers/Checkout/Checkout';
 import { menuItemsMock } from './menu';
+import { restDetails } from './restaurant';
+import Header from './containers/Header/Header'
+
 import {
   faLocationArrow,
   faClock,
@@ -13,6 +16,7 @@ import {
   faCreditCard,
   faMapPin,
   faShoppingBasket,
+  faCamera,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -49,23 +53,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src="https://images.squarespace-cdn.com/content/502eafb484ae7fae2e634f8b/1488919372181-XYOXZE2C90WDZYF4RRVG/LogoChinitoVeloz.png" />
-        <h3>EL CHINITO VELOZ</h3>
-        <h6>Servicio en zonas:</h6>
-        <p>
-          {' '}
-          <FontAwesomeIcon icon={faMapPin} /> 1,2,3,9,10,11,12,13,14 y Mixco
-        </p>
-        <p>
-          <FontAwesomeIcon icon={faClock} /> lunes a sábado de 11 a 15 hs y de
-          19 a 23 30hs{' '}
-        </p>
-        <p>
-          <FontAwesomeIcon icon={faShoppingBasket}/>
-          Pedidos por glovo y hugo</p>
-        <p>
-          <FontAwesomeIcon icon={faHandshake} /> Efectivo, débito
-        </p>
+        <Header/>
       </header>
       <section className="container">
         {currentPage === PageEnum.MENU && (
