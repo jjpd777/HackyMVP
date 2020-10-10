@@ -32,7 +32,7 @@ function Header(){
   
 return (
   <div>
-        <img src="https://images.squarespace-cdn.com/content/502eafb484ae7fae2e634f8b/1488919372181-XYOXZE2C90WDZYF4RRVG/LogoChinitoVeloz.png" />
+        <img src={restDetails["srcImage"]} />
         <h6>
           La Llorona GT
         </h6>
@@ -52,7 +52,7 @@ return (
           <FontAwesomeIcon icon={faHandshake} />{' '} {restDetails["payments"]}
         </p>
         <p><FontAwesomeIcon icon={faPhoneAlt}/> 
-          <a href={restDetails["cellphones"][0]}>tambieén puedes llamar</a> {'  '}
+          <a href={restDetails["cellphones"][0]}>41288133</a> {'  '}{' '}
           <FontAwesomeIcon icon={faCamera}/>
           <a href={restDetails["instaURL"]}>{restDetails["atrestaurant"]}</a>
         </p>
