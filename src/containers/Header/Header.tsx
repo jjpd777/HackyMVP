@@ -24,7 +24,7 @@ function Header(){
     "tagline": '',
     "serviceZones": ['Toda la Capital, Carretera, Mixco y Villa Nueva'],
     "schedule":'Delivery de martes a domingo de 12 a 7:30PM',
-    "cellphones":["tel:+","this"],
+    "cellphones":["tel:+502"],
     "otherApps":['hugo, ','glovo'],
     "payments": 'Efectivo, tarjeta'
   };
@@ -39,7 +39,10 @@ return (
         <p>
           <FontAwesomeIcon icon={faClock} /> {' '} {restDetails["schedule"]}
         </p>
-        <p>          <FontAwesomeIcon icon={faPhoneAlt}/> {' '}{restDetails["cellphones"].map((zones)=> zones)}</p>
+        <p><FontAwesomeIcon icon={faPhoneAlt}/> 
+          <a href={restDetails["cellphones"][0]}>phone goes here</a>
+        </p>
+
         {restDetails["serviceZones"].map((zones)=>
           <p>
             <FontAwesomeIcon icon={faMapPin} />{' '} {zones}
