@@ -112,7 +112,7 @@ function ItemCard(props: ItemCardProps) {
                   }}
                   theme="secondary"
                 >
-                  -
+                  - 
                 </Button>
               </InputGroupAddon>
               <FormInput
@@ -135,6 +135,10 @@ function ItemCard(props: ItemCardProps) {
                 </Button>
               </InputGroupAddon>
             </InputGroup>
+            <br></br>
+            <Button pill theme="success" onClick={()=>setModalOpen(!modalOpen)}>
+                Seguir comprando
+            </Button>
           </div>
         </ModalBody>
       </Modal>
