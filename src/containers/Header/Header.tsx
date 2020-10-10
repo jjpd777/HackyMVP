@@ -39,8 +39,8 @@ return (
         <p>
           <FontAwesomeIcon icon={faClock} /> {' '} {restDetails["schedule"]}
         </p>
-        <p><FontAwesomeIcon icon={faPhoneAlt}/> {' '}
-          <a href={restDetails["cellphones"][0]}>41288133</a>
+        <p><FontAwesomeIcon icon={faPhoneAlt}/> 
+          <a href={restDetails["cellphones"][0]}>También puedes llamar!</a>
         </p>
 
         {restDetails["serviceZones"].map((zones)=>
