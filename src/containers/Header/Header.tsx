@@ -7,6 +7,7 @@ import {
   faHandshake,
   faPhone,
   faCreditCard,
+  faPhoneAlt,
   faMapPin,
   faShoppingBasket,
   faCamera,
@@ -21,9 +22,9 @@ function Header(){
     "atrestaurant": ' @lallorona',
     "instaURL": 'https://www.instagram.com/lalloronagt/',
     "tagline": '',
-    "serviceZones": ['Z.1,2,3,4','Santa Rosa, Jocotenango'],
-    "schedule":'none',
-    "cellphones":"tel:+",
+    "serviceZones": ['Toda la Capital, Carretera, Mixco y Villa Nueva'],
+    "schedule":'Delivery de martes a domingo de 12 a 7:30PM',
+    "cellphones":["tel:+","this"],
     "otherApps":['hugo, ','glovo'],
     "payments": 'Efectivo, tarjeta'
   };
@@ -34,21 +35,21 @@ return (
         <img src="https://images.squarespace-cdn.com/content/502eafb484ae7fae2e634f8b/1488919372181-XYOXZE2C90WDZYF4RRVG/LogoChinitoVeloz.png" />
         <h6><FontAwesomeIcon icon={faCamera}/>
           <a href={restDetails["instaURL"]}>{restDetails["atrestaurant"]}</a>
-        </h6>        
+        </h6>
+        <p>
+          <FontAwesomeIcon icon={faClock} /> {' '} {restDetails["schedule"]}
+        </p>
+        <p>          <FontAwesomeIcon icon={faPhoneAlt}/> {' '}{restDetails["cellphones"].map((zones)=> zones)}</p>
         {restDetails["serviceZones"].map((zones)=>
           <p>
             <FontAwesomeIcon icon={faMapPin} />{' '} {zones}
           </p>
         )}
         <p>
-          <FontAwesomeIcon icon={faClock} /> lunes a sábado de 11 a 15 hs y de
-          19 a 23 30hs{' '}
+          <FontAwesomeIcon icon={faShoppingBasket}/>{' '} {restDetails["otherApps"].map((zones)=> zones)}
         </p>
         <p>
-          <FontAwesomeIcon icon={faShoppingBasket}/> {restDetails["otherApps"].map((zones)=> zones)}
-        </p>
-        <p>
-          <FontAwesomeIcon icon={faHandshake} /> {restDetails["payments"]}
+          <FontAwesomeIcon icon={faHandshake} />{' '} {restDetails["payments"]}
         </p>
   </div>
   );
