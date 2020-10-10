@@ -52,16 +52,19 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <Header/>
-      </header>
+      
       <section className="container">
         {currentPage === PageEnum.MENU && (
+          <>
+          <header className="App-header">
+            <Header/>
+          </header>
           <Menu
             menuItems={menuItems}
             cart={cart}
             setCartItems={setCartItems}
           ></Menu>
+          </>
         )}
         {currentPage === PageEnum.CHECKOUT && (
           <Checkout
