@@ -86,7 +86,7 @@ function App() {
             className="checkout-button"
             block
           >
-            Hacer el pedido! - Qtz.{getTotalCartValue()}
+            Ver el pedido! - Qtz.{getTotalCartValue()}
           </Button>
         </div>
       )) ||
