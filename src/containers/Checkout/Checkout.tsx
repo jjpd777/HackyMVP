@@ -32,7 +32,11 @@ function Checkout(props: CheckoutProps) {
   const [phone,setPhone] = useState();
 
   const [payMethod,setPayment] = useState(true)
-
+  function getFormattedDate() {
+    var date = new Date();
+    var str = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +  date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    return str;
+}
   const getCartItems = () => {
     let cartItems: any[] = [];
     cart.forEach((cartItem) => {
@@ -69,16 +73,18 @@ function Checkout(props: CheckoutProps) {
         }
       });
     });
+    const time = getFormattedDate();
     const newRow = {
       "nombre" : checkName,
       "direccion" : checkAddress,
       "celular" : thisphone,
       "pago" : getPayment,
       "total": props.totalCartValue,
+      "fecha" : time,
       "pedido": order,
     }
     console.log(newRow)
-    var url = 'https://sheet2api.com/v1/WExfuaSVRrOs/ventaslalloronagt/ventas-totales';
+    var url = 'https://sheet2api.com/v1/WExfuaSVRrOs/ventaslalloronagt/venta-hora';
     fetch(url, {
       method: 'POST',
       headers: {
