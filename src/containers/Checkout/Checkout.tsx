@@ -65,7 +65,7 @@ function Checkout(props: CheckoutProps) {
     cart.forEach((cartItem) => {
       menuItems.map((menuItem) => {
         if (cartItem.itemId === menuItem.id) {
-          const tmp = "[ "+ String(cartItem.quantity) +"=>" + menuItem.name + " ]"
+          const tmp = "[(x"+ String(cartItem.quantity) +") " + menuItem.name + " ]"
           order+=tmp
         }
       });
@@ -75,10 +75,11 @@ function Checkout(props: CheckoutProps) {
       "direccion" : checkAddress,
       "celular" : thisphone,
       "pago" : getPayment,
+      "total": props.totalCartValue,
       "pedido": order,
     }
     console.log(newRow)
-    var url = 'https://sheet2api.com/v1/WExfuaSVRrOs/ventaslalloronagt/ventas-WhatsApp';
+    var url = 'https://sheet2api.com/v1/WExfuaSVRrOs/ventaslalloronagt/ventas-totales';
     fetch(url, {
       method: 'POST',
       headers: {
