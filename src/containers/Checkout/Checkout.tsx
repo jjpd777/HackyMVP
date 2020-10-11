@@ -1,30 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import './Checkout.scss';
+
 import {
-  faIdCardAlt,
-  faCashRegister,
-  faCarAlt
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  InputGroup,
-  InputGroupText,
-  InputGroupAddon,
   Button,
 } from 'shards-react';
 import {
-  Card,
   FormTextarea,
-  CardBody,
-  CardTitle,
-  CardSubtitle,
 } from 'shards-react';
 import {
   ListGroup,
   ListGroupItem,
-  Form,
   FormInput,
-  FormGroup,
   FormRadio,
 } from 'shards-react';
 
@@ -47,8 +33,6 @@ function Checkout(props: CheckoutProps) {
   const [phone,setPhone] = useState();
 
   const [payMethod,setPayment] = useState(true)
-
-
 
   const getCartItems = () => {
     let cartItems: any[] = [];
@@ -73,7 +57,43 @@ function Checkout(props: CheckoutProps) {
     message = message.replace(hashtag,"%20")
     return message;
   }
-
+  
+  const writeOrder=(checkName,checkAddress,thisphone,payment)=>{
+    if(!checkName || !checkAddress || !thisphone) return
+    const getPayment = payment ? 'efectivo' : 'tarjeta';
+    let order = "";
+    cart.forEach((cartItem) => {
+      menuItems.map((menuItem) => {
+        if (cartItem.itemId === menuItem.id) {
+          const tmp = "[ "+ String(cartItem.quantity) +"=>" + menuItem.name + " ]"
+          order+=tmp
+        }
+      });
+    });
+    const newRow = {
+      "nombre" : checkName,
+      "direccion" : checkAddress,
+      "celular" : thisphone,
+      "pago" : getPayment,
+      "pedido": order,
+    }
+    console.log(newRow)
+    var url = 'https://sheet2api.com/v1/WExfuaSVRrOs/ventaslalloronagt/ventas-WhatsApp';
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newRow),
+    })
+    .then(response => response.json())
+    .then(newRow => {
+      console.log('Success:', newRow);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  }
   const letsCheckout = (checkName,checkAddress,thisphone,payment) =>{
     if(!checkName || !checkAddress || !thisphone) return
     const getPayment = payment ? 'efectivo' : 'tarjeta';
@@ -95,6 +115,7 @@ function Checkout(props: CheckoutProps) {
 
     return purchase;
   }
+  
   return (
     <div className="checkout-container">
       <div className="order-summary">
@@ -168,7 +189,10 @@ function Checkout(props: CheckoutProps) {
         />
       </div>
       <br></br>
-      <Button href={letsCheckout(name,address,phone,payMethod)} className="button" block>
+      <Button 
+        onClick={()=>writeOrder(name,address,phone,payMethod)} 
+        href={letsCheckout(name,address,phone,payMethod)} 
+        className="button" block>
         Pedir via WhatsApp
       </Button>
       <Button onClick={props.onBack} className="button-secondary" outline block>
