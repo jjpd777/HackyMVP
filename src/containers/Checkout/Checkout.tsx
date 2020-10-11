@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './Checkout.scss';
 
 import {
@@ -15,7 +15,6 @@ import {
 } from 'shards-react';
 
 import { CartItem } from '../../App';
-import { groupBy } from 'lodash';
 import { MenuItem } from '../Menu/Menu';
 
 interface CheckoutProps {
