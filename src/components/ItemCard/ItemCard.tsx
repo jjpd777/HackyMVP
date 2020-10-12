@@ -6,6 +6,7 @@ import {
   CardBody,
   CardTitle,
   CardSubtitle,
+  CardFooter,
   Modal,
   ModalBody,
   ModalHeader,
@@ -72,9 +73,9 @@ function ItemCard(props: ItemCardProps) {
           <div className="card-content">
             <CardTitle>{menuItem.name}</CardTitle>
             <CardSubtitle>{menuItem.brief}</CardSubtitle>
+            <Button  pill theme="warning" ><b> Qtz. {menuItem.price}</b></Button>
             <p>{menuItem.description}</p>
           </div>
-          <div className="card-price">Qtz.{menuItem.price}</div>
         </CardBody>
       </Card>
       <Button

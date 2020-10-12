@@ -58,6 +58,7 @@ function Checkout(props: CheckoutProps) {
     var hashtag = /#/gi;
     message = message.replace(hashtag,"%23")
     message = message.replace(hashtag,"%20")
+    message = message.replaceAll("+","%2B")
     return message;
   }
   
@@ -84,7 +85,7 @@ function Checkout(props: CheckoutProps) {
       "pedido": order,
     }
     console.log(newRow)
-    var url = 'https://sheet2api.com/v1/WExfuaSVRrOs/ventaslalloronagt/venta-hora';
+    var url = 'https://sheet2api.com/v1/WExfuaSVRrOs/ventaslalloronagt/venta-granjero';
     fetch(url, {
       method: 'POST',
       headers: {

@@ -18,14 +18,14 @@ function Header(){
   const restDetails = 
   {
     "id": 1,
-    "srcImage":"https://scontent-mia3-2.cdninstagram.com/v/t51.2885-19/s320x320/120482521_151410903307821_6112966007451726566_n.jpg?_nc_ht=scontent-mia3-2.cdninstagram.com&_nc_ohc=LYBLNlM8j9EAX_oL28U&oh=6535a9a7179f64b4b6c78f7e5bcab086&oe=5FA973D7",
-    "atrestaurant": ' @lalloronagt',
-    "instaURL": 'https://www.instagram.com/lalloronagt/',
-    "tagline": '',
-    "serviceZones": ['Toda la Capital, Carretera, Mixco y Villa Nueva'],
+    "srcImage":"https://scontent.fgua5-1.fna.fbcdn.net/v/t1.0-9/120343287_3309878435762107_5997515660017944691_n.png?_nc_cat=1&_nc_sid=09cbfe&_nc_ohc=nZR8L1CgkJkAX8SjgId&_nc_ht=scontent.fgua5-1.fna&oh=df247ddbb7b331e79ca3a1b972b6a518&oe=5FABC0D3",
+    "atrestaurant": ' @PolloGranjeroGuatemala',
+    "instaURL": 'https://www.facebook.com/PolloGranjeroGuatemala/',
+    "tagline": '¡Recién hecho y crujiente!',
+    "serviceZones": ['Ciudad de Guatemala','Sacatepéquez, Chimaltenango, Escuintla, Jalapa', 'Quetzaltenango, San Marcos, Izabal, Petén','El Progreso, Chiquimula, Quiché, Suchitepequez','Santa Rosa, Alta y Baja Verapaz','Retalhuleu, Totonicapán, Sololá'],
     "schedule":'Delivery de martes a domingo de 12 a 7:30PM',
     "cellphones":["tel:+50241288133"],
-    "otherApps":['hugo, ','glovo'],
+    "otherApps":['hugo, ','glovo','ubereats'],
     "payments": 'Efectivo, tarjeta'
   };
 
@@ -33,9 +33,6 @@ function Header(){
 return (
   <div>
         <img src={restDetails["srcImage"]} />
-        <h6>
-          La Llorona GT
-        </h6>
         <p>
           <FontAwesomeIcon icon={faClock} /> {' '} {restDetails["schedule"]}
         </p>
@@ -51,9 +48,9 @@ return (
         <p>
           <FontAwesomeIcon icon={faHandshake} />{' '} {restDetails["payments"]}
         </p>
-        <p><FontAwesomeIcon icon={faPhoneAlt}/> 
-          <a href={restDetails["cellphones"][0]}>41288133</a> {'  '}{' '}
-          <FontAwesomeIcon icon={faCamera}/>
+        <p> 
+        <FontAwesomeIcon icon={faCamera}/> {'  '}
+          Facebook {'  '}
           <a href={restDetails["instaURL"]}>{restDetails["atrestaurant"]}</a>
         </p>
   </div>
