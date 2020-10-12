@@ -68,7 +68,7 @@ function ItemCard(props: ItemCardProps) {
     <div className="card-container">
       <Card className="card">
         <CardBody className="card-body">
-          <img width="150" src={menuItem.image} />
+          {menuItem.image !=="" && (<img width="150" src={menuItem.image}/>)}
           <div className="card-content">
             <CardTitle>{menuItem.name}</CardTitle>
             <CardSubtitle>{menuItem.brief}</CardSubtitle>
