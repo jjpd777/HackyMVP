@@ -84,7 +84,7 @@ function Checkout(props: CheckoutProps) {
       "pedido": order,
     }
     console.log(newRow)
-    var url = 'https://sheet2api.com/v1/WExfuaSVRrOs/ventaslalloronagt/venta-hora';
+    var url = 'https://sheet2api.com/v1/WExfuaSVRrOs/ventaslalloronagt/venta-combos-dontaco';
     fetch(url, {
       method: 'POST',
       headers: {
@@ -104,8 +104,8 @@ function Checkout(props: CheckoutProps) {
     if(!checkName || !checkAddress || !thisphone) return
     const getPayment = payment ? 'efectivo' : 'tarjeta';
 
-    let baseURL = "https://wa.me/50256243902?text=";
-    let textBody="Hola El Chinito Veloz!%0AMi nombre es *" +String(checkName)+"* y me interesa hacer un pedido a *"+String(checkAddress)+"*." + ".%0A%0AMi pedido es el siguiente:%0A";
+    let baseURL = "https://wa.me/50255557444?text=";
+    let textBody="Hola Don Taco!%0AMi nombre es *" +String(checkName)+"* y me interesa hacer un pedido a *"+String(checkAddress)+"*." + ".%0A%0AMi pedido es el siguiente:%0A";
     let finalpart = "*Total*%20Qtz.%20" +String(props.totalCartValue)+ "%0A%0AQuiero por favor pagar en *"+ getPayment+ "*. Muchas gracias de antemano%21"
 
     cart.forEach((cartItem) => {

@@ -6,18 +6,6 @@ import Checkout from './containers/Checkout/Checkout';
 import { menuItemsMock } from './menu';
 import Header from './containers/Header/Header'
 
-import {
-  faLocationArrow,
-  faClock,
-  faMotorcycle,
-  faHandshake,
-  faPhone,
-  faCreditCard,
-  faMapPin,
-  faShoppingBasket,
-  faCamera,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export interface CartItem {
   itemId: number;

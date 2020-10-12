@@ -1,8 +1,8 @@
 export const restDetails = 
     {
       "id": 1,
-      "atrestaurant": '@lallorona',
-      "instaURL": 'https://www.instagram.com/lalloronagt/',
+      "atrestaurant": '@dontacofiestongt',
+      "instaURL": 'https://www.instagram.com/dontacofiestongt/',
       "tagline": '',
       "serviceZones": ['Z.1'],
       "schedule":'none',

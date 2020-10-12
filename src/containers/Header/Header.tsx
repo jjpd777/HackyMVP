@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
 import {
-  faLocationArrow,
   faClock,
-  faMotorcycle,
   faHandshake,
-  faPhone,
-  faCreditCard,
   faPhoneAlt,
   faMapPin,
-  faShoppingBasket,
   faCamera,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -18,14 +13,14 @@ function Header(){
   const restDetails = 
   {
     "id": 1,
-    "srcImage":"https://scontent-mia3-2.cdninstagram.com/v/t51.2885-19/s320x320/120482521_151410903307821_6112966007451726566_n.jpg?_nc_ht=scontent-mia3-2.cdninstagram.com&_nc_ohc=LYBLNlM8j9EAX_oL28U&oh=6535a9a7179f64b4b6c78f7e5bcab086&oe=5FA973D7",
-    "atrestaurant": ' @lalloronagt',
-    "instaURL": 'https://www.instagram.com/lalloronagt/',
+    "srcImage":"https://instagram.fgua5-1.fna.fbcdn.net/v/t51.2885-19/s320x320/121101309_2845114619108723_4004865467128209786_n.jpg?_nc_ht=instagram.fgua5-1.fna.fbcdn.net&_nc_ohc=PlCU-I-QRW8AX9fK0ul&oh=7df54c745c73f48df7bb602af4e2e887&oe=5FAC4D06",
+    "atrestaurant": ' @dontacofiestongt',
+    "instaURL": 'https://www.instagram.com/dontacofiestongt/',
     "tagline": '',
-    "serviceZones": ['Toda la Capital, Carretera, Mixco y Villa Nueva'],
-    "schedule":'Delivery de martes a domingo de 12 a 7:30PM',
-    "cellphones":["tel:+50241288133"],
-    "otherApps":['hugo, ','glovo'],
+    "serviceZones": ['9, 10, 13, 14, 15, 16 y CES'],
+    "schedule":'Delivery todos los días de 12 a 7:30PM',
+    "cellphones":["tel:+50255557444"],
+    "otherApps":[],
     "payments": 'Efectivo, tarjeta'
   };
 
@@ -34,7 +29,7 @@ return (
   <div>
         <img src={restDetails["srcImage"]} />
         <h6>
-          La Llorona GT
+          Don Taco Fieston 🌶️
         </h6>
         <p>
           <FontAwesomeIcon icon={faClock} /> {' '} {restDetails["schedule"]}
@@ -44,15 +39,11 @@ return (
             <FontAwesomeIcon icon={faMapPin} />{' '} {zones}
           </p>
         )}
-        
-        <p>
-          <FontAwesomeIcon icon={faShoppingBasket}/>{' También disponible en '} {restDetails["otherApps"].map((zones)=> zones)}
-        </p>
         <p>
           <FontAwesomeIcon icon={faHandshake} />{' '} {restDetails["payments"]}
         </p>
         <p><FontAwesomeIcon icon={faPhoneAlt}/> 
-          <a href={restDetails["cellphones"][0]}>41288133</a> {'  '}{' '}
+          <a href={restDetails["cellphones"][0]}>55557444</a> {'  '}{' '}
           <FontAwesomeIcon icon={faCamera}/>
           <a href={restDetails["instaURL"]}>{restDetails["atrestaurant"]}</a>
         </p>

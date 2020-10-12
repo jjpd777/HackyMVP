@@ -65,13 +65,15 @@ function ItemCard(props: ItemCardProps) {
   };
 
   return (
+    
     <div className="card-container">
-      <Card className="card">
+      <Card className="card" >
         <CardBody className="card-body">
           {menuItem.image !=="" && (<img width="150" src={menuItem.image}/>)}
-          <div className="card-content">
+          <div className="card-content" >
             <CardTitle>{menuItem.name}</CardTitle>
-            <CardSubtitle>{menuItem.brief}</CardSubtitle>
+            <CardSubtitle>Promoción unidades limitadas</CardSubtitle>
+            <Button  pill theme="warning" ><b>{menuItem.brief}</b></Button>
             <p>{menuItem.description}</p>
           </div>
           <div className="card-price">Qtz.{menuItem.price}</div>
