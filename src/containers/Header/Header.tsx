@@ -13,6 +13,12 @@ import {
   faCamera,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
+} from "shards-react";
 
 function Header(){
   const restDetails = 
@@ -28,6 +34,8 @@ function Header(){
     "otherApps":['hugo, ','glovo','ubereats'],
     "payments": 'Efectivo, tarjeta'
   };
+  const [modalOpen, setModalOpen] = useState(false);
+
 
   
 return (
@@ -53,6 +61,14 @@ return (
           Facebook {'  '}
           <a href={restDetails["instaURL"]}>{restDetails["atrestaurant"]}</a>
         </p>
+        {/* <Dropdown open={modalOpen} toggle={()=>setModalOpen(!modalOpen)} className="d-table">
+            <DropdownToggle>Areas de servicio</DropdownToggle>
+              <DropdownMenu >
+              {restDetails["serviceZones"].map((zones)=>
+                <DropdownItem>{zones}</DropdownItem>
+              )}
+            </DropdownMenu>
+        </Dropdown> */}
   </div>
   );
 }
