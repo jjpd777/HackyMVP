@@ -105,7 +105,7 @@ function Checkout(props: CheckoutProps) {
     const getPayment = payment ? 'efectivo' : 'tarjeta';
 
     let baseURL = "https://wa.me/50241288133?text=";
-    let textBody="Hola La Llorona!%0A%0AMi nombre es *" +String(checkName)+"* y me interesa hacer un pedido a *"+String(checkAddress)+"*." + ".%0A%0AMi pedido es el siguiente:%0A";
+    let textBody="Hola La Llorona!%0A%0AMi nombre es *" +String(checkName)+"* y me interesa hacer un pedido a *"+String(checkAddress)+"*" + ".%0A%0AMi pedido es el siguiente:%0A";
     let finalpart = "*Total*%20Qtz.%20" +String(props.totalCartValue)+ "%0A%0AQuiero por favor pagar en *"+ getPayment+ "*.%0A%0AMuchas gracias de antemano%21"
 
     cart.forEach((cartItem) => {
