@@ -44,10 +44,6 @@ return (
             <FontAwesomeIcon icon={faMapPin} />{' '} {zones}
           </p>
         )}
-        
-        <p>
-          <FontAwesomeIcon icon={faShoppingBasket}/>{' También disponible en '} {restDetails["otherApps"].map((zones)=> zones)}
-        </p>
         <p>
           <FontAwesomeIcon icon={faHandshake} />{' '} {restDetails["payments"]}
         </p>
