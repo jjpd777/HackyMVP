@@ -11,7 +11,7 @@ export const menuItemsMock = [
   {
     id: 2,
     category: 'Combos 2 personas',
-    name: 'Ceviches Mixtos',
+    name: 'Combo para 2: Ceviches Mixtos',
     description: '2 ceviches mixtos y 2 bebidas',
     price: 155.0,
     brief:'',
@@ -20,7 +20,7 @@ export const menuItemsMock = [
   {
     id: 1,
     category: 'Combos 4+ personas',
-    name: 'Mariscada para 4',
+    name: 'Familiar: Mariscada para 4',
     description: '7 camarones jumbo (10oz) 4 filetes de curvina (16oz) 1 porción de calamares (160z) 1 porción de abulón (10oz) + guarnición del día y ensalada',
     price: 600.0,
     brief:'',
@@ -28,13 +28,14 @@ export const menuItemsMock = [
     'https://drive.google.com/uc?export=view&id=1xg_Jvc9uGaDWizDXeBKkB_Uk0BB7dIhy',
   },
   {
-    id: 3,
+    id: 100,
     category: 'Combos 4+ personas',
-    name: 'Taquiza familiar',
-    description: 'Adobado, pastor, res, pollo, chuleta. Viene con pimientos, cebolla, queso fundido y 10 tortillas de maíz',
-    price: 150.0,
-    brief:'Con nuestras 5 carnes',
-    image: 'https://drive.google.com/uc?export=view&id=1NdTtiwTus0qrTxdQMVCWGKXSdA0t0M3x',
+    name: 'Familiar: Mariscada para 4 con langosta',
+    description: '1.5lb langosta, 7 camarones jumbo (10oz) 4 filetes de curvina (16oz) 1 porción de calamares (160z) 1 porción de abulón (10oz) + guarnición del día y ensalada',
+    price: 800.0,
+    brief:'',
+    image:
+    'https://drive.google.com/uc?export=view&id=1xg_Jvc9uGaDWizDXeBKkB_Uk0BB7dIhy',
   },
   {
     id: 4,
@@ -48,7 +49,7 @@ export const menuItemsMock = [
   {
     id: 5,
     category: 'Combos 2 personas',
-    name: 'Pescados fritos',
+    name: 'Combo para 2: Pescados fritos',
     description: '1 pargo 1.5lb + 1 mojarra de 1.5lb + 1.5 litros de Pepsi',
     price: 250.0,
     brief:'',
@@ -68,7 +69,7 @@ export const menuItemsMock = [
   {
     id: 7,
     category: 'Combos 2 personas',
-    name: 'Calamares y filete de dorado',
+    name: 'Combo para 2: Calamares y filete de dorado',
     description: '1 porción de calamares empanizados, 1 porción de filete de dorado al ajillo, ensalada mixta con aguacate, + 2 gaseosas',
     price: 160.0,
     brief:'',
@@ -78,7 +79,7 @@ export const menuItemsMock = [
   {
     id: 8,
     category: 'Combos 4+ personas',
-    name: 'Familiar con de todo',
+    name: 'Familiar tacos, gringa, costra, tlalpeño',
     description: '3 tacos al pastor, 1 gringa de adobado, 1 costra de queso de chuleta, 1 caldo tlalpenño + 1.5 litros de Pepsi',
     price: 150.0,
     brief:'',
@@ -88,7 +89,7 @@ export const menuItemsMock = [
   {
     id: 9,
     category: 'Combos 2 personas',
-    name: 'Camarones Jumbo y abulón',
+    name: 'Combo para 2: Camarones Jumbo y abulón',
     description: '1/2lb camarón Jumbo al mojo del ajo, 1/2lb de aublón a la plancha, arroz, papas fritas + 2 gaseosas',
     price: 185.0,
     brief:'',
@@ -98,7 +99,7 @@ export const menuItemsMock = [
   {
     id: 10,
     category: 'Combos 2 personas',
-    name: 'Las Gringas',
+    name: 'Combo para 2: Las Gringas (x3)',
     description: '1 gringa super jumbo de pollo, 1 super gringa al pasto, 1 gringa de adobado + 1.5 litros de Pepsi',
     price: 110.0,
     brief:'',
@@ -108,7 +109,7 @@ export const menuItemsMock = [
   {
     id: 11,
     category: 'Combos 2 personas',
-    name: '1 libra de camarones',
+    name: 'Combo para 2: 1 libra de camarones',
     description: '1/2lb de camarones empanizados + 1/2lb de camarones en salsa verde, papa al horno, arróz+ 2 gaseosas',
     price:175.00,
     brief:'',
@@ -118,8 +119,8 @@ export const menuItemsMock = [
   {
     id: 12,
     category: 'Combos 2 personas',
-    name: '1 litro Caldo Tlalpeño',
-    description: '1 litro caldo Tlalpenño con pollo, queso, aguacate y tortillas + 2 gaseosas',
+    name: 'Combo para 2: 1 litro Caldo Tlalpeño',
+    description: '1 litro caldo Tlalpenño con pollo, queso, aguacate y tortillas + 1.5lts Pepsi',
     price: 100.0,
     brief:'',
     image:
@@ -128,7 +129,7 @@ export const menuItemsMock = [
   {
     id: 13,
     category: 'Combos 2 personas',
-    name: 'Camarones en ceviche y al ajillo',
+    name: 'Combo para 2: Camarones en ceviche y al ajillo',
     description: '1 ceviche mixto grande, 1 platillo de camarones Jumbo al ajillo',
     price: 179.0,
     brief:'',
@@ -148,8 +149,8 @@ export const menuItemsMock = [
   {
     id: 15,
     category: 'Combos 2 personas',
-    name: 'Camarones empanizados al coco',
-    description: 'Porción de camarones empanizados al coco para 2 personas.',
+    name: 'Combo para 2: Camarones empanizados al coco',
+    description: 'Porción de camarones empanizados al coco para 2 personas + papas fritas, salsa chipotle, tártara y guacamole',
     price: 175.0,
     brief:'Una exquisitez!',
     image:
@@ -178,8 +179,8 @@ export const menuItemsMock = [
   {
     id: 17,
     category: 'Combos 2 personas',
-    name: 'Costras, gringas y tacos',
-    description: '2 costras de queso, 1 gringas al pasto, 6 tacos adobados',
+    name: 'Combo para 2: Costras, gringas y tacos',
+    description: '2 costras de queso de carne de chuleta, 2 gringas al pastor, 6 tacos adobados',
     price: 140.0,
     brief:'',
     image:
@@ -189,7 +190,7 @@ export const menuItemsMock = [
     id: 19,
     category: 'Entradas',
     name: 'Papas "La Llorona"',
-    description: 'Platón de papas fritas, cubiertas de carne molida, salsa guacamole, crema agria, salsas y queso chedar',
+    description: 'Platón de papas fritas, cubiertas de carne al pastor, salsa guacamole, crema agria, salsas y queso chedar',
     price: 65.0,
     brief:'',
     image: 'https://drive.google.com/uc?export=view&id=1BCaKNocNSNGQHxQPVii0Ve8pG_-WdGB3',
@@ -198,7 +199,7 @@ export const menuItemsMock = [
     id: 20,
     category: 'Entradas',
     name: 'Nachos',
-    description: 'Como que te comieras muchos mini tacos pero en tortillas doraditas, carne molida, guacamole y queso',
+    description: 'Como que te comieras muchos mini tacos pero en tortillas doraditas, carne al pastor, guacamole y queso',
     price: 65.0,
     brief:'',
     image: 'https://drive.google.com/uc?export=view&id=1jkeVVpDSG2fOk7sfKYBpfo9AU7mo20Wx',
@@ -207,9 +208,9 @@ export const menuItemsMock = [
     id: 21,
     category: 'Entradas',
     name: 'Torta Mexicana',
-    description: 'Pan de la abuelita, huntado con frijolitos, fresca lechuga, guacamole, tomate, cebolla salteada y canre a la elección',
+    description: 'Pan de la abuelita, queso mozarella, huntado con frijolitos, fresca lechuga, aguacate, tomate, cebolla salteada y carne a la elección',
     price: 56.0,
-    brief:'',
+    brief:'con guarnición de papas fritas o guacamole',
     image: 'https://instagram.fgua5-1.fna.fbcdn.net/v/t51.2885-15/e35/s1080x1080/117752503_672957480240389_4989945161218310521_n.jpg?_nc_ht=instagram.fgua5-1.fna.fbcdn.net&_nc_cat=105&_nc_ohc=KsFfmP4lF-8AX_iS4VI&_nc_tp=15&oh=db5fd20cafea71fc38eecbb6d2895b5d&oe=5FAE0377',
   },
   {
@@ -218,7 +219,7 @@ export const menuItemsMock = [
     name: 'El Sampler',
     description: '5 taquitos sobre una caserola de lechugas y cebolla morada, salsa roja, salsa de guacamole y pico de gallo',
     price: 65.0,
-    brief:'',
+    brief:'1 pastor 1 res 1 camarón con queso 1 pescado empanizado 1 pollo',
     image: 'https://drive.google.com/uc?export=view&id=1YqpSko-gqoD-20gwUnRU0Q-e1X3OXf8M',
   },
   {
@@ -234,9 +235,9 @@ export const menuItemsMock = [
     id: 24,
     category: 'Tacos',
     name: '3 taquitos',
-    description: 'tres tortillas doradas con salsa pastor, carne de res, salsa guacamole, picante, cebolla salteada y limón',
+    description: 'tres tortillas doradas con carne de tu elección',
     price: 30.0,
-    brief:'',
+    brief:'Escoge: pastor, adobado, chuleta, ó pollo ',
     image: 'https://drive.google.com/uc?export=view&id=1Fqekjl8cufxdO95T2Kvk5gEuVgvz5YaG',
   },
   {
@@ -244,9 +245,9 @@ export const menuItemsMock = [
     category: 'Tacos',
     name: 'Para que no llores solito',
     description: 'Adobado, pastor, res, pollo, chuleta. Viene con pimientos, cebolla, queso fundido y 10 tortillas de maíz',
-    price: 150.0,
+    price: 135.0,
     brief:'Con nuestras 5 carnes',
-    image: 'https://drive.google.com/uc?export=view&id=1dO5gwzeTO7F6UV6cPJWtZKJaNqy54TLA',
+    image: 'https://drive.google.com/uc?export=view&id=1NdTtiwTus0qrTxdQMVCWGKXSdA0t0M3x',
   },
   {
     id: 27,
@@ -276,7 +277,7 @@ export const menuItemsMock = [
     price: 28.0,
     brief:'',
     image:
-    'https://drive.google.com/uc?export=view&id=1VMwLxf5zklGQY-m00bNHJ8eYACgm4af4',
+    'https://drive.google.com/uc?export=view&id=1lfYpxqgWFFnswG63qlzOqMIBO3ji01Da',
   },
   {
     id: 30,
@@ -286,7 +287,7 @@ export const menuItemsMock = [
     price: 40.0,
     brief:'',
     image:
-    'https://drive.google.com/uc?export=view&id=1VMwLxf5zklGQY-m00bNHJ8eYACgm4af4',
+    'https://drive.google.com/uc?export=view&id=1LHdjc1s4mF7GLd4EVlSwUGraP2oj1KOF',
   },
   {
     id: 31,
@@ -296,7 +297,7 @@ export const menuItemsMock = [
     price: 65.0,
     brief:'',
     image:
-    'https://drive.google.com/uc?export=view&id=1VMwLxf5zklGQY-m00bNHJ8eYACgm4af4',
+    '',
   },
   {
     id: 32,
@@ -326,7 +327,7 @@ export const menuItemsMock = [
     price: 40.0,
     brief:'',
     image:
-    'https://drive.google.com/uc?export=view&id=1yNWeZW9Ex8pSnG5DPzFgf4kaueKkZCdw',
+    'https://drive.google.com/uc?export=view&id=16ef85GuWs39NY1YlOtOYSmuWydmd-IV8',
   },
   {
     id: 35,
@@ -336,7 +337,7 @@ export const menuItemsMock = [
     price: 48.0,
     brief:'',
     image:
-    'https://drive.google.com/uc?export=view&id=1Fqekjl8cufxdO95T2Kvk5gEuVgvz5YaG',
+    '',
   },
   {
     id: 36,
@@ -352,7 +353,7 @@ export const menuItemsMock = [
     id: 37,
     category: 'Gringas',
     name: 'Gringa especial',
-    description: 'Super gringa rellena de queso, carne de res, pico de gallo y guacamole',
+    description: 'Super gringa rellena de queso, 8oz carne de res, pico de gallo y guacamole',
     price: 75.0,
     brief:'',
     image:
@@ -382,7 +383,7 @@ export const menuItemsMock = [
     id: 41,
     category: 'Entradas',
     name: 'Sampler de ceviches',
-    description: 'Prueba de todo. 1 cevichín tropical con piña, en salsa rosada y salsa jalapeño',
+    description: 'Prueba de todo. 1 cevichín tropical con piña, 1 cevichín en salsa rosada y 1 cevichín salsa jalapeño',
     price: 95.0,
     brief:'',
     image:
@@ -396,7 +397,7 @@ export const menuItemsMock = [
     price: 150.0,
     brief:'',
     image:
-    'https://drive.google.com/uc?export=view&id=0Bxon7qW1CSGRdEh2aFJTbzlxNjVyNG9INW5PZ1pUX0U5elYw',
+    'https://drive.google.com/uc?export=view&id=1xXl-kf2wl_rNhix7REwBytudc45kYUih',
   },
   {
     id: 43,
@@ -414,7 +415,7 @@ export const menuItemsMock = [
     name: 'Calamares',
     description: 'escoge 2 acompañamientos de: papa gourmet, papas a la parrilla, papas fritas, arroz, guacamole + ensalada',
     price: 135.0,
-    brief:'al ajillo / natural / plancha',
+    brief:'al ajillo / parrilla / thermidor / natural / plancha / empanizado',
     image:
       '',
   },
@@ -423,8 +424,8 @@ export const menuItemsMock = [
     category: 'Platos fuertes mariscos',
     name: 'Camarones',
     description: 'Camarones jumbo, escoge 2 acompañamientos de: papa gourmet, papas a la parrilla, papas fritas, arroz, guacamole + ensalada',
-    price: 135.0,
-    brief:'al ajillo / parrilla / natural / plancha / empanizado',
+    price: 185.0,
+    brief:'al ajillo / parrilla / thermidor / natural / plancha / empanizado',
     image:
     'https://drive.google.com/uc?export=view&id=1AvLjiM6tpqi3u44fbml9x8WmPd6FVVZS',
   },
@@ -506,7 +507,7 @@ export const menuItemsMock = [
     price: 150.0,
     brief:'',
     image:
-      '',
+    'https://drive.google.com/uc?export=view&id=1dO5gwzeTO7F6UV6cPJWtZKJaNqy54TLA',
   },
   {
     id: 56,
@@ -516,7 +517,7 @@ export const menuItemsMock = [
     price: 115.0,
     brief:'',
     image:
-      '',
+    'https://drive.google.com/uc?export=view&id=1dO5gwzeTO7F6UV6cPJWtZKJaNqy54TLA',
   },
   {
     id: 57,
@@ -536,7 +537,7 @@ export const menuItemsMock = [
     price: 125.0,
     brief:'',
     image:
-      '',
+      'https://drive.google.com/uc?export=view&id=1Y-JQWbBjnEJwrmySx3eOw1X9fO2J4TZ2',
   },
   {
     id: 59,
@@ -546,7 +547,7 @@ export const menuItemsMock = [
     price: 175.0,
     brief:'',
     image:
-      '',
+      'https://drive.google.com/uc?export=view&id=1Y-JQWbBjnEJwrmySx3eOw1X9fO2J4TZ2',
   },
   
 ];
