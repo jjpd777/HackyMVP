@@ -13,12 +13,7 @@ import {
   faCamera,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
-} from "shards-react";
+
 
 function Header(){
   const restDetails = 
@@ -28,13 +23,23 @@ function Header(){
     "atrestaurant": ' @PolloGranjeroGuatemala',
     "instaURL": 'https://www.facebook.com/PolloGranjeroGuatemala/',
     "tagline": '¡Recién hecho y crujiente!',
-    "serviceZones": ['Ciudad de Guatemala','Sacatepéquez, Chimaltenango, Escuintla, Jalapa', 'Quetzaltenango, San Marcos, Izabal, Petén','El Progreso, Chiquimula, Quiché, Suchitepequez','Santa Rosa, Alta y Baja Verapaz','Retalhuleu, Totonicapán, Sololá'],
+    "serviceZones": ["Mixco", "Ciudad de Guatemala"],
     "schedule":'Delivery de martes a domingo de 12 a 7:30PM',
     "cellphones":["tel:+50241288133"],
     "otherApps":['hugo, ','glovo','ubereats'],
     "payments": 'Efectivo, tarjeta'
   };
+  let service= ['Ciudad de Guatemala','Sacatepéquez, Chimaltenango, Escuintla, Jalapa', 'Quetzaltenango, San Marcos, Izabal, Petén','El Progreso, Chiquimula, Quiché, Suchitepequez','Santa Rosa, Alta y Baja Verapaz','Retalhuleu, Totonicapán, Sololá']
+  const department ={
+    "Mixco" : [["6a Avenida 08-24 zona 1","56287983"],["calz. San Juan 14-06 zona 3","56287819"],["23 Avenida 11-55, zona 4",],
+              ["Colonia El Naranjo C.C. Arboreto San Nicolás","56286877"]],
+    "Ciudad de Guatemala" : [["1a Avenida 9-45, zona 1","41048525"],["San Raymundo, zona 1","42399603"],["Avenida Bolívar 39-20 zona 3","56253736"]]
+  }
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen1, setModalOpen1] = useState(false);
+  const [dep, setDep] = useState("Mixco");
+  const [shop, setShop] = useState("6a Avenida 08-24 zona 1");
+
 
 
   
@@ -44,12 +49,11 @@ return (
         <p>
           <FontAwesomeIcon icon={faClock} /> {' '} {restDetails["schedule"]}
         </p>
-        {restDetails["serviceZones"].map((zones)=>
-          <p>
-            <FontAwesomeIcon icon={faMapPin} />{' '} {zones}
-          </p>
-        )}
-        
+        {service.map((zones)=>
+              <p>
+                <FontAwesomeIcon icon={faMapPin}/> {' '}{zones}
+              </p>
+              )}
         <p>
           <FontAwesomeIcon icon={faShoppingBasket}/>{' También disponible en '} {restDetails["otherApps"].map((zones)=> zones)}
         </p>
@@ -61,14 +65,6 @@ return (
           Facebook {'  '}
           <a href={restDetails["instaURL"]}>{restDetails["atrestaurant"]}</a>
         </p>
-        {/* <Dropdown open={modalOpen} toggle={()=>setModalOpen(!modalOpen)} className="d-table">
-            <DropdownToggle>Areas de servicio</DropdownToggle>
-              <DropdownMenu >
-              {restDetails["serviceZones"].map((zones)=>
-                <DropdownItem>{zones}</DropdownItem>
-              )}
-            </DropdownMenu>
-        </Dropdown> */}
   </div>
   );
 }
