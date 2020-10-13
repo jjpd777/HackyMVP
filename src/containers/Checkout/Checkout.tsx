@@ -58,6 +58,7 @@ function Checkout(props: CheckoutProps) {
     var hashtag = /#/gi;
     message = message.replace(hashtag,"%23")
     message = message.replace(hashtag,"%20")
+    message = message.replaceAll("+","%2B")
     return message;
   }
   
@@ -84,7 +85,7 @@ function Checkout(props: CheckoutProps) {
       "pedido": order,
     }
     console.log(newRow)
-    var url = 'https://sheet2api.com/v1/WExfuaSVRrOs/ventaslalloronagt/venta-hora';
+    var url = 'https://sheet2api.com/v1/WExfuaSVRrOs/ventaslalloronagt/ventas-llorona';
     fetch(url, {
       method: 'POST',
       headers: {
@@ -106,7 +107,7 @@ function Checkout(props: CheckoutProps) {
 
     let baseURL = "https://wa.me/50241288133?text=";
     let textBody="Hola La Llorona!%0A%0AMi nombre es *" +String(checkName)+"* y me interesa hacer un pedido a *"+String(checkAddress)+"*" + ".%0A%0AMi pedido es el siguiente:%0A";
-    let finalpart = "*Total*%20Qtz.%20" +String(props.totalCartValue)+ "%0A%0AQuiero por favor pagar en *"+ getPayment+ "*.%0A%0AMuchas gracias de antemano%21"
+    let finalpart = "*Total*%20Qtz.%20" +String(props.totalCartValue)+ "%0A%0AMi número de contacto es: "+String(thisphone)+"%0A%0AQuiero por favor pagar en *"+ getPayment+ "*.%0A%0AMuchas gracias de antemano%21"
 
     cart.forEach((cartItem) => {
       menuItems.map((menuItem) => {
