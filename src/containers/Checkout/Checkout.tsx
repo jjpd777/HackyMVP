@@ -56,9 +56,8 @@ function Checkout(props: CheckoutProps) {
   const craftString = (message) =>{
     var blank = / /gi;
     var hashtag = /#/gi;
-    message = message.replace(hashtag,"%23")
+    message = message.replaceAll(hashtag,"%23")
     message = message.replace(hashtag,"%20")
-    message = message.replaceAll("+","%2B")
     return message;
   }
   
