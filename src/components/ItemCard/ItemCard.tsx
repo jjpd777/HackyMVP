@@ -72,8 +72,8 @@ function ItemCard(props: ItemCardProps) {
           {menuItem.image !=="" && (<img width="150" src={menuItem.image}/>)}
           <div className="card-content">
             <CardTitle>{menuItem.name}</CardTitle>
-            <CardSubtitle>{menuItem.brief}</CardSubtitle>
-            <Button  pill theme="warning" ><b> Qtz. {menuItem.price}</b></Button>
+            <CardSubtitle className="subtitle">{menuItem.brief}</CardSubtitle>
+            <Button pill  className="pill" theme="warning" ><b> Qtz. {menuItem.price}</b></Button>
             <p>{menuItem.description}</p>
           </div>
         </CardBody>

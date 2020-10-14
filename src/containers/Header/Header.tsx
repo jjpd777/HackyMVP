@@ -12,6 +12,7 @@ import {
   faMapPin,
   faMapMarker,
   faShoppingBasket,
+  faBroom,
   faCamera,
 } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -20,12 +21,17 @@ import {
   DropdownMenu,
   DropdownItem,  
   FormRadio,
+  Button,
 } from 'shards-react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-
-function Header(){
+interface HeaderProps {
+  displayMenu: ()=>void;
+  isDisplaying: boolean;
+}
+function Header(props: HeaderProps){
+  let {isDisplaying}=props;
   const restDetails = 
   {
     "id": 1,
@@ -34,7 +40,7 @@ function Header(){
     "instaURL": 'https://www.facebook.com/PolloGranjeroGuatemala/',
     "tagline": '¡Recién hecho y crujiente!',
     "serviceZones": ["Mixco", "Ciudad de Guatemala"],
-    "schedule":'Domicilios todos los días de 8:45AM a 7:30PM',
+    "schedule":'Domicilios a diario de 9:00AM a 5:00PM',
     "cellphones":["tel:+50241288133"],
     "otherApps":['hugo, glovo y ubereats'],
     "payments": 'Pagos solo en efectivo'
@@ -57,15 +63,18 @@ function Header(){
 return (
   <div>
         <img src={restDetails["srcImage"]} />
-        <p>
+        {!isDisplaying &&
+        (<>
+        <h6>
           <FontAwesomeIcon icon={faClock} /> {' '} {restDetails["schedule"]}
-        </p>
-        <p>
-          <FontAwesomeIcon icon={faShoppingBasket}/>{' También disponible en '} {restDetails["otherApps"].map((zones)=> zones)}
-        </p>
-        <p>
+        </h6>
+        <h6>
+          <FontAwesomeIcon icon={faShoppingBasket}/>{' También en '} {restDetails["otherApps"].map((zones)=> zones)}
+        </h6>
+        <h6>
           <FontAwesomeIcon icon={faHandshake} />{' '} {restDetails["payments"]} {' '} <b>mínimo Qtz. 40</b>
-        </p>
+        </h6>
+        </>)|| null }
         {/* <p> 
         <FontAwesomeIcon icon={faCamera}/> {'  '}
           Facebook {'  '}
@@ -85,12 +94,12 @@ return (
     
         {dep!=="" &&(
           <>
-          <Dropdown open={modalOpen1} toggle={()=>setModalOpen1(!modalOpen1)} className="drop-down">
+          <Dropdown direction="down" open={modalOpen1} toggle={()=>setModalOpen1(!modalOpen1)} className="drop-down">
           <DropdownToggle className ="dir" split><b>Locales</b></DropdownToggle>
             <DropdownMenu >
             {department[dep].map((locations)=>
               <DropdownItem onClick={()=>{setShop(locations[0])}}>
-                <FontAwesomeIcon icon={faMapPin}/> {' '} {locations[0]}
+                {' '} {locations[0]}
               </DropdownItem>
             )}
           </DropdownMenu>
@@ -99,15 +108,20 @@ return (
           <FontAwesomeIcon icon={faMapMarker}/> Pedir Granjero en {' '} <b>{dep}</b>
         </h5>
          {shop !=="" &&(
+           <>
           <h5>
             <FontAwesomeIcon icon={faMapPin}/> {' '}{shop}
-          </h5>) || null}
+          </h5>
+            {!isDisplaying&&(<Button className="see-menu" theme="success" onClick ={()=>props.displayMenu()}>Ver el menú</Button>)||null}
+          </>
+          ) || null}
           </>
         )   
           || null }
-       
+
   </div>
   );
+  
 }
 
 export default Header;
