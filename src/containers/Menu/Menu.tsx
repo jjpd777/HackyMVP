@@ -73,27 +73,6 @@ function Menu(props: MenuProps) {
 
   return (
     <div className="container">
-      <div className="tagline">¡Recién hecho y crujiente!</div>
-      <div className="search">
-        <InputGroup>
-          <FormInput
-            placeholder="¿Qué se te antoja?"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <InputGroupAddon type="append">
-            <Button
-              onClick={() => {
-                clearSearch();
-              }}
-              className="button"
-              theme="secondary"
-            >
-              Buscar
-            </Button>
-          </InputGroupAddon>
-        </InputGroup>
-      </div>
       <div className="menu-container">{sections}</div>
     </div>
   );

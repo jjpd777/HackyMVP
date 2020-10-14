@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import "./Header.scss"
 
 import {
   faLocationArrow,
@@ -9,9 +10,18 @@ import {
   faCreditCard,
   faPhoneAlt,
   faMapPin,
+  faMapMarker,
   faShoppingBasket,
   faCamera,
 } from '@fortawesome/free-solid-svg-icons';
+import {
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,  
+  FormRadio,
+} from 'shards-react';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
@@ -24,12 +34,14 @@ function Header(){
     "instaURL": 'https://www.facebook.com/PolloGranjeroGuatemala/',
     "tagline": '¡Recién hecho y crujiente!',
     "serviceZones": ["Mixco", "Ciudad de Guatemala"],
-    "schedule":'Delivery de martes a domingo de 12 a 7:30PM',
+    "schedule":'Domicilios todos los días de 8:45AM a 7:30PM',
     "cellphones":["tel:+50241288133"],
-    "otherApps":['hugo, ','glovo','ubereats'],
-    "payments": 'Efectivo, tarjeta'
+    "otherApps":['hugo, glovo y ubereats'],
+    "payments": 'Pagos solo en efectivo'
   };
-  let service= ['Ciudad de Guatemala','Sacatepéquez, Chimaltenango, Escuintla, Jalapa', 'Quetzaltenango, San Marcos, Izabal, Petén','El Progreso, Chiquimula, Quiché, Suchitepequez','Santa Rosa, Alta y Baja Verapaz','Retalhuleu, Totonicapán, Sololá']
+  // let service= ['Ciudad de Guatemala','Sacatepéquez', 'Chimaltenango', 'Escuintla', 'Jalapa', 'Quetzaltenango', 'San Marcos', 'Izabal', 'Petén','El Progreso', 'Chiquimula', 'Quiché', 'Suchitepequez','Santa Rosa', 'Alta y Baja Verapaz','Retalhuleu', 'Totonicapán', 'Sololá']
+  let service= ['Ciudad de Guatemala','Mixco']
+
   const department ={
     "Mixco" : [["6a Avenida 08-24 zona 1","56287983"],["calz. San Juan 14-06 zona 3","56287819"],["23 Avenida 11-55, zona 4",],
               ["Colonia El Naranjo C.C. Arboreto San Nicolás","56286877"]],
@@ -37,9 +49,8 @@ function Header(){
   }
   const [modalOpen, setModalOpen] = useState(false);
   const [modalOpen1, setModalOpen1] = useState(false);
-  const [dep, setDep] = useState("Mixco");
-  const [shop, setShop] = useState("6a Avenida 08-24 zona 1");
-
+  const [dep, setDep] = useState("");
+  const [shop, setShop] = useState("");
 
 
   
@@ -49,22 +60,52 @@ return (
         <p>
           <FontAwesomeIcon icon={faClock} /> {' '} {restDetails["schedule"]}
         </p>
-        {service.map((zones)=>
-              <p>
-                <FontAwesomeIcon icon={faMapPin}/> {' '}{zones}
-              </p>
-              )}
         <p>
           <FontAwesomeIcon icon={faShoppingBasket}/>{' También disponible en '} {restDetails["otherApps"].map((zones)=> zones)}
         </p>
         <p>
-          <FontAwesomeIcon icon={faHandshake} />{' '} {restDetails["payments"]}
+          <FontAwesomeIcon icon={faHandshake} />{' '} {restDetails["payments"]} {' '} <b>mínimo Qtz. 40</b>
         </p>
-        <p> 
+        {/* <p> 
         <FontAwesomeIcon icon={faCamera}/> {'  '}
           Facebook {'  '}
           <a href={restDetails["instaURL"]}>{restDetails["atrestaurant"]}</a>
-        </p>
+        </p> */}
+        <p></p>
+        <Dropdown open={modalOpen} toggle={()=>setModalOpen(!modalOpen)} className="drop-down">
+            <DropdownToggle className ="button" split><b>Departamentos</b></DropdownToggle>
+              <DropdownMenu >
+              {service.map((zones)=>
+                <DropdownItem onClick={()=>{setDep(zones)}} onChange={}>
+                  <FontAwesomeIcon icon={faMapPin}/> {' '} {zones}
+                </DropdownItem>
+              )}
+            </DropdownMenu>
+        </Dropdown>
+    
+        {dep!=="" &&(
+          <>
+          <Dropdown open={modalOpen1} toggle={()=>setModalOpen1(!modalOpen1)} className="drop-down">
+          <DropdownToggle className ="dir" split><b>Locales</b></DropdownToggle>
+            <DropdownMenu >
+            {department[dep].map((locations)=>
+              <DropdownItem onClick={()=>{setShop(locations[0])}}>
+                <FontAwesomeIcon icon={faMapPin}/> {' '} {locations[0]}
+              </DropdownItem>
+            )}
+          </DropdownMenu>
+         </Dropdown>
+         <h5> 
+          <FontAwesomeIcon icon={faMapMarker}/> Pedir Granjero en {' '} <b>{dep}</b>
+        </h5>
+         {shop !=="" &&(
+          <h5>
+            <FontAwesomeIcon icon={faMapPin}/> {' '}{shop}
+          </h5>) || null}
+          </>
+        )   
+          || null }
+       
   </div>
   );
 }

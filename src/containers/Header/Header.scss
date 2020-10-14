@@ -1,0 +1,36 @@
+
+.drop-down{
+    caption-side:"#fffff";
+    color: #df8600;
+    
+    .button{
+      background-color: #f75a1c;
+      border-color: #ffffff;
+      font-weight: 600;
+      margin-block-start: 1px;
+      margin-block-end: 10px;
+      font-size: 80%;
+    }
+    .button:hover{
+      background-color: #fb8525;
+      border-color: #eb2727;
+      font-weight: 600;
+    }
+    .dir{
+      background-color: #f1db15;
+      font-weight: 600;
+      border: #011627;
+      margin-block-start: 1px;
+      margin-block-end: 10px;
+      font-size: 80%;
+    }
+    .dir:hover{
+      background-color: #dfc900;
+      font-weight: 600;
+      border: #011627;
+    }
+    display:inline-block;
+    margin-block-start: 5px;
+    margin-inline-start: 5px;
+    margin-block-end: 2px;
+  }

@@ -24,7 +24,7 @@ interface SectionProps {
 }
 
 function Section(props: SectionProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   return (
     <div className="section-container">
       <div className="section-header">

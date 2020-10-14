@@ -184,25 +184,6 @@ function Checkout(props: CheckoutProps) {
       </div>
       <br />
       <div>
-
-      <h6> <b>Tu Granjero más cercano:</b></h6>
-      <h5><FontAwesomeIcon icon={faMapPin} />{' '} {shop}{', '}{dep}</h5>
-        <Dropdown open={modalOpen} toggle={()=>setModalOpen(!modalOpen)} className="drop-down">
-            <DropdownToggle className ="button" split><b>Pollo Granjero en:</b> {dep}{' '}</DropdownToggle>
-              <DropdownMenu >
-              {restDetails["serviceZones"].map((zones)=>
-                <DropdownItem onClick={()=>setDep(zones)}>{zones}</DropdownItem>
-              )}
-            </DropdownMenu>
-        </Dropdown>
-        <Dropdown  open={modalOpen1} toggle={()=>setModalOpen1(!modalOpen1)} className="drop-down">
-            <DropdownToggle className="dir" split > {shop} {' '}</DropdownToggle>
-              <DropdownMenu >
-              {department[dep].map((zones)=>
-                <DropdownItem onClick={()=>setShop(zones[0])}>{zones[0]}</DropdownItem>
-              )}
-            </DropdownMenu>
-        </Dropdown>
         <br></br>
       </div>
       <div className="shipping-info">
