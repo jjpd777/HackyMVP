@@ -76,7 +76,7 @@ return (
             <DropdownToggle className ="button" split><b>Departamentos</b></DropdownToggle>
               <DropdownMenu >
               {service.map((zones)=>
-                <DropdownItem onClick={()=>{setDep(zones)}} onChange={}>
+                <DropdownItem onClick={()=>{setDep(zones)}} >
                   <FontAwesomeIcon icon={faMapPin}/> {' '} {zones}
                 </DropdownItem>
               )}
