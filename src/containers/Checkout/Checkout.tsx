@@ -112,7 +112,7 @@ function Checkout(props: CheckoutProps) {
       "pedido": order,
     }
     console.log(newRow)
-    var url = 'https://sheet2api.com/v1/WExfuaSVRrOs/ventaslalloronagt/venta-granjero';
+    var url = 'https://sheet2api.com/v1/WExfuaSVRrOs/ventaslalloronagt/ventas-chinito';
     fetch(url, {
       method: 'POST',
       headers: {
@@ -134,8 +134,8 @@ function Checkout(props: CheckoutProps) {
     const getPayment = payment ? 'efectivo' : 'tarjeta';
 
     let baseURL = "https://wa.me/502"+props.storePhone+"?text=";
-    let textBody="Hola Pollo Granjero!%0AMi nombre es *" +String(checkName)+"* y me interesa hacer un pedido a *"+String(checkAddress)+"*" + ".%0A%0AMi pedido es el siguiente:%0A";
-    let finalpart = "*Total*%20Qtz.%20" +String(props.totalCartValue)+ "%0A%0AMi número telefónico es *"+ thisphone+ "*. Muchas gracias de antemano%21"
+    let textBody="Hola El Chinito Veloz!%0AMi nombre es *" +String(checkName)+",* y me interesa hacer un pedido a *"+String(checkAddress)+".*" + "%0A%0AMi pedido es el siguiente:%0A";
+    let finalpart = "*Total*%20Qtz.%20" +String(props.totalCartValue)+ "%0A%0AQuiero por favor pagar con *"+getPayment+ "*%0A%0AMi número telefónico es *"+ thisphone+ "*. Muchas gracias de antemano%21"
 
     cart.forEach((cartItem) => {
       menuItems.map((menuItem) => {

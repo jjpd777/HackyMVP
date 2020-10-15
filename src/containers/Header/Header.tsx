@@ -48,11 +48,11 @@ function Header(props: HeaderProps){
     "payments": 'Efectivo, tarjeta'
   };
   // let service= ['Ciudad de Guatemala','Sacatepéquez', 'Chimaltenango', 'Escuintla', 'Jalapa', 'Quetzaltenango', 'San Marcos', 'Izabal', 'Petén','El Progreso', 'Chiquimula', 'Quiché', 'Suchitepequez','Santa Rosa', 'Alta y Baja Verapaz','Retalhuleu', 'Totonicapán', 'Sololá']
-  let service= ['Ciudad de Guatemala','Mixco']
+  let service= ['Ciudad de Guatemala','Departamentos']
 
   const department ={
-    "Mixco" : [["6a Avenida 08-24 zona 1","56287983"],["calz. San Juan 14-06 zona 3","56287819"],["23 Avenida 11-55, zona 4","777777"],["Colonia El Naranjo C.C. Arboreto San Nicolás","56286877"]],
-    "Ciudad de Guatemala" : [["1a Avenida 9-45, zona 1","41048525"],["San Raymundo, zona 1","42399603"],["Avenida Bolívar 39-20 zona 3","56253736"]]
+    "Departamentos" : [["Antigua Guatemamala y Jocotenango","50165183"],["Pastores, San Felie, San Isidro","50165183"],["Santa Ana, Ciudad Vieja","50165183"],],
+    "Ciudad de Guatemala" : [["zonas: 9,10,13,14,15 y parte de Carretera","50165183"],["zonas: 1,2,3,7,11,12 y Mixco","42399603"],["Villa Nueva, Bárcenas, San José","56243902"],["San Miguel Petapa, z.5 Villa Nueva, Villa Hermosa","56243902"],["Alamos y colonias aledañas, El Frutal","56243902"],]
   }
   const [modalOpen, setModalOpen] = useState(false);
   const [modalOpen1, setModalOpen1] = useState(false);
@@ -66,23 +66,22 @@ return (
         <img src={restDetails["srcImage"]} />
         {!isDisplaying &&
         (<>
-        <p>
+        <h6>
           <FontAwesomeIcon icon={faClock} /> {' '} {restDetails["schedule"]}
-        </p>
-        <p>
+        </h6>
+        <p>Zonas sujetas a horario y cobertura*</p>
+        <h6>
           <FontAwesomeIcon icon={faShoppingBasket}/>{' También en '} {restDetails["otherApps"].map((zones)=> zones)}
-        </p>
-        <p>
+        </h6>
+        <h6>
           <FontAwesomeIcon icon={faHandshake} />{' '} {restDetails["payments"]}
-        </p>
+        </h6>
         </>)|| null }
         {/* <p> 
         <FontAwesomeIcon icon={faCamera}/> {'  '}
           Facebook {'  '}
           <a href={restDetails["instaURL"]}>{restDetails["atrestaurant"]}</a>
         </p> */}
-        <p></p>
-
         <Dropdown open={modalOpen} toggle={()=>setModalOpen(!modalOpen)} className="drop-down">
             <DropdownToggle className ="button" split><b>Departamentos</b></DropdownToggle>
               <DropdownMenu >

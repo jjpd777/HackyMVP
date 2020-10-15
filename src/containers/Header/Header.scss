@@ -1,4 +1,6 @@
-
+p{
+  font: 1%;
+}
 
 .drop-down{
     caption-side:"#fffff";
@@ -14,7 +16,7 @@
 
     }
     .button:hover{
-      background-color: #fb8525;
+      background-color: #f14804;
       border-color: #eb2727;
       font-weight: 600;
     }
@@ -28,7 +30,7 @@
       font-size: 80%;
     }
     .dir:hover{
-      background-color: #dfc900;
+      background-color: #df3f00;
       font-weight: 600;
       border: #011627;
     }
@@ -38,7 +40,7 @@
     margin-block-end: 2px;
   }
   .see-menu{
- 
+      
       background-color: #4cc00a;
       border-color: #ffffff;
       font-weight: 600;
