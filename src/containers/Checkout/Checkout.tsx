@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './Checkout.scss';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faUndo,
+} from '@fortawesome/free-solid-svg-icons';
 import {
   Button,
 } from 'shards-react';
@@ -17,10 +19,6 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'shards-react';
-import {faMapPin,
-} from '@fortawesome/free-solid-svg-icons';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { CartItem } from '../../App';
 import { MenuItem } from '../Menu/Menu';
@@ -30,6 +28,8 @@ interface CheckoutProps {
   cart: CartItem[];
   totalCartValue: number;
   onBack: () => void;
+  storePhone:String;
+  storeDep:String;
 }
 
 function Checkout(props: CheckoutProps) {
@@ -48,20 +48,17 @@ function Checkout(props: CheckoutProps) {
     "payments": 'Efectivo, tarjeta'
   };
   const department ={
-    "Mixco" : [["6a Avenida 08-24 zona 1","56287983"],["calz. San Juan 14-06 zona 3","56287819"],["23 Avenida 11-55, zona 4",],
-              ["Colonia El Naranjo C.C. Arboreto San Nicolás","56286877"]],
+    "Mixco" : [["6a Avenida 08-24 zona 1","56287983"],["calz. San Juan 14-06 zona 3","56287819"],["23 Avenida 11-55, zona 4","777777"],["Colonia El Naranjo C.C. Arboreto San Nicolás","56286877"]],
     "Ciudad de Guatemala" : [["1a Avenida 9-45, zona 1","41048525"],["San Raymundo, zona 1","42399603"],["Avenida Bolívar 39-20 zona 3","56253736"]]
   }
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalOpen1, setModalOpen1] = useState(false);
-  const [dep, setDep] = useState("Mixco");
-  const [shop, setShop] = useState("6a Avenida 08-24 zona 1");
+
 
   const [name, setName] = useState();
   const [address,setAddress] = useState();
   const [phone,setPhone] = useState();
-
   const [payMethod,setPayment] = useState(true)
+
+  const returnAddressField = ()=> "Escribe tu dirección en " + props.storeDep;
   function getFormattedDate() {
     var date = new Date();
     var str = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +  date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
@@ -84,10 +81,10 @@ function Checkout(props: CheckoutProps) {
     return cartItems;
   };
   const craftString = (message) =>{
-    var blank = / /gi;
-    var hashtag = /#/gi;
-    message = message.replace(hashtag,"%23")
-    message = message.replace(hashtag,"%20")
+
+    message = message.replace(/(?: ){2,}/g, ' ');
+    message = message.replaceAll("#","%23")
+    message = message.replaceAll(" ","%20")
     message = message.replaceAll("+","%2B")
     return message;
   }
@@ -131,13 +128,14 @@ function Checkout(props: CheckoutProps) {
       console.error('Error:', error);
     });
   }
+  const callme = () => props.storePhone;
   const letsCheckout = (checkName,checkAddress,thisphone,payment) =>{
     if(!checkName || !checkAddress || !thisphone) return
     const getPayment = payment ? 'efectivo' : 'tarjeta';
 
-    let baseURL = "https://wa.me/50242399603?text=";
-    let textBody="Hola Pollo Granjero!%0AMi nombre es *" +String(checkName)+"* y me interesa hacer un pedido a *"+String(checkAddress)+"*." + ".%0A%0AMi pedido es el siguiente:%0A";
-    let finalpart = "*Total*%20Qtz.%20" +String(props.totalCartValue)+ "%0A%0AQuiero por favor pagar en *"+ getPayment+ "*. Muchas gracias de antemano%21"
+    let baseURL = "https://wa.me/502"+props.storePhone+"?text=";
+    let textBody="Hola Pollo Granjero!%0AMi nombre es *" +String(checkName)+"* y me interesa hacer un pedido a *"+String(checkAddress)+"*" + ".%0A%0AMi pedido es el siguiente:%0A";
+    let finalpart = "*Total*%20Qtz.%20" +String(props.totalCartValue)+ "%0A%0AMi número telefónico es *"+ thisphone+ "*. Muchas gracias de antemano%21"
 
     cart.forEach((cartItem) => {
       menuItems.map((menuItem) => {
@@ -155,9 +153,6 @@ function Checkout(props: CheckoutProps) {
   
   return (
     <>
-    <div className="img-header">
-     <img src="https://scontent.fgua5-1.fna.fbcdn.net/v/t1.0-9/120343287_3309878435762107_5997515660017944691_n.png?_nc_cat=1&_nc_sid=09cbfe&_nc_ohc=nZR8L1CgkJkAX8SjgId&_nc_ht=scontent.fgua5-1.fna&oh=df247ddbb7b331e79ca3a1b972b6a518&oe=5FABC0D3" />
-    </div>
     <div className="checkout-container">
       <div className="order-summary">
         <ListGroup>
@@ -171,7 +166,6 @@ function Checkout(props: CheckoutProps) {
               </ListGroupItem>
             );
           })}
-
           <ListGroupItem
             style={{ fontWeight: 600 }}
             className="list-item"
@@ -184,7 +178,9 @@ function Checkout(props: CheckoutProps) {
       </div>
       <br />
       <div>
-        <br></br>
+      <Button onClick={props.onBack} className="button-secondary" outline block>
+        <FontAwesomeIcon icon={faUndo}/> {'  '}Volver al menú
+      </Button>
       </div>
       <div className="shipping-info">
         <FormInput
@@ -197,7 +193,7 @@ function Checkout(props: CheckoutProps) {
         />
         <FormTextarea
           className="input"
-          placeholder="Dirección del domicilio"
+          placeholder={returnAddressField()}
           onChange={(e) => {
             setAddress(e.target.value);
           }}
@@ -211,7 +207,7 @@ function Checkout(props: CheckoutProps) {
         />
       </div>
       <br></br>
-      <h6>Métdo de pago</h6>
+      <h6>Método de pago</h6>
       <div>
         <FormRadio className="payment"
               inline
@@ -240,9 +236,6 @@ function Checkout(props: CheckoutProps) {
         href={letsCheckout(name,address,phone,payMethod)} 
         className="button" block>
         Pedir via WhatsApp
-      </Button>
-      <Button onClick={props.onBack} className="button-secondary" outline block>
-        Regresar al Menu
       </Button>
     </div>
   </>

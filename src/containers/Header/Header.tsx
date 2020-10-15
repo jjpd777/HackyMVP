@@ -28,6 +28,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface HeaderProps {
   displayMenu: ()=>void;
+  setStorePhone: (String)=>void;
+  setStoreDep: (String) =>void;
   isDisplaying: boolean;
 }
 function Header(props: HeaderProps){
@@ -49,8 +51,7 @@ function Header(props: HeaderProps){
   let service= ['Ciudad de Guatemala','Mixco']
 
   const department ={
-    "Mixco" : [["6a Avenida 08-24 zona 1","56287983"],["calz. San Juan 14-06 zona 3","56287819"],["23 Avenida 11-55, zona 4",],
-              ["Colonia El Naranjo C.C. Arboreto San Nicolás","56286877"]],
+    "Mixco" : [["6a Avenida 08-24 zona 1","56287983"],["calz. San Juan 14-06 zona 3","56287819"],["23 Avenida 11-55, zona 4","777777"],["Colonia El Naranjo C.C. Arboreto San Nicolás","56286877"]],
     "Ciudad de Guatemala" : [["1a Avenida 9-45, zona 1","41048525"],["San Raymundo, zona 1","42399603"],["Avenida Bolívar 39-20 zona 3","56253736"]]
   }
   const [modalOpen, setModalOpen] = useState(false);
@@ -81,11 +82,16 @@ return (
           <a href={restDetails["instaURL"]}>{restDetails["atrestaurant"]}</a>
         </p> */}
         <p></p>
+
         <Dropdown open={modalOpen} toggle={()=>setModalOpen(!modalOpen)} className="drop-down">
             <DropdownToggle className ="button" split><b>Departamentos</b></DropdownToggle>
               <DropdownMenu >
               {service.map((zones)=>
-                <DropdownItem onClick={()=>{setDep(zones)}} >
+                <DropdownItem 
+                  onClick={()=>{
+                      setDep(zones);
+                      props.setStoreDep(zones);
+                    }} >
                   <FontAwesomeIcon icon={faMapPin}/> {' '} {zones}
                 </DropdownItem>
               )}
@@ -98,7 +104,11 @@ return (
           <DropdownToggle className ="dir" split><b>Locales</b></DropdownToggle>
             <DropdownMenu >
             {department[dep].map((locations)=>
-              <DropdownItem onClick={()=>{setShop(locations[0])}}>
+              <DropdownItem 
+              onClick={()=>{
+                setShop(locations[0]);
+                props.setStorePhone(locations[1]);
+                  }}>
                 {' '} {locations[0]}
               </DropdownItem>
             )}

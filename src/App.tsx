@@ -6,7 +6,7 @@ import Checkout from './containers/Checkout/Checkout';
 import { menuItemsMock } from './menu';
 import Header from './containers/Header/Header'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faBroom, faQuidditch, faFireAlt, faFire,faFighterJet,
+import {faShoppingCart,faBroom, faQuidditch, faFireAlt, faFire,faFighterJet,
 faCamera,
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -23,6 +23,8 @@ function App() {
   const [cart, setCartItems] = useState<CartItem[]>([]);
   const [currentPage, setCurrentPage] = useState<PageEnum>(PageEnum.MENU);
   const [seeMenu, setSeeMenu]=useState(false);
+  const [storePhone,setStorePhone]=useState("");
+  const [storeDep, setStoreDep]= useState("");
   useEffect(() => {
     // Call API to load the menu
     setMenuItems(menuItemsMock);
@@ -47,13 +49,12 @@ function App() {
   return (
     <>
     <div className="App">
-      
       <section className="container">
+        <header className="App-header">
+            <Header displayMenu={displayMenu} isDisplaying={seeMenu} setStorePhone={setStorePhone} setStoreDep={setStoreDep}/>
+          </header>
         {currentPage === PageEnum.MENU && (
           <>
-          <header className="App-header">
-            <Header displayMenu={displayMenu} isDisplaying={seeMenu}/>
-          </header>
           <div className="App-image">
           {!seeMenu&&(
             <img src="https://scontent.fgua5-1.fna.fbcdn.net/v/t1.0-9/120319394_3307503859332898_5997193339921423352_o.jpg?_nc_cat=102&_nc_sid=e3f864&_nc_ohc=-7siUk5HxToAX83JfAA&_nc_ht=scontent.fgua5-1.fna&oh=02db0d725d0183edafff0e252024693e&oe=5FAC7B6C"></img>
@@ -74,6 +75,8 @@ function App() {
             onBack={() => {
               setCurrentPage(PageEnum.MENU);
             }}
+            storePhone={storePhone}
+            storeDep={storeDep}
           ></Checkout>
         )}
       </section>
@@ -89,7 +92,7 @@ function App() {
             className="checkout-button"
             block
           >
-            Ver el pedido! - Qtz.{getTotalCartValue()}
+            Ver el pedido{'  '} <FontAwesomeIcon icon={faShoppingCart}/>{'  '} Qtz.{getTotalCartValue()}
           </Button>
         </div>
       )) ||

@@ -1,15 +1,17 @@
 
+
 .drop-down{
     caption-side:"#fffff";
     color: #df8600;
-    
+    display:block;
+
     .button{
       background-color: #f75a1c;
       border-color: #ffffff;
       font-weight: 600;
-      margin-block-start: 1px;
-      margin-block-end: 10px;
+      margin-bottom:5px;
       font-size: 80%;
+
     }
     .button:hover{
       background-color: #fb8525;
@@ -22,6 +24,7 @@
       border: #011627;
       margin-block-start: 1px;
       margin-block-end: 10px;
+      margin-bottom:20px;
       font-size: 80%;
     }
     .dir:hover{
@@ -29,14 +32,14 @@
       font-weight: 600;
       border: #011627;
     }
-    display:inline-block;
+    // display:inline-block;
     margin-block-start: 5px;
-    margin-inline-start: 5px;
+    // margin-inline-start: 5px;
     margin-block-end: 2px;
   }
   .see-menu{
  
-      background-color: #74ec6a;
+      background-color: #4cc00a;
       border-color: #ffffff;
       font-weight: 600;
       margin-block-start: 1px;

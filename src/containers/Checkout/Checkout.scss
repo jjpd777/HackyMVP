@@ -3,7 +3,7 @@
   flex-direction: column;
   margin-top: 4rem;
   .button {
-    background-color: #011627;
+    background-color: #4cc00a;
     font-weight: 600;
     border: #011627;
   }
@@ -14,6 +14,7 @@
   .button-secondary {
     border-color: #011627;
     color: #011627;
+    width:100%;
   }
   .button-secondary:hover {
     border-color: #014073;
@@ -84,6 +85,6 @@
     padding: 40px;
   }
   .input {
-    margin-top: 20px;
+    margin-top: 10px;
   }
 }
