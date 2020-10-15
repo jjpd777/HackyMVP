@@ -112,7 +112,7 @@ function Checkout(props: CheckoutProps) {
       "pedido": order,
     }
     console.log(newRow)
-    var url = 'https://sheet2api.com/v1/WExfuaSVRrOs/ventaslalloronagt/venta-granjero';
+    var url = 'https://sheet2api.com/v1/WExfuaSVRrOs/ventaslalloronagt/ventas-granjero';
     fetch(url, {
       method: 'POST',
       headers: {
