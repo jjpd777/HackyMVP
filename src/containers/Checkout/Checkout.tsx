@@ -59,6 +59,7 @@ function Checkout(props: CheckoutProps) {
   const [payMethod,setPayment] = useState(true)
 
   const returnAddressField = ()=> "Escribe tu dirección en " + props.storeDep;
+  const recurrString = (str)=> str[-1]!==" " ? str : recurrString(str.slice(0,-1));
   function getFormattedDate() {
     var date = new Date();
     var str = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +  date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
@@ -134,13 +135,13 @@ function Checkout(props: CheckoutProps) {
     const getPayment = payment ? 'efectivo' : 'tarjeta';
 
     let baseURL = "https://wa.me/502"+props.storePhone+"?text=";
-    let textBody="Hola Pollo Granjero!%0AMi nombre es *" +String(checkName)+"* y me interesa hacer un pedido a *"+String(checkAddress)+"*" + ".%0A%0AMi pedido es el siguiente:%0A";
+    let textBody="Hola Pollo Granjero!%0A%0AMi nombre es *" +String(checkName)+"* y me interesa hacer un pedido a *"+String(checkAddress)+"*" + ".%0A%0AMi pedido es el siguiente:%0A";
     let finalpart = "*Total*%20Qtz.%20" +String(props.totalCartValue)+ "%0A%0AMi número telefónico es *"+ thisphone+ "*. Muchas gracias de antemano%21"
 
     cart.forEach((cartItem) => {
       menuItems.map((menuItem) => {
         if (cartItem.itemId === menuItem.id) {
-          const tmp = "-(%20*x*%20"+ String(cartItem.quantity) +")%20" + menuItem.name + "%0A"
+          const tmp = "-(%20*x*%20"+ String(cartItem.quantity) +"%20)%20" + menuItem.name + "%0A"
           textBody+=tmp
         }
       });
@@ -218,16 +219,6 @@ function Checkout(props: CheckoutProps) {
               }}
             >
               Efectivo
-        </FormRadio>
-        <FormRadio
-              inline
-              name="card"
-              checked={!payMethod}
-              onChange={() => {
-                setPayment(false);
-              }}
-            >
-              Tarjeta
         </FormRadio>
       </div>
       <br></br>
