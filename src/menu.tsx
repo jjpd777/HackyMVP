@@ -270,6 +270,16 @@ export const menuItemsMock = [
     'https://drive.google.com/uc?export=view&id=1A4olUbXbTRhWHVmVf5laZg-wHOXQVV3l',
   },
   {
+    id: 28,
+    category: 'Entradas',
+    name: 'Taquizza',
+    description: '3 tortillas Jumbo, 1lb de queso mozzarella, 1.5lb de carne, salsa, aguacate, cilantro y cebolla',
+    price: 149.0,
+    brief:'',
+    image:
+    'https://drive.google.com/uc?export=view&id=1A4olUbXbTRhWHVmVf5laZg-wHOXQVV3l',
+  },
+  {
     id: 29,
     category: 'Gringas',
     name: 'Gringa',
