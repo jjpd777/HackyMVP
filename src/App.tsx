@@ -55,10 +55,7 @@ function App() {
           </header>
         {currentPage === PageEnum.MENU && (
           <>
-          <div className="App-image">
-          {!seeMenu&&(
-            <img src="https://scontent.fgua5-1.fna.fbcdn.net/v/t1.0-9/120319394_3307503859332898_5997193339921423352_o.jpg?_nc_cat=102&_nc_sid=e3f864&_nc_ohc=-7siUk5HxToAX83JfAA&_nc_ht=scontent.fgua5-1.fna&oh=02db0d725d0183edafff0e252024693e&oe=5FAC7B6C"></img>
-          ) || null}   
+          <div className="App-image">  
           </div>
           {seeMenu && (<Menu
             menuItems={menuItems}

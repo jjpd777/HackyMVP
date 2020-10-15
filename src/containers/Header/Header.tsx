@@ -37,15 +37,15 @@ function Header(props: HeaderProps){
   const restDetails = 
   {
     "id": 1,
-    "srcImage":"https://scontent.fgua5-1.fna.fbcdn.net/v/t1.0-9/120343287_3309878435762107_5997515660017944691_n.png?_nc_cat=1&_nc_sid=09cbfe&_nc_ohc=nZR8L1CgkJkAX8SjgId&_nc_ht=scontent.fgua5-1.fna&oh=df247ddbb7b331e79ca3a1b972b6a518&oe=5FABC0D3",
+    "srcImage":"https://images.squarespace-cdn.com/content/502eafb484ae7fae2e634f8b/1488919372181-XYOXZE2C90WDZYF4RRVG/LogoChinitoVeloz.png",
     "atrestaurant": ' @PolloGranjeroGuatemala',
     "instaURL": 'https://www.facebook.com/PolloGranjeroGuatemala/',
     "tagline": '¡Recién hecho y crujiente!',
     "serviceZones": ["Mixco", "Ciudad de Guatemala"],
-    "schedule":'Domicilios a diario de 9:00AM a 5:00PM',
+    "schedule":'Domicilios a diario de 10:30AM a 8:30PM',
     "cellphones":["tel:+50241288133"],
-    "otherApps":['hugo, glovo y ubereats'],
-    "payments": 'Pagos solo en efectivo'
+    "otherApps":['glovo y ubereats'],
+    "payments": 'Efectivo, tarjeta'
   };
   // let service= ['Ciudad de Guatemala','Sacatepéquez', 'Chimaltenango', 'Escuintla', 'Jalapa', 'Quetzaltenango', 'San Marcos', 'Izabal', 'Petén','El Progreso', 'Chiquimula', 'Quiché', 'Suchitepequez','Santa Rosa', 'Alta y Baja Verapaz','Retalhuleu', 'Totonicapán', 'Sololá']
   let service= ['Ciudad de Guatemala','Mixco']
@@ -66,15 +66,15 @@ return (
         <img src={restDetails["srcImage"]} />
         {!isDisplaying &&
         (<>
-        <h6>
+        <p>
           <FontAwesomeIcon icon={faClock} /> {' '} {restDetails["schedule"]}
-        </h6>
-        <h6>
+        </p>
+        <p>
           <FontAwesomeIcon icon={faShoppingBasket}/>{' También en '} {restDetails["otherApps"].map((zones)=> zones)}
-        </h6>
-        <h6>
-          <FontAwesomeIcon icon={faHandshake} />{' '} {restDetails["payments"]} {' '} <b>mínimo Qtz. 40</b>
-        </h6>
+        </p>
+        <p>
+          <FontAwesomeIcon icon={faHandshake} />{' '} {restDetails["payments"]}
+        </p>
         </>)|| null }
         {/* <p> 
         <FontAwesomeIcon icon={faCamera}/> {'  '}
@@ -115,7 +115,7 @@ return (
           </DropdownMenu>
          </Dropdown>
          <h5> 
-          <FontAwesomeIcon icon={faMapMarker}/> Pedir Granjero en {' '} <b>{dep}</b>
+          <FontAwesomeIcon icon={faMapMarker}/> Pedir Chinito Veloz en {' '} <b>{dep}</b>
         </h5>
          {shop !=="" &&(
            <>
