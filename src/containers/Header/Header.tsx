@@ -51,7 +51,7 @@ function Header(props: HeaderProps){
   let service= ['Demostración CMI','Ciudad de Guatemala','Mixco']
 
   const department ={
-    "Demostración CMI":[["5 Av. 15-45 Zona 10","34840201"]],
+    "Demostración CMI":[["Mensaje para Roberto","34840201"]],
     "Mixco" : [["6a Avenida 08-24 zona 1","56287983"],["calz. San Juan 14-06 zona 3","56287819"],["23 Avenida 11-55, zona 4","777777"],["Colonia El Naranjo C.C. Arboreto San Nicolás","56286877"]],
     "Ciudad de Guatemala" : [["1a Avenida 9-45, zona 1","41048525"],["San Raymundo, zona 1","42399603"],["Avenida Bolívar 39-20 zona 3","56253736"]]
   }
@@ -67,12 +67,12 @@ return (
         <img src={restDetails["srcImage"]} />
         {!isDisplaying &&
         (<>
-        <h6>
+        <p>
           <FontAwesomeIcon icon={faClock} /> {' '} {restDetails["schedule"]}
-        </h6>
-        <h6>
+        </p>
+        <p>
           <FontAwesomeIcon icon={faShoppingBasket}/>{' También en '} {restDetails["otherApps"].map((zones)=> zones)}
-        </h6>
+        </p>
         <h6>
           <FontAwesomeIcon icon={faHandshake} />{' '} {restDetails["payments"]} {' '} <b>mínimo Qtz. 40</b>
         </h6>
