@@ -29,7 +29,6 @@ function Header(){
     "payments": 'Efectivo, tarjeta'
   };
 
-  
 return (
   <div>
         <img src={restDetails["srcImage"]} />

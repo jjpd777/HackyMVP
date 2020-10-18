@@ -28,15 +28,16 @@ function Checkout(props: CheckoutProps) {
   const { menuItems, cart } = props;
 
   const [name, setName] = useState();
-  const [address,setAddress] = useState();
-  const [phone,setPhone] = useState();
+  const [address, setAddress] = useState();
+  const [phone, setPhone] = useState();
 
-  const [payMethod,setPayment] = useState(true)
+  const [payMethod, setPayment] = useState(true)
+  const minPaymentAmount = props.totalCartValue > 74;
   function getFormattedDate() {
     var date = new Date();
-    var str = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +  date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    var str = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
     return str;
-}
+  }
   const getCartItems = () => {
     let cartItems: any[] = [];
     cart.forEach((cartItem) => {
@@ -53,35 +54,35 @@ function Checkout(props: CheckoutProps) {
     });
     return cartItems;
   };
-  const craftString = (message) =>{
+  const craftString = (message) => {
     var blank = / /gi;
     var hashtag = /#/gi;
-    message = message.replace(hashtag,"%23")
-    message = message.replace(":","%3A")
-    message = message.replace(hashtag,"%20")
+    message = message.replace(hashtag, "%23")
+    message = message.replace(":", "%3A")
+    message = message.replace(hashtag, "%20")
     return message;
   }
-  
-  const writeOrder=(checkName,checkAddress,thisphone,payment)=>{
-    if(!checkName || !checkAddress || !thisphone) return
+
+  const writeOrder = (checkName, checkAddress, thisphone, payment) => {
+    if (!checkName || !checkAddress || !thisphone || !minPaymentAmount) return
     const getPayment = payment ? 'efectivo' : 'tarjeta';
     let order = "";
     cart.forEach((cartItem) => {
       menuItems.map((menuItem) => {
         if (cartItem.itemId === menuItem.id) {
-          const tmp = "[(x"+ String(cartItem.quantity) +") " + menuItem.name + " ]"
-          order+=tmp
+          const tmp = "[(x" + String(cartItem.quantity) + ") " + menuItem.name + " ]"
+          order += tmp
         }
       });
     });
     const time = getFormattedDate();
     const newRow = {
-      "nombre" : checkName,
-      "direccion" : checkAddress,
-      "celular" : thisphone,
-      "pago" : getPayment,
+      "nombre": checkName,
+      "direccion": checkAddress,
+      "celular": thisphone,
+      "pago": getPayment,
       "total": props.totalCartValue,
-      "fecha" : time,
+      "fecha": time,
       "pedido": order,
     }
     console.log(newRow)
@@ -93,38 +94,39 @@ function Checkout(props: CheckoutProps) {
       },
       body: JSON.stringify(newRow),
     })
-    .then(response => response.json())
-    .then(newRow => {
-      console.log('Success:', newRow);
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
+      .then(response => response.json())
+      .then(newRow => {
+        console.log('Success:', newRow);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
   }
-  const letsCheckout = (checkName,checkAddress,thisphone,payment) =>{
-    if(!checkName || !checkAddress || !thisphone) return
+  const letsCheckout = (checkName, checkAddress, thisphone, payment) => {
+    if (!checkName || !checkAddress || !thisphone || !minPaymentAmount) return
     const getPayment = payment ? 'efectivo' : 'tarjeta';
 
     let baseURL = "https://wa.me/50241288133?text=";
-    let textBody="Hola La Llorona!%0A%0AMi nombre es *" +String(checkName)+"* y me interesa hacer un pedido a *"+String(checkAddress)+"*" + ".%0A%0AMi pedido es el siguiente:%0A";
-    let finalpart = "*Total*%20Qtz.%20" +String(props.totalCartValue)+ "%0A%0AMi número de contacto es: "+String(thisphone)+"%0A%0AQuiero por favor pagar en *"+ getPayment+ "*.%0A%0AMuchas gracias de antemano%21"
+    let textBody = "Hola La Llorona!%0A%0AMi nombre es *" + String(checkName) + "* y me interesa hacer un pedido a *" + String(checkAddress) + "*" + ".%0A%0AMi pedido es el siguiente:%0A";
+    let finalpart = "*Total*%20Qtz.%20" + String(props.totalCartValue) + "%0A%0AMi número de contacto es: " + String(thisphone) + "%0A%0AQuiero por favor pagar en *" + getPayment + "*.%0A%0AMuchas gracias de antemano%21"
 
     cart.forEach((cartItem) => {
       menuItems.map((menuItem) => {
         if (cartItem.itemId === menuItem.id) {
-          const tmp = "-(%20*x*%20"+ String(cartItem.quantity) +")%20" + menuItem.name + "%0A"
-          textBody+=tmp
+          const tmp = "-(%20*x*%20" + String(cartItem.quantity) + ")%20" + menuItem.name + "%0A"
+          textBody += tmp
         }
       });
     });
-    textBody=craftString(textBody);
-    var purchase = baseURL+textBody+"%0A"+finalpart;
+    textBody = craftString(textBody);
+    var purchase = baseURL + textBody + "%0A" + finalpart;
 
     return purchase;
   }
-  
+
   return (
     <div className="checkout-container">
+      <img src="https://scontent-mia3-2.cdninstagram.com/v/t51.2885-19/s320x320/120482521_151410903307821_6112966007451726566_n.jpg?_nc_ht=scontent-mia3-2.cdninstagram.com&_nc_ohc=LYBLNlM8j9EAX_oL28U&oh=6535a9a7179f64b4b6c78f7e5bcab086&oe=5FA973D7" />
       <div className="order-summary">
         <ListGroup>
           {getCartItems().map((item, index) => {
@@ -145,12 +147,16 @@ function Checkout(props: CheckoutProps) {
           >
             <div>Total</div>
             <div>Qtz. {props.totalCartValue}</div>
+
           </ListGroupItem>
         </ListGroup>
+        {!minPaymentAmount && (<Button className="pillyboy" disabled="true" theme="danger"><b>ATENCIÓN:</b> El pedido mínimo es de Qtz. 75</Button>) || null};
       </div>
       <br />
-      <div>
-      <FormRadio
+
+      {minPaymentAmount && (
+        <div>
+          <FormRadio
             inline
             name="cash"
             checked={payMethod}
@@ -160,7 +166,7 @@ function Checkout(props: CheckoutProps) {
           >
             Efectivo
       </FormRadio>
-      <FormRadio
+          <FormRadio
             inline
             name="card"
             checked={!payMethod}
@@ -170,38 +176,41 @@ function Checkout(props: CheckoutProps) {
           >
             Tarjeta
       </FormRadio>
-      </div>
-      <div className="shipping-info">
-        <FormInput
-          className="input"
-          placeholder="Nombre completo"
-          value={name}
-          onChange={(e) => {
-            setName(e.target.value);
-          }}
-        />
-        <FormTextarea
-          className="input"
-          placeholder="Dirección del domicilio"
-          onChange={(e) => {
-            setAddress(e.target.value);
-          }}
-        />
-         <FormTextarea
-          className="input"
-          placeholder="Celular"
-          onChange={(e) => {
-            setPhone(e.target.value);
-          }}
-        />
-      </div>
+          <div className="shipping-info">
+            <FormInput
+              className="input"
+              placeholder="Nombre completo"
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
+            />
+            <FormTextarea
+              className="input"
+              placeholder="Dirección del domicilio"
+              onChange={(e) => {
+                setAddress(e.target.value);
+              }}
+            />
+            <FormTextarea
+              className="input"
+              placeholder="Celular"
+              onChange={(e) => {
+                setPhone(e.target.value);
+              }}
+            />
+            <Button
+              onClick={() => writeOrder(name, address, phone, payMethod)}
+              href={letsCheckout(name, address, phone, payMethod)}
+              className="button" block>
+              Pedir via WhatsApp
+            </Button>
+          </div>
+        </div>
+      ) || null}
+
       <br></br>
-      <Button 
-        onClick={()=>writeOrder(name,address,phone,payMethod)} 
-        href={letsCheckout(name,address,phone,payMethod)} 
-        className="button" block>
-        Pedir via WhatsApp
-      </Button>
+
       <Button onClick={props.onBack} className="button-secondary" outline block>
         Regresar al Menu
       </Button>
