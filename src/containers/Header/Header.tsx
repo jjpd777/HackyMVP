@@ -48,12 +48,12 @@ function Header(props: HeaderProps){
     "payments": 'Pagos solo en efectivo'
   };
   // let service= ['Ciudad de Guatemala','Sacatepéquez', 'Chimaltenango', 'Escuintla', 'Jalapa', 'Quetzaltenango', 'San Marcos', 'Izabal', 'Petén','El Progreso', 'Chiquimula', 'Quiché', 'Suchitepequez','Santa Rosa', 'Alta y Baja Verapaz','Retalhuleu', 'Totonicapán', 'Sololá']
-  let service= ['Demostración CMI','Ciudad de Guatemala','Mixco']
+  let service= ['Ciudad de Guatemala','Mixco','Ciudad periferia']
 
   const department ={
-    "Demostración CMI":[["Mensaje para Roberto","34840201"]],
-    "Mixco" : [["6a Avenida 08-24 zona 1","56287983"],["calz. San Juan 14-06 zona 3","56287819"],["23 Avenida 11-55, zona 4","777777"],["Colonia El Naranjo C.C. Arboreto San Nicolás","56286877"]],
-    "Ciudad de Guatemala" : [["1a Avenida 9-45, zona 1","41048525"],["San Raymundo, zona 1","42399603"],["Avenida Bolívar 39-20 zona 3","56253736"]]
+    "Mixco" : [["6a Avenida 08-24 z.1 Mixco","56287983"],["calz. San Juan 14-06 z.3 Mixco","56287819"],["23 Avenida 11-55, z.4 Mixco","56286877"],["Colonia El Naranjo C.C. Arboreto San Nicolás","56286877"]],
+    "Ciudad de Guatemala" : [["1a Avenida 9-45, zona 1","41048525"],["San Raymundo, zona 1","42399603"],["Avenida Bolívar 39-20 zona 3","56253736"],["27 calle 20-25, zona 5","56253738"]],
+    "Ciudad periferia" : [["1a. Calle 1-48, z.3 Boca del Monte","33670383"],["4a Calle 04-36, z.1 Villa Nueva","52762959"],["Centro Comercial Plaza Express San Miguel, Petapa", "50131632"]]
   }
   const [modalOpen, setModalOpen] = useState(false);
   const [modalOpen1, setModalOpen1] = useState(false);
