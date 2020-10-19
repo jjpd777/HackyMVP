@@ -18,13 +18,13 @@ function Header(){
   const restDetails = 
   {
     "id": 1,
-    "srcImage":"https://scontent-mia3-2.cdninstagram.com/v/t51.2885-19/s320x320/120482521_151410903307821_6112966007451726566_n.jpg?_nc_ht=scontent-mia3-2.cdninstagram.com&_nc_ohc=LYBLNlM8j9EAX_oL28U&oh=6535a9a7179f64b4b6c78f7e5bcab086&oe=5FA973D7",
-    "atrestaurant": ' @lalloronagt',
-    "instaURL": 'https://www.instagram.com/lalloronagt/',
+    "srcImage":"https://scontent.fgua5-1.fna.fbcdn.net/v/t1.0-9/60454009_2403050509745003_1658534653943873536_o.png?_nc_cat=108&_nc_sid=85a577&_nc_ohc=E2i8isONLjYAX8WoHjo&_nc_ht=scontent.fgua5-1.fna&oh=aac791af829983b21b70abcdffb419e5&oe=5FB542FE",
+    "atrestaurant": ' @panaderiaborgona',
+    "instaURL": 'https://www.facebook.com/panaderiaborgona',
     "tagline": '',
     "serviceZones": ['Toda la Capital, Carretera, Mixco y Villa Nueva'],
-    "schedule":'Delivery de martes a domingo de 12 a 7:30PM',
-    "cellphones":["tel:+50241288133"],
+    "schedule":'Delivery todos los días de 8:00AM a 8:00PM',
+    "cellphones":["tel:+50254664602"],
     "otherApps":['hugo, ','glovo'],
     "payments": 'Efectivo, tarjeta'
   };
@@ -33,7 +33,7 @@ return (
   <div>
         <img src={restDetails["srcImage"]} />
         <h6>
-          La Llorona GT
+          La Borgoña
         </h6>
         <p>
           <FontAwesomeIcon icon={faClock} /> {' '} {restDetails["schedule"]}
@@ -47,7 +47,7 @@ return (
           <FontAwesomeIcon icon={faHandshake} />{' '} {restDetails["payments"]}
         </p>
         <p><FontAwesomeIcon icon={faPhoneAlt}/> 
-          <a href={restDetails["cellphones"][0]}>41288133</a> {'  '}{' '}
+          <a href={restDetails["cellphones"][0]}>54664602</a> {'  '}{' '}
           <FontAwesomeIcon icon={faCamera}/>
           <a href={restDetails["instaURL"]}>{restDetails["atrestaurant"]}</a>
         </p>
