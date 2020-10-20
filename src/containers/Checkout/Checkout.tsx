@@ -86,7 +86,7 @@ function Checkout(props: CheckoutProps) {
       "pedido": order,
     }
     console.log(newRow)
-    var url = 'https://sheet2api.com/v1/WExfuaSVRrOs/ventaslalloronagt/ventas-llorona';
+    var url = 'https://sheet2api.com/v1/WExfuaSVRrOs/ventaslalloronagt/ventas-borgona';
     fetch(url, {
       method: 'POST',
       headers: {
@@ -147,10 +147,9 @@ function Checkout(props: CheckoutProps) {
           >
             <div>Total</div>
             <div>Qtz. {props.totalCartValue}</div>
-
           </ListGroupItem>
         </ListGroup>
-        {!minPaymentAmount && (<Button className="pillyboy" disabled="true" theme="danger"><b>ATENCIÓN:</b> El pedido mínimo es de Qtz. 50</Button>) || null};
+        {!minPaymentAmount && (<Button className="pillyboy" disabled="true" theme="danger"><b>ATENCIÓN:</b> El pedido mínimo es de Qtz. 50</Button>)}
       </div>
       <br />
 
