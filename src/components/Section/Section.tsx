@@ -11,8 +11,7 @@ import { Card, CardBody, CardTitle, CardSubtitle } from 'shards-react';
 import { Collapse } from 'shards-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDoubleDown, faArrowUp } from '@fortawesome/free-solid-svg-icons';
-import { CartItem } from '../../App';
-import { groupBy } from 'lodash';
+import { CartItem } from '../../StoreFront';
 import { MenuItem } from '../../containers/Menu/Menu';
 import ItemCard from '../ItemCard/ItemCard';
 

@@ -20,7 +20,7 @@ import {
   DropdownItem,
 } from 'shards-react';
 
-import { CartItem } from '../../App';
+import { CartItem } from '../../StoreFront';
 import { MenuItem } from '../Menu/Menu';
 
 interface CheckoutProps {

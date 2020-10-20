@@ -15,7 +15,7 @@ import {
   InputGroupAddon,
   FormInput,
 } from 'shards-react';
-import { CartItem } from '../../App';
+import { CartItem } from '../../StoreFront';
 import { MenuItem } from '../../containers/Menu/Menu';
 
 interface ItemCardProps {

@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Menu.scss';
-import {
-  InputGroup,
-  InputGroupText,
-  InputGroupAddon,
-  FormInput,
-  Button,
-} from 'shards-react';
 
-import { CartItem } from '../../App';
+import { CartItem } from '../../StoreFront';
 import { groupBy } from 'lodash';
 import Section from '../../components/Section/Section';
 
