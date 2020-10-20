@@ -32,7 +32,7 @@ function Checkout(props: CheckoutProps) {
   const [phone, setPhone] = useState();
 
   const [payMethod, setPayment] = useState(true)
-  const minPaymentAmount = props.totalCartValue > 74;
+  const minPaymentAmount = props.totalCartValue > 49;
   function getFormattedDate() {
     var date = new Date();
     var str = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
@@ -106,8 +106,8 @@ function Checkout(props: CheckoutProps) {
     if (!checkName || !checkAddress || !thisphone || !minPaymentAmount) return
     const getPayment = payment ? 'efectivo' : 'tarjeta';
 
-    let baseURL = "https://wa.me/50241288133?text=";
-    let textBody = "Hola La Llorona!%0A%0AMi nombre es *" + String(checkName) + "* y me interesa hacer un pedido a *" + String(checkAddress) + "*" + ".%0A%0AMi pedido es el siguiente:%0A";
+    let baseURL = "https://wa.me/50254664602?text=";
+    let textBody = "Hola La Borgoña!%0A%0AMi nombre es *" + String(checkName) + "* y me interesa hacer un pedido a *" + String(checkAddress) + "*" + ".%0A%0AMi pedido es el siguiente:%0A";
     let finalpart = "*Total*%20Qtz.%20" + String(props.totalCartValue) + "%0A%0AMi número de contacto es: " + String(thisphone) + "%0A%0AQuiero por favor pagar en *" + getPayment + "*.%0A%0AMuchas gracias de antemano%21"
 
     cart.forEach((cartItem) => {
@@ -126,7 +126,7 @@ function Checkout(props: CheckoutProps) {
 
   return (
     <div className="checkout-container">
-      <img src="https://scontent-mia3-2.cdninstagram.com/v/t51.2885-19/s320x320/120482521_151410903307821_6112966007451726566_n.jpg?_nc_ht=scontent-mia3-2.cdninstagram.com&_nc_ohc=LYBLNlM8j9EAX_oL28U&oh=6535a9a7179f64b4b6c78f7e5bcab086&oe=5FA973D7" />
+      <img src="https://scontent.fgua5-1.fna.fbcdn.net/v/t1.0-9/60454009_2403050509745003_1658534653943873536_o.png?_nc_cat=108&_nc_sid=85a577&_nc_ohc=E2i8isONLjYAX8WoHjo&_nc_ht=scontent.fgua5-1.fna&oh=aac791af829983b21b70abcdffb419e5&oe=5FB542FE" />
       <div className="order-summary">
         <ListGroup>
           {getCartItems().map((item, index) => {
@@ -150,7 +150,7 @@ function Checkout(props: CheckoutProps) {
 
           </ListGroupItem>
         </ListGroup>
-        {!minPaymentAmount && (<Button className="pillyboy" disabled="true" theme="danger"><b>ATENCIÓN:</b> El pedido mínimo es de Qtz. 75</Button>) || null};
+        {!minPaymentAmount && (<Button className="pillyboy" disabled="true" theme="danger"><b>ATENCIÓN:</b> El pedido mínimo es de Qtz. 50</Button>) || null};
       </div>
       <br />
 
