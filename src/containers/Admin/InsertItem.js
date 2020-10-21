@@ -5,10 +5,11 @@ import TutorialDataService from "../../services/dbservice";
 
 const InsertItem = () => {
   const initialTutorialState = {
+    id:"",
     category: "",
-    title: "",
+    name: "",
     description: "",
-    extradetail: "",
+    brief: "",
     price: 0,
     image:"",
     published: false
@@ -24,15 +25,21 @@ const InsertItem = () => {
     setInfo(false);
   };
   const saveTutorial = () => {
-    if (tutorial.title === "" || tutorial.price === 0) {
+    if (tutorial.name === "" || tutorial.price === 0) {
       setInfo(true);
       return;
     }
+    console.log(typeof(tutorial.price))
+    console.log(tutorial.price)
+    const tmp = parseFloat(tutorial.price)
+
     var data = {
+      id: tutorial.id,
       category: tutorial.category,
-      title: tutorial.title,
+      name: tutorial.name,
       description: tutorial.description,
-      extradetail: tutorial.extradetail,
+      price:tmp,
+      brief: tutorial.brief,
       published: false
     };
 
@@ -82,11 +89,11 @@ const InsertItem = () => {
               <input
                 type="text"
                 className="form-control"
-                id="title"
+                id="name"
                 required
-                value={tutorial.title}
+                value={tutorial.name}
                 onChange={handleInputChange}
-                name="title"
+                name="name"
               />
             </div>
             <div className="form-group">
@@ -106,23 +113,34 @@ const InsertItem = () => {
               <input
                 type="text"
                 className="form-control"
-                id="extradetail"
+                id="brief"
                 required
-                value={tutorial.extradetail}
+                value={tutorial.brief}
                 onChange={handleInputChange}
-                name="extradetail"
+                name="brief"
               />
             </div>
             <div className="form-group">
               <label htmlFor="description">Precio</label>
               <input
-                type="text"
+                type="number"
                 className="form-control"
                 id="price"
                 required
                 value={tutorial.price}
                 onChange={handleInputChange}
                 name="price"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="image">image</label>
+              <input
+                type="file"
+                className="form-control"
+                id="image"
+                required
+                onChange={handleInputChange}
+                name="image"
               />
             </div>
             <button onClick={saveTutorial} className="btn btn-success">

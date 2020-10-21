@@ -44,20 +44,18 @@ const EditMenu = (thislist) => {
   };
 
   const setActiveTutorial = (tutorial, index) => {
-    //   console.log(tutorial.val())
-    const { category,title, description, published, price, extradetail } = tutorial.val(); /* tutorial */
-    console.log("tutorial.key")
+    const { category,name, description, published, price,image, brief } = tutorial.val(); /* tutorial */
     console.log(tutorial.key)
     setCurrentTutorial({
-      key: tutorial.key,
+      id: tutorial.key,
       category,
-      title,
+      name,
       description,
       price,
-      extradetail,
+      brief,
+      image,
       published,
     });
-
     setCurrentIndex(index);
   };
 
@@ -86,7 +84,7 @@ const EditMenu = (thislist) => {
                 onClick={() => setActiveTutorial(tutorial, index)}
                 key={index}
               >
-                {tutorial.val().title}
+                {tutorial.val().name}
               </li>
             ))}
         </ul>

@@ -39,8 +39,6 @@ function StoreFront() {
     setMenuItems(menuItemsMock);
   }, []);
 
-  // let seeMenu=false;
-
   const displayMenu = () => setSeeMenu(true);
 
   const getTotalCartValue = () => {
@@ -54,41 +52,18 @@ function StoreFront() {
     });
     return totalVal;
   };
-  const typeeee = ()=> console.log(tutorials)
-  // const typeeee2 = ()=> tutorials.val() ? console.log(tutorials.val()) : console.log("notyet")
 
-  const placeItems=(dboject)=>{
-    const obj = dboject.map((tutorial,index) => tutorial.val());
-    console.log(typeof(obj))
-    console.log(obj)
-    console.log(typeof(menuItems))
-    console.log(menuItems)
+  const placeItems = (dboject) => {
+    // THIS IS SO HACKY LOOOOOOL BY FAR THE MOST VULNERABLE PART OF THE APPLICATION
+    const obj = dboject.map((tutorial, index) => tutorial.val());
+    obj.map((item, ix) => item.id = ix);
+    setMenuItems(obj);
   }
   return (
     <>
-    {!loading && tutorials && <button onClick={()=>placeItems(tutorials)}>este</button> }
-    
-    {/* <button onClick={()=>typeeee2()}>otro boton</button> */}
-
-      <div className="col-md-6">
-        <h4>Elementos del menu</h4>
-        {error && <strong>Error: {error}</strong>}
-        {loading && <span>Cargando...</span>}
-        <ul className="list-group">
-          {!loading &&
-            tutorials &&
-            tutorials.map((tutorial, index) => (tutorial.val().published ?
-              <li
-                className="list-group-item "
-                key={index}
-              >
-                {tutorial.val().title}
-              </li>
-            : null
-            ))}
-        </ul>
-
-      </div>
+      {!loading && tutorials && <button onClick={() => placeItems(tutorials)}>este</button>}
+      {error && <strong>Error: {error}</strong>}
+      {loading && <span>Cargando...</span>}
       <div className="App">
         <section className="container">
           <header className="App-header">

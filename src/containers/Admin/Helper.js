@@ -3,19 +3,20 @@ import TutorialDataService from "../../services/dbservice";
 
 const Helper = (props) => {
   const initialTutorialState = {
-    key: "",
+    id: "",
     category:"",
-    title: "",
+    name: "",
     description: "",
-    extradetail: "",
+    brief: "",
     price: 0,
+    image:"",
     published: false
   };
   const [currentTutorial, setCurrentTutorial] = useState(initialTutorialState);
   const [message, setMessage] = useState("");
 
   const { tutorial } = props;
-  if (currentTutorial.key !== tutorial.key) {
+  if (currentTutorial.id !== tutorial.id) {
     setCurrentTutorial(tutorial);
     setMessage("");
   }
@@ -26,7 +27,7 @@ const Helper = (props) => {
   };
 
   const updatePublished = (status) => {
-    TutorialDataService.update(currentTutorial.key, { published: status })
+    TutorialDataService.update(currentTutorial.id, { published: status })
       .then(() => {
         setCurrentTutorial({ ...currentTutorial, published: status });
         setMessage("The status was updated successfully!");
@@ -38,15 +39,15 @@ const Helper = (props) => {
 
   const updateTutorial = () => {
     const data = {
-      key: currentTutorial.key,
+      id: currentTutorial.id,
       category:currentTutorial.category,
-      title: currentTutorial.title,
+      name: currentTutorial.name,
       description: currentTutorial.description,
-      extradetail: currentTutorial.extradetail,
+      brief: currentTutorial.brief,
       price:currentTutorial.price,
     };
 
-    TutorialDataService.update(currentTutorial.key, data)
+    TutorialDataService.update(currentTutorial.id, data)
       .then(() => {
         setMessage("The tutorial was updated successfully!");
       })
@@ -56,7 +57,8 @@ const Helper = (props) => {
   };
 
   const deleteTutorial = () => {
-    TutorialDataService.remove(currentTutorial.key)
+    console.log(currentTutorial.id)
+    TutorialDataService.remove(currentTutorial.id)
       .then(() => {
         props.refreshList();
       })
@@ -83,15 +85,15 @@ const Helper = (props) => {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="title">Title</label>
+              <label htmlFor="name">Title</label>
               <input
                 type="text"
                 className="form-control"
-                id="title"
+                id="name"
                 required
-                value={currentTutorial.title}
+                value={currentTutorial.name}
                 onChange={handleInputChange}
-                name="title"
+                name="name"
               />
             </div>
             <div className="form-group">
@@ -111,17 +113,17 @@ const Helper = (props) => {
               <input
                 type="text"
                 className="form-control"
-                id="extradetail"
+                id="brief"
                 required
-                value={currentTutorial.extradetail}
+                value={currentTutorial.brief}
                 onChange={handleInputChange}
-                name="extradetail"
+                name="brief"
               />
             </div>
             <div className="form-group">
               <label htmlFor="description">Precio</label>
               <input
-                type="text"
+                type="number"
                 className="form-control"
                 id="price"
                 required
