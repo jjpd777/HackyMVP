@@ -11,10 +11,12 @@ function Navbar() {
     return (
         <>
             <nav className="navbar navbar-expand navbar-dark bg-dark">
-                <a href="/home" className="navbar-brand">
-                    Bienvenido
-                </a>
                 <div className="navbar-nav mr-auto">
+                    <a>
+                    <Link to={"/home"} className="navbar-brand">
+                        Bienvenido
+                    </Link>
+                    </a>
                     <li className="nav-item">
                         <Link to={"/editar-menu"} className="nav-link">
                             Editar Menu

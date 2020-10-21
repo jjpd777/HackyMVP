@@ -59,7 +59,9 @@ function StoreFront() {
 
   const placeItems=(dboject)=>{
     const obj = dboject.map((tutorial,index) => tutorial.val());
+    console.log(typeof(obj))
     console.log(obj)
+    console.log(typeof(menuItems))
     console.log(menuItems)
   }
   return (
