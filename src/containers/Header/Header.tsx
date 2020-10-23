@@ -10,7 +10,9 @@ import {
   faPhoneAlt,
   faMapPin,
   faShoppingBasket,
+  faBreadSlice,
   faCamera,
+  faTabletAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -18,23 +20,28 @@ function Header(){
   const restDetails = 
   {
     "id": 1,
-    "srcImage":"https://scontent-mia3-2.cdninstagram.com/v/t51.2885-19/s320x320/120482521_151410903307821_6112966007451726566_n.jpg?_nc_ht=scontent-mia3-2.cdninstagram.com&_nc_ohc=LYBLNlM8j9EAX_oL28U&oh=6535a9a7179f64b4b6c78f7e5bcab086&oe=5FA973D7",
-    "atrestaurant": ' @lalloronagt',
-    "instaURL": 'https://www.instagram.com/lalloronagt/',
+    "srcImage":"https://instagram.fgua5-1.fna.fbcdn.net/v/t51.2885-19/s320x320/64344507_1279146298916180_8296909584941973504_n.jpg?_nc_ht=instagram.fgua5-1.fna.fbcdn.net&_nc_ohc=1nNyl4CPqfEAX_5sXgt&oh=49b2e6bfb95fe31d4cdd33f219c355d1&oe=5FB8FFA8",
+    "atrestaurant": ' @getfitbakery',
+    "instaURL": 'https://www.instagram.com/getfitbakery/',
     "tagline": '',
-    "serviceZones": ['Toda la Capital, Carretera, Mixco y Villa Nueva'],
-    "schedule":'Delivery de martes a domingo de 12 a 7:30PM',
-    "cellphones":["tel:+50241288133"],
+    "serviceZones": ['Metroplaza, Carretera a El Salvador','Plaza futeca zona 14'],
+    "schedule":'Todos los dias de 9AM a 7PM',
+    "cellphones":["tel:+50249789129"],
     "otherApps":['hugo, ','glovo'],
     "payments": 'Efectivo, tarjeta'
   };
+//   ❇️
+// ❇️Productos altos en proteína
 
 return (
   <div>
         <img src={restDetails["srcImage"]} />
-        <h6>
-          La Llorona GT
-        </h6>
+        <h5>
+          Get Fit Bakery
+        </h5>
+        <p>
+          <FontAwesomeIcon icon={faBreadSlice}/> <b>{'  Productos sin harina, sin azúcar, sin gluten'}</b>
+        </p>
         <p>
           <FontAwesomeIcon icon={faClock} /> {' '} {restDetails["schedule"]}
         </p>

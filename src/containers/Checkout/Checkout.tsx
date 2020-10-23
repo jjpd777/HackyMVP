@@ -86,7 +86,7 @@ function Checkout(props: CheckoutProps) {
       "pedido": order,
     }
     console.log(newRow)
-    var url = 'https://sheet2api.com/v1/WExfuaSVRrOs/ventaslalloronagt/ventas-llorona';
+    var url = 'https://sheet2api.com/v1/WExfuaSVRrOs/ventaslalloronagt/ventas-getfitbakery';
     fetch(url, {
       method: 'POST',
       headers: {
@@ -106,8 +106,8 @@ function Checkout(props: CheckoutProps) {
     if (!checkName || !checkAddress || !thisphone || !minPaymentAmount) return
     const getPayment = payment ? 'efectivo' : 'tarjeta';
 
-    let baseURL = "https://wa.me/50241288133?text=";
-    let textBody = "Hola La Llorona!%0A%0AMi nombre es *" + String(checkName) + "* y me interesa hacer un pedido a *" + String(checkAddress) + "*" + ".%0A%0AMi pedido es el siguiente:%0A";
+    let baseURL = "https://wa.me/50249789129?text=";
+    let textBody = "Hola Get Fit Bakery!%0A%0AMi nombre es *" + String(checkName) + "* y me interesa hacer un pedido a *" + String(checkAddress) + "*" + ".%0A%0AMi pedido es el siguiente:%0A";
     let finalpart = "*Total*%20Qtz.%20" + String(props.totalCartValue) + "%0A%0AMi número de contacto es: " + String(thisphone) + "%0A%0AQuiero por favor pagar en *" + getPayment + "*.%0A%0AMuchas gracias de antemano%21"
 
     cart.forEach((cartItem) => {
@@ -126,7 +126,7 @@ function Checkout(props: CheckoutProps) {
 
   return (
     <div className="checkout-container">
-      <img src="https://scontent-mia3-2.cdninstagram.com/v/t51.2885-19/s320x320/120482521_151410903307821_6112966007451726566_n.jpg?_nc_ht=scontent-mia3-2.cdninstagram.com&_nc_ohc=LYBLNlM8j9EAX_oL28U&oh=6535a9a7179f64b4b6c78f7e5bcab086&oe=5FA973D7" />
+      <img src="https://instagram.fgua5-1.fna.fbcdn.net/v/t51.2885-19/s320x320/64344507_1279146298916180_8296909584941973504_n.jpg?_nc_ht=instagram.fgua5-1.fna.fbcdn.net&_nc_ohc=1nNyl4CPqfEAX_5sXgt&oh=49b2e6bfb95fe31d4cdd33f219c355d1&oe=5FB8FFA8" />
       <div className="order-summary">
         <ListGroup>
           {getCartItems().map((item, index) => {
