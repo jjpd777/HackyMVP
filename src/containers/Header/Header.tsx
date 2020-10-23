@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import './Header.scss'
 
 import {
   faLocationArrow,
@@ -32,25 +33,7 @@ function Header(){
 return (
   <div>
         <img src={restDetails["srcImage"]} />
-        <h6>
-          La Borgoña
-        </h6>
-        <p>
-          <FontAwesomeIcon icon={faClock} /> {' '} {restDetails["schedule"]}
-        </p>
-        {restDetails["serviceZones"].map((zones)=>
-          <p>
-            <FontAwesomeIcon icon={faMapPin} />{' '} {zones}
-          </p>
-        )}
-        <p>
-          <FontAwesomeIcon icon={faHandshake} />{' '} {restDetails["payments"]}
-        </p>
-        <p><FontAwesomeIcon icon={faPhoneAlt}/> 
-          <a href={restDetails["cellphones"][0]}>54664602</a> {'  '}{' '}
-          <FontAwesomeIcon icon={faCamera}/>
-          <a href={restDetails["instaURL"]}>{restDetails["atrestaurant"]}</a>
-        </p>
+        <div className="tagline">Por favor complete el listado de inventario</div>
   </div>
   );
 }

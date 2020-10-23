@@ -13,6 +13,10 @@ import {
   FormInput,
   FormRadio,
 } from 'shards-react';
+import {
+  faArrowAltCircleLeft,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { CartItem } from '../../App';
 import { MenuItem } from '../Menu/Menu';
@@ -32,7 +36,10 @@ function Checkout(props: CheckoutProps) {
   const [phone, setPhone] = useState();
 
   const [payMethod, setPayment] = useState(true)
-  const minPaymentAmount = props.totalCartValue > 49;
+  const [locindex, setLocation] = useState(0);
+
+  const locations = ["Plaza Gerona", "Plaza Comercia", "Plaza Novitá"];
+  const minPaymentAmount = props.totalCartValue > 0;
   function getFormattedDate() {
     var date = new Date();
     var str = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
@@ -64,7 +71,7 @@ function Checkout(props: CheckoutProps) {
   }
 
   const writeOrder = (checkName, checkAddress, thisphone, payment) => {
-    if (!checkName || !checkAddress || !thisphone || !minPaymentAmount) return
+    // if (!checkName || !checkAddress || !thisphone || !minPaymentAmount) return
     const getPayment = payment ? 'efectivo' : 'tarjeta';
     let order = "";
     cart.forEach((cartItem) => {
@@ -77,16 +84,12 @@ function Checkout(props: CheckoutProps) {
     });
     const time = getFormattedDate();
     const newRow = {
-      "nombre": checkName,
-      "direccion": checkAddress,
-      "celular": thisphone,
-      "pago": getPayment,
-      "total": props.totalCartValue,
-      "fecha": time,
-      "pedido": order,
+      "localidad": locations[locindex],
+      "Notas adicionales": name,
+      "Orden" : order,
     }
     console.log(newRow)
-    var url = 'https://sheet2api.com/v1/WExfuaSVRrOs/ventaslalloronagt/ventas-borgona';
+    var url = 'https://sheet2api.com/v1/WExfuaSVRrOs/ventaslalloronagt/inventario-borgona';
     fetch(url, {
       method: 'POST',
       headers: {
@@ -103,23 +106,23 @@ function Checkout(props: CheckoutProps) {
       });
   }
   const letsCheckout = (checkName, checkAddress, thisphone, payment) => {
-    if (!checkName || !checkAddress || !thisphone || !minPaymentAmount) return
+    // if (!checkName || !checkAddress || !thisphone || !minPaymentAmount) return
     const getPayment = payment ? 'efectivo' : 'tarjeta';
 
     let baseURL = "https://wa.me/50254664602?text=";
-    let textBody = "Hola La Borgoña!%0A%0AMi nombre es *" + String(checkName) + "* y me interesa hacer un pedido a *" + String(checkAddress) + "*" + ".%0A%0AMi pedido es el siguiente:%0A";
-    let finalpart = "*Total*%20Qtz.%20" + String(props.totalCartValue) + "%0A%0AMi número de contacto es: " + String(thisphone) + "%0A%0AQuiero por favor pagar en *" + getPayment + "*.%0A%0AMuchas gracias de antemano%21"
+    let textBody = "Buenas noches de parte de *" + String(locations[locindex]) + "*. La lista de hoy es la siguiente:%0A%0A";
 
     cart.forEach((cartItem) => {
       menuItems.map((menuItem) => {
         if (cartItem.itemId === menuItem.id) {
-          const tmp = "-(%20*x*%20" + String(cartItem.quantity) + ")%20" + menuItem.name + "%0A"
+          const tmp = "-%20*x*%20" + String(cartItem.quantity) + " %20" + menuItem.name + "%0A"
           textBody += tmp
         }
       });
     });
+    textBody = textBody + "%0A%0A*NOTAS ADICIONALES* " + name;
     textBody = craftString(textBody);
-    var purchase = baseURL + textBody + "%0A" + finalpart;
+    var purchase = baseURL + textBody + "%0A%0A*BENDICIONES%20PARA%20TODOS*";
 
     return purchase;
   }
@@ -135,84 +138,83 @@ function Checkout(props: CheckoutProps) {
                 <div>
                   ( x{item.quantity} )  {item.name}
                 </div>
-                <div>Qtz. {item.price * item.quantity}</div>
               </ListGroupItem>
             );
           })}
 
-          <ListGroupItem
+          {/* <ListGroupItem
             style={{ fontWeight: 600 }}
             className="list-item"
             key={'total'}
           >
-            <div>Total</div>
-            <div>Qtz. {props.totalCartValue}</div>
-          </ListGroupItem>
+          </ListGroupItem> */}
         </ListGroup>
         {!minPaymentAmount && (<Button className="pillyboy" disabled="true" theme="danger"><b>ATENCIÓN:</b> El pedido mínimo es de Qtz. 50</Button>)}
       </div>
       <br />
 
       {minPaymentAmount && (
-        <div>
+        <div className="store-location" >
+          <h5>Localidad</h5>
+          <div className="finally">
           <FormRadio
-            inline
-            name="cash"
-            checked={payMethod}
+            className="this-card"
+            name="card"
+            checked={locindex === 0}
             onChange={() => {
               setPayment(true);
+              setLocation(0);
             }}
           >
-            Efectivo
+            Plaza Gerona
       </FormRadio>
           <FormRadio
-            inline
+            className="this-card"
             name="card"
-            checked={!payMethod}
+            checked={locindex === 1}
             onChange={() => {
               setPayment(false);
+              setLocation(1);
             }}
           >
-            Tarjeta
+            Plaza Comercia
       </FormRadio>
+          <FormRadio
+            className="this-card"
+            name="card"
+            checked={locindex === 2}
+            onChange={() => {
+              setPayment(false);
+              setLocation(2);
+            }}
+          >
+            Plaza Novitá
+      </FormRadio>
+      </div>
           <div className="shipping-info">
+            <h5>Notas adicionales:</h5>
             <FormInput
               className="input"
-              placeholder="Nombre completo"
+              placeholder="Escribir notas"
               value={name}
               onChange={(e) => {
                 setName(e.target.value);
               }}
             />
-            <FormTextarea
-              className="input"
-              placeholder="Dirección del domicilio"
-              onChange={(e) => {
-                setAddress(e.target.value);
-              }}
-            />
-            <FormTextarea
-              className="input"
-              placeholder="Celular"
-              onChange={(e) => {
-                setPhone(e.target.value);
-              }}
-            />
+            <Button onClick={props.onBack} className="button-secondary" outline block>
+        <FontAwesomeIcon icon={faArrowAltCircleLeft}/>{'  '}Regresar al Menu
+      </Button>
             <Button
               onClick={() => writeOrder(name, address, phone, payMethod)}
               href={letsCheckout(name, address, phone, payMethod)}
               className="button" block>
-              Pedir via WhatsApp
+              Enviar listado de inventario
             </Button>
           </div>
         </div>
       ) || null}
 
       <br></br>
-
-      <Button onClick={props.onBack} className="button-secondary" outline block>
-        Regresar al Menu
-      </Button>
     </div>
   );
 }
