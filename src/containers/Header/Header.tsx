@@ -36,8 +36,8 @@ interface HeaderProps {
 function Header(props: HeaderProps) {
   let { isDisplaying } = props;
 
-  const PROMOCIONES ="Promociones";
-  const PREMIUM = "Vinos Premium"
+  const PROMOCIONES ="Cerdo";
+  const PREMIUM = "Cortes de res"
   const restDetails =
   {
     "id": 1,
@@ -48,10 +48,9 @@ function Header(props: HeaderProps) {
     "serviceZones": ["Mixco", "Ciudad de Guatemala"],
     "schedule": 'Domicilios a diario de 9:00AM a 5:00PM',
     "cellphones": ["tel:+50241288133"],
-    "otherApps": ['hugo, glovo y ubereats'],
+    "otherApps": ['Ventas al por mayor y por menor'],
     "payments": 'Pagos solo en efectivo'
   };
-  // let service= ['Ciudad de Guatemala','Sacatepéquez', 'Chimaltenango', 'Escuintla', 'Jalapa', 'Quetzaltenango', 'San Marcos', 'Izabal', 'Petén','El Progreso', 'Chiquimula', 'Quiché', 'Suchitepequez','Santa Rosa', 'Alta y Baja Verapaz','Retalhuleu', 'Totonicapán', 'Sololá']
 
   const [modalOpen, setModalOpen] = useState(false);
   const [activeButton, setActive] = useState(true)
@@ -60,13 +59,13 @@ function Header(props: HeaderProps) {
   return (
     <div>
       <h6>
-        <b>Vinos premium importados</b>
+        <b>Cortes legendarios, sabor auténtico</b>
       </h6>
       <p>
         <FontAwesomeIcon icon={faClock} /> {' '} {restDetails["schedule"]}
       </p>
       <p>
-        <FontAwesomeIcon icon={faShoppingBasket} />{' También en '} {restDetails["otherApps"].map((zones) => zones)}
+        <FontAwesomeIcon icon={faShoppingBasket} /> {restDetails["otherApps"].map((zones) => zones)}
       </p>
       <div className="mini-nav">
         <Button className="one"
@@ -77,18 +76,18 @@ function Header(props: HeaderProps) {
             setActive(true);
           }
           }>
-          Promociones
+          {PROMOCIONES}
         </Button>
         <Button className="two"
           outline theme="danger"
           active={!activeButton}
           onClick={() => {
-            props.setSiteTab("Vinos Premium")
+            props.setSiteTab(PREMIUM)
             setActive(false);
 
           }
           }>
-          Vinos exclusivos
+          Cortes de Res
         </Button>
       </div>
     </div>

@@ -26,7 +26,7 @@ function App() {
   const [seeMenu, setSeeMenu] = useState(true);
   const [storePhone, setStorePhone] = useState("");
   const [storeDep, setStoreDep] = useState("");
-  const [siteTab, setSiteTab] = useState("Promociones")
+  const [siteTab, setSiteTab] = useState("Cerdo")
   const [otherList, setOther] = useState<MenuItem[]>();
 
   useEffect(() => {
@@ -35,22 +35,6 @@ function App() {
     );
     setOther(filtered);
   }, [siteTab]);
-
-  const setTab = (promotions) => {
-    console.log(otherList);
-    const tmp = promotions ? "Promociones" : "Vinos Premium";
-    setSiteTab(tmp);
-  }
-  const filterMenu = () => {
-    const tempvar = menuItems.map((item) => {
-      if (item.category === "Combos") {
-        console.log(item)
-        return item
-      }
-    })
-    console.log(tempvar);
-
-  };
 
   const displayMenu = () => setSeeMenu(true);
 
@@ -71,15 +55,10 @@ function App() {
       <div className="App">
         <section className="container">
           <header className="App-header">
-          <img src={"https://erp.shopshop.com.gt/uploads/empresas/c76a0184633b04f74eaa80b92d0c7effad82ff08.png"} />
+          <img src={"https://instagram.fgua5-1.fna.fbcdn.net/v/t51.2885-19/s320x320/118739365_1466235423576643_2454423755812122033_n.jpg?_nc_ht=instagram.fgua5-1.fna.fbcdn.net&_nc_ohc=M1OqN-BssPIAX_ZOilO&oh=da923c6e8b6fcb5ca5b7d60108877d1e&oe=5FC004BA"} />
           </header>
           {currentPage === PageEnum.MENU && (
             <>
-              <div className="App-image">
-                {!seeMenu && (
-                  <img src="https://scontent.fgua5-1.fna.fbcdn.net/v/t1.0-9/120319394_3307503859332898_5997193339921423352_o.jpg?_nc_cat=102&_nc_sid=e3f864&_nc_ohc=-7siUk5HxToAX83JfAA&_nc_ht=scontent.fgua5-1.fna&oh=02db0d725d0183edafff0e252024693e&oe=5FAC7B6C"></img>
-                ) || null}
-              </div>
               {seeMenu && (
                 <>
               <Header 
