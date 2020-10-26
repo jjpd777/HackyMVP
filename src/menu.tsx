@@ -263,8 +263,8 @@ export const menuItemsMock = [
   {
     id: 30,
     category: 'Inventario La Borgoña',
-    name: 'Tamales y pachez',
-    description: '',
+    name: 'Tamales y pachez', // DE CERDO Y POLLO // CHUCHITOS NORMALES CON LOROCO
+    description: '', //TAMAL DE ARROZ // TAMAL DE ELOTE // TAMALITO DE CHIPILIN
     price: 10.0,
     brief:'',
     image: '',
