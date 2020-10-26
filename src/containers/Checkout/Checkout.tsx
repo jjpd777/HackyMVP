@@ -37,7 +37,7 @@ function Checkout(props: CheckoutProps) {
   const restDetails = 
   {
     "id": 1,
-    "srcImage":"https://scontent.fgua5-1.fna.fbcdn.net/v/t1.0-9/120343287_3309878435762107_5997515660017944691_n.png?_nc_cat=1&_nc_sid=09cbfe&_nc_ohc=nZR8L1CgkJkAX8SjgId&_nc_ht=scontent.fgua5-1.fna&oh=df247ddbb7b331e79ca3a1b972b6a518&oe=5FABC0D3",
+    "srcImage":"https://scontent-mia3-1.cdninstagram.com/v/t51.2885-19/11820542_1487951388164636_539112163_a.jpg?_nc_ht=scontent-mia3-1.cdninstagram.com&_nc_ohc=qT2EJ1JYRIwAX8p2-qv&oh=da9e99339ddac8d4af0707d44c5afbb4&oe=5FBF0300",
     "atrestaurant": ' @PolloGranjeroGuatemala',
     "instaURL": 'https://www.facebook.com/PolloGranjeroGuatemala/',
     "tagline": '¡Recién hecho y crujiente!',

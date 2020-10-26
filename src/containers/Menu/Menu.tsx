@@ -13,6 +13,7 @@ import { groupBy } from 'lodash';
 import Section from '../../components/Section/Section';
 
 export interface MenuItem {
+  sitetab: string;
   id: number;
   category: string;
   name: string;
@@ -26,13 +27,15 @@ interface MenuProps {
   menuItems: MenuItem[];
   cart: CartItem[];
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
+
+  siteTab:String;
 }
 
 interface CategoryOpenState {
   [category: string]: boolean;
 }
 function Menu(props: MenuProps) {
-  const { menuItems, cart, setCartItems } = props;
+  const { menuItems, cart, setCartItems, siteTab } = props;
   useEffect(() => {
     setMenuList(menuItems);
   }, [menuItems]);
@@ -48,13 +51,13 @@ function Menu(props: MenuProps) {
 
   const [searchQuery, setSearchQuery] = useState('');
 
+
   useEffect(() => {
-    // Triggered whenever Search Query changes
     const filtered = menuItems.filter((x) =>
-      x.name.toLowerCase().includes(searchQuery.toLowerCase())
+      x.sitetab === siteTab
     );
     setMenuList(filtered);
-  }, [searchQuery]);
+  }, [siteTab]);
 
   const clearSearch = () => {
     setSearchQuery('');

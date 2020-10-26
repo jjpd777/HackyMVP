@@ -73,7 +73,7 @@ function ItemCard(props: ItemCardProps) {
           <div className="card-content">
             <CardTitle>{menuItem.name}</CardTitle>
             <CardSubtitle className="subtitle">{menuItem.brief}</CardSubtitle>
-            <Button pill  className="pill" theme="warning" ><b> Qtz. {menuItem.price}</b></Button>
+            <Button pill  className="pill" ><b> Qtz. {menuItem.price}</b></Button>
             <p>{menuItem.description}</p>
           </div>
         </CardBody>

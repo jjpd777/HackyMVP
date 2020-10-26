@@ -9,9 +9,10 @@
   .button {
     margin-top: -30px;
     z-index: 1;
-    background-color: #fe5f55;
+    background-color: rgb(167, 14, 14);
     border: none;
   }
+  
 }
 
 .card-body {
@@ -22,6 +23,7 @@
     height: auto;
     align-self: center;
   }
+  
 }
 
 .card-content {
@@ -41,9 +43,13 @@
   }
   .subtitle{
     margin-bottom:10px;
+    color:rgb(144, 5, 5);
+
   }
-  .pill{
-    class:"pill";
+  .btn-pill{
+    color:rgb(144, 5, 5);
+    background-color: rgb(255, 222, 222);
+    border-color:rgb(144, 5, 5);
   }
 }
 
