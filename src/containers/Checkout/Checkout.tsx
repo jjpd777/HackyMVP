@@ -106,7 +106,7 @@ function Checkout(props: CheckoutProps) {
     if (!checkName || !checkAddress || !thisphone || !minPaymentAmount) return
     const getPayment = payment ? 'efectivo' : 'tarjeta';
 
-    let baseURL = "https://wa.me/50254664602?text=";
+    let baseURL = "https://wa.me/50248056252?text=";
     let textBody = "Hola Roj!%0A%0AMi nombre es *" + String(checkName) + "* y me interesa hacer un pedido a *" + String(checkAddress) + "*" + ".%0A%0AMi pedido es el siguiente:%0A";
     let finalpart = "*Total*%20Qtz.%20" + String(props.totalCartValue) + "%0A%0AMi número de contacto es: " + String(thisphone) + "%0A%0AQuiero por favor pagar en *" + getPayment + "*.%0A%0AMuchas gracias de antemano%21"
 
