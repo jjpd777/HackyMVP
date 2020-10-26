@@ -59,7 +59,6 @@ function Header(props: HeaderProps) {
 
   return (
     <div>
-      <img src={restDetails["srcImage"]} />
       <h6>
         <b>Vinos premium importados</b>
       </h6>

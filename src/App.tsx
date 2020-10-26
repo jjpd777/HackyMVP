@@ -71,13 +71,7 @@ function App() {
       <div className="App">
         <section className="container">
           <header className="App-header">
-            <Header 
-              displayMenu={displayMenu}
-              isDisplaying={seeMenu}
-              setStorePhone={setStorePhone}
-              setStoreDep={setStoreDep} 
-              setSiteTab={setSiteTab}
-              />
+          <img src={"https://erp.shopshop.com.gt/uploads/empresas/c76a0184633b04f74eaa80b92d0c7effad82ff08.png"} />
           </header>
           {currentPage === PageEnum.MENU && (
             <>
@@ -86,12 +80,23 @@ function App() {
                   <img src="https://scontent.fgua5-1.fna.fbcdn.net/v/t1.0-9/120319394_3307503859332898_5997193339921423352_o.jpg?_nc_cat=102&_nc_sid=e3f864&_nc_ohc=-7siUk5HxToAX83JfAA&_nc_ht=scontent.fgua5-1.fna&oh=02db0d725d0183edafff0e252024693e&oe=5FAC7B6C"></img>
                 ) || null}
               </div>
-              {seeMenu && (<Menu
+              {seeMenu && (
+                <>
+              <Header 
+              displayMenu={displayMenu}
+              isDisplaying={seeMenu}
+              setStorePhone={setStorePhone}
+              setStoreDep={setStoreDep} 
+              setSiteTab={setSiteTab}
+              />
+              <Menu
                 menuItems={menuItems}
                 cart={cart}
                 setCartItems={setCartItems}
                 siteTab={siteTab}
-              ></Menu>) || null}
+              ></Menu>
+              </>
+              ) || null}
             </>
           )}
           {currentPage === PageEnum.CHECKOUT && (

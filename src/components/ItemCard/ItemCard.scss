@@ -42,28 +42,117 @@
     margin-top: 10px;
   }
   .subtitle{
-    margin-bottom:10px;
     color:rgb(144, 5, 5);
-
   }
   .btn-pill{
     color:rgb(144, 5, 5);
     background-color: rgb(255, 222, 222);
+    margin-inline-start: rem;
     border-color:rgb(144, 5, 5);
   }
+  
 }
-
 @media only screen and (max-width: 767px) {
   .card-body {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    img {
+      margin-right:1rem;
+      width: 70px;
+      height: 70px;
+    }
   }
   .card-container {
     padding: 0px;
     margin-top: 25px;
   }
   .card-price {
-    font-size: 2.8rem !important;
+    font-size: 0.8rem !important;
+  }
+
+  .card-content {
+    text-align: left;
+    padding: 1px;
+    h5 {
+      margin-left:-6rem;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 13px;
+      line-height: 1rem;
+    }
+    h6 {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 12px;
+      line-height: 1rem;
+    }
+    p {
+      line-height: 1rem;
+      font-size: 11px;
+      color: #2b2b2b;
+      padding: 1px;
+      margin-top: 7px;
+    }
+    .subtitle{
+      margin-left:-6rem;
+      margin-bottom:2rem;
+      color:rgb(144, 5, 5);
+    }
+    .btn-pill{
+      color:rgb(144, 5, 5);
+      background-color: rgb(255, 222, 222);
+      font-size: .9rem;
+
+      max-height: 2rem;
+      margin-top:-2rem;
+      border-color:rgb(144, 5, 5);
+    }
+  }
+}
+
+@media only screen and (max-width: 370px) {
+  .card-body {
+    display: flex;
+    flex-direction: row;
+    img {
+      width: 70px;
+      height: 70px;
+    }
+  }
+  .card-container {
+    padding: 0px;
+    margin-top: 25px;
+  }
+  .card-price {
+    font-size: 0.7rem !important;
+  }
+  
+
+  .card-content {
+    text-align: left;
+    padding: 0px;
+    h5 {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 12px;
+      line-height: 1rem;
+    }
+    h6 {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 11px;
+      line-height: 1rem;
+    }
+    p {
+      line-height: 1rem;
+      font-size: 10px;
+      color: #2b2b2b;
+      padding: 0px;
+      margin-top: 7px;
+    }
+    .btn-pill{
+      color:rgb(144, 5, 5);
+      background-color: rgb(255, 222, 222);
+      border-color:rgb(144, 5, 5);
+    }
+    
+    
   }
 }
 
