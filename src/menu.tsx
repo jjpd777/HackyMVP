@@ -43,7 +43,7 @@ export const menuItemsMock = [
   },
   {
     sitetab: 'Promociones',
-    id: 5,
+    id: 555,
     category: 'Canastas Navideñas',
     name: 'Tabla grande + 1 botella',
     description: 'Quadrantini, Lindott, Merrells y más delicadesas',
@@ -53,7 +53,7 @@ export const menuItemsMock = [
   },
   {
     sitetab: 'Promociones',
-    id: 6,
+    id: 655,
     category: 'Canastas Navideñas',
     name: 'Bandeja + 1 botella',
     description: 'Quadrantini, Lindott, Merrells y más delicadesas',
@@ -63,7 +63,7 @@ export const menuItemsMock = [
   },
   {
     sitetab: 'Promociones',
-    id: 7,
+    id: 755,
     category: 'Canastas Navideñas',
     name: 'Tabla grande + 1 botella',
     description: 'Quadrantini, Lindott, Merrells y más delicadesas',
@@ -73,7 +73,7 @@ export const menuItemsMock = [
   },
   {
     sitetab: 'Promociones',
-    id: 8,
+    id: 855,
     category: 'Canastas Navideñas',
     name: 'Bandeja + 1 botella',
     description: 'Quadrantini, Lindott, Merrells y más delicadesas',
@@ -83,7 +83,7 @@ export const menuItemsMock = [
   },
   {
     sitetab: 'Promociones',
-    id: 9,
+    id: 955,
     category: 'Canastas Navideñas',
     name: 'Tabla grande + 1 botella',
     description: 'Quadrantini, Lindott, Merrells y más delicadesas',
@@ -93,7 +93,7 @@ export const menuItemsMock = [
   },
   {
     sitetab: 'Promociones',
-    id: 10,
+    id: 1055,
     category: 'Canastas Navideñas',
     name: 'Bandeja + 1 botella',
     description: 'Quadrantini, Lindott, Merrells y más delicadesas',
