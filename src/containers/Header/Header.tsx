@@ -54,7 +54,7 @@ function Header(props: HeaderProps) {
   // let service= ['Ciudad de Guatemala','Sacatepéquez', 'Chimaltenango', 'Escuintla', 'Jalapa', 'Quetzaltenango', 'San Marcos', 'Izabal', 'Petén','El Progreso', 'Chiquimula', 'Quiché', 'Suchitepequez','Santa Rosa', 'Alta y Baja Verapaz','Retalhuleu', 'Totonicapán', 'Sololá']
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [activeButton, setActive] = useState(true)
+  const [activeButton, setActive] = useState(false)
 
 
   return (
@@ -69,6 +69,17 @@ function Header(props: HeaderProps) {
         <FontAwesomeIcon icon={faShoppingBasket} />{' También en '} {restDetails["otherApps"].map((zones) => zones)}
       </p>
       <div className="mini-nav">
+        <Button className="two"
+          outline theme="danger"
+          active={!activeButton}
+          onClick={() => {
+            props.setSiteTab(PREMIUM)
+            setActive(false);
+
+          }
+          }>
+          Vinos exclusivos
+        </Button>
         <Button className="one"
           outline theme="danger"
           active={activeButton}
@@ -78,17 +89,6 @@ function Header(props: HeaderProps) {
           }
           }>
           Promociones
-        </Button>
-        <Button className="two"
-          outline theme="danger"
-          active={!activeButton}
-          onClick={() => {
-            props.setSiteTab("Vinos Premium")
-            setActive(false);
-
-          }
-          }>
-          Vinos exclusivos
         </Button>
       </div>
     </div>

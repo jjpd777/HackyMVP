@@ -26,7 +26,7 @@ function App() {
   const [seeMenu, setSeeMenu] = useState(true);
   const [storePhone, setStorePhone] = useState("");
   const [storeDep, setStoreDep] = useState("");
-  const [siteTab, setSiteTab] = useState("Promociones")
+  const [siteTab, setSiteTab] = useState("Vinos Premium")
   const [otherList, setOther] = useState<MenuItem[]>();
 
   useEffect(() => {
