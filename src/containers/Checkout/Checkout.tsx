@@ -113,7 +113,7 @@ function Checkout(props: CheckoutProps) {
       "pedido": order,
     }
     console.log(newRow)
-    var url = 'https://sheet2api.com/v1/WExfuaSVRrOs/ventaslalloronagt/ventas-granjero';
+    var url = 'https://sheet2api.com/v1/WExfuaSVRrOs/ventaslalloronagt/ventas-corchos';
     fetch(url, {
       method: 'POST',
       headers: {
@@ -129,13 +129,12 @@ function Checkout(props: CheckoutProps) {
       console.error('Error:', error);
     });
   }
-  const callme = () => props.storePhone;
   const letsCheckout = (checkName,checkAddress,thisphone,payment) =>{
     if(!checkName || !checkAddress || !thisphone) return
     const getPayment = payment ? 'efectivo' : 'tarjeta';
 
     let baseURL = "https://wa.me/50251049829"+props.storePhone+"?text=";
-    let textBody="Hola Marco Solís de Corchos!%0A%0AMi nombre es *" +String(checkName)+"* y me interesa hacer un pedido a *"+String(checkAddress)+"*" + ".%0A%0AMi pedido es el siguiente:%0A";
+    let textBody="Hola Corchos!%0A%0AMi nombre es *" +String(checkName)+"* y me interesa hacer un pedido a *"+String(checkAddress)+"*" + ".%0A%0AMi pedido es el siguiente:%0A";
     let finalpart = "*Total*%20Qtz.%20" +String(props.totalCartValue)+ "%0A%0AMi pago será en *"+getPayment+"*, y mi número telefónico es *"+ thisphone+ "*.%0A%0AMuchas gracias de antemano%21"
 
     cart.forEach((cartItem) => {
