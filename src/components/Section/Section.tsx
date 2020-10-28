@@ -10,7 +10,7 @@ import {
 import { Card, CardBody, CardTitle, CardSubtitle } from 'shards-react';
 import { Collapse } from 'shards-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDoubleDown, faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDoubleDown, faAngleDoubleUp } from '@fortawesome/free-solid-svg-icons';
 import { CartItem } from '../../App';
 import { groupBy } from 'lodash';
 import { MenuItem } from '../../containers/Menu/Menu';
@@ -21,18 +21,19 @@ interface SectionProps {
   menuItems: MenuItem[];
   cart: CartItem[];
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
+  hrefsolution: string;
 }
 
 function Section(props: SectionProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   return (
+    <a id={props.hrefsolution}>
     <div className="section-container">
       <div className="section-header">
-        
         <div onClick={() => setIsOpen(!isOpen)}>
           <h5>{props.title}{' '}
-          {!isOpen && <FontAwesomeIcon icon={faAngleDoubleDown} />}{' '}
-          {isOpen && <FontAwesomeIcon icon={faArrowUp} />}
+          {!isOpen && <FontAwesomeIcon icon={faAngleDoubleDown} />}
+          {isOpen && <FontAwesomeIcon icon={faAngleDoubleUp} />}
           </h5>
         </div>
       </div>
@@ -52,6 +53,7 @@ function Section(props: SectionProps) {
       </Collapse>
       <hr />
     </div>
+    </a>
   );
 }
 

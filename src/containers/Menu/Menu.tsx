@@ -28,7 +28,7 @@ interface MenuProps {
   cart: CartItem[];
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
 
-  siteTab:String;
+  siteTab: String;
 }
 
 interface CategoryOpenState {
@@ -59,17 +59,31 @@ function Menu(props: MenuProps) {
     setMenuList(filtered);
   }, [siteTab]);
 
-  const clearSearch = () => {
-    setSearchQuery('');
-  };
   const sections: JSX.Element[] = [];
+  let ptr = 0;
   Object.entries(categories).map(([key, value], index) => {
+    const hreftag = key.split(" ");
+    let tmp = "";
+    if (hreftag[1] === "Paula") {
+      tmp = "Doña-Paula";
+    } else if (hreftag[0] === "Altos") {
+      tmp = "Altos-Las-Hormigas";
+    } else if (hreftag[0] === "Oveja") {
+      tmp = "Oveja-Negra";
+    } else if (hreftag[1] == "Insignia") {
+      tmp = "Carmen";
+    } else {
+      ptr++;
+      tmp = "lool"+String(ptr);
+    } 
+    console.log(tmp)
     sections.push(
       <Section
         title={key}
         menuItems={value}
         cart={cart}
         setCartItems={setCartItems}
+        hrefsolution={tmp}
       ></Section>
     );
   });
