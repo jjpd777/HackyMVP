@@ -89,7 +89,7 @@ function App() {
             className="checkout-button"
             block
           >
-            Revisar la lista y enviar 
+            Revisar la lista para enviar
           </Button>
         </div>
       )) ||

@@ -87,6 +87,7 @@ function Checkout(props: CheckoutProps) {
       "localidad": locations[locindex],
       "Notas adicionales": name,
       "Orden" : order,
+      "hora" : time,
     }
     console.log(newRow)
     var url = 'https://sheet2api.com/v1/WExfuaSVRrOs/ventaslalloronagt/inventario-borgona';
@@ -195,6 +196,8 @@ function Checkout(props: CheckoutProps) {
             <h5>Notas adicionales:</h5>
             <FormInput
               className="input"
+              type="text"
+              size="lg"
               placeholder="Escribir notas"
               value={name}
               onChange={(e) => {
