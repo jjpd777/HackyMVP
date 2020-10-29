@@ -6,7 +6,7 @@ export const menuItemsMock = [
     description: '',
     price: 8.0,
     brief:'(2 filas)',
-    image: '',
+    image: 'https://www.sanmartinbakery.com/wp-content/uploads/products/aloha/FRANCES-GRANDE-3.jpg',
   },
   {
     id: 2,
@@ -14,8 +14,17 @@ export const menuItemsMock = [
     name: 'Pan de agua',
     description: '',
     price: 10.0,
-    brief:'(normal e integral 12 unidades)',
-    image: '',
+    brief:'(normal 12 unidades)',
+    image: 'https://instagram.fgua5-1.fna.fbcdn.net/v/t51.2885-15/e35/122897585_382563733126640_6013050785387297181_n.jpg?_nc_ht=instagram.fgua5-1.fna.fbcdn.net&_nc_cat=108&_nc_ohc=Dqo8ja8v5UYAX8q0pzB&se=8&tp=18&oh=038ba87766090ff31b225be5236ce519&oe=5FC43BEE',
+  },
+  {
+    id: 299999,
+    category: 'Pan Blanco e Integrales',
+    name: 'Pan de agua integral',
+    description: '',
+    price: 10.0,
+    brief:'(integral 12 unidades)',
+    image: 'https://instagram.fgua5-1.fna.fbcdn.net/v/t51.2885-15/sh0.08/e35/s750x750/122737349_756024191922075_1932255277576385932_n.jpg?_nc_ht=instagram.fgua5-1.fna.fbcdn.net&_nc_cat=103&_nc_ohc=oXbjSnWKQfYAX_Zoie-&_nc_tp=24&oh=6b51f96ef110200c8c22102bc1db444c&oe=5FC33CF1',
   },
   {
     id: 3,
@@ -24,7 +33,7 @@ export const menuItemsMock = [
     description: '',
     price: 10.0,
     brief:'(2 filas)',
-    image: 'https://instagram.fgua5-1.fna.fbcdn.net/v/t51.2885-15/e35/s1080x1080/67136098_2450641661721738_2293550835953114707_n.jpg?_nc_ht=instagram.fgua5-1.fna.fbcdn.net&_nc_cat=106&_nc_ohc=qCyDpyTAlzIAX9-zMIy&_nc_tp=15&oh=57af296c251713b89bba13c30974eedc&oe=5FB58FFB',
+    image: 'https://instagram.fgua5-1.fna.fbcdn.net/v/t51.2885-15/e35/122958111_1107812036307452_5518906902433491330_n.jpg?_nc_ht=instagram.fgua5-1.fna.fbcdn.net&_nc_cat=108&_nc_ohc=LL6jceI4M_0AX8Psa6L&se=8&tp=18&oh=0c2e6947c57d32e2c5e016be62178329&oe=5FC357A1',
   },
   {
     id: 4,
@@ -69,7 +78,7 @@ export const menuItemsMock = [
     description: '',
     price: 10.0,
     brief:'(10 unidades)',
-    image: '',
+    image: 'https://instagram.fgua5-1.fna.fbcdn.net/v/t51.2885-15/e35/s1080x1080/67120342_136252320906928_8356830644192549550_n.jpg?_nc_ht=instagram.fgua5-1.fna.fbcdn.net&_nc_cat=104&_nc_ohc=9mPKtOsNWEAAX8XjxL4&_nc_tp=15&oh=18b24a814f7b07c6835b08e27098c371&oe=5FC4CB4B',
   },
   {
     id: 9,
@@ -96,7 +105,7 @@ export const menuItemsMock = [
     description: '',
     price: 10.0,
     brief:'(12 unidades)',
-    image: '',
+    image: 'https://instagram.fgua5-1.fna.fbcdn.net/v/t51.2885-15/e35/123122847_3475405432575543_3588954316369423123_n.jpg?_nc_ht=instagram.fgua5-1.fna.fbcdn.net&_nc_cat=103&_nc_ohc=IGHzBx2HKpIAX9wxVVn&se=8&tp=18&oh=475c89c9a9adbd64f2eebe2737f472fd&oe=5FC5A388',
   },
   {
     id: 12,
@@ -105,7 +114,7 @@ export const menuItemsMock = [
     description: '',
     price: 10.0,
     brief:'(10 unidades)',
-    image: '',
+    image: 'https://instagram.fgua5-1.fna.fbcdn.net/v/t51.2885-15/e35/122919474_137094821479146_4652973719137073091_n.jpg?_nc_ht=instagram.fgua5-1.fna.fbcdn.net&_nc_cat=106&_nc_ohc=XGnDAPONuHAAX_wv73E&se=8&tp=18&oh=9d24be936135e35fe5048cda4a250a47&oe=5FC3DF48',
   },
   {
     id: 13,
@@ -114,7 +123,7 @@ export const menuItemsMock = [
     description: '',
     price: 19.0,
     brief:'(10 unidades)',
-    image: '',
+    image: 'https://instagram.fgua5-1.fna.fbcdn.net/v/t51.2885-15/e35/123199681_363887865045257_2610176332535770976_n.jpg?_nc_ht=instagram.fgua5-1.fna.fbcdn.net&_nc_cat=105&_nc_ohc=a4dJXyXX83AAX_wTduS&se=8&tp=18&oh=bb5ae8a874ba18d32571390b377c301c&oe=5FC5E6BD',
   },
   {
     id: 14,
@@ -123,7 +132,7 @@ export const menuItemsMock = [
     description: '',
     price: 19.0,
     brief:'(10 unidades)',
-    image: '',
+    image: 'https://instagram.fgua5-1.fna.fbcdn.net/v/t51.2885-15/e35/122887850_655700265098763_6678235616626306997_n.jpg?_nc_ht=instagram.fgua5-1.fna.fbcdn.net&_nc_cat=103&_nc_ohc=5SzJGg1tubQAX-6cwI4&se=8&tp=18&oh=b032e3b74ed0bb634678f7ac46a5946d&oe=5FC28AC1',
   },
   {
     id: 15,
@@ -132,7 +141,7 @@ export const menuItemsMock = [
     description: 'Pan tostado orginario de Cobán con mantequilla y leche',
     price: 10.0,
     brief:'(10 unidades)',
-    image: '',
+    image: 'https://instagram.fgua5-1.fna.fbcdn.net/v/t51.2885-15/e35/s1080x1080/67177422_164385721358176_7017772622394623951_n.jpg?_nc_ht=instagram.fgua5-1.fna.fbcdn.net&_nc_cat=104&_nc_ohc=gQwVbdMTIdwAX97aDQI&_nc_tp=15&oh=cd4ab2a5197ef841c168218b098bd302&oe=5FC5E6DE',
   },
   {
     id: 16,
@@ -150,7 +159,7 @@ export const menuItemsMock = [
     description: 'Galleta de mantequilla típica de Tecpán',
     price: 15.0,
     brief:'(5 unidades)',
-    image: '',
+    image: 'https://instagram.fgua5-1.fna.fbcdn.net/v/t51.2885-15/e35/122823449_406069753730235_6827299457048160349_n.jpg?_nc_ht=instagram.fgua5-1.fna.fbcdn.net&_nc_cat=103&_nc_ohc=ma1SBShOTIEAX_Eq8VF&se=8&tp=18&oh=9ed5e2de40290aad6f1444ae771cf875&oe=5FC57624',
   },
   {
     id: 18,
@@ -159,7 +168,7 @@ export const menuItemsMock = [
     description: 'Glazeadas con queso crema Philadelphia',
     price: 15.0,
     brief:'(6 unidades)',
-    image: '',
+    image: 'https://instagram.fgua5-1.fna.fbcdn.net/v/t51.2885-15/e35/123142695_396749634837390_3016125991918883669_n.jpg?_nc_ht=instagram.fgua5-1.fna.fbcdn.net&_nc_cat=106&_nc_ohc=WuUsS0n1FpMAX80u8MH&se=8&tp=18&oh=25e668a9c28a8417e6a9efeda9911892&oe=5FC44145',
   },
   {
     id: 19,
@@ -168,7 +177,7 @@ export const menuItemsMock = [
     description: '',
     price: 20.0,
     brief:'(9 unidades)',
-    image: '',
+    image: 'https://instagram.fgua5-1.fna.fbcdn.net/v/t51.2885-15/e35/s1080x1080/104761168_930675927357299_3470932010434351782_n.jpg?_nc_ht=instagram.fgua5-1.fna.fbcdn.net&_nc_cat=111&_nc_ohc=UO3eT_vHuHgAX_6Vrei&_nc_tp=15&oh=e5ca7d7d59f928181f8bc39473a4c053&oe=5FC5F415',
   },
   {
     id: 20,
@@ -177,7 +186,7 @@ export const menuItemsMock = [
     description: '',
     price: 10.0,
     brief:'(5 unidades)',
-    image: '',
+    image: 'https://instagram.fgua5-1.fna.fbcdn.net/v/t51.2885-15/e35/122756602_187668196200210_1728590487473108996_n.jpg?_nc_ht=instagram.fgua5-1.fna.fbcdn.net&_nc_cat=106&_nc_ohc=pshjLrxPfREAX8nMl0Q&se=8&tp=18&oh=524723b23001ecf002ba703477a4c5fe&oe=5FC3CD0C',
   },
   {
     id: 21,
@@ -186,7 +195,7 @@ export const menuItemsMock = [
     description: '',
     price: 30.0,
     brief:'',
-    image: '',
+    image: 'https://instagram.fgua5-1.fna.fbcdn.net/v/t51.2885-15/e35/122808451_188250496118302_3016065834313842507_n.jpg?_nc_ht=instagram.fgua5-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=RFfy1IcxgdAAX9D60ox&se=8&tp=18&oh=672c1cbd8e99b6f42196dfbe0b7948f4&oe=5FC3A29A',
   },
   {
     id: 22,
@@ -195,7 +204,7 @@ export const menuItemsMock = [
     description: 'De queso crema Philadephia',
     price: 35.0,
     brief:'',
-    image: '',
+    image: 'https://instagram.fgua5-1.fna.fbcdn.net/v/t51.2885-15/e35/122786723_632022887492830_2472214549086411763_n.jpg?_nc_ht=instagram.fgua5-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=QxbtnOqto-4AX-OF-nJ&se=8&tp=18&oh=c63b2390438745527b05ccce102c4cad&oe=5FC35ECE',
   },
   {
     id: 23,
@@ -213,7 +222,7 @@ export const menuItemsMock = [
     description: '100% arroz',
     price: 25.0,
     brief:'(2 maquetas)',
-    image: '',
+    image: 'https://instagram.fgua5-1.fna.fbcdn.net/v/t51.2885-15/e35/123035655_110820160728643_5499812524492466418_n.jpg?_nc_ht=instagram.fgua5-1.fna.fbcdn.net&_nc_cat=107&_nc_ohc=INbfzwBIylgAX_7FAMI&se=8&tp=18&oh=3e4061332ed9fe61c4d885a2b4bad430&oe=5FC3870B',
   },
   {
     id: 25,
@@ -222,7 +231,7 @@ export const menuItemsMock = [
     description: 'Triple chocolate, imperdibles.',
     price: 45.0,
     brief:'(5 unidades)',
-    image: '',
+    image: 'https://instagram.fgua5-1.fna.fbcdn.net/v/t51.2885-15/e35/122816046_134783827982415_1073906671780549721_n.jpg?_nc_ht=instagram.fgua5-1.fna.fbcdn.net&_nc_cat=103&_nc_ohc=E3Y_Xb-UknkAX9O74K5&se=8&tp=18&oh=36626f2070a61422392f72423ef0de82&oe=5FC50740',
   },
   {
     id: 26,
@@ -231,7 +240,7 @@ export const menuItemsMock = [
     description: '',
     price: 50.0,
     brief:'(5 unidades)',
-    image: '',
+    image: 'https://instagram.fgua5-1.fna.fbcdn.net/v/t51.2885-15/e35/122816046_134783827982415_1073906671780549721_n.jpg?_nc_ht=instagram.fgua5-1.fna.fbcdn.net&_nc_cat=103&_nc_ohc=E3Y_Xb-UknkAX9O74K5&se=8&tp=18&oh=36626f2070a61422392f72423ef0de82&oe=5FC50740',
   },
   {
     id: 27,
@@ -311,7 +320,7 @@ export const menuItemsMock = [
     name: 'Miel del Panal', 
     description: '',
     price: 55.0,
-    brief:'',
+    brief:'Miel 100% pura',
     image: '',
   },
   {
