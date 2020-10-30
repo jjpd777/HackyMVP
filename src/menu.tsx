@@ -1,6 +1,24 @@
 export const menuItemsMock = [
   {
     id: 1,
+    category: 'Productos de Temporada',
+    name: 'Pan de muerto',
+    description: 'Tradición de fin de año',
+    price: 8.0,
+    brief:'Delicioso e imperdible!',
+    image: 'https://instagram.fgua5-1.fna.fbcdn.net/v/t51.2885-15/fr/e15/s1080x1080/121090824_402108974521796_6846792554006642583_n.jpg?_nc_ht=instagram.fgua5-1.fna.fbcdn.net&_nc_cat=108&_nc_ohc=mqAco12L0AoAX9SFJz9&oh=c65f5f470897118b7647f6eda6d6bb16&oe=5FC380AB',
+  },
+  {
+    id: 19999999,
+    category: 'Productos de Temporada',
+    name: 'Pumpkin Pie',
+    description: '',
+    price: 8.0,
+    brief:'Disponibilidad limitada',
+    image: 'https://instagram.fgua5-1.fna.fbcdn.net/v/t51.2885-15/sh0.08/e35/s640x640/121533131_1436612843395801_3471279827676670294_n.jpg?_nc_ht=instagram.fgua5-1.fna.fbcdn.net&_nc_cat=101&_nc_ohc=7Ly3BYxV5yYAX8tjPxe&_nc_tp=24&oh=3d0fa89ddd7c223c644a4a15109fc1ac&oe=5FC3F1FE',
+  },
+  {
+    id: 11113,
     category: 'Pan Blanco e Integrales',
     name: 'Frances 2 pack',
     description: '',

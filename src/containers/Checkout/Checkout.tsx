@@ -30,8 +30,8 @@ function Checkout(props: CheckoutProps) {
   const [name, setName] = useState();
   const [address, setAddress] = useState();
   const [phone, setPhone] = useState();
-
-  const [payMethod, setPayment] = useState(true)
+  const [entrance,setEntrance]= useState("");
+  const [payMethod, setPayment] = useState(true);
   const minPaymentAmount = props.totalCartValue > 49;
   function getFormattedDate() {
     var date = new Date();
@@ -106,6 +106,8 @@ function Checkout(props: CheckoutProps) {
     if (!checkName || !checkAddress || !thisphone || !minPaymentAmount) return
     const getPayment = payment ? 'efectivo' : 'tarjeta';
 
+
+
     let baseURL = "https://wa.me/50254664602?text=";
     let textBody = "Hola La Borgoña!%0A%0AMi nombre es *" + String(checkName) + "* y me interesa hacer un pedido a *" + String(checkAddress) + "*" + ".%0A%0AMi pedido es el siguiente:%0A";
     let finalpart = "*Total*%20Qtz.%20" + String(props.totalCartValue) + "%0A%0AMi número de contacto es: " + String(thisphone) + "%0A%0AQuiero por favor pagar en *" + getPayment + "*.%0A%0AMuchas gracias de antemano%21"
@@ -118,6 +120,9 @@ function Checkout(props: CheckoutProps) {
         }
       });
     });
+    if(entrance!==""){
+      textBody= textBody + "%0A%0APara entrar a la garita:%20"+"*"+entrance+"*"
+    }
     textBody = craftString(textBody);
     var purchase = baseURL + textBody + "%0A" + finalpart;
 
@@ -152,9 +157,12 @@ function Checkout(props: CheckoutProps) {
         {!minPaymentAmount && (<Button className="pillyboy" disabled="true" theme="danger"><b>ATENCIÓN:</b> El pedido mínimo es de Qtz. 50</Button>)}
       </div>
       <br />
+      <br></br>
+      <br></br>
 
       {minPaymentAmount && (
         <div>
+          <b><p>Método de pago:</p></b>
           <FormRadio
             inline
             name="cash"
@@ -189,6 +197,15 @@ function Checkout(props: CheckoutProps) {
               placeholder="Dirección del domicilio"
               onChange={(e) => {
                 setAddress(e.target.value);
+              }}
+            />
+            <br></br>
+            <p>Detalle para entrar a la garita:</p>
+            <FormTextarea
+              className="input"
+              placeholder="(no es requerido)"
+              onChange={(e) => {
+                setEntrance(e.target.value);
               }}
             />
             <FormTextarea
