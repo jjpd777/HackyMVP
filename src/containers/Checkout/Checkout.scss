@@ -12,8 +12,11 @@
   }
 
   .button-secondary {
-    border-color: #011627;
+    border-color: #ff0101;
+    background-color:hsl(52, 100%, 50%);
     color: #011627;
+    color: #ff0101;
+    font-weight:800;
     width:100%;
   }
   .button-secondary:hover {

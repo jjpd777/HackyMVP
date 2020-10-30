@@ -1,10 +1,13 @@
 .App {
   text-align: center;
+  margin-top:1rem;
+  margin-bottom:1rem;
+
 }
 
 .App-header {
   padding-bottom: 1.5625rem;
-  background-color: #f7f7ff;
+  background-color:hsl(52, 100%, 50%);
   min-height: 20vh;
   display: flex;
   flex-direction: column;
@@ -16,7 +19,7 @@
 
   img {
     margin: 2rem 1.3rem 1rem 1.3rem;
-    width: 10rem;
+    width: 15rem;
   }
 
 }
@@ -24,7 +27,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color:hsl(52, 100%, 50%);
   img{
+    margin-top:1rem;
     justify-content: center;
     width: 100%;
     // margin-right:2rem 6rem 1rem 4rem;
@@ -32,6 +37,7 @@
 }
 .App-link {
   color: #61dafb;
+  
 }
 
 .fixed-checkout {
@@ -54,7 +60,7 @@
   }
 }
 .App-footer{
-  background-color: #f7f7ff;
+  background-color:hsl(52, 100%, 50%);
   max-height: 20vh;
   margin-top: 500px;
   padding: 1rem;

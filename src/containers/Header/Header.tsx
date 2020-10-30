@@ -37,7 +37,7 @@ function Header(props: HeaderProps){
   const restDetails = 
   {
     "id": 1,
-    "srcImage":"https://scontent.fgua5-1.fna.fbcdn.net/v/t1.0-9/120343287_3309878435762107_5997515660017944691_n.png?_nc_cat=1&_nc_sid=09cbfe&_nc_ohc=nZR8L1CgkJkAX8SjgId&_nc_ht=scontent.fgua5-1.fna&oh=df247ddbb7b331e79ca3a1b972b6a518&oe=5FABC0D3",
+    "srcImage":"https://scontent.fgua5-1.fna.fbcdn.net/v/t1.0-9/88347116_1255330151323389_7782638975537119232_o.jpg?_nc_cat=102&ccb=2&_nc_sid=09cbfe&_nc_ohc=4sUxaGW2tsUAX-2vJWG&_nc_ht=scontent.fgua5-1.fna&oh=51dba7bdad8a4273815ba14f7f9aeb47&oe=5FC0D712",
     "atrestaurant": ' @PolloGranjeroGuatemala',
     "instaURL": 'https://www.facebook.com/PolloGranjeroGuatemala/',
     "tagline": '¡Recién hecho y crujiente!',
@@ -48,24 +48,26 @@ function Header(props: HeaderProps){
     "payments": 'Pagos solo en efectivo'
   };
   // let service= ['Ciudad de Guatemala','Sacatepéquez', 'Chimaltenango', 'Escuintla', 'Jalapa', 'Quetzaltenango', 'San Marcos', 'Izabal', 'Petén','El Progreso', 'Chiquimula', 'Quiché', 'Suchitepequez','Santa Rosa', 'Alta y Baja Verapaz','Retalhuleu', 'Totonicapán', 'Sololá']
-  let service= ['Ciudad de Guatemala','Mixco','Ciudad periferia']
+  let service= ['Demostración Grupo Pinulito','Ciudad de Guatemala','Mixco','Ciudad periferia']
 
   const department ={
-    "Mixco" : [["6a Avenida 08-24 z.1 Mixco","56287983"],["calz. San Juan 14-06 z.3 Mixco","56287819"],["23 Avenida 11-55, z.4 Mixco","56286877"],["Colonia El Naranjo C.C. Arboreto San Nicolás","56286877"]],
-    "Ciudad de Guatemala" : [["1a Avenida 9-45, zona 1","41048525"],["San Raymundo, zona 1","42399603"],["Avenida Bolívar 39-20 zona 3","56253736"],["27 calle 20-25, zona 5","56253738"]],
-    "Ciudad periferia" : [["1a. Calle 1-48, z.3 Boca del Monte","33670383"],["4a Calle 04-36, z.1 Villa Nueva","52762959"],["Centro Comercial Plaza Express San Miguel, Petapa", "50131632"]]
+    "Demostración Grupo Pinulito":[["Mensaje para Boris H.","30056537"]],
+    "Mixco" : [["Santa Rita","30128315"],["Zona 2 de Mixco y alrededores","30240520"],["Florida","59091831"],["villas del Milagro","57624766"]],
+    "Ciudad de Guatemala" : [["Zona Central","59091831"],["La Cabaña","40059778"],["Zona 17 hasta Llano Largo","40059778"],["Zona 16","40059778"],["Colonia Atlántida Zona 18","40059778"],["La Barreda San Rafael","40059778"]],
+    "Ciudad periferia" : [["Jocotales","40729543"],["Zona 21","40323350"],["San Pedro Ayampuc", "32581424"]]
   }
   const [modalOpen, setModalOpen] = useState(false);
   const [modalOpen1, setModalOpen1] = useState(false);
   const [dep, setDep] = useState("");
   const [shop, setShop] = useState("");
+  const [hide,setHide]=useState(false);
 
 
   
 return (
   <div>
         <img src={restDetails["srcImage"]} />
-        {!isDisplaying &&
+        {!hide &&
         (<>
         <p>
           <FontAwesomeIcon icon={faClock} /> {' '} {restDetails["schedule"]}
@@ -92,6 +94,7 @@ return (
                   onClick={()=>{
                       setDep(zones);
                       props.setStoreDep(zones);
+                      setHide(true);
                     }} >
                   <FontAwesomeIcon icon={faMapPin}/> {' '} {zones}
                 </DropdownItem>
@@ -102,7 +105,7 @@ return (
         {dep!=="" &&(
           <>
           <Dropdown direction="down" open={modalOpen1} toggle={()=>setModalOpen1(!modalOpen1)} className="drop-down">
-          <DropdownToggle className ="dir" split><b>Locales</b></DropdownToggle>
+          <DropdownToggle className="dir" split><b>Locales</b></DropdownToggle>
             <DropdownMenu >
             {department[dep].map((locations)=>
               <DropdownItem 
@@ -116,7 +119,7 @@ return (
           </DropdownMenu>
          </Dropdown>
          <h5> 
-          <FontAwesomeIcon icon={faMapMarker}/> Pedir Granjero en {' '} <b>{dep}</b>
+          <FontAwesomeIcon icon={faMapMarker}/> Pedir Pinulito en {' '} <b>{dep}</b>
         </h5>
          {shop !=="" &&(
            <>
@@ -129,7 +132,6 @@ return (
           </>
         )   
           || null }
-
   </div>
   );
   

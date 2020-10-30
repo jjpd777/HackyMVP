@@ -57,7 +57,7 @@ function App() {
           <>
           <div className="App-image">
           {!seeMenu&&(
-            <img src="https://scontent.fgua5-1.fna.fbcdn.net/v/t1.0-9/120319394_3307503859332898_5997193339921423352_o.jpg?_nc_cat=102&_nc_sid=e3f864&_nc_ohc=-7siUk5HxToAX83JfAA&_nc_ht=scontent.fgua5-1.fna&oh=02db0d725d0183edafff0e252024693e&oe=5FAC7B6C"></img>
+            <img src="http://grupopinulito.com/wp-content/uploads/2019/09/Pinulito_espiritu_joven-300x300.jpg"></img>
           ) || null}   
           </div>
           {seeMenu && (<Menu
@@ -80,9 +80,6 @@ function App() {
           ></Checkout>
         )}
       </section>
-      <br />
-      <br></br>
-      <br></br>
       {(cart.length && currentPage === PageEnum.MENU && (
         <div className="fixed-checkout">
           <Button
@@ -97,9 +94,6 @@ function App() {
         </div>
       )) ||
         null}
-    </div>
-    <div className="App-footer" id="footer">                          
-      <h6><b>Pronto Software </b><FontAwesomeIcon icon={faQuidditch}/></h6>
     </div>
     </>
   );

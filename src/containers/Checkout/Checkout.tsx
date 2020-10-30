@@ -220,6 +220,16 @@ function Checkout(props: CheckoutProps) {
             >
               Efectivo
         </FormRadio>
+        <FormRadio className="payment"
+              inline
+              name="cash"
+              checked={!payMethod}
+              onChange={() => {
+                setPayment(false);
+              }}
+            >
+              Tarjeta
+        </FormRadio>
       </div>
       <br></br>
       <Button 

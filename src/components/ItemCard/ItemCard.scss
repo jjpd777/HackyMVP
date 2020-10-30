@@ -3,13 +3,15 @@
   box-shadow: #577399;
   border-radius: 4px;
   z-index: -1;
+  background-color:hsl(52, 100%, 50%);
+
 }
 .card-container {
   padding: 30px;
   .button {
     margin-top: -30px;
     z-index: 1;
-    background-color: #fe5f55;
+    background-color: #ff0101;
     border: none;
   }
 }
@@ -27,6 +29,7 @@
 .card-content {
   text-align: left;
   padding: 20px;
+  
   h5,
   h6 {
     padding: 3px;
@@ -44,6 +47,9 @@
   }
   .pill{
     class:"pill";
+    color:rgb(255, 255, 255);
+    background-color: #ff7300e8;
+
   }
 }
 
