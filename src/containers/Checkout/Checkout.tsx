@@ -38,7 +38,7 @@ function Checkout(props: CheckoutProps) {
   const [payMethod, setPayment] = useState(true)
   const [locindex, setLocation] = useState(0);
 
-  const locations = ["Plaza Gerona", "Plaza Comercia", "Plaza Novitá"];
+  const locations = ["Plaza Gerona", "Plaza Comercia", "Plaza Novitá","Condado Fraijanes","Plazoleta"];
   const minPaymentAmount = props.totalCartValue > 0;
   function getFormattedDate() {
     var date = new Date();
@@ -110,7 +110,7 @@ function Checkout(props: CheckoutProps) {
     // if (!checkName || !checkAddress || !thisphone || !minPaymentAmount) return
     const getPayment = payment ? 'efectivo' : 'tarjeta';
 
-    let baseURL = "https://wa.me/50254664602?text=";
+    let baseURL = "https://wa.me/50251740464?text=";
     let textBody = "Buenas noches de parte de *" + String(locations[locindex]) + "*. La lista de hoy es la siguiente:%0A%0A";
 
     cart.forEach((cartItem) => {
@@ -127,7 +127,7 @@ function Checkout(props: CheckoutProps) {
 
     return purchase;
   }
-
+//Condado Fraijanes Plazoleta
   return (
     <div className="checkout-container">
       <img src="https://scontent.fgua5-1.fna.fbcdn.net/v/t1.0-9/60454009_2403050509745003_1658534653943873536_o.png?_nc_cat=108&_nc_sid=85a577&_nc_ohc=E2i8isONLjYAX8WoHjo&_nc_ht=scontent.fgua5-1.fna&oh=aac791af829983b21b70abcdffb419e5&oe=5FB542FE" />
@@ -179,7 +179,7 @@ function Checkout(props: CheckoutProps) {
             }}
           >
             Plaza Comercia
-      </FormRadio>
+      </FormRadio> 
           <FormRadio
             className="this-card"
             name="card"
@@ -190,6 +190,28 @@ function Checkout(props: CheckoutProps) {
             }}
           >
             Plaza Novitá
+      </FormRadio>
+      <FormRadio
+            className="this-card"
+            name="card"
+            checked={locindex === 3}
+            onChange={() => {
+              setPayment(false);
+              setLocation(3);
+            }}
+          >
+            Condado Fraijanes
+      </FormRadio>
+      <FormRadio
+            className="this-card"
+            name="card"
+            checked={locindex === 4}
+            onChange={() => {
+              setPayment(false);
+              setLocation(4);
+            }}
+          >
+            Plazoleta
       </FormRadio>
       </div>
           <div className="shipping-info">
