@@ -45,7 +45,7 @@ function Header(props: HeaderProps){
     "schedule":'Domicilios a diario de 9:00AM a 5:00PM',
     "cellphones":["tel:+50241288133"],
     "otherApps":['hugo, glovo y ubereats'],
-    "payments": 'Pagos solo en efectivo'
+    "payments": 'Pagos en efectivo y tarjeta'
   };
   // let service= ['Ciudad de Guatemala','Sacatepéquez', 'Chimaltenango', 'Escuintla', 'Jalapa', 'Quetzaltenango', 'San Marcos', 'Izabal', 'Petén','El Progreso', 'Chiquimula', 'Quiché', 'Suchitepequez','Santa Rosa', 'Alta y Baja Verapaz','Retalhuleu', 'Totonicapán', 'Sololá']
   let service= ['Demostración Grupo Pinulito','Ciudad de Guatemala','Mixco','Ciudad periferia']
