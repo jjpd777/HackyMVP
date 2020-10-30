@@ -76,7 +76,7 @@ return (
           <FontAwesomeIcon icon={faShoppingBasket}/>{' También en '} {restDetails["otherApps"].map((zones)=> zones)}
         </p>
         <h6>
-          <FontAwesomeIcon icon={faHandshake} />{' '} {restDetails["payments"]} {' '} <b>mínimo Qtz. 40</b>
+          <FontAwesomeIcon icon={faHandshake} />{' '} {restDetails["payments"]} {' '}
         </h6>
         </>)|| null }
         {/* <p> 
