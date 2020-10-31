@@ -19,6 +19,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import TutorialDataService from "./services/DBservice";
+
 export interface CartItem {
   itemId: number;
   quantity: number;
@@ -37,6 +39,34 @@ function App() {
     setMenuItems(menuItemsMock);
   }, []);
 
+  const transcribe = () =>{
+    let ptr=0;
+    menuItemsMock.map((item)=>{
+      var data = {
+        id:0,
+        name: "",
+        availableUnits: 0,
+        price: 0,
+      };
+      // data.title=item.title,
+      data.id=ptr;
+      data.name=item.name;
+      data.availableUnits=0;
+      data.price=item.price;
+      ptr+=1;
+      TutorialDataService.create(data)
+      .then(() => {
+        // setSubmitted(true);
+        // console.log(data);
+        console.log(data)
+      })
+      .catch(e => {
+        console.log(e);
+      });
+    })
+    
+  }
+
 
   const getTotalCartValue = () => {
     let totalVal = 0;
@@ -52,7 +82,7 @@ function App() {
 
   return (
     <div className="App">
-      
+      <button onClick={()=>transcribe()}> PUT IT IN</button>
       <section className="container">
         {currentPage === PageEnum.MENU && (
           <>
