@@ -14,8 +14,17 @@ import {
   InputGroupAddon,
   FormInput,
 } from 'shards-react';
+
+import {
+  faArrowAltCircleLeft,
+  faCheckCircle,
+  faTrash
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import { CartItem } from '../../App';
 import { MenuItem } from '../../containers/Menu/Menu';
+import TutorialDataService from '../../services/DBservice'
 
 interface ItemCardProps {
   menuItem: MenuItem;
@@ -26,7 +35,21 @@ interface ItemCardProps {
 function ItemCard(props: ItemCardProps) {
   const { menuItem, cart, setCartItems } = props;
   const [modalOpen, setModalOpen] = useState(false);
+  const [currentEdit, setCurrentEdit] = useState();
 
+  const addToDB = (id) => {
+    const data = {
+      quantityavailable: currentEdit,
+    };
+
+    TutorialDataService.update(id, data)
+      .then(() => {
+        console.log("success")
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
   const addOneToCart = () => {
     if (cart.find((x) => x.itemId === menuItem.id)) {
       // Already exists in the cart, so just plus one
@@ -66,22 +89,51 @@ function ItemCard(props: ItemCardProps) {
 
   return (
     <div className="card-container">
-      <Card className="card">
-        <CardBody className="card-body">
-          {/* {menuItem.image !== "" && (<img width="150" src={menuItem.image} />)} */}
-          <div className="card-content">
-            <CardTitle>{menuItem.name}</CardTitle>
-            <CardSubtitle>{menuItem.brief}</CardSubtitle>
+      <table onClick={()=>setModalOpen(true)} className="table">
+        <td className="tableu">
+          {menuItem.name}{':  '}<b>{String(menuItem.quantityavailable)}</b>
+        </td>
+      </table>
+
+      <Modal
+        open={modalOpen}
+        toggle={() => {
+          setModalOpen(!modalOpen);
+          setCurrentEdit(menuItem.quantityavailable);
+        }}
+        centered={true}
+      >
+        <ModalHeader>{menuItem.name}</ModalHeader>
+        <ModalBody className="modal-body">
+          <div className="item-image">
+            <img src={menuItem.image} width="200" />
           </div>
-          <div className="card-price">
-            Unds (
-        {cart.find((x) => x.itemId === menuItem.id) ?.quantity || 0})
+          <div className="item-price">Cantidad en tienda: {' '}{menuItem.quantityavailable}</div>
+          <div className="add-cart">
+            <InputGroup className="plus-minus">
+              <FormInput
+                type="number"
+                placeholder={menuItem.quantityavailable}
+                value={currentEdit}
+                onChange={(e) => {
+                  setCurrentEdit(e.target.value);
+                  console.log(e.target.value);
+                }}
+              />
+            </InputGroup>
+            <br></br>
+            <Button pill inline className="cancel-btn" theme="danger" onClick={() => setModalOpen(modalOpen)}>
+            {'  '}<FontAwesomeIcon icon={faTrash}/>{'  '}
+            </Button>
+            <Button pill inline className="save-btn" theme="success" onClick={() => {
+              setModalOpen(!modalOpen);
+              addToDB(menuItem.id);
+            }}>
+              {'  '}<FontAwesomeIcon icon={faCheckCircle}/>{'  '}
+            </Button>
           </div>
-        </CardBody>
-      </Card>
-      <Button className="decrease" theme="danger" onClick={() => removeOneFromCart()}> - </Button>
-      <Button className="increase" theme="success" onClick={() => addOneToCart()}> + </Button>
-      
+        </ModalBody>
+      </Modal>
     </div>
   );
 }

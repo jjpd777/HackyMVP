@@ -3,23 +3,13 @@ import './App.scss';
 import Menu, { MenuItem } from './containers/Menu/Menu';
 import { Button } from 'shards-react';
 import Checkout from './containers/Checkout/Checkout';
-import { menuItemsMock } from './menu';
+import { menuItemsMock } from './cp-menut';
 import Header from './containers/Header/Header'
 
-import {
-  faLocationArrow,
-  faClock,
-  faMotorcycle,
-  faHandshake,
-  faPhone,
-  faCreditCard,
-  faMapPin,
-  faShoppingBasket,
-  faCamera,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 
 import TutorialDataService from "./services/DBservice";
+import {useList}  from "react-firebase-hooks/database";
 
 export interface CartItem {
   itemId: number;
@@ -33,38 +23,84 @@ function App() {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [cart, setCartItems] = useState<CartItem[]>([]);
   const [currentPage, setCurrentPage] = useState<PageEnum>(PageEnum.MENU);
+  const [tutorials, loading, error] = useList(TutorialDataService.getAll());
+  const [justSee, setJustSee] = useState(true);
 
   useEffect(() => {
-    // Call API to load the menu
-    setMenuItems(menuItemsMock);
-  }, []);
+    //   // Call API to load the menu
+    placeItems(tutorials)
+    //   setMenuItems(menuItemsMock);
+  }, [tutorials]);
 
-  const transcribe = () =>{
-    let ptr=0;
-    menuItemsMock.map((item)=>{
+  const placeItems = (dboject) => {
+    // THIS IS SO HACKY LOOOOOOL BY FAR THE MOST VULNERABLE PART OF THE APPLICATION
+    const obj = dboject.map((tutorial) => tutorial.val());
+    const uniqd = dboject.map((tutorial) => tutorial.key);
+    obj.map((item, ix) => item.id = uniqd[ix]);
+    setMenuItems(obj);
+  }
+
+  const getRows = () => {
+    console.log(typeof (tutorials))
+    let listed = [];
+    if (tutorials) {
+      tutorials.map((item) => {
+        const temp = item.val();
+        console.log(temp)
+        var data = {
+          id: 0,
+          category: "",
+          name: "",
+          brief: "",
+          quantityavailable: 0,
+          price: 0,
+          image: "",
+        };
+        // data.title=item.title,
+        data.id = temp.id;
+        data.name = temp.name;
+        data.category = temp.category;
+        data.brief = temp.brief;
+        data.quantityavailable = temp.quantityavailable;
+        data.price = temp.price;
+        data.image = temp.image;
+
+      })
+    }
+
+  }
+  const transcribe = () => {
+    let ptr = 0;
+    menuItemsMock.map((item) => {
       var data = {
-        id:0,
+        id: 0,
+        category: "",
         name: "",
-        availableUnits: 0,
+        brief: "",
+        quantityavailable: 0,
         price: 0,
+        image: "",
       };
       // data.title=item.title,
-      data.id=ptr;
-      data.name=item.name;
-      data.availableUnits=0;
-      data.price=item.price;
-      ptr+=1;
+      data.id = ptr;
+      data.name = item.name;
+      data.category = item.category;
+      data.brief = item.brief;
+      data.quantityavailable = 20;
+      data.price = item.price;
+      data.image = item.image;
+      ptr += 1;
       TutorialDataService.create(data)
-      .then(() => {
-        // setSubmitted(true);
-        // console.log(data);
-        console.log(data)
-      })
-      .catch(e => {
-        console.log(e);
-      });
+        .then(() => {
+          // setSubmitted(true);
+          // console.log(data);
+          console.log(data)
+        })
+        .catch(e => {
+          console.log(e);
+        });
     })
-    
+
   }
 
 
@@ -79,51 +115,76 @@ function App() {
     });
     return totalVal;
   };
+  const displayText = () => !justSee ? " modo editar" : " ver listados"
 
   return (
     <div className="App">
-      <button onClick={()=>transcribe()}> PUT IT IN</button>
-      <section className="container">
-        {currentPage === PageEnum.MENU && (
-          <>
-          <header className="App-header">
-            <Header/>
-          </header>
-          <Menu
-            menuItems={menuItems}
-            cart={cart}
-            setCartItems={setCartItems}
-          ></Menu>
-          </>
-        )}
-        {currentPage === PageEnum.CHECKOUT && (
-          <Checkout
-            menuItems={menuItems}
-            cart={cart}
-            totalCartValue={getTotalCartValue()}
-            onBack={() => {
-              setCurrentPage(PageEnum.MENU);
-            }}
-          ></Checkout>
-        )}
-      </section>
-      <br />
-      <br></br>
-      <br></br>
-      {(cart.length && currentPage === PageEnum.MENU && (
-        <div className="fixed-checkout">
-          <Button
-            onClick={() => {
-              setCurrentPage(PageEnum.CHECKOUT);
-            }}
-            className="checkout-button"
-            block
-          >
-            Revisar la lista para enviar
+      <header className="App-header">
+        <Header />
+      </header>
+      {/* {loading ? (
+        <>
+          <Button> Cargando...</Button>
+        </>) : 
+        (<Button className="navig" onClick={() => setJustSee(!justSee)}>Cambiar a {displayText()}</Button>)
+        } */}
+        {loading && (<Button className="navig"> Cargando...</Button>)}
+
+      {!loading && (
+        <>
+
+          {!justSee && (
+            <>
+              <h5>Producto : Cantidad</h5>
+              {menuItems.map((item) =>
+                <table className="table">
+                  <td className="tableu">
+                    {item.name}{':  '}<b>{String(item.quantityavailable)}</b>
+                  </td>
+                </table>
+              )}
+            </>
+          )}
+          <section className="container">
+            {(currentPage === PageEnum.MENU && justSee) && (
+              <>
+                <Menu
+                  menuItems={menuItems}
+                  cart={cart}
+                  setCartItems={setCartItems}
+                ></Menu>
+              </>
+            )}
+            {currentPage === PageEnum.CHECKOUT && (
+              <Checkout
+                menuItems={menuItems}
+                cart={cart}
+                totalCartValue={getTotalCartValue()}
+                onBack={() => {
+                  setCurrentPage(PageEnum.MENU);
+                }}
+              ></Checkout>
+            )}
+          </section>
+          <br />
+          <br></br>
+          <br></br>
+          {(cart.length && currentPage === PageEnum.MENU && (
+            <div className="fixed-checkout">
+              <Button
+                onClick={() => {
+                  setCurrentPage(PageEnum.CHECKOUT);
+                }}
+                className="checkout-button"
+                block
+              >
+                Revisar la lista para enviar
           </Button>
-        </div>
-      )) ||
-        null}
+            </div>
+          )) ||
+            null}
+        </>
+      )}
     </div>
   );
 }

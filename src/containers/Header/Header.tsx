@@ -33,7 +33,7 @@ function Header(){
 return (
   <div>
         <img src={restDetails["srcImage"]} />
-        <div className="tagline">Por favor complete el listado de inventario</div>
+        <div className="tagline">Inventario La Borgoña</div>
   </div>
   );
 }

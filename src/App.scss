@@ -1,7 +1,37 @@
 .App {
   text-align: center;
 }
+.navig{
+  margin-top:2rem;
+  margin-bottom: 3rem;
+}
+.table{
+  .tableu{
+    padding-top:1.5rem;
+    justify-self: right;
+    font-size:1.3rem;
+  }
+  .counter{
+    padding-top:1.5rem;
+    color: #3a9e42;
+    justify-self: center;
+    font-size:1.35em;
+  
+  
+  }
+}
+.tableu{
+  justify-self: center;
+  color: #0b0c0b;
+}
+.counter{
+  padding-top:1.5rem;
+  color: #3a9e42;
+  justify-self: center;
+  font-size:1.35em;
 
+
+}
 .App-header {
   padding-bottom: 1.5625rem;
   background-color: #f7f7ff;
