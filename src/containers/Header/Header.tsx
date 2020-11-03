@@ -48,13 +48,17 @@ function Header(props: HeaderProps){
     "payments": 'Pagos en efectivo y tarjeta'
   };
   // let service= ['Ciudad de Guatemala','Sacatepéquez', 'Chimaltenango', 'Escuintla', 'Jalapa', 'Quetzaltenango', 'San Marcos', 'Izabal', 'Petén','El Progreso', 'Chiquimula', 'Quiché', 'Suchitepequez','Santa Rosa', 'Alta y Baja Verapaz','Retalhuleu', 'Totonicapán', 'Sololá']
-  let service= ['Demostración Grupo Pinulito','Ciudad de Guatemala','Mixco','Ciudad periferia']
+  // let service= ['Demostración Grupo Pinulito','Ciudad de Guatemala','Mixco','Ciudad periferia']
+  let service= ["Carretera a El Salvador"]
 
+  // const department ={
+  //   "Demostración Grupo Pinulito":[["Mensaje para Boris H.","30056537"]],
+  //   "Mixco" : [["Santa Rita","30128315"],["Zona 2 de Mixco y alrededores","30240520"],["Florida","59091831"],["villas del Milagro","57624766"]],
+  //   "Ciudad de Guatemala" : [["Zona Central","59091831"],["La Cabaña","40059778"],["Zona 17 hasta Llano Largo","40059778"],["Zona 16","40059778"],["Colonia Atlántida Zona 18","40059778"],["La Barreda San Rafael","40059778"]],
+  //   "Ciudad periferia" : [["Jocotales","40729543"],["Zona 21","40323350"],["San Pedro Ayampuc", "32581424"]]
+  // }
   const department ={
-    "Demostración Grupo Pinulito":[["Mensaje para Boris H.","30056537"]],
-    "Mixco" : [["Santa Rita","30128315"],["Zona 2 de Mixco y alrededores","30240520"],["Florida","59091831"],["villas del Milagro","57624766"]],
-    "Ciudad de Guatemala" : [["Zona Central","59091831"],["La Cabaña","40059778"],["Zona 17 hasta Llano Largo","40059778"],["Zona 16","40059778"],["Colonia Atlántida Zona 18","40059778"],["La Barreda San Rafael","40059778"]],
-    "Ciudad periferia" : [["Jocotales","40729543"],["Zona 21","40323350"],["San Pedro Ayampuc", "32581424"]]
+    "Carretera a El Salvador":[["Plaza Guadalupe","57624659"],["Portal Solé","30043278"],["Don Justo 1","50522390"]],
   }
   const [modalOpen, setModalOpen] = useState(false);
   const [modalOpen1, setModalOpen1] = useState(false);
