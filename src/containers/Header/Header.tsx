@@ -22,8 +22,8 @@ function Header(){
     "atrestaurant": ' @panaderiaborgona',
     "instaURL": 'https://www.facebook.com/panaderiaborgona',
     "tagline": '',
-    "serviceZones": ['Toda la Capital, Carretera, Mixco y Villa Nueva'],
-    "schedule":'Delivery todos los días de 8:00AM a 8:00PM',
+    "serviceZones": ['Carretera El Salvador, zonas: 10,14,15,16'],
+    "schedule":'Delivery todos los días de 8:00AM a 5:00PM',
     "cellphones":["tel:+50254664602"],
     "otherApps":['hugo, ','glovo'],
     "payments": 'Efectivo, tarjeta'
@@ -37,6 +37,9 @@ return (
         </h6>
         <p>
           <FontAwesomeIcon icon={faClock} /> {' '} {restDetails["schedule"]}
+        </p>
+        <p>
+         <b> Servicio de entrega a:</b>
         </p>
         {restDetails["serviceZones"].map((zones)=>
           <p>

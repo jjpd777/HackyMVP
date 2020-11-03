@@ -32,12 +32,14 @@ function Checkout(props: CheckoutProps) {
   const [phone, setPhone] = useState();
   const [entrance,setEntrance]= useState("");
   const [payMethod, setPayment] = useState(true);
-  const minPaymentAmount = props.totalCartValue > 49;
+  const minPaymentAmount = props.totalCartValue > 59;
   function getFormattedDate() {
     var date = new Date();
     var str = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
     return str;
   }
+
+  const deliveryCost = () => minPaymentAmount ? 5 : 15;
   const getCartItems = () => {
     let cartItems: any[] = [];
     cart.forEach((cartItem) => {
@@ -64,7 +66,7 @@ function Checkout(props: CheckoutProps) {
   }
 
   const writeOrder = (checkName, checkAddress, thisphone, payment) => {
-    if (!checkName || !checkAddress || !thisphone || !minPaymentAmount) return
+    if (!checkName || !checkAddress || !thisphone ) return
     const getPayment = payment ? 'efectivo' : 'tarjeta';
     let order = "";
     cart.forEach((cartItem) => {
@@ -103,7 +105,7 @@ function Checkout(props: CheckoutProps) {
       });
   }
   const letsCheckout = (checkName, checkAddress, thisphone, payment) => {
-    if (!checkName || !checkAddress || !thisphone || !minPaymentAmount) return
+    if (!checkName || !checkAddress || !thisphone) return
     const getPayment = payment ? 'efectivo' : 'tarjeta';
 
 
@@ -146,21 +148,28 @@ function Checkout(props: CheckoutProps) {
           })}
 
           <ListGroupItem
+           style={{ fontWeight: 600 }}
+           className="list-item"
+           key={'deliv'}>
+            <div>Costo domicilio</div>
+            <div>Qtz. {deliveryCost()}</div>
+           </ListGroupItem>
+          <ListGroupItem
             style={{ fontWeight: 600 }}
             className="list-item"
             key={'total'}
           >
             <div>Total</div>
-            <div>Qtz. {props.totalCartValue}</div>
+            <div>Qtz. {props.totalCartValue + deliveryCost()}</div>
           </ListGroupItem>
         </ListGroup>
-        {!minPaymentAmount && (<Button className="pillyboy" disabled="true" theme="danger"><b>ATENCIÓN:</b> El pedido mínimo es de Qtz. 50</Button>)}
+        {/* {!minPaymentAmount && (<Button className="pillyboy" disabled="true" theme="danger"><b>ATENCIÓN:</b> Pedidos  de Qtz. 50</Button>)} */}
       </div>
       <br />
       <br></br>
       <br></br>
 
-      {minPaymentAmount && (
+      {true && (
         <div>
           <b><p>Método de pago:</p></b>
           <FormRadio
