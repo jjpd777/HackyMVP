@@ -23,7 +23,7 @@ function Header(){
     "instaURL": 'https://www.facebook.com/panaderiaborgona',
     "tagline": '',
     "serviceZones": ['Carretera El Salvador, zonas: 10,14,15,16'],
-    "schedule":'Delivery todos los días de 8:00AM a 5:00PM',
+    "schedule":'Lúnes a sábado de 8:00AM a 5:00PM',
     "cellphones":["tel:+50254664602"],
     "otherApps":['hugo, ','glovo'],
     "payments": 'Efectivo, tarjeta'
@@ -32,18 +32,17 @@ function Header(){
 return (
   <div>
         <img src={restDetails["srcImage"]} />
-        <h6>
-          La Borgoña
-        </h6>
         <p>
           <FontAwesomeIcon icon={faClock} /> {' '} {restDetails["schedule"]}
         </p>
         <p>
-         <b> Servicio de entrega a:</b>
+         <FontAwesomeIcon icon={faMotorcycle} /> Servicio de entrega a:
         </p>
+        <p>(entrega~<b> 45-60 min)</b></p>
+
         {restDetails["serviceZones"].map((zones)=>
           <p>
-            <FontAwesomeIcon icon={faMapPin} />{' '} {zones}
+            <b><FontAwesomeIcon icon={faMapPin} />{' '} {zones}</b>
           </p>
         )}
         <p>
