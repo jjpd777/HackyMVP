@@ -33,6 +33,9 @@ function Checkout(props: CheckoutProps) {
   const [entrance,setEntrance]= useState("");
   const [payMethod, setPayment] = useState(true);
   const minPaymentAmount = props.totalCartValue > 59;
+  const [taxInfo, setTaxInfo]=useState(false);
+  const [tax, setTaxText]=useState(false);
+
   function getFormattedDate() {
     var date = new Date();
     var str = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
@@ -112,7 +115,15 @@ function Checkout(props: CheckoutProps) {
 
     let baseURL = "https://wa.me/50254664602?text=";
     let textBody = "Hola La Borgoña!%0A%0AMi nombre es *" + String(checkName) + "* y me interesa hacer un pedido a *" + String(checkAddress) + "*" + ".%0A%0AMi pedido es el siguiente:%0A";
-    let finalpart = "*Total*%20Qtz.%20" + String(props.totalCartValue+deliveryCost()) + "%0A%0AMi número de contacto es: " + String(thisphone) + "%0A%0AQuiero por favor pagar en *" + getPayment + "*.%0A%0AMuchas gracias de antemano%21"
+    let finalpart = "*Total*%20Qtz.%20" + String(props.totalCartValue+deliveryCost());
+    finalpart = finalpart+  "%0A%0AMi%20número%20de%20contacto%20es:%20" + String(thisphone);
+    if(entrance!==""){
+      finalpart= finalpart + "%0A%0APara%20entrar%20a%20la%20garita:%20"+"*"+entrance+"*"
+    }
+    finalpart = finalpart+ "%0A%0AQuiero por favor pagar en *" + getPayment;
+    const taxappendix = taxInfo ? "para%20este%20*NIT*%20"+String(tax):"%20como%20como%20*consumidor%20final*";
+    finalpart = finalpart+ "Porfavir emitir la factura" + taxappendix;
+    finalpart = finalpart + "%0A%0AGracias%20de%20antemano!"
 
     cart.forEach((cartItem) => {
       menuItems.map((menuItem) => {
@@ -122,9 +133,8 @@ function Checkout(props: CheckoutProps) {
         }
       });
     });
-    if(entrance!==""){
-      textBody= textBody + "%0A%0APara entrar a la garita:%20"+"*"+entrance+"*"
-    }
+    
+
     textBody = craftString(textBody);
     var purchase = baseURL + textBody + "%0A" + finalpart;
 
@@ -208,7 +218,6 @@ function Checkout(props: CheckoutProps) {
                 setAddress(e.target.value);
               }}
             />
-            <br></br>
             <p>Detalle para entrar a la garita:</p>
             <FormTextarea
               className="input"
@@ -217,6 +226,37 @@ function Checkout(props: CheckoutProps) {
                 setEntrance(e.target.value);
               }}
             />
+            <b><p>Información tributaria:</p></b>
+            <FormRadio
+            inline
+            name="cf"
+            checked={!taxInfo}
+            onChange={() => {
+              setTaxInfo(!taxInfo);
+            }}
+          >
+            C.F
+      </FormRadio>
+          <FormRadio
+            inline
+            className="nit"
+            name="nit"
+            checked={taxInfo}
+            onChange={() => {
+              setTaxInfo(!taxInfo);
+            }}
+          >
+            # Nit
+      </FormRadio>
+      {taxInfo &&(
+         <FormTextarea
+         className="input"
+         placeholder="taxinfo"
+         onChange={(e) => {
+           setTaxText(e.target.value);
+         }}
+       />
+      )}
             <FormTextarea
               className="input"
               placeholder="Celular"

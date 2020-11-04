@@ -360,6 +360,15 @@ export const menuItemsMock = [
     image: 'https://scontent.fgua5-1.fna.fbcdn.net/v/t1.0-9/122689531_3635225506527491_794571035532386096_o.jpg?_nc_cat=100&ccb=2&_nc_sid=730e14&_nc_ohc=cVZQr9bO6agAX9HiVXI&_nc_oc=AQkSnRjHtlBHErtmCCCdsR-pR7W5efpLfm2PIl3u8bzfviRlzkL7aTZdLwhCNBiJds8&_nc_ht=scontent.fgua5-1.fna&oh=f89a8d5111b2f26fe5ac2a8319b14c8c&oe=5FC0140C',
   },
   {
+    id: 3011132323,
+    category: 'Complementos',
+    name: 'Chiles rellenos',
+    description: 'Con bolovique de res',
+    price: 10.0,
+    brief:'',
+    image: '',
+  },
+  {
     id: 39999494,
     category: 'Complementos',
     name: 'Tamal de cerdo',
