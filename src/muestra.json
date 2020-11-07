@@ -1,0 +1,18 @@
+{
+    "Codigo": 1,
+    "Mensaje": "Documento Certificado Exitosamente!",
+    "AcuseReciboSAT": "",
+    "CodigosSAT": "Acuse de RECIBO PENDIENTE",
+    "ResponseDATA1": "CODIGO-CIFRADO",
+    "ResponseDATA2": "",
+    "ResponseDATA3": "",
+    "Autorizacion": "A7AED892-5A22-4381-949F-33224011DD34",
+    "Serie": "A7AED892",
+    "NUMERO": "1512194945",
+    "Fecha_DTE": "2020-11-03T20:49:19",
+    "NIT_EFACE": "000029808952",
+    "NOMBRE_EFACE": "Sistemas Evolutivos, S.A.",
+    "NIT_COMPRADOR": "29470048",
+    "NOMBRE_COMPRADOR": "Inversiones Liberty, S.A.",
+    "BACKPROCESOR": "BACK02"
+}
