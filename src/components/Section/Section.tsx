@@ -15,6 +15,8 @@ import { CartItem } from '../../App';
 import { groupBy } from 'lodash';
 import { MenuItem } from '../../containers/Menu/Menu';
 import ItemCard from '../ItemCard/ItemCard';
+import PoSCard from '../ItemCard/PoSCard';
+
 
 interface SectionProps {
   title: string;
@@ -25,6 +27,7 @@ interface SectionProps {
 
 function Section(props: SectionProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const pos = true;
   return (
     <div className="section-container">
       <div className="section-header">
@@ -41,11 +44,18 @@ function Section(props: SectionProps) {
         {props.menuItems.map((value, index) => {
           return (
             <>
+            {pos ? (<PoSCard
+                menuItem={value}
+                cart={props.cart}
+                setCartItems={props.setCartItems}
+              ></PoSCard>):(
               <ItemCard
                 menuItem={value}
                 cart={props.cart}
                 setCartItems={props.setCartItems}
               ></ItemCard>
+              )}
+              
             </>
           );
         })}

@@ -1,6 +1,6 @@
-import firebase from "./firebase";
+import database from "./firebase";
 
-const db = firebase.ref("/inventario-borgona");
+const db = database.ref("/inventario-borgona");
 
 const getAll = () => {
   return db;

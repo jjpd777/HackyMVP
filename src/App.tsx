@@ -92,8 +92,6 @@ function App() {
       ptr += 1;
       TutorialDataService.create(data)
         .then(() => {
-          // setSubmitted(true);
-          // console.log(data);
           console.log(data)
         })
         .catch(e => {
@@ -122,13 +120,13 @@ function App() {
       <header className="App-header">
         <Header />
       </header>
-      {/* {loading ? (
+      {loading ? (
         <>
-          <Button> Cargando...</Button>
+          <Button className="navig"> Cargando...</Button>
         </>) : 
         (<Button className="navig" onClick={() => setJustSee(!justSee)}>Cambiar a {displayText()}</Button>)
-        } */}
-        {loading && (<Button className="navig"> Cargando...</Button>)}
+        }
+        {/* {loading && (<Button className="navig"> Cargando...</Button>)} */}
 
       {!loading && (
         <>
