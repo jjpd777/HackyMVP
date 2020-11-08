@@ -50,13 +50,9 @@ function Checkout(props: CheckoutProps) {
   const { menuItems, cart } = props;
 
   const [name, setName] = useState();
-  const [address, setAddress] = useState();
-  const [phone, setPhone] = useState();
-
   const [locindex, setLocation] = useState(0);
 
   const engineers = ["Plaza Gerona", "Plaza Comercia", "Plaza Novitá", "Condado Fraijanes", "Plazoleta"];
-  const minPaymentAmount = props.totalCartValue > 0;
 
   const getCartItems = () => {
     let cartItems: any[] = [];
@@ -74,6 +70,32 @@ function Checkout(props: CheckoutProps) {
     });
     return cartItems;
   };
+  async function wirteHeader() {
+    const url = "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/SEGURIDAD-INDUSTRIAL.pdf?alt=media&token=7c665e8a-f302-4552-b96a-bbcdc7ad042c"
+    const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer())
+    const pdfDoc = await PDFDocument.load(existingPdfBytes)
+    const pages = pdfDoc.getPages()
+    const firstPage = pages[0]
+    const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica)
+
+    const { width, height } = firstPage.getSize()
+    let arrTEXT = ["Mantenimiento","INGETELCA S.A.","Zanarate","Levantamiento de postes","Juanfito","5"];
+    var baseX = 205;
+    var baseY = 339;
+
+    arrTEXT.map((val,ix)=>{
+      firstPage.drawText(val, {
+        x: baseX,
+        y: height / 2 + baseY,
+        size: 7,
+        font: helveticaFont,
+        color: rgb(0.1, 0.1, 0.1),
+        // rotate: degrees(-45),
+      })
+      baseY-=14;
+    })
+    const pdfBytes = await pdfDoc.save()
+  }
   async function modifyPdf() {
     const url = "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/SEGURIDAD-INDUSTRIAL.pdf?alt=media&token=7c665e8a-f302-4552-b96a-bbcdc7ad042c"
     const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer())
@@ -84,11 +106,70 @@ function Checkout(props: CheckoutProps) {
     const pages = pdfDoc.getPages()
     const firstPage = pages[0]
     const { width, height } = firstPage.getSize()
-    console.log(width, height)
+    let arrTEXT = ["Mantenimiento","INGETELCA S.A.","Zanarate","Levantamiento de postes","Juanfito","5"];
+    var baseX = 205;
+    var baseY = 339;
 
-    // let arrTEXT = ["Mantenimiento","INGETELCA S.A.","Zanarate","Levantamiento de postes",props.name,"5"];
-    var baseX = 72;
-    var baseY = 198;
+    arrTEXT.map((val)=>{
+      firstPage.drawText(val, {
+        x: baseX,
+        y: height / 2 + baseY,
+        size: 7,
+        font: helveticaFont,
+        color: rgb(0.1, 0.1, 0.1),
+        // rotate: degrees(-45),
+      })
+      baseY-=14;
+    })
+    const hourX = baseX +310;
+    const hourY = baseY+14;
+    firstPage.drawText("4:45AM", {
+      x: hourX,
+      y: height / 2 + hourY,
+      size: 7,
+      font: helveticaFont,
+      color: rgb(0.1, 0.1, 0.1),
+      // rotate: degrees(-45),
+    })
+    const dateX = baseX +195;
+    const dateY = baseY+14;
+    firstPage.drawText("NOV 5th", {
+      x: dateX,
+      y: height / 2 + dateY,
+      size: 7,
+      font: helveticaFont,
+      color: rgb(0.1, 0.1, 0.1),
+      // rotate: degrees(-45),
+    })
+    var nptY = baseY+42;
+    var nptX = baseX +310;
+    firstPage.drawText("VAMOS", {
+      x: nptX,
+      y: height / 2 + nptY,
+      size: 7,
+      font: helveticaFont,
+      color: rgb(0.1, 0.1, 0.1),
+      // rotate: degrees(-45),
+    })
+    nptY = 65;
+    nptX = 455;
+    firstPage.drawText("Juan José Palacio", {
+      x: nptX,
+      y:  nptY,
+      size: 7,
+      font: helveticaFont,
+      color: rgb(0.1, 0.1, 0.1),
+      // rotate: degrees(-45),
+    })
+    // const sign = "'https://pdf-lib.js.org/assets/small_mario.png"
+    // const marioImageBytes = await fetch(sign).then(res => res.arrayBuffer());
+    // const marioImage = await pdfDoc.embedPng(marioImageBytes);
+    // const characterImageField = form.getButton('CHARACTER IMAGE')
+
+
+
+    baseX = 72;
+    baseY = 198;
     const cartthing = getCartItems();
     menuItems.map((val) => {
       if (val.id === 36) { baseX = 328; baseY = 198 }
@@ -100,7 +181,6 @@ function Checkout(props: CheckoutProps) {
             size: 10,
             font: helveticaFont,
             color: rgb(0.1, 0.1, 0.1),
-            // rotate: degrees(-45),
           })
         }
       })
@@ -110,7 +190,6 @@ function Checkout(props: CheckoutProps) {
       else if (val.id === 18) { baseY -= 32 }
       else if (val.id === 53) { baseY -= 36 }
       else if (val.id === 31) { baseY -= 34 }
-
       else {
         if (59 > val.id && val.id > 43) baseY -= 11;
         else if (val.id > 58) baseY -= 12
@@ -118,17 +197,13 @@ function Checkout(props: CheckoutProps) {
       }
     })
     const pdfBytes = await pdfDoc.save()
-    console.log(pdfBytes);
-    // Trigger the browser to download the PDF document
     download(pdfBytes, "pdf-lib_modification_example.pdf", "application/pdf");
   }
-  const write2PDF = () => getCartItems().map((item, key) => item.quantity > 0 ? true : false);
-
   return (
     <div className="checkout-container">
-      <img src="https://scontent.fgua5-1.fna.fbcdn.net/v/t1.0-9/60454009_2403050509745003_1658534653943873536_o.png?_nc_cat=108&_nc_sid=85a577&_nc_ohc=E2i8isONLjYAX8WoHjo&_nc_ht=scontent.fgua5-1.fna&oh=aac791af829983b21b70abcdffb419e5&oe=5FB542FE" />
+      <img src="http://ingetelca.gt/wp-content/uploads/2011/07/logopeq.png" />
       <div className="order-summary">
-        <Button onClick={() => modifyPdf()}>Hi</Button>
+        <Button onClick={() => {modifyPdf()}}>Hi</Button>
         <ListGroup>
           {getCartItems().map((item, index) => {
             return (
