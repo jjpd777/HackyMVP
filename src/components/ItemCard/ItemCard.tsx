@@ -15,7 +15,8 @@ import {
   faCheckCircle,
   faTimesCircle,
   faCheck,
-  faTimes
+  faTimes,
+  faCircle
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -74,9 +75,10 @@ function ItemCard(props: ItemCardProps) {
           </div>
         </CardBody>
       </Card>
-      <Button className="decrease" theme="danger" onClick={() => removeOneFromCart()}> <b><FontAwesomeIcon icon={faTimesCircle}/></b> </Button>
-      <Button className="increase" theme="success" onClick={() => addOneToCart()}> <FontAwesomeIcon icon={faCheckCircle}/> </Button>
-      
+      {/* <Button className="decrease" theme="danger" onClick={() => removeOneFromCart()}> <b><FontAwesomeIcon icon={faTimesCircle}/></b> </Button>
+      <Button className="increase" theme="success" onClick={() => addOneToCart()}> <FontAwesomeIcon icon={faCheckCircle}/> </Button> */}
+      <Button className="decrease" theme="danger" onClick={() => removeOneFromCart()}> <FontAwesomeIcon icon={faCircle}/></Button>
+      <Button className="increase" theme="success" onClick={() => addOneToCart()}><FontAwesomeIcon icon={faCircle}/> </Button>
     </div>
   );
 }

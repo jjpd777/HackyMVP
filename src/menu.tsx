@@ -11,7 +11,7 @@ export const menuItemsMock = [
   {
     id: 2,
     category: 'Tipo de trabajo',
-    name: 'Trabajos en zanjas/excavaciones',
+    name: 'En zanjas/excavaciones',
     description: '',
     price: 8.0,
     brief:'',
@@ -20,16 +20,16 @@ export const menuItemsMock = [
   {
     id: 3,
     category: 'Tipo de trabajo',
-    name: 'Trabajos en galerías/túneles/recintos cerrados',
+    name: 'En recintos cerrados',
     description: '',
     price: 8.0,
-    brief:'',
+    brief:'galerías/túneles/recintos cerrados',
     image: '',
   },
   {
     id: 4,
     category: 'Tipo de trabajo',
-    name: 'Trabajos en espacios confinados',
+    name: 'En espacios confinados',
     description: '',
     price: 8.0,
     brief:'',
@@ -38,7 +38,7 @@ export const menuItemsMock = [
   {
     id: 5,
     category: 'Tipo de trabajo',
-    name: 'Trabajos en atmósferas explosivas',
+    name: 'En atmósferas explosivas',
     description: '',
     price: 8.0,
     brief:'',
@@ -47,7 +47,7 @@ export const menuItemsMock = [
   {
     id: 6,
     category: 'Tipo de trabajo',
-    name: 'Trabajos en obra civil',
+    name: 'En obra civil',
     description: '',
     price: 8.0,
     brief:'',
@@ -56,7 +56,7 @@ export const menuItemsMock = [
   {
     id: 7,
     category: 'Tipo de trabajo',
-    name: 'Trabajos con sustancias químicas',
+    name: 'Con sustancias químicas',
     description: '',
     price: 8.0,
     brief:'',
@@ -65,10 +65,10 @@ export const menuItemsMock = [
   {
     id: 8,
     category: 'Tipo de trabajo',
-    name: 'Trabajos de tendido y mantenimiento F.O.',
+    name: 'De fibra óptica',
     description: '',
     price: 8.0,
-    brief:'',
+    brief:'Tendido y mantenimiento',
     image: '',
   },
   {
@@ -83,10 +83,10 @@ export const menuItemsMock = [
   {
     id: 10,
     category: 'Riesgos previstos',
-    name: 'Cadida a mismo - Distinto nivel',
+    name: 'Cadida a mismo',
     description: '',
     price: 8.0,
-    brief:'',
+    brief:'Distinto nivel',
     image: '',
   },
   {
@@ -164,10 +164,10 @@ export const menuItemsMock = [
   {
     id: 19,
     category: 'Protecciones',
-    name: 'Casco seguridad (con barbuquejo en trabajos de altura)',
+    name: 'Casco seguridad',
     description: '',
     price: 8.0,
-    brief:'',
+    brief:'(con barbuquejo en trabajos de altura)',
     image: '',
   },
   {
@@ -191,10 +191,10 @@ export const menuItemsMock = [
   {
     id: 22,
     category: 'Protecciones',
-    name: 'Protección facial (arco eléctrico, prod. químicos etc)',
+    name: 'Protección facial',
     description: '',
     price: 8.0,
-    brief:'',
+    brief:'(arco eléctrico, prod. químicos etc)',
     image: '',
   },
   {
@@ -218,19 +218,19 @@ export const menuItemsMock = [
   {
     id: 25,
     category: 'Protecciones',
-    name: 'Guantes de protección (mecánico, químico)',
+    name: 'Guantes de protección',
     description: '',
     price: 8.0,
-    brief:'',
+    brief:'(mecánico, químico)',
     image: '',
   },
   {
     id: 26,
     category: 'Protecciones',
-    name: 'Guantes de protección (eléctrico AT/BT)',
+    name: 'Guantes de protección',
     description: '',
     price: 8.0,
-    brief:'',
+    brief:'(eléctrico AT/BT)',
     image: '',
   },
   {
@@ -319,7 +319,7 @@ export const menuItemsMock = [
   {
     id: 36,
     category: 'Tipo de trabajo',
-    name: 'Trabajos de tala/poda/desbroce',
+    name: 'De tala/poda/desbroce',
     description: '',
     price: 8.0,
     brief:'',
@@ -328,7 +328,7 @@ export const menuItemsMock = [
   {
     id: 37,
     category: 'Tipo de trabajo',
-    name: 'Trabajos de izado/movimiento de carga',
+    name: 'De izado/movimiento de carga',
     description: '',
     price: 8.0,
     brief:'',
@@ -337,7 +337,7 @@ export const menuItemsMock = [
   {
     id: 38,
     category: 'Tipo de trabajo',
-    name: 'Trabajos sin tensión',
+    name: 'Sin tensión',
     description: '',
     price: 8.0,
     brief:'',
@@ -346,7 +346,7 @@ export const menuItemsMock = [
   {
     id: 39,
     category: 'Tipo de trabajo',
-    name: 'Trabajos en tensión',
+    name: 'En tensión',
     description: '',
     price: 8.0,
     brief:'',
@@ -355,7 +355,7 @@ export const menuItemsMock = [
   {
     id: 40,
     category: 'Tipo de trabajo',
-    name: 'Mediciones, ensayos y verificaciones elécticas',
+    name: 'Mediciones, ensayos y verificaciones eléctricas',
     description: '',
     price: 8.0,
     brief:'',
@@ -364,7 +364,7 @@ export const menuItemsMock = [
   {
     id: 41,
     category: 'Tipo de trabajo',
-    name: 'Trabajos en proximidad de tensión',
+    name: 'En proximidad de tensión',
     description: '',
     price: 8.0,
     brief:'',
