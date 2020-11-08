@@ -29,12 +29,12 @@ function Section(props: SectionProps) {
     <div className="section-container">
       <div className="section-header">
         
-        <div onClick={() => setIsOpen(!isOpen)}>
+       {props.title!=="" &&( <div onClick={() => setIsOpen(!isOpen)}>
           <h5>{props.title}{' '}
           {!isOpen && <FontAwesomeIcon icon={faAngleDoubleDown} />}{' '}
           {isOpen && <FontAwesomeIcon icon={faArrowUp} />}
           </h5>
-        </div>
+        </div>)}
       </div>
 
       <Collapse open={isOpen}>

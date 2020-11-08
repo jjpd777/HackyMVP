@@ -6,16 +6,18 @@ import {
   CardBody,
   CardTitle,
   CardSubtitle,
-  Modal,
-  ModalBody,
-  ModalHeader,
-  InputGroup,
-  InputGroupText,
-  InputGroupAddon,
-  FormInput,
 } from 'shards-react';
 import { CartItem } from '../../App';
 import { MenuItem } from '../../containers/Menu/Menu';
+
+
+import {
+  faCheckCircle,
+  faTimesCircle,
+  faCheck,
+  faTimes
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface ItemCardProps {
   menuItem: MenuItem;
@@ -27,16 +29,10 @@ function ItemCard(props: ItemCardProps) {
   const { menuItem, cart, setCartItems } = props;
   const [modalOpen, setModalOpen] = useState(false);
 
+  const checkIfTrue = ()=>cart.find((x) => x.itemId === menuItem.id) ? <FontAwesomeIcon icon={faCheck}/> : "";
   const addOneToCart = () => {
     if (cart.find((x) => x.itemId === menuItem.id)) {
-      // Already exists in the cart, so just plus one
-      const newArray = cart.filter((c) => c.itemId !== menuItem.id);
-      newArray.push({
-        itemId: menuItem.id,
-        quantity: cart.find((x) => x.itemId === menuItem.id)!.quantity + 1,
-      });
-
-      setCartItems(newArray);
+      console.log("lets'go")
     } else {
       setCartItems([
         ...cart,
@@ -74,13 +70,12 @@ function ItemCard(props: ItemCardProps) {
             <CardSubtitle>{menuItem.brief}</CardSubtitle>
           </div>
           <div className="card-price">
-            Unds (
-        {cart.find((x) => x.itemId === menuItem.id) ?.quantity || 0})
+            {checkIfTrue()}
           </div>
         </CardBody>
       </Card>
-      <Button className="decrease" theme="danger" onClick={() => removeOneFromCart()}> - </Button>
-      <Button className="increase" theme="success" onClick={() => addOneToCart()}> + </Button>
+      <Button className="decrease" theme="danger" onClick={() => removeOneFromCart()}> <b><FontAwesomeIcon icon={faTimesCircle}/></b> </Button>
+      <Button className="increase" theme="success" onClick={() => addOneToCart()}> <FontAwesomeIcon icon={faCheckCircle}/> </Button>
       
     </div>
   );

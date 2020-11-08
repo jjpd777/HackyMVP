@@ -89,7 +89,7 @@ function App() {
             className="checkout-button"
             block
           >
-            Revisar la lista para enviar
+            Revisar el formulario
           </Button>
         </div>
       )) ||

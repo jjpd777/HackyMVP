@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import './Checkout.scss';
+import { degrees, PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+import { Button } from "shards-react";
+import firebase from 'firebase';
 
-import {
-  Button,
-} from 'shards-react';
 import {
   FormTextarea,
 } from 'shards-react';
@@ -15,17 +15,35 @@ import {
 } from 'shards-react';
 import {
   faArrowAltCircleLeft,
+  faTimesCircle,
+  faCheckCircle
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { CartItem } from '../../App';
 import { MenuItem } from '../Menu/Menu';
+const download = require("downloadjs");
+
 
 interface CheckoutProps {
   menuItems: MenuItem[];
   cart: CartItem[];
   totalCartValue: number;
   onBack: () => void;
+}
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAcCtzvRGCUQJ4smMF14uKmelpYmGW6zTU",
+  authDomain: "fir-finallyjuan.firebaseapp.com",
+  databaseURL: "https://fir-finallyjuan.firebaseio.com",
+  projectId: "firebasefinallyjuan",
+  storageBucket: "firebasefinallyjuan.appspot.com",
+  messagingSenderId: "33788123767",
+  appId: "1:33788123767:web:2ef92fa41787d4c9810472"
+};
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
 }
 
 function Checkout(props: CheckoutProps) {
@@ -35,16 +53,11 @@ function Checkout(props: CheckoutProps) {
   const [address, setAddress] = useState();
   const [phone, setPhone] = useState();
 
-  const [payMethod, setPayment] = useState(true)
   const [locindex, setLocation] = useState(0);
 
-  const locations = ["Plaza Gerona", "Plaza Comercia", "Plaza Novitá","Condado Fraijanes","Plazoleta"];
+  const engineers = ["Plaza Gerona", "Plaza Comercia", "Plaza Novitá", "Condado Fraijanes", "Plazoleta"];
   const minPaymentAmount = props.totalCartValue > 0;
-  function getFormattedDate() {
-    var date = new Date();
-    var str = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-    return str;
-  }
+
   const getCartItems = () => {
     let cartItems: any[] = [];
     cart.forEach((cartItem) => {
@@ -61,159 +74,93 @@ function Checkout(props: CheckoutProps) {
     });
     return cartItems;
   };
-  const craftString = (message) => {
-    var blank = / /gi;
-    var hashtag = /#/gi;
-    message = message.replace(hashtag, "%23")
-    message = message.replace(":", "%3A")
-    message = message.replace(hashtag, "%20")
-    return message;
-  }
+  async function modifyPdf() {
+    const url = "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/SEGURIDAD-INDUSTRIAL.pdf?alt=media&token=7c665e8a-f302-4552-b96a-bbcdc7ad042c"
+    const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer())
+    const pdfDoc = await PDFDocument.load(existingPdfBytes)
 
-  const writeOrder = (checkName, checkAddress, thisphone, payment) => {
-    // if (!checkName || !checkAddress || !thisphone || !minPaymentAmount) return
-    const getPayment = payment ? 'efectivo' : 'tarjeta';
-    let order = "";
-    cart.forEach((cartItem) => {
-      menuItems.map((menuItem) => {
-        if (cartItem.itemId === menuItem.id) {
-          const tmp = "[(x" + String(cartItem.quantity) + ") " + menuItem.name + " ]"
-          order += tmp
+    const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica)
+
+    const pages = pdfDoc.getPages()
+    const firstPage = pages[0]
+    const { width, height } = firstPage.getSize()
+    console.log(width, height)
+
+    // let arrTEXT = ["Mantenimiento","INGETELCA S.A.","Zanarate","Levantamiento de postes",props.name,"5"];
+    var baseX = 72;
+    var baseY = 198;
+    const cartthing = getCartItems();
+    menuItems.map((val) => {
+      if (val.id === 36) { baseX = 328; baseY = 198 }
+      cartthing.map((cartItem, ix) => {
+        if (val.id === cartItem.id) {
+          firstPage.drawText("x", {
+            x: baseX,
+            y: height / 2 + baseY,
+            size: 10,
+            font: helveticaFont,
+            color: rgb(0.1, 0.1, 0.1),
+            // rotate: degrees(-45),
+          })
         }
-      });
-    });
-    const time = getFormattedDate();
-    const newRow = {
-      "localidad": locations[locindex],
-      "Notas adicionales": name,
-      "Orden" : order,
-      "hora" : time,
-    }
-    console.log(newRow)
-    var url = 'https://sheet2api.com/v1/WExfuaSVRrOs/ventaslalloronagt/inventario-borgona';
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newRow),
-    })
-      .then(response => response.json())
-      .then(newRow => {
-        console.log('Success:', newRow);
       })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+
+      if (val.id === 7 || val.id === 8 || val.id == 42 || val.id == 43) { baseY -= 15 }
+      else if (val.id === 9 || val.id == 44) { baseY -= 35 }
+      else if (val.id === 18) { baseY -= 32 }
+      else if (val.id === 53) { baseY -= 36 }
+      else if (val.id === 31) { baseY -= 34 }
+
+      else {
+        if (59 > val.id && val.id > 43) baseY -= 11;
+        else if (val.id > 58) baseY -= 12
+        else baseY -= 11.5;
+      }
+    })
+    const pdfBytes = await pdfDoc.save()
+    console.log(pdfBytes);
+    // Trigger the browser to download the PDF document
+    download(pdfBytes, "pdf-lib_modification_example.pdf", "application/pdf");
   }
-  const letsCheckout = (checkName, checkAddress, thisphone, payment) => {
-    // if (!checkName || !checkAddress || !thisphone || !minPaymentAmount) return
-    const getPayment = payment ? 'efectivo' : 'tarjeta';
+  const write2PDF = () => getCartItems().map((item, key) => item.quantity > 0 ? true : false);
 
-    let baseURL = "https://wa.me/50251740464?text=";
-    let textBody = "Buenas noches de parte de *" + String(locations[locindex]) + "*. La lista de hoy es la siguiente:%0A%0A";
-
-    cart.forEach((cartItem) => {
-      menuItems.map((menuItem) => {
-        if (cartItem.itemId === menuItem.id) {
-          const tmp = "-%20*x*%20" + String(cartItem.quantity) + " %20" + menuItem.name + "%0A"
-          textBody += tmp
-        }
-      });
-    });
-    textBody = textBody + "%0A%0A*NOTAS ADICIONALES* " + name;
-    textBody = craftString(textBody);
-    var purchase = baseURL + textBody + "%0A%0A*BENDICIONES%20PARA%20TODOS*";
-
-    return purchase;
-  }
-//Condado Fraijanes Plazoleta
   return (
     <div className="checkout-container">
       <img src="https://scontent.fgua5-1.fna.fbcdn.net/v/t1.0-9/60454009_2403050509745003_1658534653943873536_o.png?_nc_cat=108&_nc_sid=85a577&_nc_ohc=E2i8isONLjYAX8WoHjo&_nc_ht=scontent.fgua5-1.fna&oh=aac791af829983b21b70abcdffb419e5&oe=5FB542FE" />
       <div className="order-summary">
+        <Button onClick={() => modifyPdf()}>Hi</Button>
         <ListGroup>
           {getCartItems().map((item, index) => {
             return (
               <ListGroupItem className="list-item" key={index}>
-                <div>
-                  ( x{item.quantity} )  {item.name}
-                </div>
+
+                {item.quantity > 0 && <div><FontAwesomeIcon icon={faCheckCircle} /> {'  '}{item.name}  </div>}
+
+
               </ListGroupItem>
             );
           })}
-
-          {/* <ListGroupItem
-            style={{ fontWeight: 600 }}
-            className="list-item"
-            key={'total'}
-          >
-          </ListGroupItem> */}
         </ListGroup>
-        {!minPaymentAmount && (<Button className="pillyboy" disabled="true" theme="danger"><b>ATENCIÓN:</b> El pedido mínimo es de Qtz. 50</Button>)}
       </div>
       <br />
 
-      {minPaymentAmount && (
+      {true && (
         <div className="store-location" >
           <h5>Localidad</h5>
-          <div className="finally">
-          <FormRadio
-            className="this-card"
-            name="card"
-            checked={locindex === 0}
-            onChange={() => {
-              setPayment(true);
-              setLocation(0);
-            }}
-          >
-            Plaza Gerona
-      </FormRadio>
-          <FormRadio
-            className="this-card"
-            name="card"
-            checked={locindex === 1}
-            onChange={() => {
-              setPayment(false);
-              setLocation(1);
-            }}
-          >
-            Plaza Comercia
-      </FormRadio> 
-          <FormRadio
-            className="this-card"
-            name="card"
-            checked={locindex === 2}
-            onChange={() => {
-              setPayment(false);
-              setLocation(2);
-            }}
-          >
-            Plaza Novitá
-      </FormRadio>
-      <FormRadio
-            className="this-card"
-            name="card"
-            checked={locindex === 3}
-            onChange={() => {
-              setPayment(false);
-              setLocation(3);
-            }}
-          >
-            Condado Fraijanes
-      </FormRadio>
-      <FormRadio
-            className="this-card"
-            name="card"
-            checked={locindex === 4}
-            onChange={() => {
-              setPayment(false);
-              setLocation(4);
-            }}
-          >
-            Plazoleta
-      </FormRadio>
-      </div>
+          {engineers.map((val, key) =>
+            <div className="finally">
+              <FormRadio
+                className="this-card"
+                name="card"
+                checked={locindex === key}
+                onChange={() => {
+                  setLocation(key);
+                }}
+              >
+                {val}
+              </FormRadio>
+            </div>
+          )}
           <div className="shipping-info">
             <h5>Notas adicionales:</h5>
             <FormInput
@@ -227,18 +174,16 @@ function Checkout(props: CheckoutProps) {
               }}
             />
             <Button onClick={props.onBack} className="button-secondary" outline block>
-        <FontAwesomeIcon icon={faArrowAltCircleLeft}/>{'  '}Regresar al Menu
+              <FontAwesomeIcon icon={faArrowAltCircleLeft} />{'  '}Regresar al Menu
       </Button>
             <Button
-              onClick={() => writeOrder(name, address, phone, payMethod)}
-              href={letsCheckout(name, address, phone, payMethod)}
+              onClick={() => console.log("success")}
               className="button" block>
               Enviar listado de inventario
             </Button>
           </div>
         </div>
       ) || null}
-
       <br></br>
     </div>
   );
