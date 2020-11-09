@@ -91,7 +91,7 @@ function ItemCard(props: ItemCardProps) {
     <div className="card-container">
       <table onClick={()=>setModalOpen(true)} className="table">
         <td className="tableu">
-          {menuItem.name}{':  '}<b>{String(menuItem.name)}</b>
+          Total de venta{':  '}<b>{String(menuItem.total)}</b>
         </td>
       </table>
 
@@ -105,12 +105,13 @@ function ItemCard(props: ItemCardProps) {
       >
         <ModalHeader>{menuItem.name}</ModalHeader>
         <ModalBody className="modal-body">
-          {/* <div className="item-image">
-            <img src={menuItem.image} width="200" />
-          </div> */}
-          <div className="item-price">Cantidad en tienda: {' '}{menuItem.name}</div>
+          <div className="item-price">Total de venta:{' '}{menuItem.total}</div>
+          <br></br>
+          <p><b> Nombre cliente:</b> {menuItem.name}</p>
+          <p><b>Método de pago:</b> {menuItem.payment}</p>
+          <p><b>Factura:</b> C.F. </p>
           <div className="add-cart">
-            <InputGroup className="plus-minus">
+            {/* <InputGroup className="plus-minus">
               <FormInput
                 type="number"
                 placeholder={menuItem.name}
@@ -120,11 +121,11 @@ function ItemCard(props: ItemCardProps) {
                   console.log(e.target.value);
                 }}
               />
-            </InputGroup>
+            </InputGroup> */}
             <br></br>
-            <Button pill inline className="cancel-btn" theme="danger" onClick={() => setModalOpen(modalOpen)}>
+            {/* <Button pill inline className="cancel-btn" theme="danger" onClick={() => setModalOpen(modalOpen)}>
             {'  '}<FontAwesomeIcon icon={faTrash}/>{'  '}
-            </Button>
+            </Button> */}
             <Button pill inline className="save-btn" theme="success" onClick={() => {
               setModalOpen(!modalOpen);
               // addToDB(menuItem.id);

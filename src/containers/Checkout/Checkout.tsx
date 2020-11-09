@@ -36,7 +36,7 @@ function Checkout(props: CheckoutProps) {
   const [payMethod, setPayment] = useState(true);
   const minPaymentAmount = props.totalCartValue > 59;
   const [taxInfo, setTaxInfo] = useState(false);
-  const [tax, setTaxText] = useState(false);
+  const [tax, setTaxText] = useState("");
 
   function getFormattedDate() {
     var date = new Date();
@@ -75,20 +75,29 @@ function Checkout(props: CheckoutProps) {
     console.log(response)
     return response;
   }
-
+  const getTaxInfo = () => taxInfo ? tax : "C.F.";
+  const registerSale = ()=>{
+    setName("");
+    setAddress("");
+    setPhone("");
+    setTaxText("");
+    setTaxInfo(false);
+    props.onBack();
+  }
   const writeOrder = () => {
     if (!name || !address || !phone) return
 
     const payment = getPayment();
     const order = getShopCartJSON();
     const time = getFormattedDate();
- 
+    const taxString = getTaxInfo();
     const newRow = {
       "id": "",
       "name": name,
       "address": address,
       "phone": phone,
       "payment": payment,
+      "tax-info": taxString,
       "total": props.totalCartValue,
       "date": time,
       "pedido": order,
@@ -105,7 +114,6 @@ function Checkout(props: CheckoutProps) {
 
   return (
     <div className="checkout-container">
-      <img src="https://scontent.fgua5-1.fna.fbcdn.net/v/t1.0-9/60454009_2403050509745003_1658534653943873536_o.png?_nc_cat=108&_nc_sid=85a577&_nc_ohc=E2i8isONLjYAX8WoHjo&_nc_ht=scontent.fgua5-1.fna&oh=aac791af829983b21b70abcdffb419e5&oe=5FB542FE" />
       <div className="order-summary">
         <ListGroup>
           {getCartItems().map((item, index) => {
@@ -178,14 +186,6 @@ function Checkout(props: CheckoutProps) {
                 setAddress(e.target.value);
               }}
             />
-            <p>Detalle para entrar a la garita:</p>
-            <FormTextarea
-              className="input"
-              placeholder="(no es requerido)"
-              onChange={(e) => {
-                setEntrance(e.target.value);
-              }}
-            />
             <b><p>Información tributaria:</p></b>
             <FormRadio
               inline
@@ -211,7 +211,7 @@ function Checkout(props: CheckoutProps) {
             {taxInfo && (
               <FormTextarea
                 className="input"
-                placeholder="taxinfo"
+                placeholder="Número de NIT"
                 onChange={(e) => {
                   setTaxText(e.target.value);
                 }}
@@ -225,10 +225,10 @@ function Checkout(props: CheckoutProps) {
               }}
             />
             <Button
-              onClick={() => writeOrder()}
+              onClick={() => {writeOrder();registerSale()}}
               // href={writeOrder(name, address, phone, payMethod)}
               className="button" block>
-              Pedir via WhatsApp
+              Registrar compra
             </Button>
           </div>
         </div>

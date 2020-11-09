@@ -53,6 +53,7 @@ function App() {
     setMenuItems(obj);
   }
 
+  const emptyCart = () =>setCartItems([]);
   const examineSales = ()=> salesItems.map((val)=> console.log(val.pedido[0]))
   const getRows = () => {
     if (dbElements) {
@@ -169,6 +170,7 @@ function App() {
                 totalCartValue={getTotalCartValue()}
                 onBack={() => {
                   setCurrentPage(PageEnum.MENU);
+                  emptyCart();
                 }}
               ></Checkout>
             )}
