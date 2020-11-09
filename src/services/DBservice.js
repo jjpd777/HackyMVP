@@ -2,12 +2,14 @@ import database from "./firebase";
 
 const db = database.ref("/inventario-borgona");
 
-const getAll = () => {
-  return db;
+const getAll = (table) => {
+  const dbs = database.ref(table);
+  return dbs;
 };
 
-const create = (data) => {
-  return db.push(data);
+const create = (data,table) => {
+  const dbs = database.ref(table);
+  return dbs.push(data);
 };
 
 const update = (key, data) => {

@@ -22,18 +22,20 @@ interface SectionProps {
   title: string;
   menuItems: MenuItem[];
   cart: CartItem[];
+  pos:boolean;
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
 }
 
 function Section(props: SectionProps) {
+  var pos = props.pos;
+  
   const [isOpen, setIsOpen] = useState(false);
-  const pos = true;
   return (
     <div className="section-container">
       <div className="section-header">
         
         <div onClick={() => setIsOpen(!isOpen)}>
-          <h5>{props.title}{' '}
+          <h5>{!props.pos ? "Ventas" : props.title}{' '}
           {!isOpen && <FontAwesomeIcon icon={faAngleDoubleDown} />}{' '}
           {isOpen && <FontAwesomeIcon icon={faArrowUp} />}
           </h5>

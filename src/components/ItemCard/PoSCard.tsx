@@ -18,13 +18,14 @@ import {
 import {
   faArrowAltCircleLeft,
   faCheckCircle,
+  faShoppingBasket,
   faTrash
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { CartItem } from '../../App';
 import { MenuItem } from '../../containers/Menu/Menu';
-import TutorialDataService from '../../services/DBservice'
+import DBservice from '../../services/DBservice'
 
 interface PoSCardProps {
   menuItem: MenuItem;
@@ -42,7 +43,7 @@ function PoSCard(props: PoSCardProps) {
       quantityavailable: currentEdit,
     };
 
-    TutorialDataService.update(id, data)
+    DBservice.update(id, data)
       .then(() => {
         console.log("success")
       })
@@ -97,8 +98,8 @@ function PoSCard(props: PoSCardProps) {
             <CardSubtitle>{menuItem.brief}</CardSubtitle>
           </div>
           <div className="card-price">
-            Unds (
-        {cart.find((x) => x.itemId === menuItem.id) ?.quantity || 0})
+    {cart.find((x) => x.itemId === menuItem.id) && <FontAwesomeIcon icon={faShoppingBasket}/>}        
+    {cart.find((x) => x.itemId === menuItem.id) ?.quantity || ""}
           </div>
         </CardBody>
       </Card>

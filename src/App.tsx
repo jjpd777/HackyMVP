@@ -8,7 +8,7 @@ import Header from './containers/Header/Header'
 
 
 
-import TutorialDataService from "./services/DBservice";
+import DBservice from "./services/DBservice";
 import {useList}  from "react-firebase-hooks/database";
 
 export interface CartItem {
@@ -21,17 +21,30 @@ export enum PageEnum {
 }
 function App() {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  const [salesItems, setSalesItems] = useState<any[]>([]);
+
   const [cart, setCartItems] = useState<CartItem[]>([]);
   const [currentPage, setCurrentPage] = useState<PageEnum>(PageEnum.MENU);
-  const [tutorials, loading, error] = useList(TutorialDataService.getAll());
+  const [dbElements, loading, error] = useList(DBservice.getAll("/inventario-borgona"));
+  const [dbSales, salesLoading, salesError] = useList(DBservice.getAll("/ventas-borgona"));
   const [justSee, setJustSee] = useState(true);
+
+  const displayText = () => !justSee ? " modo editar" : " ver listados";
 
   useEffect(() => {
     //   // Call API to load the menu
-    placeItems(tutorials)
-    //   setMenuItems(menuItemsMock);
-  }, [tutorials]);
+    placeItems(dbElements);
+    placeSales(dbSales);
+  }, [dbElements,dbSales]);
 
+  const placeSales = (dboject) =>{
+    // if(dbSales) dbSales.map((val)=>console.log(val.val()))
+    const obj = dboject.map((tutorial) => tutorial.val());
+    const uniqd = dboject.map((tutorial) => tutorial.key);
+    obj.map((item, ix) => item.id = uniqd[ix]);
+    console.log(obj)
+    setSalesItems(obj);
+  }
   const placeItems = (dboject) => {
     // THIS IS SO HACKY LOOOOOOL BY FAR THE MOST VULNERABLE PART OF THE APPLICATION
     const obj = dboject.map((tutorial) => tutorial.val());
@@ -40,11 +53,10 @@ function App() {
     setMenuItems(obj);
   }
 
+  const examineSales = ()=> salesItems.map((val)=> console.log(val.pedido[0]))
   const getRows = () => {
-    console.log(typeof (tutorials))
-    let listed = [];
-    if (tutorials) {
-      tutorials.map((item) => {
+    if (dbElements) {
+      dbElements.map((item) => {
         const temp = item.val();
         console.log(temp)
         var data = {
@@ -90,7 +102,7 @@ function App() {
       data.price = item.price;
       data.image = item.image;
       ptr += 1;
-      TutorialDataService.create(data)
+      DBservice.create(data)
         .then(() => {
           console.log(data)
         })
@@ -113,7 +125,6 @@ function App() {
     });
     return totalVal;
   };
-  const displayText = () => !justSee ? " modo editar" : " ver listados"
 
   return (
     <div className="App">
@@ -130,19 +141,16 @@ function App() {
 
       {!loading && (
         <>
-
-          {!justSee && (
+          {  salesItems.length !==0 && !justSee && (
             <>
-              <h5>Producto : Cantidad</h5>
-              {menuItems.map((item) =>
-                <table className="table">
-                  <td className="tableu">
-                    {item.name}{':  '}<b>{String(item.quantityavailable)}</b>
-                  </td>
-                </table>
-              )}
+                <Menu
+                  menuItems={salesItems}
+                  cart={cart}
+                  setCartItems={setCartItems}
+                  pos={false}
+                ></Menu>
             </>
-          )}
+          )} 
           <section className="container">
             {(currentPage === PageEnum.MENU && justSee) && (
               <>
@@ -150,6 +158,7 @@ function App() {
                   menuItems={menuItems}
                   cart={cart}
                   setCartItems={setCartItems}
+                  pos={true}
                 ></Menu>
               </>
             )}

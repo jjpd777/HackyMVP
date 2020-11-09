@@ -24,10 +24,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { CartItem } from '../../App';
 import { MenuItem } from '../../containers/Menu/Menu';
-import TutorialDataService from '../../services/DBservice'
+import DBservice from '../../services/DBservice'
 
 interface ItemCardProps {
-  menuItem: MenuItem;
+  menuItem: any;
   cart: CartItem[];
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
 }
@@ -42,7 +42,7 @@ function ItemCard(props: ItemCardProps) {
       quantityavailable: currentEdit,
     };
 
-    TutorialDataService.update(id, data)
+    DBservice.update(id, data)
       .then(() => {
         console.log("success")
       })
@@ -91,7 +91,7 @@ function ItemCard(props: ItemCardProps) {
     <div className="card-container">
       <table onClick={()=>setModalOpen(true)} className="table">
         <td className="tableu">
-          {menuItem.name}{':  '}<b>{String(menuItem.quantityavailable)}</b>
+          {menuItem.name}{':  '}<b>{String(menuItem.name)}</b>
         </td>
       </table>
 
@@ -99,21 +99,21 @@ function ItemCard(props: ItemCardProps) {
         open={modalOpen}
         toggle={() => {
           setModalOpen(!modalOpen);
-          setCurrentEdit(menuItem.quantityavailable);
+          setCurrentEdit(menuItem.name);
         }}
         centered={true}
       >
         <ModalHeader>{menuItem.name}</ModalHeader>
         <ModalBody className="modal-body">
-          <div className="item-image">
+          {/* <div className="item-image">
             <img src={menuItem.image} width="200" />
-          </div>
-          <div className="item-price">Cantidad en tienda: {' '}{menuItem.quantityavailable}</div>
+          </div> */}
+          <div className="item-price">Cantidad en tienda: {' '}{menuItem.name}</div>
           <div className="add-cart">
             <InputGroup className="plus-minus">
               <FormInput
                 type="number"
-                placeholder={menuItem.quantityavailable}
+                placeholder={menuItem.name}
                 value={currentEdit}
                 onChange={(e) => {
                   setCurrentEdit(e.target.value);
@@ -127,7 +127,7 @@ function ItemCard(props: ItemCardProps) {
             </Button>
             <Button pill inline className="save-btn" theme="success" onClick={() => {
               setModalOpen(!modalOpen);
-              addToDB(menuItem.id);
+              // addToDB(menuItem.id);
             }}>
               {'  '}<FontAwesomeIcon icon={faCheckCircle}/>{'  '}
             </Button>

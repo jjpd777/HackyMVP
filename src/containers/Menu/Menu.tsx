@@ -26,6 +26,7 @@ interface MenuProps {
   menuItems: MenuItem[];
   cart: CartItem[];
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
+  pos:boolean;
 }
 
 interface CategoryOpenState {
@@ -48,13 +49,13 @@ function Menu(props: MenuProps) {
 
   const [searchQuery, setSearchQuery] = useState('');
 
-  useEffect(() => {
-    // Triggered whenever Search Query changes
-    const filtered = menuItems.filter((x) =>
-      x.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setMenuList(filtered);
-  }, [searchQuery]);
+  // useEffect(() => {
+  //   // Triggered whenever Search Query changes
+  //   const filtered = menuItems.filter((x) =>
+  //     x.name.toLowerCase().includes(searchQuery.toLowerCase())
+  //   );
+  //   setMenuList(filtered);
+  // }, [searchQuery]);
 
   const clearSearch = () => {
     setSearchQuery('');
@@ -67,6 +68,7 @@ function Menu(props: MenuProps) {
         menuItems={value}
         cart={cart}
         setCartItems={setCartItems}
+        pos={props.pos}
       ></Section>
     );
   });
