@@ -28,14 +28,21 @@ interface SectionProps {
 
 function Section(props: SectionProps) {
   var pos = props.pos;
+  const getDate = ()=>{
+    var sectionTitle = "";
+    for(var ix in props.menuItems){
+      sectionTitle = props.menuItems[ix]["date"].split(' ')[0]
+    }
+    // console.log(props.menuItems.keys)
+    return sectionTitle;
+  }
   
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="section-container">
       <div className="section-header">
-        
-        <div onClick={() => setIsOpen(!isOpen)}>
-          <h5>{!props.pos ? "Ventas" : props.title}{' '}
+        <div onClick={() => {setIsOpen(!isOpen);}}>
+          <h5>{!props.pos ? getDate() : props.title}{' '}
           {!isOpen && <FontAwesomeIcon icon={faAngleDoubleDown} />}{' '}
           {isOpen && <FontAwesomeIcon icon={faArrowUp} />}
           </h5>

@@ -29,7 +29,7 @@ function App() {
   const [dbSales, salesLoading, salesError] = useList(DBservice.getAll("/ventas-borgona"));
   const [justSee, setJustSee] = useState(true);
 
-  const displayText = () => !justSee ? " modo editar" : " ver listados";
+  const displayText = () => !justSee ? "Ingresar venta" : " ver ventas";
 
   useEffect(() => {
     //   // Call API to load the menu
@@ -38,11 +38,9 @@ function App() {
   }, [dbElements,dbSales]);
 
   const placeSales = (dboject) =>{
-    // if(dbSales) dbSales.map((val)=>console.log(val.val()))
     const obj = dboject.map((tutorial) => tutorial.val());
     const uniqd = dboject.map((tutorial) => tutorial.key);
     obj.map((item, ix) => item.id = uniqd[ix]);
-    console.log(obj)
     setSalesItems(obj);
   }
   const placeItems = (dboject) => {
@@ -114,6 +112,7 @@ function App() {
 
   }
 
+  const buttonSales = ()=> justSee ? "success" : "warning";
 
   const getTotalCartValue = () => {
     let totalVal = 0;
@@ -136,7 +135,7 @@ function App() {
         <>
           <Button className="navig"> Cargando...</Button>
         </>) : 
-        (<Button className="navig" onClick={() => setJustSee(!justSee)}>Cambiar a {displayText()}</Button>)
+        (<Button className="navig" theme={buttonSales()} onClick={() => setJustSee(!justSee)}>Cambiar a {displayText()}</Button>)
         }
         {/* {loading && (<Button className="navig"> Cargando...</Button>)} */}
 

@@ -33,7 +33,7 @@ function Header(){
 return (
   <div>
         <img src={restDetails["srcImage"]} />
-        <div className="tagline">Inventario La Borgoña</div>
+        <div className="tagline">PoS uso interno</div>
   </div>
   );
 }
