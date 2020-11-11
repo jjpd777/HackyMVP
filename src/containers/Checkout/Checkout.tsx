@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Checkout.scss';
 import { degrees, PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import { Button } from "shards-react";
@@ -12,11 +12,16 @@ import {
   ListGroupItem,
   FormInput,
   FormRadio,
+  Dropdown,
+  DropdownMenu,
+  DropdownToggle,
+  DropdownItem
 } from 'shards-react';
 import {
   faArrowAltCircleLeft,
   faTimesCircle,
-  faCheckCircle
+  faCheckCircle,
+  faMale
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -66,13 +71,35 @@ function Checkout(props: CheckoutProps) {
   const [place, setPlace] = useState("");
   const [work, setWork] = useState("");
   const [person, setPerson] = useState("");
+  const [engineers, setEngineers] = useState<any[]>([]);
   const [numberPeople, setNumberP] = useState("");
+  const [fetchImage, setFetchImage] = useState("");
+  const [modalOpen, setModalOpen]  =useState(false);
 
   const getHeader1 = () => [responsibleUnit,"INGETELCA S.A.", place, work , person, numberPeople];
   const canEmailPDF = ()=> getHeader1().map((val)=> val!=="" ? true: false);
   const sendIt = canEmailPDF().every(v=> v===true);
 
-  const engineers = ["William", "Joel", "John", "Hugo"];
+  const engineersJSON = {"Rubén de Jesus Borja Molina":"https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_1_2390229602.png?alt=media&token=cbca267c-0e39-4e4c-befe-3f0f277789b1",
+                     "Wilson Alexander Barillas Chajón":"https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_1_8338982172.png?alt=media&token=07085def-9f5d-469a-9c04-f0ae0d351e3e",
+                      "Audelino Samayoa Pérez":"https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_12_2243519646.png?alt=media&token=aab8d1e9-b3e1-4fd6-80df-5ffa8bc2f89f",
+                      "Henry Alexander Morán Lemus":"https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_7_3829281714.png?alt=media&token=5d3fd87b-6dcd-4bca-afe3-d2683119b96e",
+                      "Luis Alberto Gudiel Polanco":"https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_10_5830862428.png?alt=media&token=c86e709e-ee67-4eef-811b-3b86fbcffcbe",
+                      "Victor Manuel Reyes Rivera":"https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_4_5725059954.png?alt=media&token=bf8d0a1c-6041-40f9-bb98-40ee16a83327",
+                      "Edin Gilberto Borja Molina":"https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_5_3004968665.png?alt=media&token=b551d73b-34ff-49f4-aae2-e4937aca16bf"
+                    };
+
+  useEffect(()=>{
+    setEngineers(getKeys());
+  },[person]);
+
+
+
+  const getKeys = () => {
+    let response: any[] = [];
+    for(var eng in engineersJSON) response.push(eng);
+    return response
+  }
 
   const getCartItems = () => {
     let cartItems: any[] = [];
@@ -139,7 +166,7 @@ function Checkout(props: CheckoutProps) {
     })
     var nptY = baseY + 42;
     var nptX = baseX + 310;
-    firstPage.drawText("VAMOS", {
+    firstPage.drawText("", {
       x: nptX,
       y: height / 2 + nptY,
       size: 7,
@@ -149,7 +176,7 @@ function Checkout(props: CheckoutProps) {
     })
     nptY = 65;
     nptX = 455;
-    firstPage.drawText("Juan José Palacio", {
+    firstPage.drawText(person, {
       x: nptX,
       y: nptY,
       size: 7,
@@ -186,23 +213,51 @@ function Checkout(props: CheckoutProps) {
         else baseY -= 11.5;
       }
     })
-    firstPage.drawText("No.174747", {
-      x: 50,
-      y: 800,
-      size: 15,
-      font: helveticaFont,
-      color: rgb(0.95, 0.1, 0.1),
-      // rotate: degrees(-45),
-    })
+    // firstPage.drawText("No.174747", {
+    //   x: 50,
+    //   y: 800,
+    //   size: 15,
+    //   font: helveticaFont,
+    //   color: rgb(0.95, 0.1, 0.1),
+    //   // rotate: degrees(-45),
+    // })
 
-    const sign = "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/Signature.png?alt=media&token=470a179b-02d2-4923-8deb-b0c7910631c9"
+    const sign = fetchImage;
 
-    const marioImageBytes = await fetch(sign).then(res => res.arrayBuffer());
-    const marioImage = await pdfDoc.embedPng(marioImageBytes);
-    const pngDims = marioImage.scale(0.08)
-    firstPage.drawImage(marioImage, {
-      x: 450,
-      y: 40,
+    const signImageBytes = await fetch(sign).then(res => res.arrayBuffer());
+    const signImage = await pdfDoc.embedPng(signImageBytes);
+   
+    const getSizeAndLocation =()=>{
+      var xCoord = 430;
+      var yCoord = 47;
+      var resize = 0.5
+      if(person ==="Henry Alexander Morán Lemus") {
+        xCoord =420;
+        resize =0.2;
+        yCoord=60;
+      }
+      if(person ==="Luis Alberto Gudiel Polanco") {
+        xCoord =430;
+        resize =0.15;
+        yCoord=40;
+      }
+      if(person ==="Victor Manuel Reyes Rivera") {
+        xCoord =400;
+        resize =0.5;
+        yCoord=50;
+      }
+      if(person ==="Edin Gilberto Borja Molina") {
+        xCoord =410;
+        resize =0.3;
+        yCoord=50;
+      }
+      return [resize,xCoord,yCoord]
+    }
+    const sizeAndLocation = getSizeAndLocation();
+    const pngDims = signImage.scale(sizeAndLocation[0])
+    firstPage.drawImage(signImage, {
+      x: sizeAndLocation[1],
+      y: sizeAndLocation[2],
       width: pngDims.width,
       height: pngDims.height
     })
@@ -230,22 +285,21 @@ function Checkout(props: CheckoutProps) {
 
       {true && (
         <div className="store-location" >
-          <h5>Ingeniero</h5>
-          {engineers.map((val, key) =>
-            <div className="finally">
-              <FormRadio
-                className="this-card"
-                name="card"
-                checked={locindex === key}
-                onChange={() => {
-                  setPerson(val);
-                  setLocation(key);
-                }}
-              >
-                {val}
-              </FormRadio>
-            </div>
-          )}
+          <Dropdown open={modalOpen} toggle={()=>setModalOpen(!modalOpen)} className="drop-down">
+            <DropdownToggle className ="button" split><b>{person !=="" ? person : "Escoger ingeniero"}</b></DropdownToggle>
+              <DropdownMenu >
+              {engineers.map((engineer,key)=>
+                <DropdownItem 
+                  onClick={()=>{
+                    setPerson(engineer);
+                    setLocation(key);
+                    setFetchImage(engineersJSON[engineer])
+                    }} >
+                  <FontAwesomeIcon icon={faMale}/> {' '} {engineer}
+                </DropdownItem>
+              )}
+            </DropdownMenu>
+        </Dropdown>
           <div className="shipping-info">
             <h5>Llenar la siguiente info</h5>
             <FormInput
@@ -289,13 +343,13 @@ function Checkout(props: CheckoutProps) {
               }}
             />
             <Button onClick={props.onBack} className="button-secondary" outline block>
-              <FontAwesomeIcon icon={faArrowAltCircleLeft} />{'  '}Regresar al Menu
+              <FontAwesomeIcon icon={faArrowAltCircleLeft} />{'  '}Editar listado
             </Button>
             { sendIt &&
             <Button
               onClick={() =>modifyPdf()}
               className="button" block>
-              Enviar listado de inventario
+              Enviar formulario
             </Button>}
           </div>
         </div>

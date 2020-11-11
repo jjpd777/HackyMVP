@@ -15,6 +15,7 @@ import {
   faCheckCircle,
   faTimesCircle,
   faCheck,
+  faCompressArrowsAlt,
   faTimes,
   faCircle
 } from '@fortawesome/free-solid-svg-icons';
@@ -28,7 +29,7 @@ interface ItemCardProps {
 
 function ItemCard(props: ItemCardProps) {
   const { menuItem, cart, setCartItems } = props;
-  const [modalOpen, setModalOpen] = useState(false);
+  const [checked, setChecked] = useState(false);
 
   const checkIfTrue = ()=>cart.find((x) => x.itemId === menuItem.id) ? <FontAwesomeIcon icon={faCheck}/> : "";
   const addOneToCart = () => {
@@ -41,6 +42,7 @@ function ItemCard(props: ItemCardProps) {
       ]);
     }
   };
+  const whichAction = ()=> checked ? removeOneFromCart() : addOneToCart();
 
   const removeOneFromCart = () => {
     if (
@@ -75,10 +77,7 @@ function ItemCard(props: ItemCardProps) {
           </div>
         </CardBody>
       </Card>
-      {/* <Button className="decrease" theme="danger" onClick={() => removeOneFromCart()}> <b><FontAwesomeIcon icon={faTimesCircle}/></b> </Button>
-      <Button className="increase" theme="success" onClick={() => addOneToCart()}> <FontAwesomeIcon icon={faCheckCircle}/> </Button> */}
-      <Button className="decrease" theme="danger" onClick={() => removeOneFromCart()}> <FontAwesomeIcon icon={faCircle}/></Button>
-      <Button className="increase" theme="success" onClick={() => addOneToCart()}><FontAwesomeIcon icon={faCircle}/> </Button>
+      <Button className="decrease" theme="success" onClick={() => {setChecked(!checked);whichAction()}}> <FontAwesomeIcon icon={faCheck}/></Button>
     </div>
   );
 }
