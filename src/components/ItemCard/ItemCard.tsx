@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './ItemCard.scss';
-import { Button } from 'shards-react';
+import { Button,FormInput } from 'shards-react';
 import {
   Card,
   CardBody,
@@ -30,6 +30,8 @@ interface ItemCardProps {
 function ItemCard(props: ItemCardProps) {
   const { menuItem, cart, setCartItems } = props;
   const [checked, setChecked] = useState(false);
+  const [detail, setDetail] = useState("");
+  
 
   const checkIfTrue = ()=>cart.find((x) => x.itemId === menuItem.id) ? <FontAwesomeIcon icon={faCheck}/> : "";
   const addOneToCart = () => {
@@ -67,7 +69,6 @@ function ItemCard(props: ItemCardProps) {
     <div className="card-container">
       <Card className="card">
         <CardBody className="card-body">
-          {/* {menuItem.image !== "" && (<img width="150" src={menuItem.image} />)} */}
           <div className="card-content">
             <CardTitle>{menuItem.name}</CardTitle>
             <CardSubtitle>{menuItem.brief}</CardSubtitle>

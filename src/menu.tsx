@@ -280,7 +280,7 @@ export const menuItemsMock = [
   },
   {
     id: 32,
-    category: 'Condiciones del entorno',
+    category: '',
     name: 'Zona de la actividad',
     description: '',
     price: 8.0,
@@ -289,7 +289,7 @@ export const menuItemsMock = [
   },
   {
     id: 33,
-    category: 'Condiciones del entorno',
+    category: '',
     name: 'Tráfico de vehículos',
     description: '',
     price: 8.0,
@@ -298,7 +298,7 @@ export const menuItemsMock = [
   },
   {
     id: 34,
-    category: 'Condiciones del entorno',
+    category: '',
     name: 'Climatología',
     description: '',
     price: 8.0,
@@ -307,7 +307,7 @@ export const menuItemsMock = [
   },
   {
     id: 35,
-    category: 'Condiciones del entorno',
+    category: '',
     name: 'Condiciones especiales',
     description: '',
     price: 8.0,

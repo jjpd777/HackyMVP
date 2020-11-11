@@ -3,6 +3,8 @@ import './Checkout.scss';
 import { degrees, PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import { Button } from "shards-react";
 import firebase from 'firebase';
+import {useList}  from "react-firebase-hooks/database";
+
 
 import {
   FormTextarea,
@@ -62,6 +64,8 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
+const database = firebase.database();
+
 function Checkout(props: CheckoutProps) {
   const { menuItems, cart } = props;
 
@@ -75,11 +79,42 @@ function Checkout(props: CheckoutProps) {
   const [numberPeople, setNumberP] = useState("");
   const [fetchImage, setFetchImage] = useState("");
   const [modalOpen, setModalOpen]  =useState(false);
+  const [zone, setZone] = useState("");
+  const [vehicleTraffic, setVehicle] = useState("");
+  const [climate, setClimate] = useState("");
+  const [special, setSpecial] = useState("");
+  const [whatsApp,setWhatsApp]= useState(false)
+  const [step1, setStep1] = useState(false);
+  const [dbList, salesLoading, salesError] = useList(database.ref('/pointer'));
+  const [listItems, setListItems] = useState();
 
+
+  const extraCallbacks = [setZone, setVehicle,setClimate,setSpecial];
+  const extraFields = [zone, vehicleTraffic, climate, special];
+  const extraText = ["Zona de la actividad","Tráfico de vehículos","Climatología","Condiciones especiales"]
+
+
+  useEffect(() => {
+    //   // Call API to load the menu
+    placeItems(dbList);
+  }, [dbList]);
+
+  const placeItems = (dboject) =>{
+    // if(dbSales) dbSales.map((val)=>console.log(val.val()))
+    var length=0
+    const obj = dboject.map((tutorial) => tutorial.val());
+    setListItems(obj.length);
+  }
   const getHeader1 = () => [responsibleUnit,"INGETELCA S.A.", place, work , person, numberPeople];
   const canEmailPDF = ()=> getHeader1().map((val)=> val!=="" ? true: false);
   const sendIt = canEmailPDF().every(v=> v===true);
-
+  const [redirectURL, setRedirect]=useState("");
+  const helper=(item)=>{
+    const helperlist = [32,33,34,35];
+    var flag = false;
+    helperlist.map((val)=> val ===item ? flag=true: flag=false )
+    return flag;
+  }
   const engineersJSON = {"Rubén de Jesus Borja Molina":"https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_1_2390229602.png?alt=media&token=cbca267c-0e39-4e4c-befe-3f0f277789b1",
                      "Wilson Alexander Barillas Chajón":"https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_1_8338982172.png?alt=media&token=07085def-9f5d-469a-9c04-f0ae0d351e3e",
                       "Audelino Samayoa Pérez":"https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_12_2243519646.png?alt=media&token=aab8d1e9-b3e1-4fd6-80df-5ffa8bc2f89f",
@@ -94,7 +129,9 @@ function Checkout(props: CheckoutProps) {
   },[person]);
 
 
-
+  // function replaceAll(str, find, replace) {
+  //  return str.replace(new RegExp(find.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'g'), replace);
+  //   }
   const getKeys = () => {
     let response: any[] = [];
     for(var eng in engineersJSON) response.push(eng);
@@ -118,6 +155,12 @@ function Checkout(props: CheckoutProps) {
     return cartItems;
   };
 
+  const writePointer = ()=> {
+    database.ref('/pointer').push(1) ;
+    console.log("success")
+  }
+  const fetchPointer = ()=> console.log(listItems);
+ 
   async function modifyPdf() {
     const url = "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/SEGURIDAD-INDUSTRIAL.pdf?alt=media&token=7c665e8a-f302-4552-b96a-bbcdc7ad042c"
     const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer())
@@ -191,14 +234,52 @@ function Checkout(props: CheckoutProps) {
     menuItems.map((val) => {
       if (val.id === 36) { baseX = 328; baseY = 198 }
       cartthing.map((cartItem, ix) => {
-        if (val.id === cartItem.id) {
+        if (val.id === cartItem.id || val.id ===32 || val.id ===33 || val.id ===34 || val.id ===35 ) {
+          if(val.id===32 && zone !==""){
+            firstPage.drawText(zone, {
+              x: baseX+180,
+              y: height / 2 + baseY,
+              size: 7,
+              font: helveticaFont,
+              color: rgb(0.1, 0.1, 0.1),
+            })
+          }
+          else if(val.id===33 && vehicleTraffic !==""){
+            firstPage.drawText(vehicleTraffic, {
+              x: baseX+180,
+              y: height / 2 + baseY,
+              size: 7,
+              font: helveticaFont,
+              color: rgb(0.1, 0.1, 0.1),
+            })
+          }
+          else if(val.id===34 && climate !==""){
+            firstPage.drawText(climate, {
+              x: baseX+180,
+              y: height / 2 + baseY,
+              size: 7,
+              font: helveticaFont,
+              color: rgb(0.1, 0.1, 0.1),
+            })
+          }
+          else if(val.id===35 && special !==""){
+            firstPage.drawText(special, {
+              x: baseX+180,
+              y: height / 2 + baseY,
+              size:7,
+              font: helveticaFont,
+              color: rgb(0.1, 0.1, 0.1),
+            })
+          }else{
+            if( !(val.id ===32 || val.id ===33 || val.id ===34 || val.id ===35)){
           firstPage.drawText("x", {
             x: baseX,
             y: height / 2 + baseY,
             size: 10,
             font: helveticaFont,
             color: rgb(0.1, 0.1, 0.1),
-          })
+          })}
+        }
         }
       })
 
@@ -262,12 +343,60 @@ function Checkout(props: CheckoutProps) {
       height: pngDims.height
     })
 
-    const pdfBytes = await pdfDoc.save()
-    download(pdfBytes, "pdf-lib_modification_example.pdf", "application/pdf");
+    extraText.map((val,key)=>{
+
+    })
+
+    const pdfBytes = await pdfDoc.save();
+    var storageRef = firebase.storage().ref();
+    const randname = Math.random()
+    var file2write = storageRef.child('pdfs/pdf-num'+String(randname)+'.pdf')
+    file2write.put(pdfBytes).then(function(snapshot) {
+      console.log('Uploaded an array!');
+      console.log(file2write.fullPath);
+      console.log(storageRef.fullPath)
+      console.log(storageRef);
+      console.log(file2write)
+    });
+    const  downloadURL = await file2write.getDownloadURL().then(function(url) {
+      // `url` is the download URL for 'images/stars.jpg'
+      console.log(url)
+      return url
+    })
+    if(downloadURL){ 
+      var whatsAppBase = "https://api.whatsapp.com/send?phone=50232872167&text=Buenass%20ingeniero%0A%0AEste%20es%20el%20enlace%20al%20reporte%20%0A%0A"
+
+      // ":"=> %3A"//"=>%2F "?"=>%3F "="=>%3D "&" => %26
+      var fetchthatbitch = downloadURL;
+      const craftString = (message) => {
+
+        message = message.split("%").join("%25")
+        message = message.split("&").join("%26")
+        message = message.split("=").join("%3D")
+        message = message.split("?").join("%3F")
+        message = message.split("#").join("%23")
+        message = message.split(":").join("%3A")
+        message = message.split("/").join("%2F")
+        console.log(message)
+        return message;
+      }
+
+
+      //https://api.whatsapp.com/send?phone=50232872167&text=https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/pdfs%2FSECOND.pdf?alt=media&token=182f9773-c94c-42f3-9c3d-baf6208a5eae
+      whatsAppBase += craftString(fetchthatbitch);
+
+      setRedirect(whatsAppBase)
+                                                                                                          
+    }
+    console.log(downloadURL);
+    // download(pdfBytes, "pdf-lib_modification_example.pdf", "application/pdf");
   }
+  
   return (
     <div className="checkout-container">
       <img src="http://ingetelca.gt/wp-content/uploads/2011/07/logopeq.png" />
+      <Button onClick={()=>writePointer()}> vamos</Button>
+      <Button onClick={()=>fetchPointer()}> hola</Button>
       <div className="order-summary">
         <ListGroup>
           {getCartItems().map((item, index) => {
@@ -282,10 +411,7 @@ function Checkout(props: CheckoutProps) {
         </ListGroup>
       </div>
       <br />
-
-      {true && (
-        <div className="store-location" >
-          <Dropdown open={modalOpen} toggle={()=>setModalOpen(!modalOpen)} className="drop-down">
+      {true && <Dropdown open={modalOpen} toggle={()=>setModalOpen(!modalOpen)} className="drop-down">
             <DropdownToggle className ="button" split><b>{person !=="" ? person : "Escoger ingeniero"}</b></DropdownToggle>
               <DropdownMenu >
               {engineers.map((engineer,key)=>
@@ -293,13 +419,17 @@ function Checkout(props: CheckoutProps) {
                   onClick={()=>{
                     setPerson(engineer);
                     setLocation(key);
-                    setFetchImage(engineersJSON[engineer])
+                    setFetchImage(engineersJSON[engineer]);
+                    setStep1(true)
                     }} >
                   <FontAwesomeIcon icon={faMale}/> {' '} {engineer}
                 </DropdownItem>
               )}
             </DropdownMenu>
-        </Dropdown>
+        </Dropdown>}
+
+      {step1 && (
+        <div className="store-location" >
           <div className="shipping-info">
             <h5>Llenar la siguiente info</h5>
             <FormInput
@@ -342,14 +472,38 @@ function Checkout(props: CheckoutProps) {
                 setNumberP(e.target.value);
               }}
             />
+            <br></br>
+            <h5>Condiciones del Entorno</h5>
+            {extraFields.map((field,key)=>
+              <>
+              <br></br>
+              <p>{extraText[key]}</p>
+                <FormInput
+                className="input"
+                value ={field}
+                  onChange={(e)=>{
+                    extraCallbacks[key](e.target.value)
+                    }} >
+                </FormInput>
+                </>
+              )
+            }
             <Button onClick={props.onBack} className="button-secondary" outline block>
               <FontAwesomeIcon icon={faArrowAltCircleLeft} />{'  '}Editar listado
             </Button>
-            { sendIt &&
+            { !whatsApp && sendIt &&
             <Button
-              onClick={() =>modifyPdf()}
+              theme= "warning"
+              onClick={() =>{modifyPdf();setWhatsApp(!whatsApp)}}
+              className="button-pdf">
+              GENERAR PDF
+            </Button>}
+           { whatsApp && <Button
+              // onClick={() => modifyPdf()}
+              theme="success"
+              href={redirectURL}
               className="button" block>
-              Enviar formulario
+              ENVIAR EN PDF
             </Button>}
           </div>
         </div>
