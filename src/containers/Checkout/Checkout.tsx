@@ -3,7 +3,7 @@ import './Checkout.scss';
 import { degrees, PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import { Button } from "shards-react";
 import firebase from 'firebase';
-import {useList}  from "react-firebase-hooks/database";
+import { useList } from "react-firebase-hooks/database";
 
 
 import {
@@ -38,13 +38,13 @@ interface CheckoutProps {
   totalCartValue: number;
   onBack: () => void;
 }
-const getDate=()=>{
+const getDate = () => {
   var today = new Date();
-  var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+  var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
   console.log(date);
   return date;
 }
-const getTime = ()=>{
+const getTime = () => {
   var today = new Date();
   var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
   return time;
@@ -78,20 +78,21 @@ function Checkout(props: CheckoutProps) {
   const [engineers, setEngineers] = useState<any[]>([]);
   const [numberPeople, setNumberP] = useState("");
   const [fetchImage, setFetchImage] = useState("");
-  const [modalOpen, setModalOpen]  =useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const [zone, setZone] = useState("");
   const [vehicleTraffic, setVehicle] = useState("");
   const [climate, setClimate] = useState("");
   const [special, setSpecial] = useState("");
-  const [whatsApp,setWhatsApp]= useState(false)
+  const [whatsApp, setWhatsApp] = useState(false)
   const [step1, setStep1] = useState(false);
   const [dbList, salesLoading, salesError] = useList(database.ref('/pointer'));
   const [listItems, setListItems] = useState();
+  const [timer, setTimer]=useState(false);
 
 
-  const extraCallbacks = [setZone, setVehicle,setClimate,setSpecial];
+  const extraCallbacks = [setZone, setVehicle, setClimate, setSpecial];
   const extraFields = [zone, vehicleTraffic, climate, special];
-  const extraText = ["Zona de la actividad","Tráfico de vehículos","Climatología","Condiciones especiales"]
+  const extraText = ["Zona de la actividad", "Tráfico de vehículos", "Climatología", "Condiciones especiales"]
 
 
   useEffect(() => {
@@ -99,34 +100,35 @@ function Checkout(props: CheckoutProps) {
     placeItems(dbList);
   }, [dbList]);
 
-  const placeItems = (dboject) =>{
+  const placeItems = (dboject) => {
     // if(dbSales) dbSales.map((val)=>console.log(val.val()))
-    var length=0
+    var length = 0
     const obj = dboject.map((tutorial) => tutorial.val());
     setListItems(obj.length);
   }
-  const getHeader1 = () => [responsibleUnit,"INGETELCA S.A.", place, work , person, numberPeople];
-  const canEmailPDF = ()=> getHeader1().map((val)=> val!=="" ? true: false);
-  const sendIt = canEmailPDF().every(v=> v===true);
-  const [redirectURL, setRedirect]=useState("");
-  const helper=(item)=>{
-    const helperlist = [32,33,34,35];
+  const getHeader1 = () => [responsibleUnit, "INGETELCA S.A.", place, work, person, numberPeople];
+  const canEmailPDF = () => getHeader1().map((val) => val !== "" ? true : false);
+  const sendIt = canEmailPDF().every(v => v === true);
+  const [redirectURL, setRedirect] = useState("");
+  const helper = (item) => {
+    const helperlist = [32, 33, 34, 35];
     var flag = false;
-    helperlist.map((val)=> val ===item ? flag=true: flag=false )
+    helperlist.map((val) => val === item ? flag = true : flag = false)
     return flag;
   }
-  const engineersJSON = {"Rubén de Jesus Borja Molina":"https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_1_2390229602.png?alt=media&token=cbca267c-0e39-4e4c-befe-3f0f277789b1",
-                     "Wilson Alexander Barillas Chajón":"https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_1_8338982172.png?alt=media&token=07085def-9f5d-469a-9c04-f0ae0d351e3e",
-                      "Audelino Samayoa Pérez":"https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_12_2243519646.png?alt=media&token=aab8d1e9-b3e1-4fd6-80df-5ffa8bc2f89f",
-                      "Henry Alexander Morán Lemus":"https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_7_3829281714.png?alt=media&token=5d3fd87b-6dcd-4bca-afe3-d2683119b96e",
-                      "Luis Alberto Gudiel Polanco":"https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_10_5830862428.png?alt=media&token=c86e709e-ee67-4eef-811b-3b86fbcffcbe",
-                      "Victor Manuel Reyes Rivera":"https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_4_5725059954.png?alt=media&token=bf8d0a1c-6041-40f9-bb98-40ee16a83327",
-                      "Edin Gilberto Borja Molina":"https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_5_3004968665.png?alt=media&token=b551d73b-34ff-49f4-aae2-e4937aca16bf"
-                    };
+  const engineersJSON = {
+    "Rubén de Jesus Borja Molina": "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_1_2390229602.png?alt=media&token=cbca267c-0e39-4e4c-befe-3f0f277789b1",
+    "Wilson Alexander Barillas Chajón": "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_1_8338982172.png?alt=media&token=07085def-9f5d-469a-9c04-f0ae0d351e3e",
+    "Audelino Samayoa Pérez": "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_12_2243519646.png?alt=media&token=aab8d1e9-b3e1-4fd6-80df-5ffa8bc2f89f",
+    "Henry Alexander Morán Lemus": "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_7_3829281714.png?alt=media&token=5d3fd87b-6dcd-4bca-afe3-d2683119b96e",
+    "Luis Alberto Gudiel Polanco": "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_10_5830862428.png?alt=media&token=c86e709e-ee67-4eef-811b-3b86fbcffcbe",
+    "Victor Manuel Reyes Rivera": "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_4_5725059954.png?alt=media&token=bf8d0a1c-6041-40f9-bb98-40ee16a83327",
+    "Edin Gilberto Borja Molina": "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_5_3004968665.png?alt=media&token=b551d73b-34ff-49f4-aae2-e4937aca16bf"
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     setEngineers(getKeys());
-  },[person]);
+  }, [person]);
 
 
   // function replaceAll(str, find, replace) {
@@ -134,7 +136,7 @@ function Checkout(props: CheckoutProps) {
   //   }
   const getKeys = () => {
     let response: any[] = [];
-    for(var eng in engineersJSON) response.push(eng);
+    for (var eng in engineersJSON) response.push(eng);
     return response
   }
 
@@ -155,12 +157,11 @@ function Checkout(props: CheckoutProps) {
     return cartItems;
   };
 
-  const writePointer = ()=> {
-    database.ref('/pointer').push(1) ;
-    console.log("success")
+  const writePointer = () => {
+    database.ref('/pointer').push(1);
   }
-  const fetchPointer = ()=> console.log(listItems);
  
+
   async function modifyPdf() {
     const url = "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/SEGURIDAD-INDUSTRIAL.pdf?alt=media&token=7c665e8a-f302-4552-b96a-bbcdc7ad042c"
     const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer())
@@ -183,7 +184,6 @@ function Checkout(props: CheckoutProps) {
         size: 7,
         font: helveticaFont,
         color: rgb(0.1, 0.1, 0.1),
-        // rotate: degrees(-45),
       })
       baseY -= 14;
     })
@@ -195,7 +195,6 @@ function Checkout(props: CheckoutProps) {
       size: 7,
       font: helveticaFont,
       color: rgb(0.1, 0.1, 0.1),
-      // rotate: degrees(-45),
     })
     const dateX = baseX + 195;
     const dateY = baseY + 14;
@@ -234,52 +233,53 @@ function Checkout(props: CheckoutProps) {
     menuItems.map((val) => {
       if (val.id === 36) { baseX = 328; baseY = 198 }
       cartthing.map((cartItem, ix) => {
-        if (val.id === cartItem.id || val.id ===32 || val.id ===33 || val.id ===34 || val.id ===35 ) {
-          if(val.id===32 && zone !==""){
+        if (val.id === cartItem.id || val.id === 32 || val.id === 33 || val.id === 34 || val.id === 35) {
+          if (val.id === 32 && zone !== "") {
             firstPage.drawText(zone, {
-              x: baseX+180,
+              x: baseX + 180,
               y: height / 2 + baseY,
               size: 7,
               font: helveticaFont,
               color: rgb(0.1, 0.1, 0.1),
             })
           }
-          else if(val.id===33 && vehicleTraffic !==""){
+          else if (val.id === 33 && vehicleTraffic !== "") {
             firstPage.drawText(vehicleTraffic, {
-              x: baseX+180,
+              x: baseX + 180,
               y: height / 2 + baseY,
               size: 7,
               font: helveticaFont,
               color: rgb(0.1, 0.1, 0.1),
             })
           }
-          else if(val.id===34 && climate !==""){
+          else if (val.id === 34 && climate !== "") {
             firstPage.drawText(climate, {
-              x: baseX+180,
+              x: baseX + 180,
               y: height / 2 + baseY,
               size: 7,
               font: helveticaFont,
               color: rgb(0.1, 0.1, 0.1),
             })
           }
-          else if(val.id===35 && special !==""){
+          else if (val.id === 35 && special !== "") {
             firstPage.drawText(special, {
-              x: baseX+180,
+              x: baseX + 180,
               y: height / 2 + baseY,
-              size:7,
+              size: 7,
               font: helveticaFont,
               color: rgb(0.1, 0.1, 0.1),
             })
-          }else{
-            if( !(val.id ===32 || val.id ===33 || val.id ===34 || val.id ===35)){
-          firstPage.drawText("x", {
-            x: baseX,
-            y: height / 2 + baseY,
-            size: 10,
-            font: helveticaFont,
-            color: rgb(0.1, 0.1, 0.1),
-          })}
-        }
+          } else {
+            if (!(val.id === 32 || val.id === 33 || val.id === 34 || val.id === 35)) {
+              firstPage.drawText("x", {
+                x: baseX,
+                y: height / 2 + baseY,
+                size: 10,
+                font: helveticaFont,
+                color: rgb(0.1, 0.1, 0.1),
+              })
+            }
+          }
         }
       })
 
@@ -304,35 +304,34 @@ function Checkout(props: CheckoutProps) {
     // })
 
     const sign = fetchImage;
-
     const signImageBytes = await fetch(sign).then(res => res.arrayBuffer());
     const signImage = await pdfDoc.embedPng(signImageBytes);
-   
-    const getSizeAndLocation =()=>{
+
+    const getSizeAndLocation = () => {
       var xCoord = 430;
       var yCoord = 47;
       var resize = 0.5
-      if(person ==="Henry Alexander Morán Lemus") {
-        xCoord =420;
-        resize =0.2;
-        yCoord=60;
+      if (person === "Henry Alexander Morán Lemus") {
+        xCoord = 420;
+        resize = 0.2;
+        yCoord = 60;
       }
-      if(person ==="Luis Alberto Gudiel Polanco") {
-        xCoord =430;
-        resize =0.15;
-        yCoord=40;
+      if (person === "Luis Alberto Gudiel Polanco") {
+        xCoord = 430;
+        resize = 0.15;
+        yCoord = 40;
       }
-      if(person ==="Victor Manuel Reyes Rivera") {
-        xCoord =400;
-        resize =0.5;
-        yCoord=50;
+      if (person === "Victor Manuel Reyes Rivera") {
+        xCoord = 400;
+        resize = 0.5;
+        yCoord = 50;
       }
-      if(person ==="Edin Gilberto Borja Molina") {
-        xCoord =410;
-        resize =0.3;
-        yCoord=50;
+      if (person === "Edin Gilberto Borja Molina") {
+        xCoord = 410;
+        resize = 0.3;
+        yCoord = 50;
       }
-      return [resize,xCoord,yCoord]
+      return [resize, xCoord, yCoord]
     }
     const sizeAndLocation = getSizeAndLocation();
     const pngDims = signImage.scale(sizeAndLocation[0])
@@ -343,60 +342,38 @@ function Checkout(props: CheckoutProps) {
       height: pngDims.height
     })
 
-    extraText.map((val,key)=>{
-
-    })
-
     const pdfBytes = await pdfDoc.save();
     var storageRef = firebase.storage().ref();
-    const randname = Math.random()
-    var file2write = storageRef.child('pdfs/pdf-num'+String(randname)+'.pdf')
-    file2write.put(pdfBytes).then(function(snapshot) {
-      console.log('Uploaded an array!');
-      console.log(file2write.fullPath);
-      console.log(storageRef.fullPath)
-      console.log(storageRef);
-      console.log(file2write)
-    });
-    const  downloadURL = await file2write.getDownloadURL().then(function(url) {
-      // `url` is the download URL for 'images/stars.jpg'
-      console.log(url)
-      return url
-    })
-    if(downloadURL){ 
-      var whatsAppBase = "https://api.whatsapp.com/send?phone=50232872167&text=Buenass%20ingeniero%0A%0AEste%20es%20el%20enlace%20al%20reporte%20%0A%0A"
+    var file2write = storageRef.child('pdfs/pdf-num' + String(listItems) + '.pdf')
 
-      // ":"=> %3A"//"=>%2F "?"=>%3F "="=>%3D "&" => %26
-      var fetchthatbitch = downloadURL;
-      const craftString = (message) => {
-
-        message = message.split("%").join("%25")
-        message = message.split("&").join("%26")
-        message = message.split("=").join("%3D")
-        message = message.split("?").join("%3F")
-        message = message.split("#").join("%23")
-        message = message.split(":").join("%3A")
-        message = message.split("/").join("%2F")
-        console.log(message)
-        return message;
-      }
-
-
-      //https://api.whatsapp.com/send?phone=50232872167&text=https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/pdfs%2FSECOND.pdf?alt=media&token=182f9773-c94c-42f3-9c3d-baf6208a5eae
-      whatsAppBase += craftString(fetchthatbitch);
-
-      setRedirect(whatsAppBase)
-                                                                                                          
-    }
-    console.log(downloadURL);
-    // download(pdfBytes, "pdf-lib_modification_example.pdf", "application/pdf");
-  }
+    file2write.put(pdfBytes).then(function (snapshot) {
+      
+      file2write.getDownloadURL().then(function (url) {
+        setTimer(true);
+        var fetchthatbitch = url;
+        var whatsAppBase = "https://api.whatsapp.com/send?phone=50240192301&text=Buenas%20ingeniero%0A%0AEste%20es%20el%20enlace%20al%20reporte%20%0A%0A"
+        const craftString = (message) => {
   
+          message = message.split("%").join("%25")
+          message = message.split("&").join("%26")
+          message = message.split("=").join("%3D")
+          message = message.split("?").join("%3F")
+          message = message.split("#").join("%23")
+          message = message.split(":").join("%3A")
+          message = message.split("/").join("%2F")
+          console.log(message)
+          return message;
+        }
+        whatsAppBase += craftString(fetchthatbitch);
+        setRedirect(whatsAppBase);
+      })
+     
+    });
+  }
+
   return (
     <div className="checkout-container">
       <img src="http://ingetelca.gt/wp-content/uploads/2011/07/logopeq.png" />
-      <Button onClick={()=>writePointer()}> vamos</Button>
-      <Button onClick={()=>fetchPointer()}> hola</Button>
       <div className="order-summary">
         <ListGroup>
           {getCartItems().map((item, index) => {
@@ -411,22 +388,23 @@ function Checkout(props: CheckoutProps) {
         </ListGroup>
       </div>
       <br />
-      {true && <Dropdown open={modalOpen} toggle={()=>setModalOpen(!modalOpen)} className="drop-down">
-            <DropdownToggle className ="button" split><b>{person !=="" ? person : "Escoger ingeniero"}</b></DropdownToggle>
-              <DropdownMenu >
-              {engineers.map((engineer,key)=>
-                <DropdownItem 
-                  onClick={()=>{
-                    setPerson(engineer);
-                    setLocation(key);
-                    setFetchImage(engineersJSON[engineer]);
-                    setStep1(true)
-                    }} >
-                  <FontAwesomeIcon icon={faMale}/> {' '} {engineer}
-                </DropdownItem>
-              )}
-            </DropdownMenu>
-        </Dropdown>}
+      {true && <Dropdown open={modalOpen} toggle={() => setModalOpen(!modalOpen)} className="drop-down">
+        <DropdownToggle className="button" split><b>{person !== "" ? person : "Escoger ingeniero"}</b></DropdownToggle>
+        <DropdownMenu >
+          {engineers.map((engineer, key) =>
+            <DropdownItem
+              onClick={() => {
+                setPerson(engineer);
+                setLocation(key);
+                setFetchImage(engineersJSON[engineer]);
+                setStep1(true);
+                writePointer();
+              }} >
+              <FontAwesomeIcon icon={faMale} /> {' '} {engineer}
+            </DropdownItem>
+          )}
+        </DropdownMenu>
+      </Dropdown>}
 
       {step1 && (
         <div className="store-location" >
@@ -452,7 +430,7 @@ function Checkout(props: CheckoutProps) {
                 setPlace(e.target.value);
               }}
             />
-             <FormInput
+            <FormInput
               className="input"
               type="text"
               size="lg"
@@ -474,37 +452,37 @@ function Checkout(props: CheckoutProps) {
             />
             <br></br>
             <h5>Condiciones del Entorno</h5>
-            {extraFields.map((field,key)=>
+            {extraFields.map((field, key) =>
               <>
-              <br></br>
-              <p>{extraText[key]}</p>
+                <br></br>
+                <p>{extraText[key]}</p>
                 <FormInput
-                className="input"
-                value ={field}
-                  onChange={(e)=>{
+                  className="input"
+                  value={field}
+                  onChange={(e) => {
                     extraCallbacks[key](e.target.value)
-                    }} >
+                  }} >
                 </FormInput>
-                </>
-              )
+              </>
+            )
             }
             <Button onClick={props.onBack} className="button-secondary" outline block>
               <FontAwesomeIcon icon={faArrowAltCircleLeft} />{'  '}Editar listado
             </Button>
-            { !whatsApp && sendIt &&
-            <Button
-              theme= "warning"
-              onClick={() =>{modifyPdf();setWhatsApp(!whatsApp)}}
-              className="button-pdf">
-              GENERAR PDF
+            {!whatsApp && sendIt &&
+              <Button
+                theme="warning"
+                onClick={() => { modifyPdf(); setWhatsApp(!whatsApp) }}
+                className="button-pdf">
+                GENERAR PDF
             </Button>}
-           { whatsApp && <Button
-              // onClick={() => modifyPdf()}
+            {whatsApp && timer && <Button
               theme="success"
               href={redirectURL}
               className="button" block>
               ENVIAR EN PDF
             </Button>}
+            {!timer && whatsApp && <Button className="wait-button" onClick={()=>console.log(timer)}>Por favor un momento</Button>}
           </div>
         </div>
       ) || null}
