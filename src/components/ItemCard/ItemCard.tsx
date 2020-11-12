@@ -18,6 +18,8 @@ import {
 import {
   faArrowAltCircleLeft,
   faCheckCircle,
+  faTimes,
+  faCheck,
   faTrash
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -36,6 +38,7 @@ function ItemCard(props: ItemCardProps) {
   const { menuItem, cart, setCartItems } = props;
   const [modalOpen, setModalOpen] = useState(false);
   const [currentEdit, setCurrentEdit] = useState();
+  const [cancel, setCancel] = useState(false);
 
   const addToDB = (id) => {
     const data = {
@@ -86,12 +89,17 @@ function ItemCard(props: ItemCardProps) {
       setCartItems(newArray);
     }
   };
+  const cancelSale = (saleItem)=> {
+    const dataUpdate = {"valid":false};
+    DBservice.update(saleItem.id, dataUpdate).then(()=>console.log(saleItem.id))
+    
+  }
 
   return (
     <div className="card-container">
-      <table onClick={()=>setModalOpen(true)} className="table">
+      <table onClick={() => setModalOpen(true)} className="table">
         <td className="tableu">
-          Total de venta{':  '}<b>{String(menuItem.total)}</b>
+          {menuItem.date.split(" ")[0]}{':  Qtz.'}<b>{String(menuItem.total)}</b>
         </td>
       </table>
 
@@ -105,33 +113,46 @@ function ItemCard(props: ItemCardProps) {
       >
         <ModalHeader>{menuItem.name}</ModalHeader>
         <ModalBody className="modal-body">
-          <div className="item-price">Total de venta:{' '}{menuItem.total}</div>
+          <div className="item-price">Total de venta:{'  '}{menuItem.total}</div>
           <br></br>
           <p><b> Nombre cliente:</b> {menuItem.name}</p>
           <p><b>Método de pago:</b> {menuItem.payment}</p>
-          <p><b>Factura:</b> C.F. </p>
+          <p><b>Información de factura:{'  '}</b>{menuItem.taxInfo} </p>
+          <p><b>Status de venta:</b>{menuItem.valid ? "Activo" : "Cancelado"}</p>
           <div className="add-cart">
-            {/* <InputGroup className="plus-minus">
-              <FormInput
-                type="number"
-                placeholder={menuItem.name}
-                value={currentEdit}
-                onChange={(e) => {
-                  setCurrentEdit(e.target.value);
-                  console.log(e.target.value);
-                }}
-              />
-            </InputGroup> */}
-            <br></br>
-            {/* <Button pill inline className="cancel-btn" theme="danger" onClick={() => setModalOpen(modalOpen)}>
-            {'  '}<FontAwesomeIcon icon={faTrash}/>{'  '}
-            </Button> */}
-            <Button pill inline className="save-btn" theme="success" onClick={() => {
+          <p><b>Producto vendido:</b></p>
+          {menuItem.pedido.map((val)=> 
+          <>
+           <p>{<FontAwesomeIcon icon={faCheckCircle}/>}{' '}{val.name}{' '}<b>{val.quantity}</b>  </p>
+          </>
+          )
+          }
+          
+          <br></br>
+          { !cancel ? (
+          <button 
+            onClick={() => {
+              // setModalOpen(!modalOpen);
+              setCancel(true);
+            }
+            }>
+              {'  '}Cancelar venta{'  '}
+            </button>):(
+              <>        
+              <h5>Cancelar venta?</h5>    
+            <Button pill inline className="save" theme="danger" onClick={() => {
               setModalOpen(!modalOpen);
-              // addToDB(menuItem.id);
+            }}> no</Button>
+            <Button pill inline className="save" theme="success" onClick={() => {
+              setModalOpen(!modalOpen); cancelSale(menuItem);
+            }}>si</Button>
+            </>)
+          }
+            {!cancel && <Button pill inline className="save-btn" theme="success" onClick={() => {
+              setModalOpen(!modalOpen);
             }}>
-              {'  '}<FontAwesomeIcon icon={faCheckCircle}/>{'  '}
-            </Button>
+              {'  '}<FontAwesomeIcon icon={faCheckCircle} />{'  '}
+            </Button>}
           </div>
         </ModalBody>
       </Modal>

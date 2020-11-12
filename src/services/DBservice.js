@@ -13,7 +13,8 @@ const create = (data,table) => {
 };
 
 const update = (key, data) => {
-  return db.child(key).update(data);
+  const dbs = database.ref("/ventas-borgona");
+  return dbs.child(key).update(data);
 };
 
 const remove = (key) => {

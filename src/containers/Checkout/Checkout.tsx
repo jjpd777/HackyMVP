@@ -13,10 +13,13 @@ import {
   FormInput,
   FormRadio,
 } from 'shards-react';
-
+import {
+  faRedo
+} from '@fortawesome/free-solid-svg-icons';
 import { CartItem } from '../../App';
 import { MenuItem } from '../Menu/Menu';
 import DBservice from "../../services/DBservice";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 interface CheckoutProps {
@@ -24,13 +27,14 @@ interface CheckoutProps {
   cart: CartItem[];
   totalCartValue: number;
   onBack: () => void;
+  emptyCart: ()=> void;
 }
 
 function Checkout(props: CheckoutProps) {
   const { menuItems, cart } = props;
 
   const [name, setName] = useState();
-  const [address, setAddress] = useState();
+  const [address, setAddress] = useState("Ciudad de Guatemala");
   const [phone, setPhone] = useState();
   const [entrance, setEntrance] = useState("");
   const [payMethod, setPayment] = useState(true);
@@ -42,6 +46,11 @@ function Checkout(props: CheckoutProps) {
     var date = new Date();
     var str = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
     return str;
+  }
+  function getDateforSection() {
+    var date = new Date();
+    return date.getDate() + "-" + (date.getMonth() + 1)+ "-"+ date.getFullYear() ;
+
   }
 
   const getCartItems = () => {
@@ -72,7 +81,6 @@ function Checkout(props: CheckoutProps) {
         quantity: item.quantity
       });
     })
-    console.log(response)
     return response;
   }
   const getTaxInfo = () => taxInfo ? tax : "C.F.";
@@ -83,6 +91,7 @@ function Checkout(props: CheckoutProps) {
     setTaxText("");
     setTaxInfo(false);
     props.onBack();
+    props.emptyCart()
   }
   const writeOrder = () => {
     if (!name || !address || !phone) return
@@ -91,16 +100,20 @@ function Checkout(props: CheckoutProps) {
     const order = getShopCartJSON();
     const time = getFormattedDate();
     const taxString = getTaxInfo();
+    const dateCategory = getDateforSection();
+    
     const newRow = {
       "id": "",
       "name": name,
       "address": address,
       "phone": phone,
       "payment": payment,
-      "tax-info": taxString,
+      "taxInfo": taxString,
       "total": props.totalCartValue,
       "date": time,
       "pedido": order,
+      "category": dateCategory,
+      "valid" : true,
     }
     DBservice.create(newRow, "/ventas-borgona")
       .then(() => {
@@ -126,7 +139,6 @@ function Checkout(props: CheckoutProps) {
               </ListGroupItem>
             );
           })}
-
           <ListGroupItem
             style={{ fontWeight: 600 }}
             className="list-item"
@@ -141,6 +153,9 @@ function Checkout(props: CheckoutProps) {
             <div>Qtz. {props.totalCartValue}</div>
           </ListGroupItem>
         </ListGroup>
+        <br></br>
+        <Button onClick={props.onBack} className="button-secondary" outline block> <FontAwesomeIcon icon={faRedo}/>{'  '}Regresar al Menu</Button>
+
         {/* {!minPaymentAmount && (<Button className="pillyboy" disabled="true" theme="danger"><b>ATENCIÓN:</b> Pedidos  de Qtz. 50</Button>)} */}
       </div>
       <br />
@@ -177,13 +192,6 @@ function Checkout(props: CheckoutProps) {
               value={name}
               onChange={(e) => {
                 setName(e.target.value);
-              }}
-            />
-            <FormTextarea
-              className="input"
-              placeholder="Dirección del domicilio"
-              onChange={(e) => {
-                setAddress(e.target.value);
               }}
             />
             <b><p>Información tributaria:</p></b>
@@ -225,7 +233,7 @@ function Checkout(props: CheckoutProps) {
               }}
             />
             <Button
-              onClick={() => {writeOrder();registerSale()}}
+              onClick={() => {writeOrder();registerSale();}}
               // href={writeOrder(name, address, phone, payMethod)}
               className="button" block>
               Registrar compra
@@ -235,10 +243,6 @@ function Checkout(props: CheckoutProps) {
       ) || null}
 
       <br></br>
-
-      <Button onClick={props.onBack} className="button-secondary" outline block>
-        Regresar al Menu
-      </Button>
     </div>
   );
 }

@@ -11,6 +11,7 @@ import {
 import { CartItem } from '../../App';
 import { groupBy } from 'lodash';
 import Section from '../../components/Section/Section';
+import { element } from 'prop-types';
 
 export interface MenuItem {
   id: number;
@@ -41,6 +42,7 @@ function Menu(props: MenuProps) {
   const [menuList, setMenuList] = useState<MenuItem[]>(menuItems);
 
   const categories = groupBy(menuList, (x) => x.category);
+  
 
   const defaultState = {};
   Object.entries(categories).map(([key]) => {
@@ -48,6 +50,8 @@ function Menu(props: MenuProps) {
   });
 
   const [searchQuery, setSearchQuery] = useState('');
+
+  const getKeys = ()=>console.log(menuItems[0])
 
   // useEffect(() => {
   //   // Triggered whenever Search Query changes
@@ -60,11 +64,15 @@ function Menu(props: MenuProps) {
   const clearSearch = () => {
     setSearchQuery('');
   };
+  // Get the sale date
+  // const getTitle(value)=> value. ? key : 
+
   const sections: JSX.Element[] = [];
   Object.entries(categories).map(([key, value], index) => {
+    const title = key ? key: value["category"];
     sections.push(
       <Section
-        title={key}
+        title={title}
         menuItems={value}
         cart={cart}
         setCartItems={setCartItems}

@@ -9,6 +9,7 @@ import Header from './containers/Header/Header'
 
 
 import DBservice from "./services/DBservice";
+import DBseed from "./services/seedDB"
 import {useList}  from "react-firebase-hooks/database";
 
 export interface CartItem {
@@ -28,6 +29,9 @@ function App() {
   const [dbElements, loading, error] = useList(DBservice.getAll("/inventario-borgona"));
   const [dbSales, salesLoading, salesError] = useList(DBservice.getAll("/ventas-borgona"));
   const [justSee, setJustSee] = useState(true);
+  const [avTicket, setAvTicket]= useState(0);
+  const [avCard, setAvCard]= useState(0);
+  const [avCash, setAvCash]= useState(0);
 
   const displayText = () => !justSee ? "Ingresar venta" : " ver ventas";
 
@@ -41,7 +45,8 @@ function App() {
     const obj = dboject.map((tutorial) => tutorial.val());
     const uniqd = dboject.map((tutorial) => tutorial.key);
     obj.map((item, ix) => item.id = uniqd[ix]);
-    setSalesItems(obj);
+    const sales = obj.reverse();
+    setSalesItems(sales);
   }
   const placeItems = (dboject) => {
     // THIS IS SO HACKY LOOOOOOL BY FAR THE MOST VULNERABLE PART OF THE APPLICATION
@@ -52,67 +57,26 @@ function App() {
   }
 
   const emptyCart = () =>setCartItems([]);
-  const examineSales = ()=> salesItems.map((val)=> console.log(val.pedido[0]))
-  const getRows = () => {
-    if (dbElements) {
-      dbElements.map((item) => {
-        const temp = item.val();
-        console.log(temp)
-        var data = {
-          id: 0,
-          category: "",
-          name: "",
-          brief: "",
-          quantityavailable: 0,
-          price: 0,
-          image: "",
-        };
-        // data.title=item.title,
-        data.id = temp.id;
-        data.name = temp.name;
-        data.category = temp.category;
-        data.brief = temp.brief;
-        data.quantityavailable = temp.quantityavailable;
-        data.price = temp.price;
-        data.image = temp.image;
-
-      })
-    }
-
-  }
-  const transcribe = () => {
-    let ptr = 0;
-    menuItemsMock.map((item) => {
-      var data = {
-        id: 0,
-        category: "",
-        name: "",
-        brief: "",
-        quantityavailable: 0,
-        price: 0,
-        image: "",
-      };
-      // data.title=item.title,
-      data.id = ptr;
-      data.name = item.name;
-      data.category = item.category;
-      data.brief = item.brief;
-      data.quantityavailable = 20;
-      data.price = item.price;
-      data.image = item.image;
-      ptr += 1;
-      DBservice.create(data)
-        .then(() => {
-          console.log(data)
-        })
-        .catch(e => {
-          console.log(e);
-        });
+  
+  const getStats = ()=> {
+    var salesTotal=0;
+    var cardTotal =0;
+    var cashTotal = 0;
+    salesItems.map((val,key)=> {
+      salesTotal+= val.total
+      if(val.payment === "tarjeta") cardTotal+=val.total;
+      else cashTotal+= val.total;
     })
 
+    const ticket = (salesTotal/salesItems.length);
+    const tmp = (Math.round(ticket * 100) / 100).toFixed(2)
+    const result= parseFloat(tmp);
+    setAvCard(cardTotal);
+    setAvCash(cashTotal);
+    setAvTicket(result);
   }
 
-  const buttonSales = ()=> justSee ? "success" : "warning";
+  const buttonSales = ()=> justSee ? "danger" : "warning";
 
   const getTotalCartValue = () => {
     let totalVal = 0;
@@ -135,14 +99,23 @@ function App() {
         <>
           <Button className="navig"> Cargando...</Button>
         </>) : 
-        (<Button className="navig" theme={buttonSales()} onClick={() => setJustSee(!justSee)}>Cambiar a {displayText()}</Button>)
+        (<Button className="navig" theme={buttonSales()} 
+        onClick={() => {
+          setJustSee(!justSee);
+          getStats();
+          DBseed.transcribe();
+        }}>
+          Cambiar a {displayText()}</Button>)
         }
-        {/* {loading && (<Button className="navig"> Cargando...</Button>)} */}
-
       {!loading && (
         <>
-          {  salesItems.length !==0 && !justSee && (
+          {  salesItems.length !==0 && currentPage === PageEnum.MENU && !justSee && (
             <>
+            <h3># Ticket: {salesItems.length}</h3>
+            <h3><b>Q.</b>{avTicket} promedio / ticket</h3>
+            <h5>Ventas tarjeta: Q.{avCard}</h5>
+            <h5>Ventas cash: Q.{avCash}</h5>
+            
                 <Menu
                   menuItems={salesItems}
                   cart={cart}
@@ -167,9 +140,9 @@ function App() {
                 menuItems={menuItems}
                 cart={cart}
                 totalCartValue={getTotalCartValue()}
+                emptyCart={()=>emptyCart()}
                 onBack={() => {
                   setCurrentPage(PageEnum.MENU);
-                  emptyCart();
                 }}
               ></Checkout>
             )}
@@ -186,7 +159,7 @@ function App() {
                 className="checkout-button"
                 block
               >
-                Revisar la lista para enviar
+                Revisar la compra para enviar
           </Button>
             </div>
           )) ||

@@ -6,13 +6,6 @@ import {
   CardBody,
   CardTitle,
   CardSubtitle,
-  Modal,
-  ModalBody,
-  ModalHeader,
-  InputGroup,
-  InputGroupText,
-  InputGroupAddon,
-  FormInput,
 } from 'shards-react';
 
 import {
