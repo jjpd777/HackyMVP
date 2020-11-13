@@ -5,12 +5,23 @@ import { Button } from 'shards-react';
 import Checkout from './containers/Checkout/Checkout';
 import { menuItemsMock } from './cp-menut';
 import Header from './containers/Header/Header'
-
-
-
+import Report from './containers/Report/Report'
 import DBservice from "./services/DBservice";
 import DBseed from "./services/seedDB"
-import {useList}  from "react-firebase-hooks/database";
+import { useList } from "react-firebase-hooks/database";
+
+import {
+  faCashRegister,
+  faEnvelope,
+  faMoneyBill,
+  faCreditCard,
+  faSearchDollar,
+  faMoneyBillAlt,
+  faCoins,
+  faMoneyBillWave
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 
 export interface CartItem {
   itemId: number;
@@ -29,19 +40,19 @@ function App() {
   const [dbElements, loading, error] = useList(DBservice.getAll("/inventario-borgona"));
   const [dbSales, salesLoading, salesError] = useList(DBservice.getAll("/ventas-borgona"));
   const [justSee, setJustSee] = useState(true);
-  const [avTicket, setAvTicket]= useState(0);
-  const [avCard, setAvCard]= useState(0);
-  const [avCash, setAvCash]= useState(0);
+  const [pos, setPos] = useState(true);
 
-  const displayText = () => !justSee ? "Ingresar venta" : " ver ventas";
+  const [loaded, setLoaded] = useState(false)
+
 
   useEffect(() => {
-    //   // Call API to load the menu
     placeItems(dbElements);
     placeSales(dbSales);
-  }, [dbElements,dbSales]);
+    setLoaded(true);
+  }, [dbElements, dbSales]);
 
-  const placeSales = (dboject) =>{
+
+  const placeSales = (dboject) => {
     const obj = dboject.map((tutorial) => tutorial.val());
     const uniqd = dboject.map((tutorial) => tutorial.key);
     obj.map((item, ix) => item.id = uniqd[ix]);
@@ -56,27 +67,10 @@ function App() {
     setMenuItems(obj);
   }
 
-  const emptyCart = () =>setCartItems([]);
-  
-  const getStats = ()=> {
-    var salesTotal=0;
-    var cardTotal =0;
-    var cashTotal = 0;
-    salesItems.map((val,key)=> {
-      salesTotal+= val.total
-      if(val.payment === "tarjeta") cardTotal+=val.total;
-      else cashTotal+= val.total;
-    })
+  const emptyCart = () => setCartItems([]);
 
-    const ticket = (salesTotal/salesItems.length);
-    const tmp = (Math.round(ticket * 100) / 100).toFixed(2)
-    const result= parseFloat(tmp);
-    setAvCard(cardTotal);
-    setAvCash(cashTotal);
-    setAvTicket(result);
-  }
-
-  const buttonSales = ()=> justSee ? "danger" : "warning";
+  const buttonSales = justSee ? "danger" : "warning";
+  const displayText = () => !justSee ? <FontAwesomeIcon icon={faCashRegister}/> : <FontAwesomeIcon icon={faMoneyBillAlt}/>;
 
   const getTotalCartValue = () => {
     let totalVal = 0;
@@ -90,40 +84,38 @@ function App() {
     return totalVal;
   };
 
+
   return (
     <div className="App">
       <header className="App-header">
-        <Header />
-      </header>
-      {loading ? (
+          <Header />
+        </header>
+        {loading ? (
         <>
           <Button className="navig"> Cargando...</Button>
-        </>) : 
-        (<Button className="navig" theme={buttonSales()} 
-        onClick={() => {
-          setJustSee(!justSee);
-          getStats();
-          DBseed.transcribe();
-        }}>
+        </>) :
+        (pos && <Button className="navig" theme={buttonSales}
+          onClick={() => {
+            setJustSee(!justSee);
+          }}>
           Cambiar a {displayText()}</Button>)
-        }
+      }
+      { !justSee && !salesLoading &&
+              <Report salesItems={salesItems}/>
+      }
+      
       {!loading && (
         <>
-          {  salesItems.length !==0 && currentPage === PageEnum.MENU && !justSee && (
+          {salesItems.length !== 0 && currentPage === PageEnum.MENU && !justSee && (
             <>
-            <h3># Ticket: {salesItems.length}</h3>
-            <h3><b>Q.</b>{avTicket} promedio / ticket</h3>
-            <h5>Ventas tarjeta: Q.{avCard}</h5>
-            <h5>Ventas cash: Q.{avCash}</h5>
-            
-                <Menu
-                  menuItems={salesItems}
-                  cart={cart}
-                  setCartItems={setCartItems}
-                  pos={false}
-                ></Menu>
+              <Menu
+                menuItems={salesItems}
+                cart={cart}
+                setCartItems={setCartItems}
+                pos={false}
+              ></Menu>
             </>
-          )} 
+          )}
           <section className="container">
             {(currentPage === PageEnum.MENU && justSee) && (
               <>
@@ -140,9 +132,10 @@ function App() {
                 menuItems={menuItems}
                 cart={cart}
                 totalCartValue={getTotalCartValue()}
-                emptyCart={()=>emptyCart()}
+                emptyCart={() => emptyCart()}
                 onBack={() => {
                   setCurrentPage(PageEnum.MENU);
+                  setPos(true);
                 }}
               ></Checkout>
             )}
@@ -155,6 +148,7 @@ function App() {
               <Button
                 onClick={() => {
                   setCurrentPage(PageEnum.CHECKOUT);
+                  setPos(false)
                 }}
                 className="checkout-button"
                 block

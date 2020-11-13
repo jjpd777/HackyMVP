@@ -12,6 +12,7 @@ import {
   faArrowAltCircleLeft,
   faCheckCircle,
   faShoppingBasket,
+  faCircle,
   faTrash
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -87,17 +88,18 @@ function PoSCard(props: PoSCardProps) {
         <CardBody className="card-body">
           {/* {menuItem.image !== "" && (<img width="150" src={menuItem.image} />)} */}
           <div className="card-content">
-            <CardTitle>{menuItem.name}</CardTitle>
+            <CardTitle className="title">{menuItem.name}</CardTitle>
             <CardSubtitle>{menuItem.brief}</CardSubtitle>
           </div>
           <div className="card-price">
-    {cart.find((x) => x.itemId === menuItem.id) && <FontAwesomeIcon icon={faShoppingBasket}/>}        
+    {cart.find((x) => x.itemId === menuItem.id) && <FontAwesomeIcon icon={faShoppingBasket}/>}
+    {'  '} 
     {cart.find((x) => x.itemId === menuItem.id) ?.quantity || ""}
           </div>
         </CardBody>
       </Card>
-      <Button className="decrease" theme="danger" onClick={() => removeOneFromCart()}> - </Button>
-      <Button className="increase" theme="success" onClick={() => addOneToCart()}> + </Button>
+      <Button className="decrease" theme="danger" onClick={() => removeOneFromCart()}> <FontAwesomeIcon icon={faCircle}/> </Button>
+      <Button className="increase" theme="success" onClick={() => addOneToCart()}> <FontAwesomeIcon icon={faCircle}/> </Button>
     </div>
   );
 }

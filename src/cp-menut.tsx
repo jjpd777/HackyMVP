@@ -54,15 +54,6 @@ export const menuItemsMock = [
     image: '',
   },
   {
-    id: 6,
-    category: 'Pan Blanco e Integrales',
-    name: 'Pan galleta',
-    description: 'Pan semi-dulce de leche, tradicional de oriente.',
-    price: 16.0,
-    brief:'',
-    image: '',
-  },
-  {
     id: 7,
     category: 'Pan Blanco e Integrales',
     name: 'Pan baguette',

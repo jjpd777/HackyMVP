@@ -5,7 +5,13 @@
   z-index: -1;
 }
 .card-container {
-  padding: 30px;
+  padding: 3px;
+  .items-list{
+    color:rgb(16, 0, 105);
+    margin-block-end: 0.5rem;
+    justify-content: start;
+  }
+  
   .button {
     margin-top: -30px;
     z-index: 1;
@@ -26,10 +32,14 @@
 .card-content {
   text-align: left;
   padding: 22px;
+  .title{
+    margin-top:-0.7rem;
+  }
   h5,
   h6 {
     font-size: 1.5rem;
-    margin-bottom: 1.2rem;
+    margin-bottom: 1rem;
+    margin-top:-1rem;
     padding: 3px;
     font-family: 'Open Sans', sans-serif;
   }
@@ -52,13 +62,14 @@
     }
   }
   .card-container {
+    
     padding: 0px;
-    margin-top: 25px;
+    margin-top: 2px;
   }
   .card-price {
-    margin-top: -4rem;
+    margin-top: -1.7rem;
     margin-right:-1rem;
-    font-size: 1.1rem !important;
+    font-size: 1.8rem !important;
     font-weight: 800;
   }
 
@@ -99,6 +110,7 @@
   .card-container {
     padding: 0px;
     margin-top: 25px;
+    
   }
   .card-price {
     font-size: 0.7rem !important;
@@ -132,27 +144,50 @@
 .card-price {
   align-self: center;
   margin-left: auto;
-  font-size: 2rem;
+  margin-right:0.3rem;
   font-weight: 800;
-  color: #fe5f55;
+  font-size: 5rem;
+  color: #6655fe;
 }
 .decrease{
   width: 6rem;
   font-weight:1000;
-  margin-top: -30px;
+  margin-top: -2.7rem;
+  font-size:0.7rem;
   z-index: 1;
   margin-inline-end: 2rem;
+  max-height: 2rem;
+
 }
 .increase{
+  font-size:0.7rem;
   font-weight:1000;
-  margin-top: -30px;
+  margin-top: -2.7rem;
   z-index: 1;
-width: 6rem;  
+  max-height: 2rem;
+  width: 6rem;  
 }
+
 
 .modal-body {
   display: flex;
   flex-direction: column;
+  .cancel-it{
+    background-color:rgb(255, 247, 247);
+    border-color: red;
+    color:red;
+    margin-bottom: 1.5rem;
+    max-width: 20rem;
+    align-self: center;
+  }
+  .canceled{
+    color:red;
+    margin-bottom: 1rem;
+  }
+  .active{
+    margin-bottom: -1rem;
+    color:rgb(37, 214, 2);
+  }
   .item-image {
     img {
       height: auto;
@@ -170,14 +205,14 @@ width: 6rem;
   }
 
   .add-cart {
-    margin-top: 2rem;
+    margin-top: 1rem;
     padding-left: 5rem;
     padding-right: 5rem;
   }
 
   @media only screen and (max-width: 400px) {
     .add-cart {
-      margin-top: 2rem;
+      margin-top: .5rem;
       padding-left: 1rem;
       padding-right: 1rem;
     }

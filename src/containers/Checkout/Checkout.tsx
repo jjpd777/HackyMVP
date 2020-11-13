@@ -35,7 +35,7 @@ function Checkout(props: CheckoutProps) {
 
   const [name, setName] = useState();
   const [address, setAddress] = useState("Ciudad de Guatemala");
-  const [phone, setPhone] = useState();
+  const [phone, setPhone] = useState("+502");
   const [entrance, setEntrance] = useState("");
   const [payMethod, setPayment] = useState(true);
   const minPaymentAmount = props.totalCartValue > 59;
@@ -225,13 +225,13 @@ function Checkout(props: CheckoutProps) {
                 }}
               />
             )}
-            <FormTextarea
+            {/* <FormTextarea
               className="input"
               placeholder="Celular"
               onChange={(e) => {
                 setPhone(e.target.value);
               }}
-            />
+            /> */}
             <Button
               onClick={() => {writeOrder();registerSale();}}
               // href={writeOrder(name, address, phone, payMethod)}
