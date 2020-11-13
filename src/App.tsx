@@ -30,6 +30,7 @@ export interface CartItem {
 export enum PageEnum {
   MENU,
   CHECKOUT,
+  ADDITEM
 }
 function App() {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
@@ -106,16 +107,6 @@ function App() {
       
       {!loading && (
         <>
-          {salesItems.length !== 0 && currentPage === PageEnum.MENU && !justSee && (
-            <>
-              <Menu
-                menuItems={salesItems}
-                cart={cart}
-                setCartItems={setCartItems}
-                pos={false}
-              ></Menu>
-            </>
-          )}
           <section className="container">
             {(currentPage === PageEnum.MENU && justSee) && (
               <>
