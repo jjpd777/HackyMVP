@@ -1,26 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import './App.scss';
 import Menu, { MenuItem } from './containers/Menu/Menu';
+import { useList } from "react-firebase-hooks/database";
 import { Button } from 'shards-react';
 import Checkout from './containers/Checkout/Checkout';
-import { menuItemsMock } from './cp-menut';
-import Header from './containers/Header/Header'
-import Report from './containers/Report/Report'
+import Report from  './containers/Report/Report'
 import DBservice from "./services/DBservice";
-import DBseed from "./services/seedDB"
-import { useList } from "react-firebase-hooks/database";
-
-import {
-  faCashRegister,
-  faEnvelope,
-  faMoneyBill,
-  faCreditCard,
-  faSearchDollar,
-  faMoneyBillAlt,
-  faCoins,
-  faMoneyBillWave
-} from '@fortawesome/free-solid-svg-icons';
+import { Switch, Route, Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 
 
 export interface CartItem {
@@ -35,23 +23,13 @@ export enum PageEnum {
 function App() {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [salesItems, setSalesItems] = useState<any[]>([]);
-
-  const [cart, setCartItems] = useState<CartItem[]>([]);
-  const [currentPage, setCurrentPage] = useState<PageEnum>(PageEnum.MENU);
   const [dbElements, loading, error] = useList(DBservice.getAll("/inventario-borgona"));
   const [dbSales, salesLoading, salesError] = useList(DBservice.getAll("/ventas-borgona"));
-  const [justSee, setJustSee] = useState(true);
-  const [pos, setPos] = useState(true);
-
-  const [loaded, setLoaded] = useState(false)
-
-
+  const [cart, setCartItems] = useState<CartItem[]>([]);
   useEffect(() => {
     placeItems(dbElements);
     placeSales(dbSales);
-    setLoaded(true);
   }, [dbElements, dbSales]);
-
 
   const placeSales = (dboject) => {
     const obj = dboject.map((tutorial) => tutorial.val());
@@ -67,12 +45,7 @@ function App() {
     obj.map((item, ix) => item.id = uniqd[ix]);
     setMenuItems(obj);
   }
-
   const emptyCart = () => setCartItems([]);
-
-  const buttonSales = justSee ? "danger" : "warning";
-  const displayText = () => !justSee ? <FontAwesomeIcon icon={faCashRegister}/> : <FontAwesomeIcon icon={faMoneyBillAlt}/>;
-
   const getTotalCartValue = () => {
     let totalVal = 0;
     cart.forEach((cartItem) => {
@@ -84,73 +57,84 @@ function App() {
     });
     return totalVal;
   };
-
-
+  
   return (
     <div className="App">
-      <header className="App-header">
-          <Header />
-        </header>
-        {loading ? (
-        <>
-          <Button className="navig"> Cargando...</Button>
-        </>) :
-        (pos && <Button className="navig" theme={buttonSales}
-          onClick={() => {
-            setJustSee(!justSee);
-          }}>
-          Cambiar a {displayText()}</Button>)
-      }
-      { !justSee && !salesLoading &&
-              <Report salesItems={salesItems}/>
-      }
-      
-      {!loading && (
-        <>
-          <section className="container">
-            {(currentPage === PageEnum.MENU && justSee) && (
-              <>
+      <nav className="navbar navbar-expand navbar-dark bg-dark">
+        <Link to={"/"}>
+          <a className="navbar-brand">
+            La Borgoña
+        </a>
+        </Link>
+        <div className="navbar-nav mr-auto">
+          <li className="nav-item">
+            <Link to={"/ventas"} className="nav-link">
+              Ver ventas
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to={"/inventario"} className="nav-link">
+              Revisar inventario
+            </Link>
+          </li>
+        </div>
+      </nav>
+      {loading ? (<Button size="lg" theme="danger" className="loading">Cargando...</Button>)
+        : (
+          <div className="container mt-3">
+            <Switch>
+              <Route exact path={["/"]}>
+              <div className="header">
+                  <img src={"https://instagram.fgua5-1.fna.fbcdn.net/v/t51.2885-19/s320x320/73109864_437198983604933_5970391247410429952_n.jpg?_nc_ht=instagram.fgua5-1.fna.fbcdn.net&_nc_ohc=pZ7nrgvH55oAX_9jd80&_nc_tp=25&oh=69101cbffab18c7d2d602b70640b09a4&oe=5FD82A2F"} />
+                  <div className="tagline">PoS uso interno</div>
+              </div>
                 <Menu
                   menuItems={menuItems}
                   cart={cart}
                   setCartItems={setCartItems}
                   pos={true}
                 ></Menu>
-              </>
-            )}
-            {currentPage === PageEnum.CHECKOUT && (
-              <Checkout
-                menuItems={menuItems}
-                cart={cart}
-                totalCartValue={getTotalCartValue()}
-                emptyCart={() => emptyCart()}
-                onBack={() => {
-                  setCurrentPage(PageEnum.MENU);
-                  setPos(true);
-                }}
-              ></Checkout>
-            )}
-          </section>
-          <br />
-          <br></br>
-          <br></br>
-          {(cart.length && currentPage === PageEnum.MENU && (
-            <div className="fixed-checkout">
-              <Button
-                onClick={() => {
-                  setCurrentPage(PageEnum.CHECKOUT);
-                  setPos(false)
-                }}
-                className="checkout-button"
-                block
-              >
-                Revisar la compra para enviar
-          </Button>
-            </div>
-          )) ||
-            null}
-        </>
-      )}
+                <div className="fixed-checkout">
+                  {(cart.length > 0 && (
+                    <Link to={"/checkout"}>
+                      <Button
+                        className="checkout-button" block>
+                        Revisar la compra para enviar
+                  </Button>
+                    </Link>
+                  )) ||
+                    null}
+                </div>
+              </Route>
+
+            </Switch>
+            {salesLoading ? 
+            (<Button size="lg" theme="danger" className="loading">Cargando...</Button>)
+              :
+            (<Switch>
+              <Route exact path={["/ventas"]}>
+                <Report salesItems={salesItems}/>
+                <Menu
+                  menuItems={salesItems}
+                  cart={cart}
+                  setCartItems={setCartItems}
+                  pos={false}
+                ></Menu>
+              </Route>
+            </Switch>)}
+            
+            <Switch>
+              
+              <Route exact path={["/checkout"]}>
+                <Checkout
+                  menuItems={menuItems}
+                  cart={cart}
+                  totalCartValue={getTotalCartValue()}
+                  emptyCart={() => emptyCart()}
+                ></Checkout>
+              </Route>
+            </Switch>
+          </div>)}
     </div>
   );
 }

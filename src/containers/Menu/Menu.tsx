@@ -50,20 +50,6 @@ function Menu(props: MenuProps) {
   });
 
   const [searchQuery, setSearchQuery] = useState('');
-
-  const getKeys = ()=>console.log(menuItems[0])
-
-  // useEffect(() => {
-  //   // Triggered whenever Search Query changes
-  //   const filtered = menuItems.filter((x) =>
-  //     x.name.toLowerCase().includes(searchQuery.toLowerCase())
-  //   );
-  //   setMenuList(filtered);
-  // }, [searchQuery]);
-
-  const clearSearch = () => {
-    setSearchQuery('');
-  };
   // Get the sale date
   // const getTitle(value)=> value. ? key : 
 

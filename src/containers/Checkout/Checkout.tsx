@@ -14,20 +14,21 @@ import {
   FormRadio,
 } from 'shards-react';
 import {
-  faRedo
+  faRedo, faCheckCircle
 } from '@fortawesome/free-solid-svg-icons';
 import { CartItem } from '../../App';
 import { MenuItem } from '../Menu/Menu';
 import DBservice from "../../services/DBservice";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Switch, Route, Link } from "react-router-dom";
+
 
 
 interface CheckoutProps {
   menuItems: MenuItem[];
   cart: CartItem[];
   totalCartValue: number;
-  onBack: () => void;
-  emptyCart: ()=> void;
+  emptyCart: () => void;
 }
 
 function Checkout(props: CheckoutProps) {
@@ -36,9 +37,8 @@ function Checkout(props: CheckoutProps) {
   const [name, setName] = useState();
   const [address, setAddress] = useState("Ciudad de Guatemala");
   const [phone, setPhone] = useState("+502");
-  const [entrance, setEntrance] = useState("");
+  const [nextPayment, setNextPayment] = useState(false);
   const [payMethod, setPayment] = useState(true);
-  const minPaymentAmount = props.totalCartValue > 59;
   const [taxInfo, setTaxInfo] = useState(false);
   const [tax, setTaxText] = useState("");
 
@@ -49,7 +49,7 @@ function Checkout(props: CheckoutProps) {
   }
   function getDateforSection() {
     var date = new Date();
-    return date.getDate() + "-" + (date.getMonth() + 1)+ "-"+ date.getFullYear() ;
+    return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
 
   }
 
@@ -75,7 +75,7 @@ function Checkout(props: CheckoutProps) {
     let response: any[] = [];
     getCartItems().map((item, key) => {
       response.push({
-        id:item.id,
+        id: item.id,
         name: item.name,
         price: item.price,
         quantity: item.quantity
@@ -84,24 +84,23 @@ function Checkout(props: CheckoutProps) {
     return response;
   }
   const getTaxInfo = () => taxInfo ? tax : "C.F.";
-  const registerSale = ()=>{
+  const registerSale = () => {
+    if (!name) return
     setName("");
     setAddress("");
     setPhone("");
     setTaxText("");
     setTaxInfo(false);
-    props.onBack();
-    props.emptyCart()
   }
   const writeOrder = () => {
-    if (!name || !address || !phone) return
+    if (!name) return
 
     const payment = getPayment();
     const order = getShopCartJSON();
     const time = getFormattedDate();
     const taxString = getTaxInfo();
     const dateCategory = getDateforSection();
-    
+
     const newRow = {
       "id": "",
       "name": name,
@@ -113,7 +112,7 @@ function Checkout(props: CheckoutProps) {
       "date": time,
       "pedido": order,
       "category": dateCategory,
-      "valid" : true,
+      "valid": true,
     }
     DBservice.create(newRow, "/ventas-borgona")
       .then(() => {
@@ -122,6 +121,7 @@ function Checkout(props: CheckoutProps) {
       .catch(e => {
         console.log(e);
       });
+      setNextPayment(true);
   }
 
 
@@ -153,16 +153,34 @@ function Checkout(props: CheckoutProps) {
             <div>Qtz. {props.totalCartValue}</div>
           </ListGroupItem>
         </ListGroup>
-        <br></br>
-        <Button onClick={props.onBack} className="button-secondary" outline block> <FontAwesomeIcon icon={faRedo}/>{'  '}Regresar al Menu</Button>
-
-        {/* {!minPaymentAmount && (<Button className="pillyboy" disabled="true" theme="danger"><b>ATENCIÓN:</b> Pedidos  de Qtz. 50</Button>)} */}
       </div>
-      <br />
+      {nextPayment ? ( 
+        <>
+        <div className="finalize">
+        <br></br>
+          <Button pill className="save-btn" theme="success">
+              {'  '}<FontAwesomeIcon icon={faCheckCircle} />{'  '}
+          </Button>
+          <br></br>
+          <br></br>
+           <h4> Compra Registrada</h4>
+           <Link to="/">
+            <Button theme ="success" onClick={()=>  props.emptyCart()}> 
+            Registrar otra compra</Button>
+            </Link>
+            </div>
+            </>
+            ):(
+        <>
+        <div className="order-summary">
+        <br></br>
+        <Link to={"/"}>
+            <Button className="button-secondary" outline block> <FontAwesomeIcon icon={faRedo}/>{'  '}
+              Regresar al Menu
+            </Button>
+          </Link>
+      </div>
       <br></br>
-      <br></br>
-
-      {true && (
         <div>
           <b><p>Método de pago:</p></b>
           <FormRadio
@@ -175,15 +193,15 @@ function Checkout(props: CheckoutProps) {
           >
             Efectivo
           </FormRadio>
-              <FormRadio
-                inline
-                name="card"
-                checked={!payMethod}
-                onChange={() => {
-                  setPayment(false);
-                }}
-              >
-                Tarjeta
+          <FormRadio
+            inline
+            name="card"
+            checked={!payMethod}
+            onChange={() => {
+              setPayment(false);
+            }}
+          >
+            Tarjeta
           </FormRadio>
           <div className="shipping-info">
             <FormInput
@@ -233,16 +251,17 @@ function Checkout(props: CheckoutProps) {
               }}
             /> */}
             <Button
-              onClick={() => {writeOrder();registerSale();}}
+              onClick={() => { writeOrder(); registerSale(); }}
               // href={writeOrder(name, address, phone, payMethod)}
               className="button" block>
               Registrar compra
             </Button>
           </div>
         </div>
-      ) || null}
-
-      <br></br>
+      </>
+      )}
+          
+         
     </div>
   );
 }

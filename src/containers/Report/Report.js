@@ -86,7 +86,10 @@ function Report(props) {
                     <h3 className="stud" ><b>Todavía no hay ventas </b></h3>
                 </div>)
             : (
+
                 <div className="main">
+                    <br></br>
+                    <br></br>
                     <h5>Ventas de hoy: {getDateforSection()}</h5>
                     {/* {setRefresh(!refresh)} */}
                     <h6><b>Ticket promedio:</b></h6>
@@ -96,7 +99,7 @@ function Report(props) {
                     <h6><b>Tarjeta</b>{' '}<FontAwesomeIcon icon={faCreditCard}/> Q.{avCard}</h6>
                     <h6><b>Efectivo</b>{' '}<FontAwesomeIcon icon={faMoneyBillWave}/>: Q.{avCash}</h6>
                     <br></br>
-                    <Button href={redirectURL} onClick={closeSalesDay} ><FontAwesomeIcon icon={faEnvelope}/>{'  '}Enviar cierre de caja</Button>
+                    <Button theme="warning" href={redirectURL} onClick={closeSalesDay} ><FontAwesomeIcon icon={faEnvelope}/>{'  '}Enviar cierre de caja</Button>
                 </div>)
             }
         </>
