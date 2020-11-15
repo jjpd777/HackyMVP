@@ -32,19 +32,7 @@ function EditCard(props: PoSCardProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const [currentEdit, setCurrentEdit] = useState();
 
-  const addToDB = (id) => {
-    const data = {
-      quantityavailable: currentEdit,
-    };
-
-    DBservice.update(id, data)
-      .then(() => {
-        console.log("success")
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }
+ 
   const addOneToCart = () => {
     if (cart.find((x) => x.itemId === menuItem.id)) {
       // Already exists in the cart, so just plus one

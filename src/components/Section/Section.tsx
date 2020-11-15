@@ -49,11 +49,11 @@ function Section(props: SectionProps) {
         {props.menuItems.map((value, index) => {
           return (
             <>
-            {pos ? (<EditCard
+            {pos ? (<PoSCard
                 menuItem={value}
                 cart={props.cart}
                 setCartItems={props.setCartItems}
-              ></EditCard>):(
+              ></PoSCard>):(
               <ItemCard
                 menuItem={value}
                 cart={props.cart}

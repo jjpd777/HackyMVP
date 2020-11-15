@@ -16,6 +16,11 @@ const update = (key, data) => {
   return dbs.child(key).update(data);
 };
 
+const updateInventory = (key, data) => {
+  const dbs = database.ref("/inventario-borgona");
+  return dbs.child(key).update(data);
+};
+
 const remove = (key) => {
   const db = database.ref("/inventario-borgona");
   return db.child(key).remove();
@@ -29,6 +34,7 @@ const removeAll = () => {
 export default {
   getAll,
   create,
+  updateInventory,
   update,
   remove,
   removeAll,

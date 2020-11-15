@@ -52,8 +52,40 @@ function Checkout(props: CheckoutProps) {
     return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
 
   }
+  const substractItems = (saleItem) => {
+    console.log("THIS IS WHERE ITS AT")
+    returnCartItems().map((item, key) => {
+      const tmp = saleItem.quantityavailable - item.quantity;
+      console.log(tmp)
+      const dataUpdate = { "quantityavailable": tmp };
+      DBservice.updateInventory(saleItem.id, dataUpdate)
+      .then(() => console.log(saleItem.id))
+    })
+    console.log("EXITED LOOP")
+
+
+
+  }
 
   const getCartItems = () => {
+    let cartItems: any[] = [];
+    cart.forEach((cartItem) => {
+      menuItems.map((menuItem) => {
+        if (cartItem.itemId === menuItem.id) {
+          substractItems(menuItem);
+          cartItems.push({
+            id: menuItem.id,
+            name: menuItem.name,
+            price: menuItem.price,
+            quantity: cartItem.quantity,
+          });
+        }
+      });
+    });
+    return cartItems;
+  };
+
+  const returnCartItems = () => {
     let cartItems: any[] = [];
     cart.forEach((cartItem) => {
       menuItems.map((menuItem) => {
@@ -116,7 +148,7 @@ function Checkout(props: CheckoutProps) {
     }
     DBservice.create(newRow, "/ventas-borgona")
       .then(() => {
-        console.log(newRow)
+        // console.log(newRow)
       })
       .catch(e => {
         console.log(e);
@@ -129,7 +161,7 @@ function Checkout(props: CheckoutProps) {
     <div className="checkout-container">
       <div className="order-summary">
         <ListGroup>
-          {getCartItems().map((item, index) => {
+          {returnCartItems().map((item, index) => {
             return (
               <ListGroupItem className="list-item" key={index}>
                 <div>
