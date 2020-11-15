@@ -157,18 +157,17 @@ function Checkout(props: CheckoutProps) {
       {nextPayment ? ( 
         <>
         <div className="finalize">
-        <br></br>
-          <Button pill className="save-btn" theme="success">
-              {'  '}<FontAwesomeIcon icon={faCheckCircle} />{'  '}
-          </Button>
           <br></br>
-          <br></br>
-           <h4> Compra Registrada</h4>
+           <h4 className="done"> <FontAwesomeIcon icon={faCheckCircle} />{'  '} Compra Registrada</h4>
+           <br></br>
            <Link to="/">
-            <Button theme ="success" onClick={()=>  props.emptyCart()}> 
+            <Button className="next" theme ="success" onClick={()=>  props.emptyCart()}> 
             Registrar otra compra</Button>
             </Link>
+      
             </div>
+           
+
             </>
             ):(
         <>

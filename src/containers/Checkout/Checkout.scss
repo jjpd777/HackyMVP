@@ -10,6 +10,7 @@
   }
   .button {
     margin-top:1rem;
+    margin-bottom:5rem;
     background-color: #011627;
     font-weight: 600;
     border: #011627;
@@ -62,9 +63,20 @@
 .finalize{
   justify-content: center;
   align-self: center;
+  margin-bottom:5rem;
+  .next{
+    background-color:green;
+    color: white;
+    font-weight: 1000;
+  }
+  .h4{
+    color: rgb(128, 26, 0);
+  }
   .save-btn{
     align-self: center;
     margin-left:0rem;
+
+    margin-bottom:2rem;
   }
 }
 .save-btn{
@@ -73,5 +85,7 @@
   font-weight:1000;
   max-width:10rem;
   font-size:2.4rem;
+  margin-bottom: 20rem;
   margin-inline-start: 2rem;
+
 }

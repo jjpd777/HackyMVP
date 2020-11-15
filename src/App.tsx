@@ -7,6 +7,7 @@ import Checkout from './containers/Checkout/Checkout';
 import Report from  './containers/Report/Report'
 import DBservice from "./services/DBservice";
 import { Switch, Route, Link } from "react-router-dom";
+import AddItem from './containers/AddItems/AddItems'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
@@ -63,7 +64,7 @@ function App() {
       <nav className="navbar navbar-expand navbar-dark bg-dark">
         <Link to={"/"}>
           <a className="navbar-brand">
-            La Borgoña
+            PoS
         </a>
         </Link>
         <div className="navbar-nav mr-auto">
@@ -81,12 +82,11 @@ function App() {
       </nav>
       {loading ? (<Button size="lg" theme="danger" className="loading">Cargando...</Button>)
         : (
-          <div className="container mt-3">
+          <div className="container">
             <Switch>
               <Route exact path={["/"]}>
               <div className="header">
                   <img src={"https://instagram.fgua5-1.fna.fbcdn.net/v/t51.2885-19/s320x320/73109864_437198983604933_5970391247410429952_n.jpg?_nc_ht=instagram.fgua5-1.fna.fbcdn.net&_nc_ohc=pZ7nrgvH55oAX_9jd80&_nc_tp=25&oh=69101cbffab18c7d2d602b70640b09a4&oe=5FD82A2F"} />
-                  <div className="tagline">PoS uso interno</div>
               </div>
                 <Menu
                   menuItems={menuItems}
@@ -99,14 +99,13 @@ function App() {
                     <Link to={"/checkout"}>
                       <Button
                         className="checkout-button" block>
-                        Revisar la compra para enviar
+                        Revisar la venta
                   </Button>
                     </Link>
                   )) ||
                     null}
-                </div>
+                  </div>
               </Route>
-
             </Switch>
             {salesLoading ? 
             (<Button size="lg" theme="danger" className="loading">Cargando...</Button>)
@@ -132,6 +131,17 @@ function App() {
                   totalCartValue={getTotalCartValue()}
                   emptyCart={() => emptyCart()}
                 ></Checkout>
+              </Route>
+            </Switch>
+            <Switch>
+              
+              <Route exact path={["/inventario"]}>
+                <AddItem
+                  menuItems={menuItems}
+                  cart={cart}
+                  totalCartValue={getTotalCartValue()}
+                  emptyCart={() => emptyCart()}
+                ></AddItem>
               </Route>
             </Switch>
           </div>)}

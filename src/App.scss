@@ -66,51 +66,33 @@ img {
 .App-link {
   color: #61dafb;
 }
-.nav-link-checkout{
+.container{
+
   .fixed-checkout {
-  background-color: #ffffff;
-  position: fixed;
-  margin-left:-20rem;
-  bottom: 0rem;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-
-  .checkout-button {
-    width: 63%;
-    background-color: #37943c;
-    font-weight: 600;
-    border: #011627;
-  }
-  .checkout-button:hover {
-    background-color: #013057;
-  }
-}
-}
-.fixed-checkout {
-  background-color: #ffffff;
-  position: fixed;
-  bottom: 0rem;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-
-  .checkout-button {
-    display:flex;
-    margin-left:2rem;
-    margin-right:2rem;
+    background-color: #f0ffde;
+    position: fixed;
+    bottom: 0rem;
+    width: 100%;
+    display: flex;
     justify-content: center;
-    width: 90%;
-    background-color: #007443;
-    font-weight: 600;
-    border: #011627;
-  }
-  .checkout-button:hover {
-    background-color: #013057;
+    padding: 20px;
+    margin-left:-1rem;
+    border-color: rgb(26, 22, 22);
+  
+    .checkout-button {
+      display:flex;
+      justify-content: center;
+      width: 100%;
+      background-color: #3f6ff3;
+      font-weight: 600;
+      color:rgb(252, 255, 251);
+    }
+    .checkout-button:hover {
+      background-color: #013057;
+    }
   }
 }
+
 .loading{
   margin-top:1rem;
 }

@@ -16,6 +16,8 @@ import { groupBy } from 'lodash';
 import { MenuItem } from '../../containers/Menu/Menu';
 import ItemCard from '../ItemCard/ItemCard';
 import PoSCard from '../ItemCard/PoSCard';
+import EditCard from '../ItemCard/EditCard';
+
 
 
 interface SectionProps {
@@ -47,11 +49,11 @@ function Section(props: SectionProps) {
         {props.menuItems.map((value, index) => {
           return (
             <>
-            {pos ? (<PoSCard
+            {pos ? (<EditCard
                 menuItem={value}
                 cart={props.cart}
                 setCartItems={props.setCartItems}
-              ></PoSCard>):(
+              ></EditCard>):(
               <ItemCard
                 menuItem={value}
                 cart={props.cart}
