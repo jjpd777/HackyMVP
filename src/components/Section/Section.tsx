@@ -24,8 +24,8 @@ interface SectionProps {
   title: string;
   menuItems: MenuItem[];
   cart: CartItem[];
-  pos:boolean;
-  setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
+  pos:String;
+  setCartItems: React.Dispatch<React.SetStateAction<any>>;
 }
 
 function Section(props: SectionProps) {
@@ -49,16 +49,25 @@ function Section(props: SectionProps) {
         {props.menuItems.map((value, index) => {
           return (
             <>
-            {pos ? (<PoSCard
+            {pos==="pos"&& (
+              <PoSCard
                 menuItem={value}
                 cart={props.cart}
                 setCartItems={props.setCartItems}
-              ></PoSCard>):(
+              ></PoSCard>)}
+              {pos==="sales" && (
               <ItemCard
                 menuItem={value}
                 cart={props.cart}
                 setCartItems={props.setCartItems}
               ></ItemCard>
+              )}
+              {pos==="edit" && (
+              <EditCard
+                menuItem={value}
+                cart={props.cart}
+                setCartItems={props.setCartItems}
+              ></EditCard>
               )}
               
             </>

@@ -4,11 +4,12 @@ import Menu, { MenuItem } from './containers/Menu/Menu';
 import { useList } from "react-firebase-hooks/database";
 import { Button } from 'shards-react';
 import Checkout from './containers/Checkout/Checkout';
-import Report from  './containers/Report/Report'
+import Report from './containers/Report/Report'
 import DBservice from "./services/DBservice";
 import { Switch, Route, Link } from "react-router-dom";
 import AddItem from './containers/AddItems/AddItems'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faCashRegister,faBalanceScale,faStoreAlt} from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -27,6 +28,7 @@ function App() {
   const [dbElements, loading, error] = useList(DBservice.getAll("/inventario-borgona"));
   const [dbSales, salesLoading, salesError] = useList(DBservice.getAll("/ventas-borgona"));
   const [cart, setCartItems] = useState<CartItem[]>([]);
+  const [currentTab, setCurrentTab] = useState("/");
   useEffect(() => {
     placeItems(dbElements);
     placeSales(dbSales);
@@ -58,25 +60,30 @@ function App() {
     });
     return totalVal;
   };
-  
+  const returnNav = (endpoint, text) => endpoint === currentTab ?
+    <Button className="highlight"
+    >
+      <Link to={endpoint} className="navy">
+        {text}
+      </Link>
+    </Button>
+    :
+    <Link to={endpoint} onClick={() => setCurrentTab(endpoint)} className="nav-link">
+      {text}
+    </Link>
+
   return (
     <div className="App">
       <nav className="navbar navbar-expand navbar-dark bg-dark">
-        <Link to={"/"}>
-          <a className="navbar-brand">
-            PoS
-        </a>
-        </Link>
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
-            <Link to={"/ventas"} className="nav-link">
-              Ver ventas
-            </Link>
+            {returnNav("/", "PoS")}
           </li>
           <li className="nav-item">
-            <Link to={"/inventario"} className="nav-link">
-              Revisar inventario
-            </Link>
+            {returnNav("/ventas", "Ver ventas")}
+          </li>
+          <li className="nav-item">
+            {returnNav("/inventario", "Revisar Inventario")}
           </li>
         </div>
       </nav>
@@ -85,14 +92,14 @@ function App() {
           <div className="container">
             <Switch>
               <Route exact path={["/"]}>
-              <div className="header">
-                  <img src={"https://instagram.fgua5-1.fna.fbcdn.net/v/t51.2885-19/s320x320/73109864_437198983604933_5970391247410429952_n.jpg?_nc_ht=instagram.fgua5-1.fna.fbcdn.net&_nc_ohc=pZ7nrgvH55oAX_9jd80&_nc_tp=25&oh=69101cbffab18c7d2d602b70640b09a4&oe=5FD82A2F"} />
-              </div>
+                <br></br>
+                <br></br>
+              <h1> <FontAwesomeIcon icon={faCashRegister}/></h1>
                 <Menu
                   menuItems={menuItems}
                   cart={cart}
                   setCartItems={setCartItems}
-                  pos={true}
+                  pos={"pos"}
                 ></Menu>
                 <div className="fixed-checkout">
                   {(cart.length > 0 && (
@@ -104,26 +111,30 @@ function App() {
                     </Link>
                   )) ||
                     null}
-                  </div>
+                </div>
               </Route>
             </Switch>
-            {salesLoading ? 
-            (<Button size="lg" theme="danger" className="loading">Cargando...</Button>)
+            {loading || salesLoading ?
+              (<Button size="lg" theme="danger" className="loading">Cargando...</Button>)
               :
-            (<Switch>
-              <Route exact path={["/ventas"]}>
-                <Report salesItems={salesItems}/>
-                <Menu
-                  menuItems={salesItems}
-                  cart={cart}
-                  setCartItems={setCartItems}
-                  pos={false}
-                ></Menu>
-              </Route>
-            </Switch>)}
-            
+              (<Switch>
+                <Route exact path={["/ventas"]}>
+                <br></br>
+                <br></br>
+                <h1> <FontAwesomeIcon icon={faBalanceScale}/></h1>
+                <br></br>
+                  <Report salesItems={salesItems} />
+                  <Menu
+                    menuItems={salesItems}
+                    cart={cart}
+                    setCartItems={setCartItems}
+                    pos={"sales"}
+                  ></Menu>
+                </Route>
+              </Switch>)}
+
             <Switch>
-              
+
               <Route exact path={["/checkout"]}>
                 <Checkout
                   menuItems={menuItems}
@@ -134,13 +145,17 @@ function App() {
               </Route>
             </Switch>
             <Switch>
-              
+
               <Route exact path={["/inventario"]}>
+              <br></br>
+              <br></br>
+                <h1> <FontAwesomeIcon icon={faStoreAlt}/></h1>
                 <AddItem
                   menuItems={menuItems}
                   cart={cart}
                   totalCartValue={getTotalCartValue()}
                   emptyCart={() => emptyCart()}
+                  pos={"edit"}
                 ></AddItem>
               </Route>
             </Switch>

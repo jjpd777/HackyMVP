@@ -7,9 +7,23 @@
 
   }
 }
+h1{
+  color:rgb(17, 105, 9);
+}
 .navig{
   margin-top:2rem;
   margin-bottom: 3rem;
+}
+.navbar{
+  
+}
+.nav-item{
+  .highlight{
+    background-color: white;
+    .nav-link{
+      color:rgb(211, 63, 63);
+    }
+  }
 }
 .table{
   .tableu{
@@ -69,7 +83,7 @@ img {
 .container{
 
   .fixed-checkout {
-    background-color: #f0ffde;
+    background-color:#e3e0fb;
     position: fixed;
     bottom: 0rem;
     width: 100%;
@@ -83,7 +97,7 @@ img {
       display:flex;
       justify-content: center;
       width: 100%;
-      background-color: #3f6ff3;
+      background-color:  #6655fe;
       font-weight: 600;
       color:rgb(252, 255, 251);
     }

@@ -32,19 +32,7 @@ function PoSCard(props: PoSCardProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const [currentEdit, setCurrentEdit] = useState();
 
-  const addToDB = (id) => {
-    const data = {
-      quantityavailable: currentEdit,
-    };
 
-    DBservice.update(id, data)
-      .then(() => {
-        console.log("success")
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }
   const addOneToCart = () => {
     if (cart.find((x) => x.itemId === menuItem.id)) {
       // Already exists in the cart, so just plus one
@@ -91,7 +79,7 @@ function PoSCard(props: PoSCardProps) {
             <CardTitle className="title">{menuItem.name}</CardTitle>
             <CardSubtitle>{menuItem.brief}</CardSubtitle>
           </div>
-          <div className="card-price">
+          <div className="card-price-pos">
     {cart.find((x) => x.itemId === menuItem.id) && <FontAwesomeIcon icon={faShoppingBasket}/>}
     {'  '} 
     {cart.find((x) => x.itemId === menuItem.id) ?.quantity || ""}

@@ -78,8 +78,6 @@ function ItemCard(props: ItemCardProps) {
               </>
             )
             }
-
-            <br></br>
             {
               menuItem.valid && cancel &&
               <>
@@ -90,7 +88,8 @@ function ItemCard(props: ItemCardProps) {
                 <Button pill inline className="save" theme="success" onClick={() => {
                   setModalOpen(!modalOpen); cancelSale(menuItem); setCancel(true)
                 }}>si</Button>
-              </>}
+              </>
+            }
             {!cancel && <Button pill inline className="save-btn" theme="success" onClick={() => {
               setModalOpen(!modalOpen);
             }}>

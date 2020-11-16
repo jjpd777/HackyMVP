@@ -52,27 +52,13 @@ function Checkout(props: CheckoutProps) {
     return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
 
   }
-  const substractItems = (saleItem) => {
-    console.log("THIS IS WHERE ITS AT")
-    returnCartItems().map((item, key) => {
-      const tmp = saleItem.quantityavailable - item.quantity;
-      console.log(tmp)
-      const dataUpdate = { "quantityavailable": tmp };
-      DBservice.updateInventory(saleItem.id, dataUpdate)
-      .then(() => console.log(saleItem.id))
-    })
-    console.log("EXITED LOOP")
-
-
-
-  }
+  
 
   const getCartItems = () => {
     let cartItems: any[] = [];
     cart.forEach((cartItem) => {
       menuItems.map((menuItem) => {
         if (cartItem.itemId === menuItem.id) {
-          substractItems(menuItem);
           cartItems.push({
             id: menuItem.id,
             name: menuItem.name,
@@ -84,23 +70,20 @@ function Checkout(props: CheckoutProps) {
     });
     return cartItems;
   };
-
-  const returnCartItems = () => {
+  const substractItems = () => {
     let cartItems: any[] = [];
     cart.forEach((cartItem) => {
       menuItems.map((menuItem) => {
         if (cartItem.itemId === menuItem.id) {
-          cartItems.push({
-            id: menuItem.id,
-            name: menuItem.name,
-            price: menuItem.price,
-            quantity: cartItem.quantity,
-          });
+          const tmp = menuItem.quantityavailable - cartItem.quantity;
+         const dataUpdate = { "quantityavailable": tmp };
+          DBservice.updateInventory(menuItem.id, dataUpdate)
+          .then(() => console.log(menuItem.id))
         }
       });
     });
-    return cartItems;
-  };
+  }
+
 
   const getPayment = () => payMethod ? 'efectivo' : 'tarjeta';
   const getShopCartJSON = () => {
@@ -161,7 +144,7 @@ function Checkout(props: CheckoutProps) {
     <div className="checkout-container">
       <div className="order-summary">
         <ListGroup>
-          {returnCartItems().map((item, index) => {
+          {getCartItems().map((item, index) => {
             return (
               <ListGroupItem className="list-item" key={index}>
                 <div>
@@ -282,7 +265,7 @@ function Checkout(props: CheckoutProps) {
               }}
             /> */}
             <Button
-              onClick={() => { writeOrder(); registerSale(); }}
+              onClick={() => { writeOrder(); registerSale(); substractItems() }}
               // href={writeOrder(name, address, phone, payMethod)}
               className="button" block>
               Registrar compra

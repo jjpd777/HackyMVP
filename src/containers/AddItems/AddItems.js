@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import {
     FormTextarea,
   } from 'shards-react';
+import DBservice from '../../services/DBservice'
 
 import { Button } from 'shards-react';
-// import './Report.scss' 
+import './AddItems.scss' 
 import {
-    faCashRegister,
+    faCashRegister, faCheckCircle, faTimes, faStoreAlt
   } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Menu, { MenuItem } from '../Menu/Menu';
@@ -20,47 +21,87 @@ function AddItem(props) {
     var {menuItems,cart,setCartItems,pos}=props;
     const [avTicket, setAvTicket] = useState(0);
     const [title, setTitle] = useState("");
+    const [currentEdit,setCurrentEdit]=useState("");
+
+    const [currentName, setCurrentName]=useState("");
+    const [currentQuantity, setCurrentQ] =useState(0);
+    const [currentPrice, setCurrentPrice] = useState(0);
 
     function getDateforSection() {
         var date = new Date();
         return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
 
     }
+    const saveChanges = () => {
+      const dataUpdate = { 
+        "name": currentName,
+        "price": currentPrice,
+        "quantityavailable": currentQuantity
+      };
+      DBservice.updateInventory(currentEdit, dataUpdate)
+        .then(() => console.log("success"))
+      setCurrentEdit("");
+
+  
+    }
+
+    useEffect(()=>{
+      editCard();
+    },[currentEdit])
+
+    const editCard = ()=>{
+      const tmp = menuItems.find((item)=> item.id === currentEdit);
+      if(!tmp) return
+
+      setCurrentName(tmp.name);
+      setCurrentQ(tmp.quantityavailable);
+      setCurrentPrice(tmp.price);
+    };
+
+
+
+    var fieldEdits = [currentName,currentQuantity, currentPrice];
+    var fieldActions =[setCurrentName, setCurrentQ, setCurrentPrice]
 
 
 
     return (
         <>
-            {!avTicket ? (
-                
+            { currentEdit !=="" ? (
                 <div className="main">
-                    <h5>Ventas de hoy: {getDateforSection()}</h5>
-                    <h3 className="stud" ><b>Todavía no hay ventas </b></h3>
-                    <FormTextarea
-                className="input"
-                placeholder="Número de NIT"
-                onChange={(e) => {
-                  setTitle(e.target.value);
-                }}
-              />
-                    <Menu
-                  menuItems={menuItems}
-                  cart={cart}
-                  setCartItems={setCartItems}
-                  pos={true}
-                ></Menu>
+                  <br></br>
+                    <h3 className="stud" ><b>Producto a editar: </b></h3>
+                    <h5>{currentName}</h5>
+              
+              {fieldEdits.map((val,key)=>
+                 <FormTextarea
+                 className="input"
+                 placeholder={val}
+                 onChange={(e) => {
+                   fieldActions[key](e.target.value);
+                 }}
+               />)}
+
+              <Button pill inline className="save-1" theme="danger" onClick={() => { setCurrentEdit("")
+                }}> <FontAwesomeIcon icon={faTimes}/></Button>
+                <Button pill inline className="save-1" theme="success" 
+                onClick={() => {saveChanges()}}>
+                  <FontAwesomeIcon icon={faCheckCircle}/></Button>
                 </div>)
             : (
-
-                <div className="main">
-                <Menu
+              <div className="main">
+                <br></br>
+                <br></br>
+              <h5>Selecciona un elemento a editar</h5>
+              </div>
+                )
+            }
+              <Menu
                   menuItems={menuItems}
                   cart={cart}
-                  setCartItems={setCartItems}
-                  pos={true}
+                  setCartItems={setCurrentEdit}
+                  pos={pos}
                 ></Menu>
-                </div>)
-            }
         </>
     )
 

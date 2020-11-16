@@ -9,11 +9,8 @@ import {
 } from 'shards-react';
 
 import {
-  faArrowAltCircleLeft,
-  faCheckCircle,
   faShoppingBasket,
-  faCircle,
-  faTrash
+  faPencilAlt
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -24,7 +21,7 @@ import DBservice from '../../services/DBservice'
 interface PoSCardProps {
   menuItem: MenuItem;
   cart: CartItem[];
-  setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
+  setCartItems: React.Dispatch<React.SetStateAction<any>>;
 }
 
 function EditCard(props: PoSCardProps) {
@@ -32,43 +29,6 @@ function EditCard(props: PoSCardProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const [currentEdit, setCurrentEdit] = useState();
 
- 
-  const addOneToCart = () => {
-    if (cart.find((x) => x.itemId === menuItem.id)) {
-      // Already exists in the cart, so just plus one
-      const newArray = cart.filter((c) => c.itemId !== menuItem.id);
-      newArray.push({
-        itemId: menuItem.id,
-        quantity: cart.find((x) => x.itemId === menuItem.id)!.quantity + 1,
-      });
-
-      setCartItems(newArray);
-    } else {
-      setCartItems([
-        ...cart,
-        ...[{ itemId: menuItem.id, quantity: 1 } as CartItem],
-      ]);
-    }
-  };
-
-  const removeOneFromCart = () => {
-    if (
-      cart.find(
-        (x) =>
-          x.itemId === menuItem.id &&
-          cart.find((x) => x.itemId === menuItem.id)!.quantity > 0
-      )
-    ) {
-      const newArray = cart.filter((c) => c.itemId !== menuItem.id);
-      if (cart.find((x) => x.itemId === menuItem.id)!.quantity > 1) {
-        newArray.push({
-          itemId: menuItem.id,
-          quantity: cart.find((x) => x.itemId === menuItem.id)!.quantity - 1,
-        });
-      }
-      setCartItems(newArray);
-    }
-  };
 
   return (
     <div className="card-container">
@@ -83,10 +43,15 @@ function EditCard(props: PoSCardProps) {
     {cart.find((x) => x.itemId === menuItem.id) && <FontAwesomeIcon icon={faShoppingBasket}/>}
     {'  '}
     {menuItem.quantityavailable} 
+    <p>en tienda</p>
+
     {/* {cart.find((x) => x.itemId === menuItem.id) ?.quantity || ""} */}
           </div>
         </CardBody>
       </Card>
+      <Button className="edit-stuff" onClick={()=>{
+                props.setCartItems(menuItem.id);
+          }}><FontAwesomeIcon icon={faPencilAlt}/>{'  '} Editar</Button>
       {/* <Button className="decrease" theme="danger" onClick={() => removeOneFromCart()}> <FontAwesomeIcon icon={faCircle}/> </Button>
       <Button className="increase" theme="success" onClick={() => addOneToCart()}> <FontAwesomeIcon icon={faCircle}/> </Button> */}
     </div>

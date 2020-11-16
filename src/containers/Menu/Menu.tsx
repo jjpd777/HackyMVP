@@ -26,8 +26,8 @@ export interface MenuItem {
 interface MenuProps {
   menuItems: MenuItem[];
   cart: CartItem[];
-  setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
-  pos:boolean;
+  setCartItems: React.Dispatch<React.SetStateAction<any>>;
+  pos:String;
 }
 
 interface CategoryOpenState {

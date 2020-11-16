@@ -5,6 +5,7 @@ import './Report.scss'
 import {
     faCashRegister,
     faEnvelope,
+    faBalanceScale,
     faMoneyBill,
     faCreditCard,
     faSearchDollar,
@@ -88,8 +89,6 @@ function Report(props) {
             : (
 
                 <div className="main">
-                    <br></br>
-                    <br></br>
                     <h5>Ventas de hoy: {getDateforSection()}</h5>
                     {/* {setRefresh(!refresh)} */}
                     <h6><b>Ticket promedio:</b></h6>
