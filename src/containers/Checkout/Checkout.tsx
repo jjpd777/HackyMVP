@@ -89,11 +89,13 @@ function Checkout(props: CheckoutProps) {
   const [listItems, setListItems] = useState();
   const [timer, setTimer]=useState(false);
 
+  const [paulo, setPaulo]= useState(true);
+
 
   const extraCallbacks = [setZone, setVehicle, setClimate, setSpecial];
   const extraFields = [zone, vehicleTraffic, climate, special];
   const extraText = ["Zona de la actividad", "Tráfico de vehículos", "Climatología", "Condiciones especiales"]
-
+  const baseBRUH = paulo ? "https://api.whatsapp.com/send?phone=50240244953&" :"https://api.whatsapp.com/send?phone=50240192301&"
 
   useEffect(() => {
     //   // Call API to load the menu
@@ -110,12 +112,7 @@ function Checkout(props: CheckoutProps) {
   const canEmailPDF = () => getHeader1().map((val) => val !== "" ? true : false);
   const sendIt = canEmailPDF().every(v => v === true);
   const [redirectURL, setRedirect] = useState("");
-  const helper = (item) => {
-    const helperlist = [32, 33, 34, 35];
-    var flag = false;
-    helperlist.map((val) => val === item ? flag = true : flag = false)
-    return flag;
-  }
+
   const engineersJSON = {
     "Rubén de Jesus Borja Molina": "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_1_2390229602.png?alt=media&token=cbca267c-0e39-4e4c-befe-3f0f277789b1",
     "Wilson Alexander Barillas Chajón": "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_1_8338982172.png?alt=media&token=07085def-9f5d-469a-9c04-f0ae0d351e3e",
@@ -351,7 +348,7 @@ function Checkout(props: CheckoutProps) {
       file2write.getDownloadURL().then(function (url) {
         setTimer(true);
         var fetchthatbitch = url;
-        var whatsAppBase = "https://api.whatsapp.com/send?phone=50240192301&text=Buenas%20ingeniero%0A%0AEste%20es%20el%20enlace%20al%20reporte%20%0A%0A"
+        var whatsAppBase = baseBRUH +"text=Buenas%20ingeniero%0A%0AEste%20es%20el%20enlace%20al%20reporte%20%0A%0A"
         const craftString = (message) => {
   
           message = message.split("%").join("%25")
@@ -408,6 +405,10 @@ function Checkout(props: CheckoutProps) {
 
       {step1 && (
         <div className="store-location" >
+          <h5>Enviar a:</h5>
+          <FormRadio onChange={()=>setPaulo(true)} onClick={()=>setPaulo(true)}checked={paulo}>Ing. Paulo</FormRadio>
+          <FormRadio onChange={()=>setPaulo(false)} onClick={()=>setPaulo(false)}  checked={!paulo}>Ing. William</FormRadio>
+          <br></br>
           <div className="shipping-info">
             <h5>Llenar la siguiente info</h5>
             <FormInput
@@ -420,6 +421,7 @@ function Checkout(props: CheckoutProps) {
                 setRespUnit(e.target.value);
               }}
             />
+            <h6><b>(requerido)</b></h6>
             <FormInput
               className="input"
               type="text"
@@ -430,6 +432,7 @@ function Checkout(props: CheckoutProps) {
                 setPlace(e.target.value);
               }}
             />
+            <h6><b>(requerido)</b></h6>
             <FormInput
               className="input"
               type="text"
@@ -440,6 +443,7 @@ function Checkout(props: CheckoutProps) {
                 setWork(e.target.value);
               }}
             />
+            <h6><b>(requerido)</b></h6>
             <FormInput
               className="input"
               type="text"
@@ -450,6 +454,7 @@ function Checkout(props: CheckoutProps) {
                 setNumberP(e.target.value);
               }}
             />
+                            <h6><b>(requerido)</b></h6>
             <br></br>
             <h5>Condiciones del Entorno</h5>
             {extraFields.map((field, key) =>
