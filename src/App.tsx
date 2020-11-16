@@ -4,6 +4,7 @@ import Menu, { MenuItem } from './containers/Menu/Menu';
 import { useList } from "react-firebase-hooks/database";
 import { Button } from 'shards-react';
 import Checkout from './containers/Checkout/Checkout';
+import Expenditure from './containers/Checkout/Expenditure';
 import Report from './containers/Report/Report'
 import DBservice from "./services/DBservice";
 import { Switch, Route, Link } from "react-router-dom";
@@ -83,8 +84,11 @@ function App() {
             {returnNav("/ventas", "Ver ventas")}
           </li>
           <li className="nav-item">
-            {returnNav("/inventario", "Revisar Inventario")}
+            {returnNav("/egresos", "Ingresar egreso")}
           </li>
+          {/* <li className="nav-item">
+            {returnNav("/inventario", "Revisar Inventario")}
+          </li> */}
         </div>
       </nav>
       {loading ? (<Button size="lg" theme="danger" className="loading">Cargando...</Button>)
@@ -146,6 +150,17 @@ function App() {
             </Switch>
             <Switch>
 
+          <Route exact path={["/egresos"]}>
+            <Expenditure
+              menuItems={menuItems}
+              cart={cart}
+              totalCartValue={getTotalCartValue()}
+              emptyCart={() => emptyCart()}
+            ></Expenditure>
+          </Route>
+          </Switch>
+            {/* <Switch>
+
               <Route exact path={["/inventario"]}>
               <br></br>
               <br></br>
@@ -158,7 +173,7 @@ function App() {
                   pos={"edit"}
                 ></AddItem>
               </Route>
-            </Switch>
+            </Switch> */}
           </div>)}
     </div>
   );

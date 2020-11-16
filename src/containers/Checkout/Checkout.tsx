@@ -71,7 +71,6 @@ function Checkout(props: CheckoutProps) {
     return cartItems;
   };
   const substractItems = () => {
-    let cartItems: any[] = [];
     cart.forEach((cartItem) => {
       menuItems.map((menuItem) => {
         if (cartItem.itemId === menuItem.id) {
@@ -99,6 +98,7 @@ function Checkout(props: CheckoutProps) {
     return response;
   }
   const getTaxInfo = () => taxInfo ? tax : "C.F.";
+
   const registerSale = () => {
     if (!name) return
     setName("");
@@ -106,7 +106,9 @@ function Checkout(props: CheckoutProps) {
     setPhone("");
     setTaxText("");
     setTaxInfo(false);
-  }
+    props.emptyCart();
+  };
+  
   const writeOrder = () => {
     if (!name) return
 
@@ -176,7 +178,7 @@ function Checkout(props: CheckoutProps) {
            <h4 className="done"> <FontAwesomeIcon icon={faCheckCircle} />{'  '} Compra Registrada</h4>
            <br></br>
            <Link to="/">
-            <Button className="next" theme ="success" onClick={()=>  props.emptyCart()}> 
+            <Button className="next" theme ="success"> 
             Registrar otra compra</Button>
             </Link>
       

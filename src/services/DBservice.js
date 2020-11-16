@@ -26,6 +26,10 @@ const remove = (key) => {
   return db.child(key).remove();
 };
 
+const removeSale = (key)=>{
+  const db = database.ref("/ventas-borgona");
+  return db.child(key).remove();
+}
 const removeAll = () => {
   const db = database.ref("/inventario-borgona");
   return db.remove();
@@ -35,6 +39,7 @@ export default {
   getAll,
   create,
   updateInventory,
+  removeSale,
   update,
   remove,
   removeAll,

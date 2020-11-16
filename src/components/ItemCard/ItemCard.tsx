@@ -8,7 +8,7 @@ import {
 } from 'shards-react';
 
 import {
-  faCheckCircle,
+  faCheckCircle,faTimes
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -26,10 +26,9 @@ interface ItemCardProps {
 function ItemCard(props: ItemCardProps) {
   const { menuItem, cart, setCartItems } = props;
   const [modalOpen, setModalOpen] = useState(false);
-  const [currentEdit, setCurrentEdit] = useState();
   const [cancel, setCancel] = useState(false);
 
-  const getStatusText = () => menuItem.valid ? "Valida" : "Cancelada"
+  const getStatusText = () => menuItem.valid ? <FontAwesomeIcon icon={faCheckCircle} />: <FontAwesomeIcon icon={faTimes} />
   const cancelSale = (saleItem) => {
     const dataUpdate = { "valid": false };
     DBservice.update(saleItem.id, dataUpdate)
@@ -41,7 +40,7 @@ function ItemCard(props: ItemCardProps) {
     <div className="card-container">
       <table onClick={() => setModalOpen(true)} className="table">
         <td className="tableu">
-          {getStatusText()}{':  Qtz.'}<b>{String(menuItem.total)}</b>
+      {getStatusText()}{'  '}{':  Qtz.'}<b>{String(menuItem.total)}</b>
         </td>
       </table>
 
@@ -49,7 +48,6 @@ function ItemCard(props: ItemCardProps) {
         open={modalOpen}
         toggle={() => {
           setModalOpen(!modalOpen);
-          setCurrentEdit(menuItem.name);
         }}
         centered={true}
       >
@@ -86,11 +84,11 @@ function ItemCard(props: ItemCardProps) {
                   setCancel(false);
                 }}> no</Button>
                 <Button pill inline className="save" theme="success" onClick={() => {
-                  setModalOpen(!modalOpen); cancelSale(menuItem); setCancel(true)
+                  setModalOpen(!modalOpen); cancelSale(menuItem); setCancel(false)
                 }}>si</Button>
               </>
             }
-            {!cancel && <Button pill inline className="save-btn" theme="success" onClick={() => {
+            {(!cancel ) && <Button pill inline className="save-btn" theme="success" onClick={() => {
               setModalOpen(!modalOpen);
             }}>
               {'  '}<FontAwesomeIcon icon={faCheckCircle} />{'  '}
