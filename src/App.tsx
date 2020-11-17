@@ -77,7 +77,6 @@ function App() {
 
   return (
     <div className="App">
-      <Button onClick={()=>seedDB.transcribe()}></Button>
       <nav className="navbar navbar-expand navbar-dark bg-dark">
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
@@ -174,10 +173,6 @@ function App() {
             <Switch>
 
               <Route exact path={["/inventario"]}>
-              <br></br>
-              <br></br>
-                <h1> <FontAwesomeIcon icon={faStoreAlt}/></h1>
-                <h2>Editar inventario</h2>
                 <AddItem
                   menuItems={menuItems}
                   cart={cart}

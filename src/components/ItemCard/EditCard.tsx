@@ -43,7 +43,7 @@ function EditCard(props: PoSCardProps) {
     {cart.find((x) => x.itemId === menuItem.id) && <FontAwesomeIcon icon={faShoppingBasket}/>}
     {'  '}
     {menuItem.quantityavailable} 
-    <p>en tienda</p>
+    <p>disponible</p>
 
     {/* {cart.find((x) => x.itemId === menuItem.id) ?.quantity || ""} */}
           </div>

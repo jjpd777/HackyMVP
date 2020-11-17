@@ -87,7 +87,7 @@ function Checkout(props: ExpenditureProps) {
       "category": dateCategory,
       "valid": true,
     }
-    DBservice.create(newRow, "/ventas-borgona")
+    DBservice.create(newRow, "/ventas-getfit")
       .then(() => {
         // console.log(newRow)
       })
