@@ -12,6 +12,7 @@ import AddItem from './containers/AddItems/AddItems'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faCashRegister,faBalanceScale,faStoreAlt, faPencilAlt, faTimes} from '@fortawesome/free-solid-svg-icons';
 import DBseed from "./services/seedDB"
+import seedDB from './services/seedDB';
 
 
 
@@ -27,8 +28,8 @@ export enum PageEnum {
 function App() {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [salesItems, setSalesItems] = useState<any[]>([]);
-  const [dbElements, loading, error] = useList(DBservice.getAll("/inventario-borgona"));
-  const [dbSales, salesLoading, salesError] = useList(DBservice.getAll("/ventas-borgona"));
+  const [dbElements, loading, error] = useList(DBservice.getAll("/inventario-getfit"));
+  const [dbSales, salesLoading, salesError] = useList(DBservice.getAll("/ventas-getfit"));
   const [cart, setCartItems] = useState<CartItem[]>([]);
   const [currentTab, setCurrentTab] = useState("/");
   useEffect(() => {
@@ -76,6 +77,7 @@ function App() {
 
   return (
     <div className="App">
+      <Button onClick={()=>seedDB.transcribe()}></Button>
       <nav className="navbar navbar-expand navbar-dark bg-dark">
         <div className="navbar-nav mr-auto">
           <li className="nav-item">

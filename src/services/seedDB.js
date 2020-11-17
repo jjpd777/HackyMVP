@@ -1,7 +1,7 @@
 import { menuItemsMock } from '../cp-menut';
 import DBservice from "./DBservice";
 
-const table2write = "/inventario-borgona"
+const table2write = "/inventario-getfit"
 const transcribe = () => {
     var ptr = 0;
     menuItemsMock.map((item) => {

@@ -1,15 +1,15 @@
 import firebase from "firebase/app";
 import "firebase/database";
 
-let config = {
-    apiKey: "AIzaSyAcCtzvRGCUQJ4smMF14uKmelpYmGW6zTU",
-    authDomain: "fir-finallyjuan.firebaseapp.com",
-    databaseURL: "https://fir-finallyjuan.firebaseio.com",
-    projectId: "firebasefinallyjuan",
-    storageBucket: "firebasefinallyjuan.appspot.com",
-    messagingSenderId: "33788123767",
-    appId: "1:33788123767:web:fd20df98a6aad97c810472"
-  };
+var config = {
+  apiKey: "AIzaSyCuV-6VJ0OogUPSfAt4_52pZgwVT8RBRAY",
+  authDomain: "getfitbakery.firebaseapp.com",
+  databaseURL: "https://getfitbakery.firebaseio.com",
+  projectId: "getfitbakery",
+  storageBucket: "getfitbakery.appspot.com",
+  messagingSenderId: "627159302111",
+  appId: "1:627159302111:web:4dece0e9feba7379184e6a"
+};
 
 
 firebase.initializeApp(config);
