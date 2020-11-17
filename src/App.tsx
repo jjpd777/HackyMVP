@@ -10,7 +10,8 @@ import DBservice from "./services/DBservice";
 import { Switch, Route, Link } from "react-router-dom";
 import AddItem from './containers/AddItems/AddItems'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faCashRegister,faBalanceScale,faStoreAlt} from '@fortawesome/free-solid-svg-icons';
+import {faCashRegister,faBalanceScale,faStoreAlt, faPencilAlt, faTimes} from '@fortawesome/free-solid-svg-icons';
+import DBseed from "./services/seedDB"
 
 
 
@@ -78,17 +79,17 @@ function App() {
       <nav className="navbar navbar-expand navbar-dark bg-dark">
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
-            {returnNav("/", "PoS")}
+            {returnNav("/",  "CAJA")}
           </li>
           <li className="nav-item">
-            {returnNav("/ventas", "Ver ventas")}
+            {returnNav("/ventas",  "VENTAS")}
+          </li>
+          <li className="nav-item size-lg">
+            {returnNav("/egresos", "REGISTRAR INVENTARIO")}
           </li>
           <li className="nav-item">
-            {returnNav("/egresos", "Ingresar egreso")}
+            {returnNav("/inventario", "EDITAR INVENTARIO")}
           </li>
-          {/* <li className="nav-item">
-            {returnNav("/inventario", "Revisar Inventario")}
-          </li> */}
         </div>
       </nav>
       {loading ? (<Button size="lg" theme="danger" className="loading">Cargando...</Button>)
@@ -99,12 +100,21 @@ function App() {
                 <br></br>
                 <br></br>
               <h1> <FontAwesomeIcon icon={faCashRegister}/></h1>
+              <br></br>
+
+              <h2>Generar venta</h2>
+              <br></br>
+              <Button onClick={()=>emptyCart()} className="empty" theme="danger" outline block> <FontAwesomeIcon icon={faTimes}/>{'  '}
+              Vaciar carrito
+            </Button>
                 <Menu
                   menuItems={menuItems}
                   cart={cart}
                   setCartItems={setCartItems}
                   pos={"pos"}
                 ></Menu>
+                <br></br>
+                <br></br>
                 <div className="fixed-checkout">
                   {(cart.length > 0 && (
                     <Link to={"/checkout"}>
@@ -159,12 +169,13 @@ function App() {
             ></Expenditure>
           </Route>
           </Switch>
-            {/* <Switch>
+            <Switch>
 
               <Route exact path={["/inventario"]}>
               <br></br>
               <br></br>
                 <h1> <FontAwesomeIcon icon={faStoreAlt}/></h1>
+                <h2>Editar inventario</h2>
                 <AddItem
                   menuItems={menuItems}
                   cart={cart}
@@ -173,7 +184,7 @@ function App() {
                   pos={"edit"}
                 ></AddItem>
               </Route>
-            </Switch> */}
+            </Switch>
           </div>)}
     </div>
   );

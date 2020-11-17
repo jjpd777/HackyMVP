@@ -14,8 +14,8 @@ h1{
   margin-top:2rem;
   margin-bottom: 3rem;
 }
-.navbar{
-  
+.nav{
+  color:red;
 }
 .nav-item{
   .highlight{
@@ -79,9 +79,13 @@ img {
 
 .App-link {
   color: #61dafb;
+
 }
 .container{
-
+  .empty{
+    background-color: rgb(189, 52, 52);
+    color:white;
+  }
   .fixed-checkout {
     background-color:#e3e0fb;
     position: fixed;

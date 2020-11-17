@@ -33,8 +33,8 @@ function ItemCard(props: ItemCardProps) {
     const dataUpdate = { "valid": false };
     DBservice.update(saleItem.id, dataUpdate)
       .then(() => console.log(saleItem.id))
-
   }
+  const egreso = menuItem.taxInfo === "EGRESO";
 
   return (
     <div className="card-container">
@@ -61,25 +61,30 @@ function ItemCard(props: ItemCardProps) {
               onClick={() => {
                 // setModalOpen(!modalOpen);
                 setCancel(true);
+                console.log(egreso)
               }
               }>
-              {'  '}Cancelar venta{'  '}
+              {'  '}{egreso? 'Cancelar egreso':'Cancelar venta'}{'  '}
             </Button>}
-          <p><b> Nombre cliente:</b> {menuItem.name}</p>
+          <p><b> {egreso ? 'Motivo de egreso':'Nombre cliente:'}</b> {menuItem.name}</p>
           <p><b>Método de pago:</b> {menuItem.payment}</p>
           <p><b>Información de factura:{'  '}</b>{menuItem.taxInfo} </p>
           <div className="add-cart">
-            <p><b>Producto vendido:</b></p>
-            {menuItem.pedido.map((val) =>
+           {!egreso && (
+             <>
+           <p><b>Producto vendido:</b></p>
+           { menuItem.pedido.map((val) =>
               <>
                 <p className="items-list">{<FontAwesomeIcon icon={faCheckCircle} />}{' '}{val.name}{' '}<b>{val.quantity}</b>  </p>
               </>
-            )
-            }
+            )}
+            </>
+            )||
+            null}
             {
               menuItem.valid && cancel &&
               <>
-                <h5>Cancelar venta?</h5>
+                <h5>{egreso? 'Cancelar egreso':'Cancelar venta'}?</h5>
                 <Button pill inline className="save" theme="danger" onClick={() => {
                   setCancel(false);
                 }}> no</Button>

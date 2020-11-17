@@ -22,7 +22,18 @@ const transcribe = () => {
           console.log(e);
         });
     })
+    
+  };
+  const newItem = (data) => {
+      DBservice.create(data,table2write)
+        .then(() => {
+          console.log(data)
+        })
+        .catch(e => {
+          console.log(e);
+        });
+
+    
   };
 
-
-export default {transcribe};
+export default {transcribe,newItem};

@@ -8,6 +8,11 @@
     margin: 2rem 1.3rem 2rem 1.3rem;
     width: 10rem;
   }
+  .bruh{
+    color:red;
+    margin-top:-6rem;
+    background-color: white;
+  }
   .button {
     margin-top:1rem;
     margin-bottom:5rem;
@@ -18,7 +23,15 @@
   .button:hover {
     background-color: #013057;
   }
+  .button-cancel{
+    background-color: rgb(189, 52, 52);
+    color:white;
 
+  }
+
+  .button-secondary {
+    border-color: #011627;
+  }
   .button-secondary {
     border-color: #011627;
     color: #011627;
@@ -33,6 +46,10 @@
   .order-summary{
     .pill{
       margin-top:10px;
+    }
+    
+    .cash{
+      background-color:red;
     }
   }
 }
@@ -55,10 +72,7 @@
     margin-top: 20px;
     margin-bottom:1.5em;
   }
-  .cf{
-    margin-top: 2rem;
-    color:blue;
-  }
+
 }
 .finalize{
   justify-content: center;

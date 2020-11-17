@@ -14,7 +14,7 @@ import {
   FormRadio,
 } from 'shards-react';
 import {
-  faRedo, faCheckCircle
+  faRedo, faCheckCircle, faTimes
 } from '@fortawesome/free-solid-svg-icons';
 import { CartItem } from '../../App';
 import { MenuItem } from '../Menu/Menu';
@@ -34,7 +34,7 @@ interface CheckoutProps {
 function Checkout(props: CheckoutProps) {
   const { menuItems, cart } = props;
 
-  const [name, setName] = useState();
+  const [name, setName] = useState("Anónimo");
   const [address, setAddress] = useState("Ciudad de Guatemala");
   const [phone, setPhone] = useState("+502");
   const [nextPayment, setNextPayment] = useState(false);
@@ -144,7 +144,22 @@ function Checkout(props: CheckoutProps) {
 
   return (
     <div className="checkout-container">
-      <div className="order-summary">
+      {nextPayment || !cart.length ? ( 
+        <>
+        <div className="finalize">
+          <br></br>
+           <h4 className="done"> <FontAwesomeIcon icon={faCheckCircle} />{'  '} Compra Registrada</h4>
+           <br></br>
+           <Link to="/">
+            <Button className="next" theme ="success"> 
+            Registrar otra compra</Button>
+            </Link>
+      
+            </div>
+            </>
+            ):(
+        <>
+        <div className="order-summary">
         <ListGroup>
           {getCartItems().map((item, index) => {
             return (
@@ -171,23 +186,6 @@ function Checkout(props: CheckoutProps) {
           </ListGroupItem>
         </ListGroup>
       </div>
-      {nextPayment ? ( 
-        <>
-        <div className="finalize">
-          <br></br>
-           <h4 className="done"> <FontAwesomeIcon icon={faCheckCircle} />{'  '} Compra Registrada</h4>
-           <br></br>
-           <Link to="/">
-            <Button className="next" theme ="success"> 
-            Registrar otra compra</Button>
-            </Link>
-      
-            </div>
-           
-
-            </>
-            ):(
-        <>
         <div className="order-summary">
         <br></br>
         <Link to={"/"}>
@@ -195,20 +193,28 @@ function Checkout(props: CheckoutProps) {
               Regresar al Menu
             </Button>
           </Link>
+          <br></br>
+          <Link to={"/"}>
+            <Button onClick={()=>props.emptyCart()} className="button-cancel" theme="danger" outline block> <FontAwesomeIcon icon={faTimes}/>{'  '}
+              Vaciar
+            </Button>
+          </Link>
       </div>
       <br></br>
         <div>
-          <b><p>Método de pago:</p></b>
+          <b><h3>Método de pago:</h3></b>
           <FormRadio
             inline
+            className="cash"
             name="cash"
             checked={payMethod}
             onChange={() => {
               setPayment(true);
             }}
           >
-            Efectivo
+            <h5> Efectivo</h5>
           </FormRadio>
+         
           <FormRadio
             inline
             name="card"
@@ -217,18 +223,10 @@ function Checkout(props: CheckoutProps) {
               setPayment(false);
             }}
           >
-            Tarjeta
+             <h5> Tarjeta</h5>
           </FormRadio>
           <div className="shipping-info">
-            <FormInput
-              className="input"
-              placeholder="Nombre completo"
-              value={name}
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
-            />
-            <b><p>Información tributaria:</p></b>
+          <b><h3>Información de factura:</h3></b>
             <FormRadio
               inline
               name="cf"
@@ -237,8 +235,8 @@ function Checkout(props: CheckoutProps) {
                 setTaxInfo(!taxInfo);
               }}
             >
-              C.F
-      </FormRadio>
+          <h5> C.F</h5>      
+        </FormRadio>
             <FormRadio
               inline
               className="nit"
@@ -248,9 +246,17 @@ function Checkout(props: CheckoutProps) {
                 setTaxInfo(!taxInfo);
               }}
             >
-              # Nit
+               <h5> # NIT</h5>
       </FormRadio>
             {taxInfo && (
+              <>
+          <FormInput
+              className="input"
+              placeholder="Nombre completo"
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
+            />
               <FormTextarea
                 className="input"
                 placeholder="Número de NIT"
@@ -258,7 +264,9 @@ function Checkout(props: CheckoutProps) {
                   setTaxText(e.target.value);
                 }}
               />
-            )}
+            </>
+            )
+            }
             {/* <FormTextarea
               className="input"
               placeholder="Celular"

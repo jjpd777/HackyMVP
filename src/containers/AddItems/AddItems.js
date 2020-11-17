@@ -7,7 +7,7 @@ import DBservice from '../../services/DBservice'
 import { Button } from 'shards-react';
 import './AddItems.scss' 
 import {
-    faCashRegister, faCheckCircle, faTimes, faStoreAlt
+    faCashRegister, faCheckCircle, faTimes, faStoreAlt, faArrowDown
   } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Menu, { MenuItem } from '../Menu/Menu';
@@ -90,9 +90,7 @@ function AddItem(props) {
                 </div>)
             : (
               <div className="main">
-                <br></br>
-                <br></br>
-              <h5>Selecciona un elemento a editar</h5>
+              <h3><FontAwesomeIcon icon={faArrowDown}/><FontAwesomeIcon icon={faArrowDown}/><FontAwesomeIcon icon={faArrowDown}/></h3>
               </div>
                 )
             }

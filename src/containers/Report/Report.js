@@ -22,6 +22,7 @@ function Report(props) {
     const [avCard, setAvCard] = useState(0);
     const [avCash, setAvCash] = useState(0);
     const [redirectURL, setRedirect] = useState("");
+    const [ticketNum, setTicket] = useState(0)
 
     function getDateforSection() {
         var date = new Date();
@@ -62,14 +63,19 @@ function Report(props) {
         var salesTotal = 0;
         var cardTotal = 0;
         var cashTotal = 0;
+        var tickets = 0;
         const today = getDateforSection();
         var salesToday = salesItems.filter((item)=> item.category ===today && item.valid)
         salesToday.map((val, key) => {
-            if (val.valid) {
+            if (val.valid && val.taxInfo!=="EGRESO") {
                 salesTotal += val.total
-                if (val.payment === "tarjeta") cardTotal += val.total;
+                tickets++;
+                if (val.payment === "tarjeta") {
+                    cardTotal += val.total;
+                }
                 else cashTotal += val.total;
             }
+            setTicket(tickets)
         })
 
         const ticket = (salesTotal / salesToday.length);
@@ -83,18 +89,22 @@ function Report(props) {
         <>
             {!avTicket ? (
                 <div className="main">
-                    <h5>Ventas de hoy: {getDateforSection()}</h5>
+                    <h2>Ventas de hoy}</h2>
+                    <h4>     {getDateforSection()}</h4>
                     <h3 className="stud" ><b>Todavía no hay ventas </b></h3>
                 </div>)
             : (
 
                 <div className="main">
-                    <h5>Ventas de hoy: {getDateforSection()}</h5>
-                    {/* {setRefresh(!refresh)} */}
-                    <h6><b>Ticket promedio:</b></h6>
+                         <h2>Ventas de hoy</h2>
+                    <h5>     {getDateforSection()}</h5>
+                    <br></br>
+                    <br></br>
+                    <h2 className="stud" > Qtz.{avCash + avCard}</h2><h3>En {ticketNum} tickets</h3>
+                    <h2>- -- -</h2>
+                    <h6><b>Promedio </b></h6>
                     <h3 className="stud" ><b>Q.</b>{avTicket} / ticket</h3>
-                    <h6><b>total vendido:</b></h6>
-                    <h3 className="stud" > Qtz.{avCash + avCard}</h3>
+                   
                     <h6><b>Tarjeta</b>{' '}<FontAwesomeIcon icon={faCreditCard}/> Q.{avCard}</h6>
                     <h6><b>Efectivo</b>{' '}<FontAwesomeIcon icon={faMoneyBillWave}/>: Q.{avCash}</h6>
                     <br></br>
