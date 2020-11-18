@@ -40,8 +40,8 @@ function Report(props) {
     // useEffect(()=>setRefresh(!refresh),[salesItems])
 
     const closeSalesDay = () => {
-        var baseURL = "https://wa.me/50249502142?text=";
-        const welcome = "Buenas de *Borgoña Gerona*,"
+        var baseURL = "https://wa.me/50250340863?text=";
+        const welcome = "Buenas de *Get Fit Bakery Z.14*,"
         const totalSales = "%0A%0AEl dia de hoy *" + getDateforSection() + "* el total de ventas fué: *Qtz. " + String(avCash + avCard)+"*";
         const ticketText = "%0A%0AEl ticket promedio fué de: *Qtz. " + String(avTicket) + "*"
         const numCardText = "%0A%0AVentas en tarjeta: *Qtz" + avCard + "*";
