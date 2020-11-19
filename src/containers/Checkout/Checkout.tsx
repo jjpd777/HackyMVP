@@ -113,6 +113,20 @@ function Checkout(props: CheckoutProps) {
   const sendIt = canEmailPDF().every(v => v === true);
   const [redirectURL, setRedirect] = useState("");
 
+  function todaysDate(){
+    var today = new Date();
+    var min = String(today.getMinutes()).padStart(2,'0');
+    var hour = String(today.getHours()).padStart(2,'0');
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    var todayEndpoint = yyyy+"/"+mm+"/"+dd+"/"
+    var personName = person.split(' ').join('-')
+    var response = todayEndpoint+hour + ':'+ min+"&"+personName;
+    console.log(response)
+    return response;
+  }
+
   const engineersJSON = {
     "Rubén de Jesus Borja Molina": "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_1_2390229602.png?alt=media&token=cbca267c-0e39-4e4c-befe-3f0f277789b1",
     "Wilson Alexander Barillas Chajón": "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_1_8338982172.png?alt=media&token=07085def-9f5d-469a-9c04-f0ae0d351e3e",
@@ -120,7 +134,8 @@ function Checkout(props: CheckoutProps) {
     "Henry Alexander Morán Lemus": "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_7_3829281714.png?alt=media&token=5d3fd87b-6dcd-4bca-afe3-d2683119b96e",
     "Luis Alberto Gudiel Polanco": "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_10_5830862428.png?alt=media&token=c86e709e-ee67-4eef-811b-3b86fbcffcbe",
     "Victor Manuel Reyes Rivera": "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_4_5725059954.png?alt=media&token=bf8d0a1c-6041-40f9-bb98-40ee16a83327",
-    "Edin Gilberto Borja Molina": "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_5_3004968665.png?alt=media&token=b551d73b-34ff-49f4-aae2-e4937aca16bf"
+    "Edin Gilberto Borja Molina": "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_5_3004968665.png?alt=media&token=b551d73b-34ff-49f4-aae2-e4937aca16bf",
+    "Manuel Borja":"https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_5_7993497549.png?alt=media&token=8f101e14-f957-4cd0-8861-b23dc811f9a1"
   };
 
   useEffect(() => {
@@ -328,6 +343,11 @@ function Checkout(props: CheckoutProps) {
         resize = 0.3;
         yCoord = 50;
       }
+      if (person === "Manuel Borja") {
+        xCoord =410;
+        resize = 0.3;
+        yCoord = 67;
+      }
       return [resize, xCoord, yCoord]
     }
     const sizeAndLocation = getSizeAndLocation();
@@ -341,7 +361,10 @@ function Checkout(props: CheckoutProps) {
 
     const pdfBytes = await pdfDoc.save();
     var storageRef = firebase.storage().ref();
-    var file2write = storageRef.child('pdfs/pdf-num' + String(listItems) + '.pdf')
+    const stringDate = todaysDate();
+    // const name1 = person.split(' ').join('-')
+    // console.log(name1)
+    var file2write = storageRef.child(stringDate+'.pdf')
 
     file2write.put(pdfBytes).then(function (snapshot) {
       
@@ -395,7 +418,6 @@ function Checkout(props: CheckoutProps) {
                 setLocation(key);
                 setFetchImage(engineersJSON[engineer]);
                 setStep1(true);
-                writePointer();
               }} >
               <FontAwesomeIcon icon={faMale} /> {' '} {engineer}
             </DropdownItem>
@@ -477,7 +499,7 @@ function Checkout(props: CheckoutProps) {
             {!whatsApp && sendIt &&
               <Button
                 theme="warning"
-                onClick={() => { modifyPdf(); setWhatsApp(!whatsApp) }}
+                onClick={() => { modifyPdf(); setWhatsApp(!whatsApp);writePointer() }}
                 className="button-pdf">
                 GENERAR PDF
             </Button>}
