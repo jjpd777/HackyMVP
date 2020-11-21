@@ -27,43 +27,61 @@ interface SectionProps {
   title: string;
   menuItems: MenuItem[];
   cart: CartItem[];
-  pos:String;
+  pos: String;
   setCartItems: React.Dispatch<React.SetStateAction<any>>;
 }
 
 function Section(props: SectionProps) {
   var pos = props.pos;
-  const getId = (ix)=>ix%3===0 ? console.log(ix): null;
+  const getId = (ix) => ix % 3 === 0 ? console.log(ix) : null;
 
 
-  const PoSCardsByRow = (ix)=>{
+  const PoSCardsByRow = (ix) => {
 
-   if(ix< props.menuItems.length) return (
+    if (ix < props.menuItems.length) return (
 
       <Col>
-            <PoSCard
-            menuItem={props.menuItems[ix]}
-            cart={props.cart}
-            setCartItems={props.setCartItems}
-          ></PoSCard>
+        <PoSCard
+          menuItem={props.menuItems[ix]}
+          cart={props.cart}
+          setCartItems={props.setCartItems}
+        ></PoSCard>
       </Col>
     )
     else
-      return(
+      return (
         <Col>
         </Col>
+      )
+  }
+  const InventoryCardsByRow = (ix) => {
+
+    if (ix < props.menuItems.length) return (
+
+      <Col>
+        <EditCard
+          menuItem={props.menuItems[ix]}
+          cart={props.cart}
+          setCartItems={props.setCartItems}
+        ></EditCard>
+      </Col>
     )
+    else
+      return (
+        <Col>
+        </Col>
+      )
   }
 
-  
+
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="section-container">
       <div className="section-header">
-        <div onClick={() => {setIsOpen(!isOpen);}}>
+        <div onClick={() => { setIsOpen(!isOpen); }}>
           <h5>{props.title}{' '}
-          {!isOpen && <FontAwesomeIcon icon={faAngleDoubleDown} />}{' '}
-          {isOpen && <FontAwesomeIcon icon={faArrowUp} />}
+            {!isOpen && <FontAwesomeIcon icon={faAngleDoubleDown} />}{' '}
+            {isOpen && <FontAwesomeIcon icon={faArrowUp} />}
           </h5>
         </div>
       </div>
@@ -71,31 +89,32 @@ function Section(props: SectionProps) {
         {props.menuItems.map((value, index) => {
           return (
             <>
-            {pos==="pos"&& (index%4===0) && (
-            <Container className="dr-example-container">
-              <Row>
-              {PoSCardsByRow(index)}
-              {PoSCardsByRow(index+1)}
-              {PoSCardsByRow(index+2)}
-              {PoSCardsByRow(index+3)}
-              </Row>
+              {pos === "pos" && (index % 3 === 0) && (
+                <Container className="dr-example-container">
+                  <Row>
+                    {PoSCardsByRow(index)}
+                    {PoSCardsByRow(index + 1)}
+                    {PoSCardsByRow(index + 2)}
+                  </Row>
+                </Container>
+              )}
+              {pos === "sales" && (
+                <ItemCard
+                  menuItem={value}
+                  cart={props.cart}
+                  setCartItems={props.setCartItems}
+                ></ItemCard>
+              )}
+              {pos === "edit" && (index % 3 === 0) &&(
+                <Container className="dr-example-container">
+                <Row>
+                  {InventoryCardsByRow(index)}
+                  {InventoryCardsByRow(index + 1)}
+                  {InventoryCardsByRow(index + 2)}
+                </Row>
               </Container>
               )}
-              {pos==="sales" && (
-              <ItemCard
-                menuItem={value}
-                cart={props.cart}
-                setCartItems={props.setCartItems}
-              ></ItemCard>
-              )}
-              {pos==="edit" && (
-              <EditCard
-                menuItem={value}
-                cart={props.cart}
-                setCartItems={props.setCartItems}
-              ></EditCard>
-              )}
-              
+
             </>
           );
         })}

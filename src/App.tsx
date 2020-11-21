@@ -10,7 +10,7 @@ import DBservice from "./services/DBservice";
 import { Switch, Route, Link } from "react-router-dom";
 import AddItem from './containers/AddItems/AddItems'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faCashRegister,faBalanceScale,faStoreAlt, faPencilAlt, faTimes} from '@fortawesome/free-solid-svg-icons';
+import {faCashRegister,faBalanceScale,faStoreAlt, faPencilAlt, faTimes, faShoppingCart} from '@fortawesome/free-solid-svg-icons';
 import DBseed from "./services/seedDB"
 
 
@@ -102,11 +102,8 @@ function App() {
               <h1> <FontAwesomeIcon icon={faCashRegister}/></h1>
               <br></br>
 
-              <h2>Generar venta</h2>
+              <h2>Ingresar venta</h2>
               <br></br>
-              <Button onClick={()=>emptyCart()} className="empty" theme="danger" outline block> <FontAwesomeIcon icon={faTimes}/>{'  '}
-              Vaciar carrito
-            </Button>
                 <Menu
                   menuItems={menuItems}
                   cart={cart}
@@ -117,12 +114,16 @@ function App() {
                 <br></br>
                 <div className="fixed-checkout">
                   {(cart.length > 0 && (
-                    <Link to={"/checkout"}>
+                    <>
+                          <Link className="tmp" to={"/checkout"}>
                       <Button
                         className="checkout-button" block>
-                        Revisar la venta
+                        <FontAwesomeIcon icon={faShoppingCart}/>
                   </Button>
-                    </Link>
+                  </Link>
+                  <Button onClick={()=>emptyCart()} className="empty" theme="danger" outline block> <FontAwesomeIcon icon={faTimes}/>
+            </Button>
+                  </>
                   )) ||
                     null}
                 </div>

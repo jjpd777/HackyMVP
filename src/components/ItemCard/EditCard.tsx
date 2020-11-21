@@ -32,26 +32,26 @@ function EditCard(props: PoSCardProps) {
 
   return (
     <div className="card-container">
+      <div onClick={()=>{
+          props.setCartItems(menuItem.id);
+    }}>
       <Card className="card">
-        <CardBody className="card-body">
+        <CardBody
+         className="card-body">
           {/* {menuItem.image !== "" && (<img width="150" src={menuItem.image} />)} */}
           <div className="card-content">
             <CardTitle className="title">{menuItem.name}</CardTitle>
-            <CardSubtitle>Precio de venta: {' '}{menuItem.price}</CardSubtitle>
           </div>
           <div className="card-price">
-    {cart.find((x) => x.itemId === menuItem.id) && <FontAwesomeIcon icon={faShoppingBasket}/>}
-    {'  '}
-    {menuItem.quantityavailable} 
-    <p>en tienda</p>
-
-    {/* {cart.find((x) => x.itemId === menuItem.id) ?.quantity || ""} */}
+            <div className="subdiv">
+            {'  '}
+            {menuItem.price} 
+          </div>
+    <p>Qtz</p>
           </div>
         </CardBody>
       </Card>
-      <Button className="edit-stuff" onClick={()=>{
-                props.setCartItems(menuItem.id);
-          }}><FontAwesomeIcon icon={faPencilAlt}/>{'  '} Editar</Button>
+      </div>
       {/* <Button className="decrease" theme="danger" onClick={() => removeOneFromCart()}> <FontAwesomeIcon icon={faCircle}/> </Button>
       <Button className="increase" theme="success" onClick={() => addOneToCart()}> <FontAwesomeIcon icon={faCircle}/> </Button> */}
     </div>

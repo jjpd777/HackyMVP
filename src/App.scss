@@ -81,33 +81,36 @@ img {
   color: #61dafb;
 
 }
+
 .container{
-  .empty{
-    background-color: rgb(189, 52, 52);
-    color:white;
-  }
   .fixed-checkout {
-    background-color:#e3e0fb;
+    background-color: #ffffff;
     position: fixed;
     bottom: 0rem;
     width: 100%;
     display: flex;
     justify-content: center;
     padding: 20px;
-    margin-left:-1rem;
-    border-color: rgb(26, 22, 22);
   
-    .checkout-button {
-      display:flex;
-      justify-content: center;
-      width: 100%;
-      background-color:  #6655fe;
+    .tmp{.checkout-button {
+      width: 63%;
+      background-color: #5baa00;
+      font-size:3rem;
+      min-width: 30rem;
+      min-height:3rem;
+      margin-left:-35rem;
       font-weight: 600;
-      color:rgb(252, 255, 251);
-    }
+      border: #011627;
+    }}
     .checkout-button:hover {
       background-color: #013057;
     }
+  }
+  .empty{
+    background-color: rgb(189, 52, 52);
+    max-width: 12rem;
+    color:white;
+    font-size:3rem;
   }
 }
 

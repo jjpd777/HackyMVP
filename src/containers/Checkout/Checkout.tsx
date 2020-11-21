@@ -14,7 +14,7 @@ import {
   FormRadio,
 } from 'shards-react';
 import {
-  faRedo, faCheckCircle, faTimes
+  faRedo, faCheckCircle, faTimes, faMoneyBillWave, faCreditCard
 } from '@fortawesome/free-solid-svg-icons';
 import { CartItem } from '../../App';
 import { MenuItem } from '../Menu/Menu';
@@ -108,7 +108,13 @@ function Checkout(props: CheckoutProps) {
     setTaxInfo(false);
     props.emptyCart();
   };
-  
+  const retPayButton = ()=> payMethod? 
+  ( 
+   <h1>Efectivo <FontAwesomeIcon  icon={faMoneyBillWave}/></h1>
+    ) :(
+      <h1>Tarjeta <FontAwesomeIcon icon={faCreditCard}/> </h1>
+  )
+
   const writeOrder = () => {
     if (!name) return
 
@@ -117,6 +123,7 @@ function Checkout(props: CheckoutProps) {
     const time = getFormattedDate();
     const taxString = getTaxInfo();
     const dateCategory = getDateforSection();
+
 
     const newRow = {
       "id": "",
@@ -141,7 +148,6 @@ function Checkout(props: CheckoutProps) {
       setNextPayment(true);
   }
 
-
   return (
     <div className="checkout-container">
       {nextPayment || !cart.length ? ( 
@@ -165,9 +171,9 @@ function Checkout(props: CheckoutProps) {
             return (
               <ListGroupItem className="list-item" key={index}>
                 <div>
-                  ( x{item.quantity} )  {item.name}
+                  <h2>( x{item.quantity} )  {item.name}</h2>
                 </div>
-                <div>Qtz. {item.price * item.quantity}</div>
+                <h2>Qtz. {item.price * item.quantity}</h2>
               </ListGroupItem>
             );
           })}
@@ -181,74 +187,18 @@ function Checkout(props: CheckoutProps) {
             className="list-item"
             key={'total'}
           >
-            <div>Total</div>
-            <div>Qtz. {props.totalCartValue}</div>
+           <h2>Total</h2>
+            <h1>Qtz. {props.totalCartValue}</h1>
           </ListGroupItem>
         </ListGroup>
       </div>
-        <div className="order-summary">
-        <br></br>
-        <Link to={"/"}>
-            <Button className="button-secondary" outline block> <FontAwesomeIcon icon={faRedo}/>{'  '}
-              Regresar al Menu
-            </Button>
-          </Link>
-          <br></br>
-          <Link to={"/"}>
-            <Button onClick={()=>props.emptyCart()} className="button-cancel" theme="danger" outline block> <FontAwesomeIcon icon={faTimes}/>{'  '}
-              Vaciar
-            </Button>
-          </Link>
-      </div>
       <br></br>
         <div>
-          <b><h3>Método de pago:</h3></b>
-          <FormRadio
-            inline
-            className="cash"
-            name="cash"
-            checked={payMethod}
-            onChange={() => {
-              setPayment(true);
-            }}
-          >
-            <h5> Efectivo</h5>
-          </FormRadio>
-         
-          <FormRadio
-            inline
-            name="card"
-            checked={!payMethod}
-            onChange={() => {
-              setPayment(false);
-            }}
-          >
-             <h5> Tarjeta</h5>
-          </FormRadio>
           <div className="shipping-info">
-          <b><h3>Información de factura:</h3></b>
-            <FormRadio
-              inline
-              name="cf"
-              checked={!taxInfo}
-              onChange={() => {
-                setTaxInfo(!taxInfo);
-              }}
-            >
-          <h5> C.F</h5>      
-        </FormRadio>
-            <FormRadio
-              inline
-              className="nit"
-              name="nit"
-              checked={taxInfo}
-              onChange={() => {
-                setTaxInfo(!taxInfo);
-              }}
-            >
-               <h5> # NIT</h5>
-      </FormRadio>
-            {taxInfo && (
+          <Button  className="simple-pay" onClick={()=>setPayment(!payMethod)}> {retPayButton()}</Button>
+          <Button  className="simple-pay" onClick={()=>setTaxInfo(!taxInfo)}> <h1>{taxInfo ? "# NIT" : "C.F."}</h1></Button>
+          
+              {taxInfo && (
               <>
           <FormInput
               className="input"
@@ -278,8 +228,19 @@ function Checkout(props: CheckoutProps) {
               onClick={() => { writeOrder(); registerSale(); substractItems() }}
               // href={writeOrder(name, address, phone, payMethod)}
               className="button" block>
-              Registrar compra
+              Registrar
             </Button>
+            <div className="order-summary">
+          <Link to={"/"}>
+            <Button onClick={()=>props.emptyCart()} className="button-cancel" theme="danger" > <FontAwesomeIcon icon={faTimes}/>{'  '}
+            </Button>
+          </Link>
+          <Link to={"/"}>
+          <Button className="button-secondary" > 
+            <FontAwesomeIcon icon={faRedo}/>{'  '}
+            </Button>
+            </Link>
+      </div>
           </div>
         </div>
       </>

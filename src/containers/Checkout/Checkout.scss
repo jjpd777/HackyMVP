@@ -16,9 +16,11 @@
   .button {
     margin-top:1rem;
     margin-bottom:5rem;
-    background-color: #011627;
+    background-color: #46aa03;
     font-weight: 600;
+    font-size:3rem;
     border: #011627;
+    min-height:6rem;
   }
   .button:hover {
     background-color: #013057;
@@ -26,24 +28,36 @@
   .button-cancel{
     background-color: rgb(189, 52, 52);
     color:white;
+    max-height:7rem;
+    min-width:13rem;
+    font-size:4rem;
 
   }
 
   .button-secondary {
-    border-color: #011627;
-  }
-  .button-secondary {
-    border-color: #011627;
+    padding-left:2rem;
+    margin-left:2rem;
+    border:red;
+    background-color: rgb(238, 226, 174);
+    font-size: 6rem;
     color: #011627;
   }
   .button-secondary:hover {
     border-color: #014073;
     background-color: transparent;
+    
   }
   .pill{
     margin-top:10px;
   }
   .order-summary{
+    margin-top:-1rem;
+    padding-bottom: 15px;
+    .button-secondary{
+      max-height:7rem;
+      min-width:13rem;
+      font-size:4rem;
+    }
     .pill{
       margin-top:10px;
     }
@@ -62,15 +76,31 @@
   flex-direction: row;
   justify-content: space-between;
   font-weight: 400;
+  padding-top:20px;
   color: #2b2b2b;
 }
 .shipping-info {
+
+  .simple-pay{
+    margin-block-start: 0.5rem;
+    margin-block-end:0.5rem;
+    margin-right:200px;
+    margin-left:4rem;
+    background-color: rgb(183, 255, 123);
+    border:red;
+  }
+  h1{
+    color:rgb(17, 19, 16);
+    font-weight: 1000;
+    font-size:4rem;
+  }
   .card {
     padding: 40px;
   }
   .input {
     margin-top: 20px;
     margin-bottom:1.5em;
+    font-size:2.7rem;
   }
 
 }

@@ -176,7 +176,7 @@ function Checkout(props: ExpenditureProps) {
      <FormInput
        className="input"
        type="number"
-       placeholder="Monto"
+       placeholder="Precio en Qtz."
        onChange={(e) => {
          setPrice(e.target.value);
        }}
@@ -198,7 +198,6 @@ function Checkout(props: ExpenditureProps) {
               Registrar producto
      </Button>
    </div>
-   {getTitle()}
 
  </div>
     ) :(
@@ -229,7 +228,6 @@ function Checkout(props: ExpenditureProps) {
                        Registrar egreso
             </Button>
           </div>
-          {getTitle()}
         </div>)}
       </>
       )}

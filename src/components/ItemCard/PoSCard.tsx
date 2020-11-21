@@ -73,24 +73,22 @@ function PoSCard(props: PoSCardProps) {
   return (
     <>
     <div onClick={()=>addOneToCart()}className="card-container">
-      <Card className="card">
-        <CardBody className="card-body">
+      <Card className="card-pos">
+        <CardBody className="card-body-pos">
           {/* {menuItem.image !== "" && (<img width="150" src={menuItem.image} />)} */}
           <div className="card-content">
             <CardTitle className="title">{menuItem.name}</CardTitle>
-            <CardSubtitle>{menuItem.brief}</CardSubtitle>
+            <CardSubtitle className="sub-title"><h4>{'Qtz. '}{menuItem.price}</h4></CardSubtitle>
           </div>
           <div className="card-price-pos">
-    {cart.find((x) => x.itemId === menuItem.id) && <FontAwesomeIcon icon={faShoppingBasket}/>}
-    {'  '} 
-    {cart.find((x) => x.itemId === menuItem.id) ?.quantity || ""}
-          </div>
+        {cart.find((x) => x.itemId === menuItem.id) ?.quantity || ""}
+        </div>
         </CardBody>
+       
       </Card>
       {/* <Button className="increase" theme="success" onClick={() => addOneToCart()}> <FontAwesomeIcon icon={faCircle}/> </Button> */}
     </div>
-    
-    <Button className="decrease" theme="danger" onClick={() => removeOneFromCart()}> <FontAwesomeIcon icon={faCircle}/> </Button>
+   {cart.find((x) => x.itemId === menuItem.id) && <Button className="decrease" theme="danger" onClick={() => removeOneFromCart()}> <FontAwesomeIcon icon={faCircle}/> </Button>}
 </>
   );
 }
