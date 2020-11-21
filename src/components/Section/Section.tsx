@@ -17,6 +17,9 @@ import { MenuItem } from '../../containers/Menu/Menu';
 import ItemCard from '../ItemCard/ItemCard';
 import PoSCard from '../ItemCard/PoSCard';
 import EditCard from '../ItemCard/EditCard';
+import { Container, Row, Col } from "shards-react";
+import { getByTestId } from '@testing-library/dom';
+
 
 
 
@@ -30,7 +33,27 @@ interface SectionProps {
 
 function Section(props: SectionProps) {
   var pos = props.pos;
-  
+  const getId = (ix)=>ix%3===0 ? console.log(ix): null;
+
+
+  const PoSCardsByRow = (ix)=>{
+
+   if(ix< props.menuItems.length) return (
+
+      <Col>
+            <PoSCard
+            menuItem={props.menuItems[ix]}
+            cart={props.cart}
+            setCartItems={props.setCartItems}
+          ></PoSCard>
+      </Col>
+    )
+    else
+      return(
+        <Col>
+        </Col>
+    )
+  }
 
   
   const [isOpen, setIsOpen] = useState(false);
@@ -44,17 +67,20 @@ function Section(props: SectionProps) {
           </h5>
         </div>
       </div>
-
       <Collapse open={isOpen}>
         {props.menuItems.map((value, index) => {
           return (
             <>
-            {pos==="pos"&& (
-              <PoSCard
-                menuItem={value}
-                cart={props.cart}
-                setCartItems={props.setCartItems}
-              ></PoSCard>)}
+            {pos==="pos"&& (index%4===0) && (
+            <Container className="dr-example-container">
+              <Row>
+              {PoSCardsByRow(index)}
+              {PoSCardsByRow(index+1)}
+              {PoSCardsByRow(index+2)}
+              {PoSCardsByRow(index+3)}
+              </Row>
+              </Container>
+              )}
               {pos==="sales" && (
               <ItemCard
                 menuItem={value}

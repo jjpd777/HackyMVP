@@ -71,7 +71,8 @@ function PoSCard(props: PoSCardProps) {
   };
 
   return (
-    <div className="card-container">
+    <>
+    <div onClick={()=>addOneToCart()}className="card-container">
       <Card className="card">
         <CardBody className="card-body">
           {/* {menuItem.image !== "" && (<img width="150" src={menuItem.image} />)} */}
@@ -86,9 +87,11 @@ function PoSCard(props: PoSCardProps) {
           </div>
         </CardBody>
       </Card>
-      <Button className="decrease" theme="danger" onClick={() => removeOneFromCart()}> <FontAwesomeIcon icon={faCircle}/> </Button>
-      <Button className="increase" theme="success" onClick={() => addOneToCart()}> <FontAwesomeIcon icon={faCircle}/> </Button>
+      {/* <Button className="increase" theme="success" onClick={() => addOneToCart()}> <FontAwesomeIcon icon={faCircle}/> </Button> */}
     </div>
+    
+    <Button className="decrease" theme="danger" onClick={() => removeOneFromCart()}> <FontAwesomeIcon icon={faCircle}/> </Button>
+</>
   );
 }
 
