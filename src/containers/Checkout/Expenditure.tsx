@@ -43,10 +43,22 @@ function Checkout(props: ExpenditureProps) {
     var str = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
     return str;
   }
-  function getDateforSection() {
-    var date = new Date();
-    return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
 
+  function getDateforSection() {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    const response = mm + '/' + dd + '/' + yyyy;
+
+  return  response;
+  }
+  function getHoursandMins (){
+    var today = new Date();
+    var hours = String(today.getHours()).padStart(2, '0');
+    var minutes = String(today.getMinutes() + 1).padStart(2, '0');
+    const response = hours+":" +minutes;
+    return response;
   }
 
   const registerSale = () => {
@@ -98,17 +110,23 @@ function Checkout(props: ExpenditureProps) {
   }
   
   const insertInventory = ()=>{
-    if (!name || !category || price===0) return
     var data = {
       id: "",
-      category: category,
+      category: getDateforSection(),
       name: name,
-      brief: "",
+      brief: getHoursandMins(),
       quantityavailable: quantityAv,
       price: price,
-      image: "",
+      image: "FÁBRICA",
     };
-    seedDB.newItem(data);
+    DBservice.inHouseTicket(data).then(() => {
+      console.log(data)
+    })
+    .catch(e => {
+      console.log(e);
+    });
+    setNextPayment(true);
+    setName("")
   }
 
   const getHeader = ()=>  expenditure ? 
@@ -119,7 +137,7 @@ function Checkout(props: ExpenditureProps) {
       :  
       <>
       <h1><FontAwesomeIcon icon={faPencilAlt}/></h1>
-      <h2>Registrar nuevo producto</h2>;
+      <h2>Registrar nuevo ticket</h2>;
       </>
 
   const getTitle = ()=> expenditure ? 
@@ -154,7 +172,7 @@ function Checkout(props: ExpenditureProps) {
    { !expenditure ? ( 
    <div>
    <div className="shipping-info">
-   <h4>Categoría:</h4>
+   {/* <h4>Categoría:</h4>
    <FormInput
        className="input"
        placeholder="Categoría del producto"
@@ -162,8 +180,8 @@ function Checkout(props: ExpenditureProps) {
        onChange={(e) => {
          setCategory(e.target.value);
        }}
-     />
-    <h4>Nombre del producto:</h4>
+     /> */}
+    <h4>Descripción ticket:</h4>
    <FormInput
        className="input"
        placeholder="Nombre producto"
@@ -172,7 +190,7 @@ function Checkout(props: ExpenditureProps) {
          setName(e.target.value);
        }}
      />
-          <h4>Precio del producto:</h4>
+          {/* <h4>Precio del producto:</h4>
      <FormInput
        className="input"
        type="number"
@@ -180,7 +198,7 @@ function Checkout(props: ExpenditureProps) {
        onChange={(e) => {
          setPrice(e.target.value);
        }}
-     />
+     /> */}
     {/* <p><b>Cantidad disponible</b></p>
     <FormInput
        className="input"
@@ -198,8 +216,6 @@ function Checkout(props: ExpenditureProps) {
               Registrar producto
      </Button>
    </div>
-   {getTitle()}
-
  </div>
     ) :(
         <div>

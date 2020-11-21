@@ -10,7 +10,9 @@ import {
 
 import {
   faShoppingBasket,
-  faPencilAlt
+  faPencilAlt,
+  faIdCard,
+  faTicketAlt
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -31,27 +33,26 @@ function EditCard(props: PoSCardProps) {
 
 
   return (
-    <div className="card-container">
+    <div onClick={()=>{
+      props.setCartItems(menuItem.id);
+}}className="card-container">
       <Card className="card">
-        <CardBody className="card-body">
+        <CardBody  className="card-body">
           {/* {menuItem.image !== "" && (<img width="150" src={menuItem.image} />)} */}
           <div className="card-content">
             <CardTitle className="title">{menuItem.name}</CardTitle>
-            <CardSubtitle>Precio de venta: {' '}{menuItem.price}</CardSubtitle>
+            <CardSubtitle><b>STATUS:</b> {' '}{menuItem.image}</CardSubtitle>
           </div>
           <div className="card-price">
     {cart.find((x) => x.itemId === menuItem.id) && <FontAwesomeIcon icon={faShoppingBasket}/>}
     {'  '}
-    {menuItem.quantityavailable} 
-    <p>disponible</p>
+    {menuItem.brief} 
+    <p>inicio <FontAwesomeIcon icon={faTicketAlt}/></p>
 
     {/* {cart.find((x) => x.itemId === menuItem.id) ?.quantity || ""} */}
           </div>
         </CardBody>
       </Card>
-      <Button className="edit-stuff" onClick={()=>{
-                props.setCartItems(menuItem.id);
-          }}><FontAwesomeIcon icon={faPencilAlt}/>{'  '} Editar</Button>
       {/* <Button className="decrease" theme="danger" onClick={() => removeOneFromCart()}> <FontAwesomeIcon icon={faCircle}/> </Button>
       <Button className="increase" theme="success" onClick={() => addOneToCart()}> <FontAwesomeIcon icon={faCircle}/> </Button> */}
     </div>

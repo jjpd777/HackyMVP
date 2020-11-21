@@ -28,7 +28,7 @@ export enum PageEnum {
 function App() {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [salesItems, setSalesItems] = useState<any[]>([]);
-  const [dbElements, loading, error] = useList(DBservice.getAll("/inventario-getfit"));
+  const [dbElements, loading, error] = useList(DBservice.getAll("/inhouse-getfit"));
   const [dbSales, salesLoading, salesError] = useList(DBservice.getAll("/ventas-getfit"));
   const [cart, setCartItems] = useState<CartItem[]>([]);
   const [currentTab, setCurrentTab] = useState("/");
@@ -49,7 +49,8 @@ function App() {
     const obj = dboject.map((tutorial) => tutorial.val());
     const uniqd = dboject.map((tutorial) => tutorial.key);
     obj.map((item, ix) => item.id = uniqd[ix]);
-    setMenuItems(obj);
+    const sales = obj.reverse();
+    setMenuItems(sales);
   }
   const emptyCart = () => setCartItems([]);
   const getTotalCartValue = () => {
@@ -79,24 +80,24 @@ function App() {
     <div className="App">
       <nav className="navbar navbar-expand navbar-dark bg-dark">
         <div className="navbar-nav mr-auto">
-          <li className="nav-item">
-            {returnNav("/",  "CAJA")}
+          {/* <li className="nav-item">
+            {returnNav("/fas",  "CAJA")}
           </li>
           <li className="nav-item">
             {returnNav("/ventas",  "VENTAS")}
-          </li>
+          </li> */}
           <li className="nav-item size-lg">
-            {returnNav("/egresos", "REGISTRAR INVENTARIO")}
+            {returnNav("/egresos", "REGISTRAR TICKET")}
           </li>
           <li className="nav-item">
-            {returnNav("/inventario", "EDITAR INVENTARIO")}
+            {returnNav("/", "MANEJO DE TICKETS")}
           </li>
         </div>
       </nav>
       {loading ? (<Button size="lg" theme="danger" className="loading">Cargando...</Button>)
         : (
           <div className="container">
-            <Switch>
+            {/* <Switch>
               <Route exact path={["/"]}>
                 <br></br>
                 <br></br>
@@ -128,7 +129,7 @@ function App() {
                     null}
                 </div>
               </Route>
-            </Switch>
+            </Switch> */}
             {loading || salesLoading ?
               (<Button size="lg" theme="danger" className="loading">Cargando...</Button>)
               :
@@ -146,7 +147,8 @@ function App() {
                     pos={"sales"}
                   ></Menu>
                 </Route>
-              </Switch>)}
+              </Switch>
+              )}
 
             <Switch>
 
@@ -172,7 +174,7 @@ function App() {
           </Switch>
             <Switch>
 
-              <Route exact path={["/inventario"]}>
+              <Route exact path={["/"]}>
                 <AddItem
                   menuItems={menuItems}
                   cart={cart}

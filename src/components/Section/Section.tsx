@@ -17,6 +17,8 @@ import { MenuItem } from '../../containers/Menu/Menu';
 import ItemCard from '../ItemCard/ItemCard';
 import PoSCard from '../ItemCard/PoSCard';
 import EditCard from '../ItemCard/EditCard';
+import { Container, Row, Col } from "shards-react";
+
 
 
 
@@ -33,7 +35,7 @@ function Section(props: SectionProps) {
   
 
   
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   return (
     <div className="section-container">
       <div className="section-header">

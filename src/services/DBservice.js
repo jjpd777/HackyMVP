@@ -11,13 +11,19 @@ const create = (data,table) => {
   return dbs.push(data);
 };
 
+
 const update = (key, data) => {
   const dbs = database.ref("/ventas-getfit");
   return dbs.child(key).update(data);
 };
 
+const inHouseTicket=(data)=>{
+  const dbs = database.ref("/inhouse-getfit");
+  return dbs.push(data);
+}
+
 const updateInventory = (key, data) => {
-  const dbs = database.ref("/inventario-getfit");
+  const dbs = database.ref("/inhouse-getfit");
   return dbs.child(key).update(data);
 };
 
@@ -37,6 +43,7 @@ const removeAll = () => {
 
 export default {
   getAll,
+  inHouseTicket,
   create,
   updateInventory,
   removeSale,

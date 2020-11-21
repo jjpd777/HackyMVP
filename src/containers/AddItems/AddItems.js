@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import {
   FormTextarea,
+  FormRadio,
+
 } from 'shards-react';
 import DBservice from '../../services/DBservice'
 
 import { Button } from 'shards-react';
 import './AddItems.scss'
 import {
-  faCashRegister, faCheckCircle, faTimes, faStoreAlt, faArrowDown
+  faCashRegister, faCheckCircle, faTimes, 
+  faHatChef, faStoreAlt, faArrowDown, faMotorcycle, faIndustry, faStore
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Menu, { MenuItem } from '../Menu/Menu';
@@ -19,28 +22,43 @@ import Menu, { MenuItem } from '../Menu/Menu';
 // pos={true}
 function AddItem(props) {
   var { menuItems, cart, setCartItems, pos } = props;
-  const [avTicket, setAvTicket] = useState(0);
-  const [title, setTitle] = useState("");
+
   const [currentEdit, setCurrentEdit] = useState("");
 
   const [currentName, setCurrentName] = useState("");
-  const [currentQuantity, setCurrentQ] = useState(0);
-  const [currentPrice, setCurrentPrice] = useState(0);
+  const [brief, setBrief] = useState("");
+  const [currentPrice, setCurrentPrice] = useState("");
+  const [status, setStatus] = useState("")
+  // const [processing, setProcessing] = useState("");
+  const [next, setNext] = useState(false)
+
+  const nextStep = ()=> setNext(true)
 
   function getDateforSection() {
-    var date = new Date();
-    return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    const response = mm + '/' + dd + '/' + yyyy;
 
+  return  response;
   }
+  function getHoursandMins (){
+    var today = new Date();
+    var hours = String(today.getHours()).padStart(2, '0');
+    var minutes = String(today.getMinutes() + 1).padStart(2, '0');
+    const response = hours+":" +minutes;
+    return response;
+  }
+
   const saveChanges = () => {
     const dataUpdate = {
       "name": currentName,
-      "price": currentPrice,
-      "quantityavailable": currentQuantity
+      "image": status
     };
     DBservice.updateInventory(currentEdit, dataUpdate)
       .then(() => console.log("success"))
-    setCurrentEdit("");
+    // setCurrentEdit("");
 
 
   }
@@ -54,16 +72,14 @@ function AddItem(props) {
     if (!tmp) return
 
     setCurrentName(tmp.name);
-    setCurrentQ(tmp.quantityavailable);
-    setCurrentPrice(tmp.price);
+    setStatus(tmp.image);
+    setBrief(tmp.brief);
   };
 
 
-
-  var fieldEdits = [currentName, currentQuantity, currentPrice];
-  var fieldActions = [setCurrentName, setCurrentQ, setCurrentPrice]
-  const fieldText = ["Nombre", "Unidades disponibles", "Precio del producto (Qtz.)"]
-
+  var fieldEdits = [currentName];
+  var fieldActions = [setCurrentName]
+  const fieldText = ["Producto a ingresar:"]
 
 
   return (
@@ -71,38 +87,51 @@ function AddItem(props) {
       {currentEdit !== "" ? (
         <div className="main">
           <br></br>
-          <h3 className="stud" ><b>Producto a editar: </b></h3>
+          <br></br>
 
-          {fieldEdits.map((val, key) =>
-            <>
-              <h4>{fieldText[key]}</h4>
-              <FormTextarea
-                className="input"
-                //  placeholder={val}
-                value={val}
-                onChange={(e) => {
-                  fieldActions[key](e.target.value);
-                }
-                }
-              />
-            </>
-          )}
+          <br></br>
+          <h1>{currentName}</h1>
+          <h3>Producto en </h3>
+          {status ==="FÁBRICA" &&           <h1 className="stud" ><b>fábrica </b></h1>
+}
+          {status ==="REPARTO" &&           <h1 className="stud" ><b>reparto</b></h1>
+}
+          {status ==="TIENDA" &&   <h1 className="stud" ><b>tienda </b></h1>
+}
+          <br></br>
 
-          <Button pill inline className="save-1" theme="danger" onClick={() => {
+          <br></br>
+
+          <br></br>
+         <Button className="status" onClick={()=>setStatus("FÁBRICA")}><FontAwesomeIcon icon={faIndustry} /></Button>
+         <Button className="status" onClick={()=>setStatus("REPARTO")}> <FontAwesomeIcon icon={faMotorcycle} /></Button>
+         <Button className="status" onClick={()=>setStatus("TIENDA")}><FontAwesomeIcon icon={faStore} /></Button>
+        <br></br>
+        <br></br>
+        <br></br>
+         { !next  ?
+         (<>
+         <Button pill inline className="save-1" theme="danger" onClick={() => {
             setCurrentEdit("")
           }}> <FontAwesomeIcon icon={faTimes} /></Button>
           <Button pill inline className="save-1" theme="success"
-            onClick={() => { saveChanges() }}>
-            <FontAwesomeIcon icon={faCheckCircle} /></Button>
+            onClick={() => { saveChanges(); setNext(true) }}>
+            <FontAwesomeIcon icon={faCheckCircle} />
+          </Button>
+          </>
+          ):(
+            <Button pill inline className="save" theme="success"
+              onClick={() => {setNext(false); setCurrentEdit("")}}>
+              Enviar notificación
+            </Button>
+          )
+          }
         </div>)
         : (
           <>
             <br></br>
             <br></br>
-            <h1> <FontAwesomeIcon icon={faStoreAlt} /></h1>
-            <h2>Editar inventario</h2>
             <div className="main">
-              <h3><FontAwesomeIcon icon={faArrowDown} /><FontAwesomeIcon icon={faArrowDown} /><FontAwesomeIcon icon={faArrowDown} /></h3>
             </div>   
         <Menu
         menuItems={menuItems}
