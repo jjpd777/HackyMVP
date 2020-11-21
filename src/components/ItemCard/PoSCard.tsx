@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './ItemCard.scss';
+import './PoSCard.scss';
 import { Button } from 'shards-react';
 import {
   Card,
@@ -78,13 +78,16 @@ function PoSCard(props: PoSCardProps) {
           {/* {menuItem.image !== "" && (<img width="150" src={menuItem.image} />)} */}
           <div className="card-content">
             <CardTitle className="title">{menuItem.name}</CardTitle>
-            <CardSubtitle className="sub-title"><h4>{'Qtz. '}{menuItem.price}</h4></CardSubtitle>
+            {/* <CardSubtitle className="sub-title">{'Qtz. '}{menuItem.price}</CardSubtitle> */}
+            <div className="tmp">
+            <h5>{'Qtz. '}{menuItem.price}</h5>
+            </div>
           </div>
           <div className="card-price-pos">
         {cart.find((x) => x.itemId === menuItem.id) ?.quantity || ""}
         </div>
+
         </CardBody>
-       
       </Card>
       {/* <Button className="increase" theme="success" onClick={() => addOneToCart()}> <FontAwesomeIcon icon={faCircle}/> </Button> */}
     </div>
