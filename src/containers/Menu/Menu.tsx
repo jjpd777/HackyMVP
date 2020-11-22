@@ -66,6 +66,12 @@ function Menu(props: MenuProps) {
       ></Section>
     );
   });
+  const headers: any[] = [];
+
+  Object.entries(categories).map(([key, value], index) => {
+    const title = key ? key: value["category"];
+    headers.push([key]);
+  });
 
   return (
     <div className="container">

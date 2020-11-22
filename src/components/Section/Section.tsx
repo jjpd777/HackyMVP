@@ -33,8 +33,6 @@ interface SectionProps {
 
 function Section(props: SectionProps) {
   var pos = props.pos;
-  const getId = (ix) => ix % 3 === 0 ? console.log(ix) : null;
-
 
   const PoSCardsByRow = (ix) => {
 
@@ -77,13 +75,10 @@ function Section(props: SectionProps) {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="section-container">
-      <div className="section-header">
-        <div onClick={() => { setIsOpen(!isOpen); }}>
-          <h5>{props.title}{' '}
-            {!isOpen && <FontAwesomeIcon icon={faAngleDoubleDown} />}{' '}
-            {isOpen && <FontAwesomeIcon icon={faArrowUp} />}
-          </h5>
-        </div>
+      <div onClick={() => { setIsOpen(!isOpen); }}className="section-header">
+        {/* <div onClick={() => { setIsOpen(!isOpen); }}> */}
+          <h5>{props.title}{' '}</h5>
+        {/* </div> */}
       </div>
       <Collapse open={isOpen}>
         {props.menuItems.map((value, index) => {
