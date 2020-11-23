@@ -1,6 +1,10 @@
 main{
     color:rgb(0, 47, 255);
     background-color: blue;
+    .h2{
+      color:red;
+    }
+  
 
     .h3{
     color:rgb(0, 47, 255);
@@ -14,3 +18,14 @@ main{
     margin-top: 1rem;
 
   }
+
+  .date-button{
+    background-color: rgb(255, 157, 0);
+    border:black;
+    font-size:2rem;
+    font-weight: 800;
+  }
+  .drop-item{
+    font-size:2rem;
+  }
+ 

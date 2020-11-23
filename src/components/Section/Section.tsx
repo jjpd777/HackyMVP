@@ -28,12 +28,22 @@ interface SectionProps {
   menuItems: MenuItem[];
   cart: CartItem[];
   pos: String;
+  sectionOnScreen: String;
   setCartItems: React.Dispatch<React.SetStateAction<any>>;
 }
 
 function Section(props: SectionProps) {
   var pos = props.pos;
+  const [isOpen, setIsOpen] = useState(false);
 
+
+  // var sectionIsOpen =()=> {
+  //   const a = props.title;
+  //   const b = props.sectionOnScreen;
+  //   setIsOpen(a===b);}
+
+  // useEffect(()=>sectionIsOpen(),[props.sectionOnScreen])
+  const salesSection = () => pos==="sales" ? isOpen : true;
   const PoSCardsByRow = (ix) => {
 
     if (ix < props.menuItems.length) return (
@@ -72,15 +82,20 @@ function Section(props: SectionProps) {
   }
 
 
-  const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="section-container">
-      <div onClick={() => { setIsOpen(!isOpen); }}className="section-header">
-        {/* <div onClick={() => { setIsOpen(!isOpen); }}> */}
-          <h5>{props.title}{' '}</h5>
-        {/* </div> */}
-      </div>
-      <Collapse open={isOpen}>
+          {pos === "sales" && (
+                <>
+                    <div  onClick={() => setIsOpen(!isOpen)} className="section-header">
+                      <h5>{props.title}{' '}
+                      {!isOpen && <FontAwesomeIcon icon={faAngleDoubleDown} />}{' '}
+                      {isOpen && <FontAwesomeIcon icon={faArrowUp} />}
+                      </h5>
+                  </div>
+                </>
+              )}
+        
+        <Collapse open={salesSection()}>
         {props.menuItems.map((value, index) => {
           return (
             <>
@@ -94,6 +109,7 @@ function Section(props: SectionProps) {
                 </Container>
               )}
               {pos === "sales" && (
+
                 <ItemCard
                   menuItem={value}
                   cart={props.cart}

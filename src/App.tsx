@@ -30,11 +30,14 @@ function App() {
   const [dbElements, loading, error] = useList(DBservice.getAll("/inventario-borgona"));
   const [dbSales, salesLoading, salesError] = useList(DBservice.getAll("/ventas-borgona"));
   const [cart, setCartItems] = useState<CartItem[]>([]);
+  const [uqIDTable, setUqID] = useState<any>([])
   const [currentTab, setCurrentTab] = useState("/");
   useEffect(() => {
     placeItems(dbElements);
     placeSales(dbSales);
   }, [dbElements, dbSales]);
+
+  // useEffect(()=> getRankings(dbSales))
 
   const placeSales = (dboject) => {
     const obj = dboject.map((tutorial) => tutorial.val());
@@ -47,10 +50,18 @@ function App() {
     // THIS IS SO HACKY LOOOOOOL BY FAR THE MOST VULNERABLE PART OF THE APPLICATION
     const obj = dboject.map((tutorial) => tutorial.val());
     const uniqd = dboject.map((tutorial) => tutorial.key);
+
     obj.map((item, ix) => item.id = uniqd[ix]);
     setMenuItems(obj);
   }
+
+  const getRankings = (dboject) => {
+    const uniqd = dboject.map((tutorial) => tutorial.key);
+    setUqID(uniqd);
+
+  }
   const emptyCart = () => setCartItems([]);
+
   const getTotalCartValue = () => {
     let totalVal = 0;
     cart.forEach((cartItem) => {
@@ -63,8 +74,7 @@ function App() {
     return totalVal;
   };
   const returnNav = (endpoint, text) => endpoint === currentTab ?
-    <Button className="highlight"
-    >
+    <Button className="highlight">
       <Link to={endpoint} className="navy">
         {text}
       </Link>
@@ -74,7 +84,46 @@ function App() {
       {text}
     </Link>
 
+  const getTop10 = ()=>{
+    var arrayIX = uqIDTable.map(()=>0)
+    console.log("ARRAY")
+    console.log(arrayIX)
+    // salesItems.map((purchaseTicket)=>{
+    //   purchaseTicket.valid ? 
+    //   (
+    //     purchaseTicket.pedido.map((item)=>{
+    //       const tmp = String(item.id) ==="-MMmTgIbZflZtiAB50m0";
+    //       console.log(tmp)
+    //       if(tmp){
+    //         const tmp1 = uqIDTable.find((x)=> x[1]==="-MMmTgIbZflZtiAB50m0");
+    //         const varia = tmp1[0]+757;
+    //         console.log("CHECKING")
+    //         console.log(varia)
+    //         const newArray = uqIDTable.filter((c) => c[1] !== item.id);
+    //         newArray.push({
+    //           count: varia,
+    //           id:item.id
+    //         });
+    //         console.log("VALID")
+    //         setUqID(newArray);
+    //       }
+    //     }
+    //     )
+      
+    //   ) 
+    //   :  
+    //   (
+    //     console.log("NOT VALID")
+    //   )
+    // }
+    // )
+    // console.log(uqIDTable);
+    
+
+  }
+
   return (
+
     <div className="App">
       <nav className="navbar navbar-expand navbar-dark bg-dark">
         <div className="navbar-nav mr-auto">
@@ -99,11 +148,7 @@ function App() {
               <Route exact path={["/"]}>
                 <br></br>
                 <br></br>
-              <h1> <FontAwesomeIcon icon={faCashRegister}/></h1>
-              <br></br>
-
-              <h2>Ingresar venta</h2>
-              <br></br>
+              <h1> <FontAwesomeIcon icon={faCashRegister}/> Caja</h1>
                 <Menu
                   menuItems={menuItems}
                   cart={cart}

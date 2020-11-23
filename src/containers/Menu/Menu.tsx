@@ -27,7 +27,7 @@ interface MenuProps {
   menuItems: MenuItem[];
   cart: CartItem[];
   setCartItems: React.Dispatch<React.SetStateAction<any>>;
-  pos:String;
+  pos: String;
 }
 
 interface CategoryOpenState {
@@ -35,6 +35,8 @@ interface CategoryOpenState {
 }
 function Menu(props: MenuProps) {
   const { menuItems, cart, setCartItems } = props;
+
+  const [currentSection, setCurrentSection] = useState("Lo más vendido")
   useEffect(() => {
     setMenuList(menuItems);
   }, [menuItems]);
@@ -42,7 +44,15 @@ function Menu(props: MenuProps) {
   const [menuList, setMenuList] = useState<MenuItem[]>(menuItems);
 
   const categories = groupBy(menuList, (x) => x.category);
-  
+  const getHeaders = () => {
+    const headers: any[] = [];
+    Object.entries(categories).map(([key, value], index) => {
+      const title = key ? key : value["category"];
+      headers.push([key]);
+    }
+    );
+    return headers;
+  }
 
   const defaultState = {};
   Object.entries(categories).map(([key]) => {
@@ -52,10 +62,30 @@ function Menu(props: MenuProps) {
   const [searchQuery, setSearchQuery] = useState('');
   // Get the sale date
   // const getTitle(value)=> value. ? key : 
+  // const selectScreen = ()=>{
+    const response: JSX.Element[] = [];
+    Object.entries(categories).map(([key, value], index) => {
+      const title = key ? key : value["category"];
+      console.log(key, value, index)
+      if(key===currentSection){
+        response.push(
+        <Section
+          title={title}
+          menuItems={value}
+          cart={cart}
+          setCartItems={setCartItems}
+          pos={props.pos}
+          sectionOnScreen={currentSection}
+        ></Section>
+      );}
+    });
+    // return response;
+  // }
 
   const sections: JSX.Element[] = [];
   Object.entries(categories).map(([key, value], index) => {
-    const title = key ? key: value["category"];
+    const title = key ? key : value["category"];
+    console.log(key, value, index)
     sections.push(
       <Section
         title={title}
@@ -63,19 +93,39 @@ function Menu(props: MenuProps) {
         cart={cart}
         setCartItems={setCartItems}
         pos={props.pos}
+        sectionOnScreen={currentSection}
       ></Section>
     );
-  });
-  const headers: any[] = [];
-
-  Object.entries(categories).map(([key, value], index) => {
-    const title = key ? key: value["category"];
-    headers.push([key]);
   });
 
   return (
     <div className="container">
-      <div className="menu-container">{sections}</div>
+        { props.pos==="sales" ? (
+                <div className="menu-container">{sections}</div>
+
+        )
+        :(
+          <>
+           {getHeaders().map((val) =>
+        <Button
+        className="top"
+          onClick={() => {
+            setCurrentSection(String(val));
+          }
+          }>
+      {val}
+        </Button>)}
+        <br></br>
+          <div className="bruh-header">{currentSection}</div>
+          <div className="menu-container">{response}</div>
+          <br></br>
+          <br></br>
+          <br></br>
+
+          </>
+        )
+        }
+
     </div>
   );
 }

@@ -14,6 +14,12 @@ import {
     faMoneyBillWave
   } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+    Dropdown,
+    DropdownToggle,
+    DropdownMenu,
+    DropdownItem
+  } from "shards-react";
 
 
 function Report(props) {
@@ -22,20 +28,29 @@ function Report(props) {
     const [avCard, setAvCard] = useState(0);
     const [avCash, setAvCash] = useState(0);
     const [redirectURL, setRedirect] = useState("");
-    const [ticketNum, setTicket] = useState(0)
+    const [ticketNum, setTicket] = useState(0);
+    const [dropDown, setDropDown]= useState(false);
+    const [reportDate, setReportDate] = useState("23-11-2020")
+
 
     function getDateforSection() {
         var date = new Date();
         return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
 
     }
+    function getDatesforButton() {
+        var date = new Date();
+        var datesArray = [];
+        for(var i=0; i<7 ; i++) datesArray.push(date.getDate()-i + "-" + (date.getMonth() + 1) + "-" + date.getFullYear())
+        return datesArray;
+    }
 
-
+    // useEffect(()=> setReportDate(getDateforSection()))
     useEffect(() => {
         getStats();
         ticketsReport();
         closeSalesDay();
-    },[salesItems])
+    },[salesItems, reportDate])
 
     // useEffect(()=>setRefresh(!refresh),[salesItems])
 
@@ -55,7 +70,7 @@ function Report(props) {
     const ticketsReport = () => {
         var active = 0;
         var cancelled = 0;
-        const today = getDateforSection();
+        const today = reportDate;
         var salesToday = salesItems.filter((item)=> item.category ===today)
         salesToday.map((val) => val.valid ? active++ : cancelled++);
     }
@@ -64,7 +79,7 @@ function Report(props) {
         var cardTotal = 0;
         var cashTotal = 0;
         var tickets = 0;
-        const today = getDateforSection();
+        const today = reportDate;
         var salesToday = salesItems.filter((item)=> item.category ===today && item.valid)
         salesToday.map((val, key) => {
             if (val.valid && val.taxInfo!=="EGRESO") {
@@ -87,26 +102,30 @@ function Report(props) {
     }
     return (
         <>
-            {!avTicket ? (
+       <Dropdown className="date-container" open={dropDown} toggle={()=> setDropDown(!dropDown)} group>
+        <Button className="date-button">{reportDate}</Button>
+        <DropdownToggle split />
+        <DropdownMenu>
+            {getDatesforButton().map((date)=>
+                <DropdownItem className="drop-item" onClick={()=>setReportDate(String(date))}>{date}</DropdownItem>
+                )}
+        </DropdownMenu>
+      </Dropdown>        
+      {!avTicket ? (
                 <div className="main">
-                    <h2>Ventas de hoy}</h2>
-                    <h4>     {getDateforSection()}</h4>
-                    <h3 className="stud" ><b>Todavía no hay ventas </b></h3>
+                    <h3 className="stud" ><b>Hoy todavía no hay ventas </b></h3>
                 </div>)
             : (
 
                 <div className="main">
-                         <h2>Ventas de hoy</h2>
-                    <h5>     {getDateforSection()}</h5>
                     <br></br>
                     <br></br>
-                    <h2 className="stud" > Qtz.{avCash + avCard}</h2><h3>En {ticketNum} tickets</h3>
+                    <h2 className="stud" > Qtz.{avCash + avCard}</h2><h3 className="detailz">en {ticketNum} tickets</h3>
                     <h2>- -- -</h2>
-                    <h6><b>Promedio </b></h6>
-                    <h3 className="stud" ><b>Q.</b>{avTicket} / ticket</h3>
+                    <h3 className="study" ><b>Q.</b>{avTicket} / ticket</h3>
                    
-                    <h6><b>Tarjeta</b>{' '}<FontAwesomeIcon icon={faCreditCard}/> Q.{avCard}</h6>
-                    <h6><b>Efectivo</b>{' '}<FontAwesomeIcon icon={faMoneyBillWave}/>: Q.{avCash}</h6>
+                    <h4 className="pfff"><b>Tarjeta</b>{' '}<FontAwesomeIcon icon={faCreditCard}/> Q.{avCard}</h4>
+                    <h4 className="pfff"><b>Efectivo</b>{' '}<FontAwesomeIcon icon={faMoneyBillWave}/>: Q.{avCash}</h4>
                     <br></br>
                     <Button theme="warning" href={redirectURL} onClick={closeSalesDay} ><FontAwesomeIcon icon={faEnvelope}/>{'  '}Enviar cierre de caja</Button>
                 </div>)
