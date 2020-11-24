@@ -31,9 +31,22 @@ function ItemCard(props: ItemCardProps) {
   const getStatusText = () => menuItem.valid ? <FontAwesomeIcon icon={faCheckCircle} />: <FontAwesomeIcon icon={faTimes} />
   const cancelSale = (saleItem) => {
     const dataUpdate = { "valid": false };
-    DBservice.update(saleItem.id, dataUpdate)
-      .then(() => console.log(saleItem.id))
+    DBservice.updateSale(saleItem.id, dataUpdate)
   }
+  // const removeFromCount = () => {
+  //   menuItem.pedido.forEach((order) => {
+  //     saleItem.map((menuItem) => {
+  //       if (cartItem.itemId === menuItem.id) {
+  //         const tmp = menuItem.quantityavailable + cartItem.quantity;
+  //         const dataUpdate = { "quantityavailable": tmp };
+  //         DBservice.updateInventory(menuItem.id, dataUpdate)
+  //           .then(() => console.log(menuItem.id))
+  //       }
+  //     });
+  //   });
+  // }
+
+
   const egreso = menuItem.taxInfo === "EGRESO";
 
   return (
@@ -61,7 +74,6 @@ function ItemCard(props: ItemCardProps) {
               onClick={() => {
                 // setModalOpen(!modalOpen);
                 setCancel(true);
-                console.log(egreso)
               }
               }>
               {'  '}{egreso? 'Cancelar egreso':'Cancelar venta'}{'  '}

@@ -66,7 +66,6 @@ function Menu(props: MenuProps) {
     const response: JSX.Element[] = [];
     Object.entries(categories).map(([key, value], index) => {
       const title = key ? key : value["category"];
-      console.log(key, value, index)
       if(key===currentSection){
         response.push(
         <Section
@@ -85,7 +84,6 @@ function Menu(props: MenuProps) {
   const sections: JSX.Element[] = [];
   Object.entries(categories).map(([key, value], index) => {
     const title = key ? key : value["category"];
-    console.log(key, value, index)
     sections.push(
       <Section
         title={title}

@@ -87,7 +87,7 @@ function Checkout(props: ExpenditureProps) {
       "category": dateCategory,
       "valid": true,
     }
-    DBservice.create(newRow, "/ventas-borgona")
+    DBservice.createSale(newRow)
       .then(() => {
         // console.log(newRow)
       })
@@ -108,7 +108,7 @@ function Checkout(props: ExpenditureProps) {
       price: price,
       image: "",
     };
-    seedDB.newItem(data);
+    DBservice.createInventory(data);
   }
 
   const getHeader = ()=>  expenditure ? 

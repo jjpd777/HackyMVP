@@ -52,7 +52,7 @@ function Checkout(props: CheckoutProps) {
     return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
 
   }
-  
+
 
   const getCartItems = () => {
     let cartItems: any[] = [];
@@ -70,14 +70,14 @@ function Checkout(props: CheckoutProps) {
     });
     return cartItems;
   };
-  const substractItems = () => {
+  const addToCount = () => {
     cart.forEach((cartItem) => {
       menuItems.map((menuItem) => {
         if (cartItem.itemId === menuItem.id) {
-          const tmp = menuItem.quantityavailable - cartItem.quantity;
-         const dataUpdate = { "quantityavailable": tmp };
+          const tmp = menuItem.quantityavailable + cartItem.quantity;
+          const dataUpdate = { "quantityavailable": tmp };
           DBservice.updateInventory(menuItem.id, dataUpdate)
-          .then(() => console.log(menuItem.id))
+            .then(() => console.log(menuItem.id))
         }
       });
     });
@@ -108,12 +108,12 @@ function Checkout(props: CheckoutProps) {
     setTaxInfo(false);
     props.emptyCart();
   };
-  const retPayButton = ()=> payMethod? 
-  ( 
-   <h1>Efectivo <FontAwesomeIcon  icon={faMoneyBillWave}/></h1>
-    ) :(
-      <h1>Tarjeta <FontAwesomeIcon icon={faCreditCard}/> </h1>
-  )
+  const retPayButton = () => payMethod ?
+    (
+      <h1>Efectivo <FontAwesomeIcon icon={faMoneyBillWave} /></h1>
+    ) : (
+      <h1>Tarjeta <FontAwesomeIcon icon={faCreditCard} /> </h1>
+    )
 
   const writeOrder = () => {
     if (!name) return
@@ -133,120 +133,121 @@ function Checkout(props: CheckoutProps) {
       "payment": payment,
       "taxInfo": taxString,
       "total": props.totalCartValue,
-      "date": time,
+      "date": time, //"2020-11-15 22:9:32"
       "pedido": order,
-      "category": dateCategory,
+      "category": dateCategory, //"15-11-2020"
       "valid": true,
     }
-    DBservice.create(newRow, "/ventas-borgona")
+    DBservice.createSale(newRow)
       .then(() => {
         // console.log(newRow)
       })
       .catch(e => {
         console.log(e);
       });
-      setNextPayment(true);
+    setNextPayment(true);
   }
 
   return (
     <div className="checkout-container">
-      {nextPayment || !cart.length ? ( 
+      {nextPayment || !cart.length ? (
         <>
-        <div className="finalize">
-          <br></br>
-           <h4 className="done"> <FontAwesomeIcon icon={faCheckCircle} />{'  '} Compra Registrada</h4>
-           <br></br>
-           <Link to="/">
-            <Button className="next" theme ="success"> 
-            Registrar otra compra</Button>
+          <div className="finalize">
+            <br></br>
+            <h4 className="done"> <FontAwesomeIcon icon={faCheckCircle} />{'  '} Compra Registrada</h4>
+            <br></br>
+            <Link to="/">
+              <Button className="next" theme="success">
+                Registrar otra compra</Button>
             </Link>
-      
+
+          </div>
+        </>
+      ) : (
+          <>
+            <div className="order-summary">
+              <ListGroup>
+                {getCartItems().map((item, index) => {
+                  return (
+                    <ListGroupItem className="list-item" key={index}>
+                      <div>
+                        <h2>( x{item.quantity} )  {item.name}</h2>
+                      </div>
+                      <h2>Qtz. {item.price * item.quantity}</h2>
+                    </ListGroupItem>
+                  );
+                })}
+                <ListGroupItem
+                  style={{ fontWeight: 600 }}
+                  className="list-item"
+                  key={'deliv'}>
+                </ListGroupItem>
+                <ListGroupItem
+                  style={{ fontWeight: 600 }}
+                  className="list-item"
+                  key={'total'}
+                >
+                  <h2>Total</h2>
+                  <h1>Qtz. {props.totalCartValue}</h1>
+                </ListGroupItem>
+              </ListGroup>
             </div>
-            </>
-            ):(
-        <>
-        <div className="order-summary">
-        <ListGroup>
-          {getCartItems().map((item, index) => {
-            return (
-              <ListGroupItem className="list-item" key={index}>
-                <div>
-                  <h2>( x{item.quantity} )  {item.name}</h2>
-                </div>
-                <h2>Qtz. {item.price * item.quantity}</h2>
-              </ListGroupItem>
-            );
-          })}
-          <ListGroupItem
-            style={{ fontWeight: 600 }}
-            className="list-item"
-            key={'deliv'}>
-          </ListGroupItem>
-          <ListGroupItem
-            style={{ fontWeight: 600 }}
-            className="list-item"
-            key={'total'}
-          >
-           <h2>Total</h2>
-            <h1>Qtz. {props.totalCartValue}</h1>
-          </ListGroupItem>
-        </ListGroup>
-      </div>
-      <br></br>
-        <div>
-          <div className="shipping-info">
-          <Button  className="simple-pay" onClick={()=>setPayment(!payMethod)}> {retPayButton()}</Button>
-          <Button  className="simple-pay" onClick={()=>setTaxInfo(!taxInfo)}> <h1>{taxInfo ? "# NIT" : "C.F."}</h1></Button>
-          
-              {taxInfo && (
-              <>
-          <FormInput
-              className="input"
-              placeholder="Nombre completo"
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
-            />
-              <FormTextarea
-                className="input"
-                placeholder="Número de NIT"
-                onChange={(e) => {
-                  setTaxText(e.target.value);
-                }}
-              />
-            </>
-            )
-            }
-            {/* <FormTextarea
+            <br></br>
+            <div>
+              <div className="shipping-info">
+                <Button className="simple-pay" onClick={() => setPayment(!payMethod)}> {retPayButton()}</Button>
+                <Button className="simple-pay" onClick={() => setTaxInfo(!taxInfo)}> <h1>{taxInfo ? "# NIT" : "C.F."}</h1></Button>
+
+                {taxInfo && (
+                  <>
+                    <FormInput
+                      className="input"
+                      placeholder="Nombre completo"
+                      onChange={(e) => {
+                        setName(e.target.value);
+                      }}
+                    />
+                    <FormTextarea
+                      className="input"
+                      placeholder="Número de NIT"
+                      onChange={(e) => {
+                        setTaxText(e.target.value);
+                      }}
+                    />
+                  </>
+                )
+                }
+                {/* <FormTextarea
               className="input"
               placeholder="Celular"
               onChange={(e) => {
                 setPhone(e.target.value);
               }}
             /> */}
-            <Button
-              onClick={() => { writeOrder(); registerSale(); substractItems() }}
-              // href={writeOrder(name, address, phone, payMethod)}
-              className="button" block>
-              Registrar
+                <Button
+                  onClick={() => { writeOrder(); registerSale(); addToCount() }}
+                  // href={writeOrder(name, address, phone, payMethod)}
+                  className="button" block>
+                  Registrar
             </Button>
-            <div className="order-summary">
-          <Link to={"/"}>
-            <Button onClick={()=>props.emptyCart()} className="button-cancel" theme="danger" > <FontAwesomeIcon icon={faTimes}/>{'  '}
-            </Button>
-          </Link>
-          <Link to={"/"}>
-          <Button className="button-secondary" > 
-            <FontAwesomeIcon icon={faRedo}/>{'  '}
-            </Button>
-            </Link>
-      </div>
-          </div>
-        </div>
-      </>
-      )}
-          
-         
+                <div className="order-summary">
+                  <Link to={"/"}>
+                    <Button onClick={() => props.emptyCart()} className="button-cancel" theme="danger" > 
+                      <FontAwesomeIcon icon={faTimes} />{'  '}
+                    </Button>
+                  </Link>
+                  <Link to={"/"}>
+                    <Button className="button-secondary" >
+                      <FontAwesomeIcon icon={faRedo} />{'  '}
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+
+
     </div>
   );
 }

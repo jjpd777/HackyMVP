@@ -1,46 +1,63 @@
 import database from "./firebase";
 
+const SHOP_URL = "/gerona"
+const INVENTORY_URL = SHOP_URL + "/inventario";
+const SALES_URL = SHOP_URL + "/ventas"
 
-const getAll = (table) => {
-  const dbs = database.ref(table);
-  return dbs;
+// ====>>>> <<<<=====
+
+const seedInventory = (data) => {
+  const newSeedURL = "/gerona/inventario";
+  const db = database.ref(newSeedURL);
+  return db.push(data);
 };
 
-const create = (data,table) => {
-  const dbs = database.ref(table);
-  return dbs.push(data);
+
+// ====>>>> <<<<=====
+const getAllInventory = () => {
+  const db = database.ref(INVENTORY_URL);
+  return db;
 };
 
-const update = (key, data) => {
-  const dbs = database.ref("/ventas-borgona");
-  return dbs.child(key).update(data);
+const createInventory = (data) => {
+  const db = database.ref(INVENTORY_URL);
+  return db.push(data);
 };
 
 const updateInventory = (key, data) => {
-  const dbs = database.ref("/inventario-borgona");
-  return dbs.child(key).update(data);
+  const db = database.ref(INVENTORY_URL);
+  return db.child(key).update(data);
 };
 
-const remove = (key) => {
-  const db = database.ref("/inventario-borgona");
+const removeInventory = (key) => {
+  const db = database.ref(INVENTORY_URL);
   return db.child(key).remove();
 };
 
-const removeSale = (key)=>{
-  const db = database.ref("/ventas-borgona");
-  return db.child(key).remove();
-}
-const removeAll = () => {
-  const db = database.ref("/inventario-borgona");
-  return db.remove();
+// ====>>>> <<<<=====
+const getAllSales = () => {
+  const db = database.ref(SALES_URL);
+  return db;
 };
+
+const createSale = (data) => {
+  const db = database.ref(SALES_URL);
+  return db.push(data);
+};
+
+const updateSale = (key, data) => {
+  const db = database.ref(SALES_URL);
+  return db.child(key).update(data);
+};
+
 
 export default {
-  getAll,
-  create,
+  removeInventory,
+  getAllInventory,
+  createInventory,
   updateInventory,
-  removeSale,
-  update,
-  remove,
-  removeAll,
+  getAllSales,
+  createSale,
+  updateSale,
+  seedInventory
 };

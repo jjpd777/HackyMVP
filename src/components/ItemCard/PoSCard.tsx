@@ -19,7 +19,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { CartItem } from '../../App';
 import { MenuItem } from '../../containers/Menu/Menu';
-import DBservice from '../../services/DBservice'
 
 interface PoSCardProps {
   menuItem: MenuItem;

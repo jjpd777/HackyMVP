@@ -113,7 +113,7 @@ function Report(props) {
       </Dropdown>        
       {!avTicket ? (
                 <div className="main">
-                    <h3 className="stud" ><b>Hoy todavía no hay ventas </b></h3>
+                    <h3 className="stud" ><b>Todavía no hay ventas </b></h3>
                 </div>)
             : (
 

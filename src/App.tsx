@@ -12,6 +12,7 @@ import AddItem from './containers/AddItems/AddItems'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faCashRegister,faBalanceScale,faStoreAlt, faPencilAlt, faTimes, faShoppingCart} from '@fortawesome/free-solid-svg-icons';
 import DBseed from "./services/seedDB"
+import seedDB from './services/seedDB';
 
 
 
@@ -27,8 +28,8 @@ export enum PageEnum {
 function App() {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [salesItems, setSalesItems] = useState<any[]>([]);
-  const [dbElements, loading, error] = useList(DBservice.getAll("/inventario-borgona"));
-  const [dbSales, salesLoading, salesError] = useList(DBservice.getAll("/ventas-borgona"));
+  const [dbElements, loading, error] = useList(DBservice.getAllInventory());
+  const [dbSales, salesLoading, salesError] = useList(DBservice.getAllSales());
   const [cart, setCartItems] = useState<CartItem[]>([]);
   const [uqIDTable, setUqID] = useState<any>([])
   const [currentTab, setCurrentTab] = useState("/");
@@ -86,8 +87,8 @@ function App() {
 
   const getTop10 = ()=>{
     var arrayIX = uqIDTable.map(()=>0)
-    console.log("ARRAY")
-    console.log(arrayIX)
+    // console.log("ARRAY")
+    // console.log(arrayIX)
     // salesItems.map((purchaseTicket)=>{
     //   purchaseTicket.valid ? 
     //   (
@@ -121,6 +122,11 @@ function App() {
     
 
   }
+  // const seedButton = ()=>{
+  //   if(loading || !salesItems.length) return
+  //   seedDB.transcribe(menuItems)
+  //   console.log("success")
+  // }
 
   return (
 
@@ -141,6 +147,7 @@ function App() {
           </li>
         </div>
       </nav>
+      {/* <Button onClick = {()=>seedButton()}></Button> */}
       {loading ? (<Button size="lg" theme="danger" className="loading">Cargando...</Button>)
         : (
           <div className="container">
@@ -148,7 +155,7 @@ function App() {
               <Route exact path={["/"]}>
                 <br></br>
                 <br></br>
-              <h1> <FontAwesomeIcon icon={faCashRegister}/> Caja</h1>
+              <h1> <FontAwesomeIcon icon={faCashRegister}/> Caja Gerona</h1>
                 <Menu
                   menuItems={menuItems}
                   cart={cart}

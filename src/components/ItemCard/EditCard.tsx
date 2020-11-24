@@ -8,15 +8,9 @@ import {
   CardSubtitle,
 } from 'shards-react';
 
-import {
-  faShoppingBasket,
-  faPencilAlt
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import { CartItem } from '../../App';
 import { MenuItem } from '../../containers/Menu/Menu';
-import DBservice from '../../services/DBservice'
+import DBservice from '../../services/DBservice';
 
 interface PoSCardProps {
   menuItem: MenuItem;
@@ -52,8 +46,8 @@ function EditCard(props: PoSCardProps) {
         </CardBody>
       </Card>
       </div>
-      {/* <Button className="decrease" theme="danger" onClick={() => removeOneFromCart()}> <FontAwesomeIcon icon={faCircle}/> </Button>
-      <Button className="increase" theme="success" onClick={() => addOneToCart()}> <FontAwesomeIcon icon={faCircle}/> </Button> */}
+      {/* <Button className="decrease" theme="danger" onClick={() => DBservice.removeInventory(menuItem.id)}> remove </Button> */}
+      {/* <Button className="increase" theme="success" onClick={() => addOneToCart()}> <FontAwesomeIcon icon={faCircle}/> </Button> */}
     </div>
   );
 }

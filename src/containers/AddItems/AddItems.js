@@ -24,7 +24,6 @@ function AddItem(props) {
   const [currentEdit, setCurrentEdit] = useState("");
 
   const [currentName, setCurrentName] = useState("");
-  const [currentQuantity, setCurrentQ] = useState(0);
   const [currentPrice, setCurrentPrice] = useState(0);
   const [currentCat, setCurrentCat] = useState("");
 
@@ -37,10 +36,9 @@ function AddItem(props) {
     const dataUpdate = {
       "name": currentName,
       "price": currentPrice,
-      "quantityavailable": currentQuantity
+      "category": setCurrentCat
     };
-    DBservice.updateInventory(currentEdit, dataUpdate)
-      .then(() => console.log("success"))
+    DBservice.updateInventory(currentEdit, dataUpdate);
     setCurrentEdit("");
 
 
@@ -55,25 +53,14 @@ function AddItem(props) {
     if (!tmp) return
     setCurrentCat(tmp.category)
     setCurrentName(tmp.name);
-    setCurrentQ(tmp.quantityavailable);
     setCurrentPrice(tmp.price);
   };
-
-
-
-  var fieldEdits = [currentCat, currentName, currentPrice];
-  var fieldActions = [setCurrentCat, setCurrentName, setCurrentPrice]
-
-
 
   return (
     <>
       {currentEdit !== "" ? (
         <div className="main">
           <br></br>
-
-
-
           <FormInput
             className="input"
             value={currentCat}
