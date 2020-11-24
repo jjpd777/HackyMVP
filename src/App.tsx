@@ -155,7 +155,7 @@ function App() {
               <Route exact path={["/"]}>
                 <br></br>
                 <br></br>
-              <h1> <FontAwesomeIcon icon={faCashRegister}/> Caja Autopan</h1>
+              <h1> <FontAwesomeIcon icon={faCashRegister}/> Caja Gerona</h1>
                 <Menu
                   menuItems={menuItems}
                   cart={cart}
