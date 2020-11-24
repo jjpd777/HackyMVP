@@ -36,7 +36,7 @@ function AddItem(props) {
     const dataUpdate = {
       "name": currentName,
       "price": currentPrice,
-      "category": setCurrentCat
+      "category": currentCat
     };
     DBservice.updateInventory(currentEdit, dataUpdate).catch(e=>console.log(e));
     setCurrentEdit("");

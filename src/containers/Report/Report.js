@@ -30,7 +30,7 @@ function Report(props) {
     const [redirectURL, setRedirect] = useState("");
     const [ticketNum, setTicket] = useState(0);
     const [dropDown, setDropDown]= useState(false);
-    const [reportDate, setReportDate] = useState("23-11-2020")
+    const [reportDate, setReportDate] = useState("24-11-2020")
 
 
     function getDateforSection() {
