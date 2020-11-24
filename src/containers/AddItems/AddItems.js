@@ -38,7 +38,7 @@ function AddItem(props) {
       "price": currentPrice,
       "category": setCurrentCat
     };
-    DBservice.updateInventory(currentEdit, dataUpdate);
+    DBservice.updateInventory(currentEdit, dataUpdate).catch(e=>console.log(e));
     setCurrentEdit("");
 
 
@@ -50,6 +50,7 @@ function AddItem(props) {
 
   const editCard = () => {
     const tmp = menuItems.find((item) => item.id === currentEdit);
+
     if (!tmp) return
     setCurrentCat(tmp.category)
     setCurrentName(tmp.name);

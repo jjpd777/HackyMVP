@@ -28,6 +28,7 @@ function EditCard(props: PoSCardProps) {
     <div className="card-container">
       <div onClick={()=>{
           props.setCartItems(menuItem.id);
+          console.log(menuItem.id)
     }}>
       <Card className="card">
         <CardBody
