@@ -5,6 +5,10 @@ const INVENTORY_URL = SHOP_URL + "/inventario";
 const SALES_URL = SHOP_URL + "/ventas"
 
 // ====>>>> <<<<=====
+const getDate = ()=>{
+  var date = new Date();
+  return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+}
 
 const seedInventory = (data) => {
   const newSeedURL = "/gerona/inventario";
@@ -52,6 +56,7 @@ const updateSale = (key, data) => {
 
 
 export default {
+  getDate,
   removeInventory,
   getAllInventory,
   createInventory,

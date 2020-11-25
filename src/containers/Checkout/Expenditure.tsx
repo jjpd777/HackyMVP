@@ -34,7 +34,7 @@ function Checkout(props: ExpenditureProps) {
   const [name, setName] = useState();
   const [price, setPrice] = useState(0);
   const [nextPayment, setNextPayment] = useState(false);
-  const [quantityAv, setQuantity] = useState(100);
+  const [quantityAv, setQuantity] = useState(0);
   const [category, setCategory] = useState("");
   const [expenditure, setExpenditure] = useState(false)
 

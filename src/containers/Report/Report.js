@@ -14,6 +14,8 @@ import {
     faMoneyBillWave
   } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import DBservice from '../../services/DBservice'
+
 import {
     Dropdown,
     DropdownToggle,
@@ -30,7 +32,7 @@ function Report(props) {
     const [redirectURL, setRedirect] = useState("");
     const [ticketNum, setTicket] = useState(0);
     const [dropDown, setDropDown]= useState(false);
-    const [reportDate, setReportDate] = useState("24-11-2020")
+    const [reportDate, setReportDate] = useState(DBservice.getDate())
 
 
     function getDateforSection() {

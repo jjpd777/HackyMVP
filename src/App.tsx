@@ -10,7 +10,7 @@ import DBservice from "./services/DBservice";
 import { Switch, Route, Link } from "react-router-dom";
 import AddItem from './containers/AddItems/AddItems'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faCashRegister,faBalanceScale,faStoreAlt, faPencilAlt, faTimes, faShoppingCart} from '@fortawesome/free-solid-svg-icons';
+import { faCashRegister, faBalanceScale, faStoreAlt, faPencilAlt, faTimes, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import DBseed from "./services/seedDB"
 import seedDB from './services/seedDB';
 
@@ -33,6 +33,8 @@ function App() {
   const [cart, setCartItems] = useState<CartItem[]>([]);
   const [uqIDTable, setUqID] = useState<any>([])
   const [currentTab, setCurrentTab] = useState("/");
+  const [summaryURL, setURL] = useState("");
+
   useEffect(() => {
     placeItems(dbElements);
     placeSales(dbSales);
@@ -54,6 +56,47 @@ function App() {
 
     obj.map((item, ix) => item.id = uniqd[ix]);
     setMenuItems(obj);
+  }
+
+  function bubbleSort(arr){
+    var len = arr.length;
+    for (var i = len-1; i>=0; i--){
+      for(var j = 1; j<=i; j++){
+        if(arr[j-1].sold >arr[j].sold){
+            var temp = arr[j-1];
+            // console.log(temp);
+            arr[j-1] = arr[j];
+            arr[j] = temp;
+         }
+      }
+    }
+    return arr;
+ }
+
+  const getSalesSummary = () => {
+    let response: any[] = [];
+    menuItems.map((item) => {
+      if (item.quantityavailable > 0) {
+        const itemSold = {
+          id: item.id,
+          name: item.name,
+          sold: item.quantityavailable
+        }
+        response.push(itemSold);
+      }
+    }
+    )
+    var sortedArray = bubbleSort(response);
+    sortedArray = sortedArray.reverse()
+    console.log(sortedArray)
+    var baseURL = "https://wa.me/50232872167?text=";
+    const welcome = "Buenas de *Borgoña Gerona*,"
+    var totalSales = baseURL + welcome+ "%0A%0AEl dia de hoy las ventas fueron las siguientes:%0A%0A" 
+    sortedArray.map((item)=>{
+      totalSales+= "*x"+ String(item.sold) + "* "+ item.name +"%0A"
+    })
+    const rsp = totalSales.split(' ').join("%20");
+    setURL(rsp)
   }
 
   const getRankings = (dboject) => {
@@ -85,59 +128,35 @@ function App() {
       {text}
     </Link>
 
-  const getTop10 = ()=>{
-    var arrayIX = uqIDTable.map(()=>0)
-    // console.log("ARRAY")
-    // console.log(arrayIX)
-    // salesItems.map((purchaseTicket)=>{
-    //   purchaseTicket.valid ? 
-    //   (
-    //     purchaseTicket.pedido.map((item)=>{
-    //       const tmp = String(item.id) ==="-MMmTgIbZflZtiAB50m0";
-    //       console.log(tmp)
-    //       if(tmp){
-    //         const tmp1 = uqIDTable.find((x)=> x[1]==="-MMmTgIbZflZtiAB50m0");
-    //         const varia = tmp1[0]+757;
-    //         console.log("CHECKING")
-    //         console.log(varia)
-    //         const newArray = uqIDTable.filter((c) => c[1] !== item.id);
-    //         newArray.push({
-    //           count: varia,
-    //           id:item.id
-    //         });
-    //         console.log("VALID")
-    //         setUqID(newArray);
-    //       }
-    //     }
-    //     )
-      
-    //   ) 
-    //   :  
-    //   (
-    //     console.log("NOT VALID")
-    //   )
-    // }
-    // )
-    // console.log(uqIDTable);
-    
-
-  }
   // const seedButton = ()=>{
   //   if(loading || !salesItems.length) return
   //   seedDB.transcribe(menuItems)
   //   console.log("success")
   // }
+  const ready = summaryURL !== "";
 
+  const resetDB = ()=>{
+    menuItems.map((item)=>{
+      const tmp ={
+        quantityavailable :0
+      }
+      DBservice.updateInventory(item.id, tmp)
+    })
+  }
+
+  const seedDatabase =()=>{
+    ///
+  }
   return (
 
     <div className="App">
       <nav className="navbar navbar-expand navbar-dark bg-dark">
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
-            {returnNav("/",  "CAJA")}
+            {returnNav("/", "CAJA")}
           </li>
           <li className="nav-item">
-            {returnNav("/ventas",  "VENTAS")}
+            {returnNav("/ventas", "VENTAS")}
           </li>
           <li className="nav-item size-lg">
             {returnNav("/egresos", "REGISTRAR INVENTARIO")}
@@ -155,7 +174,7 @@ function App() {
               <Route exact path={["/"]}>
                 <br></br>
                 <br></br>
-              <h1> <FontAwesomeIcon icon={faCashRegister}/> Caja Gerona</h1>
+                <h1> <FontAwesomeIcon icon={faCashRegister} /> Caja Gerona</h1>
                 <Menu
                   menuItems={menuItems}
                   cart={cart}
@@ -167,15 +186,15 @@ function App() {
                 <div className="fixed-checkout">
                   {(cart.length > 0 && (
                     <>
-                          <Link className="tmp" to={"/checkout"}>
-                      <Button
-                        className="checkout-button" block>
-                        <FontAwesomeIcon icon={faShoppingCart}/>
-                  </Button>
-                  </Link>
-                  <Button onClick={()=>emptyCart()} className="empty" theme="danger" outline block> <FontAwesomeIcon icon={faTimes}/>
-            </Button>
-                  </>
+                      <Link className="tmp" to={"/checkout"}>
+                        <Button
+                          className="checkout-button" block>
+                          <FontAwesomeIcon icon={faShoppingCart} />
+                        </Button>
+                      </Link>
+                      <Button onClick={() => emptyCart()} className="empty" theme="danger" outline block> <FontAwesomeIcon icon={faTimes} />
+                      </Button>
+                    </>
                   )) ||
                     null}
                 </div>
@@ -186,10 +205,10 @@ function App() {
               :
               (<Switch>
                 <Route exact path={["/ventas"]}>
-                <br></br>
-                <br></br>
-                <h1> <FontAwesomeIcon icon={faBalanceScale}/></h1>
-                <br></br>
+                  <br></br>
+                  <br></br>
+                  <h1> <FontAwesomeIcon icon={faBalanceScale} /></h1>
+                  <br></br>
                   <Report salesItems={salesItems} />
                   <Menu
                     menuItems={salesItems}
@@ -213,21 +232,21 @@ function App() {
             </Switch>
             <Switch>
 
-          <Route exact path={["/egresos"]}>
-            <Expenditure
-              menuItems={menuItems}
-              cart={cart}
-              totalCartValue={getTotalCartValue()}
-              emptyCart={() => emptyCart()}
-            ></Expenditure>
-          </Route>
-          </Switch>
+              <Route exact path={["/egresos"]}>
+                <Expenditure
+                  menuItems={menuItems}
+                  cart={cart}
+                  totalCartValue={getTotalCartValue()}
+                  emptyCart={() => emptyCart()}
+                ></Expenditure>
+              </Route>
+            </Switch>
             <Switch>
 
               <Route exact path={["/inventario"]}>
-              <br></br>
-              <br></br>
-                <h1> <FontAwesomeIcon icon={faStoreAlt}/></h1>
+                <br></br>
+                <br></br>
+                <h1> <FontAwesomeIcon icon={faStoreAlt} /></h1>
                 <h2>Editar inventario</h2>
                 <AddItem
                   menuItems={menuItems}
@@ -239,6 +258,9 @@ function App() {
               </Route>
             </Switch>
           </div>)}
+          {/* <Button href={summaryURL} onClick={() => getSalesSummary()}>{ready ? "Enviar reporte de ventas" : "Generar reporte"}</Button>
+          <Button onClick={()=> resetDB()} ></Button> */}
+          <Button onClick={()=> seedDatabase()}></Button>
     </div>
   );
 }
