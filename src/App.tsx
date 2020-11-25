@@ -269,7 +269,7 @@ function App() {
           </div>)}
           {/* <Button href={summaryURL} onClick={() => getSalesSummary()}>{ready ? "Enviar reporte de ventas" : "Generar reporte"}</Button>
           <Button onClick={()=> resetDB()} ></Button> */}
-          <Button onClick={()=> seedButton()}></Button>
+          {/* <Button onClick={()=> seedButton()}></Button> */}
     </div>
   );
 }
