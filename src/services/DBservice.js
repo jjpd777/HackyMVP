@@ -3,15 +3,23 @@ import database from "./firebase";
 const SHOP_URL = "/gerona"
 const INVENTORY_URL = SHOP_URL + "/inventario";
 const SALES_URL = SHOP_URL + "/ventas"
+// const INVENTORY_URL = "/inventario-borgona";
+// const SALES_URL =  "/ventas-borgona"
 
 // ====>>>> <<<<=====
+const getOriginalInventory = ()=>{
+  const original = "/inventario-borgona";
+  const db = database.ref(original);
+  return db;
+}
+
 const getDate = ()=>{
   var date = new Date();
   return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
 }
 
 const seedInventory = (data) => {
-  const newSeedURL = "/gerona/inventario";
+  const newSeedURL = "/novita/inventario";
   const db = database.ref(newSeedURL);
   return db.push(data);
 };

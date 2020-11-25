@@ -34,6 +34,12 @@ function App() {
   const [uqIDTable, setUqID] = useState<any>([])
   const [currentTab, setCurrentTab] = useState("/");
   const [summaryURL, setURL] = useState("");
+  
+//======> <======//
+// const [seedElements, loadingSeed, errorSeed] = useList(DBservice.getOriginalInventory());
+// const [seedItems, setSeed] = useState<any[]>([]);
+
+//======>
 
   useEffect(() => {
     placeItems(dbElements);
@@ -64,7 +70,6 @@ function App() {
       for(var j = 1; j<=i; j++){
         if(arr[j-1].sold >arr[j].sold){
             var temp = arr[j-1];
-            // console.log(temp);
             arr[j-1] = arr[j];
             arr[j] = temp;
          }
@@ -128,11 +133,11 @@ function App() {
       {text}
     </Link>
 
-  // const seedButton = ()=>{
-  //   if(loading || !salesItems.length) return
-  //   seedDB.transcribe(menuItems)
-  //   console.log("success")
-  // }
+  const seedButton = ()=>{
+    if(loading || !salesItems.length) return
+    seedDB.transcribe(menuItems)
+    console.log("success")
+  }
   const ready = summaryURL !== "";
 
   const resetDB = ()=>{
@@ -144,9 +149,13 @@ function App() {
     })
   }
 
-  const seedDatabase =()=>{
-    ///
-  }
+  // const seedDatabase =()=>{
+  //   if(loadingSeed || !seedItems.length) return;
+  //   seedDB.transcribe(seedItems);
+  //   console.log("SUCCESS")
+
+  //   ///
+  // }
   return (
 
     <div className="App">
@@ -260,7 +269,7 @@ function App() {
           </div>)}
           {/* <Button href={summaryURL} onClick={() => getSalesSummary()}>{ready ? "Enviar reporte de ventas" : "Generar reporte"}</Button>
           <Button onClick={()=> resetDB()} ></Button> */}
-          <Button onClick={()=> seedDatabase()}></Button>
+          <Button onClick={()=> seedButton()}></Button>
     </div>
   );
 }
