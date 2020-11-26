@@ -64,45 +64,6 @@ function App() {
     setMenuItems(obj);
   }
 
-  function bubbleSort(arr){
-    var len = arr.length;
-    for (var i = len-1; i>=0; i--){
-      for(var j = 1; j<=i; j++){
-        if(arr[j-1].sold >arr[j].sold){
-            var temp = arr[j-1];
-            arr[j-1] = arr[j];
-            arr[j] = temp;
-         }
-      }
-    }
-    return arr;
- }
-
-  const getSalesSummary = () => {
-    let response: any[] = [];
-    menuItems.map((item) => {
-      if (item.quantityavailable > 0) {
-        const itemSold = {
-          id: item.id,
-          name: item.name,
-          sold: item.quantityavailable
-        }
-        response.push(itemSold);
-      }
-    }
-    )
-    var sortedArray = bubbleSort(response);
-    sortedArray = sortedArray.reverse()
-    console.log(sortedArray)
-    var baseURL = "https://wa.me/50232872167?text=";
-    const welcome = "Buenas de *Borgoña Gerona*,"
-    var totalSales = baseURL + welcome+ "%0A%0AEl dia de hoy las ventas fueron las siguientes:%0A%0A" 
-    sortedArray.map((item)=>{
-      totalSales+= "*x"+ String(item.sold) + "* "+ item.name +"%0A"
-    })
-    const rsp = totalSales.split(' ').join("%20");
-    setURL(rsp)
-  }
 
   const getRankings = (dboject) => {
     const uniqd = dboject.map((tutorial) => tutorial.key);
@@ -218,7 +179,7 @@ function App() {
                   <br></br>
                   <h1> <FontAwesomeIcon icon={faBalanceScale} /></h1>
                   <br></br>
-                  <Report salesItems={salesItems} />
+                  <Report salesItems={salesItems} menuItems={menuItems}/>
                   <Menu
                     menuItems={salesItems}
                     cart={cart}
@@ -267,8 +228,8 @@ function App() {
               </Route>
             </Switch>
           </div>)}
-          {/* <Button href={summaryURL} onClick={() => getSalesSummary()}>{ready ? "Enviar reporte de ventas" : "Generar reporte"}</Button>
-          <Button onClick={()=> resetDB()} ></Button> */}
+          {/* <Button href={summaryURL} onClick={() => getSalesSummary()}>{ready ? "Enviar reporte de ventas" : "Generar reporte"}</Button> */}
+          {/* <Button onClick={()=> resetDB()} ></Button>  */}
           {/* <Button onClick={()=> seedButton()}></Button> */}
     </div>
   );

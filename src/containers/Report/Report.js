@@ -25,14 +25,16 @@ import {
 
 
 function Report(props) {
-    const { salesItems } = props;
+    const { salesItems, menuItems } = props;
     const [avTicket, setAvTicket] = useState(0);
     const [avCard, setAvCard] = useState(0);
     const [avCash, setAvCash] = useState(0);
     const [redirectURL, setRedirect] = useState("");
     const [ticketNum, setTicket] = useState(0);
     const [dropDown, setDropDown]= useState(false);
-    const [reportDate, setReportDate] = useState(DBservice.getDate())
+    const [reportDate, setReportDate] = useState(DBservice.getDate());
+    const [totalNumTickets, setTotalNum]= useState(0);
+    const [triggerReport, setTrigger] =useState(false)
 
 
     function getDateforSection() {
@@ -51,21 +53,66 @@ function Report(props) {
     useEffect(() => {
         getStats();
         ticketsReport();
-        closeSalesDay();
     },[salesItems, reportDate])
 
-    // useEffect(()=>setRefresh(!refresh),[salesItems])
+    useEffect(()=>closeSalesDay(),[triggerReport])
+
+    function bubbleSort(arr){
+        var len = arr.length;
+        for (var i = len-1; i>=0; i--){
+          for(var j = 1; j<=i; j++){
+            if(arr[j-1].sold >arr[j].sold){
+                var temp = arr[j-1];
+                arr[j-1] = arr[j];
+                arr[j] = temp;
+             }
+          }
+        }
+        return arr;
+     }
+    
+      const getSalesSummary = () => {
+        if(!props.menuItems) return;
+
+        let response= [];
+        props.menuItems.map((item) => {
+          if (item.quantityavailable > 0) {
+            const itemSold = {
+              id: item.id,
+              name: item.name,
+              sold: item.quantityavailable
+            }
+            response.push(itemSold);
+          }
+        }
+        )
+        var sortedArray = bubbleSort(response);
+        sortedArray = sortedArray.reverse()
+        console.log(sortedArray)
+
+
+        var totalSales = "%0A%0AEl dia de hoy las ventas fueron las siguientes:%0A%0A" 
+        sortedArray.map((item)=>{
+          totalSales+= "*x"+ String(item.sold) + "* "+ item.name +"%0A"
+        })
+        const rsp = totalSales.split(' ').join("%20");
+        return rsp;
+      }
 
     const closeSalesDay = () => {
-        var baseURL = "https://wa.me/50249502142?text=";
+        // console.log(menuItems)
+        if(!props.menuItems) return;
+        var baseURL = "https://wa.me/50249503041?text=";
         const welcome = "Buenas de *Borgoña Gerona*,"
-        const totalSales = "%0A%0AEl dia de hoy *" + getDateforSection() + "* el total de ventas fué: *Qtz. " + String(avCash + avCard)+"*";
-        const ticketText = "%0A%0AEl ticket promedio fué de: *Qtz. " + String(avTicket) + "*"
-        const numCardText = "%0A%0AVentas en tarjeta: *Qtz" + avCard + "*";
-        const numCashText = "%0A%0AVentas en efectivo: *Qtz" + avCash + "*";
+        const totalSales = "%0A%0AEl dia de hoy " + getDateforSection() + " el *total de ventas fué: Qtz. " + String(avCash + avCard)+"* en *"+String(totalNumTickets)+"* tickets.";
+        const ticketText = "%0A%0A*El ticket promedio* fué de: *Qtz. " + String(avTicket) + "*"
+        const numCardText = "%0A%0A*Ventas en tarjeta: Qtz" + avCard + "*";
+        const numCashText = "%0A%0A*Ventas en efectivo: Qtz" + avCash + "*";
         const resp = welcome + totalSales + ticketText + numCardText + numCashText;
         const response = resp.split(" ").join("%20");
-        const send = baseURL + response;
+        const inventorySummary = getSalesSummary();
+        const send = baseURL + response + inventorySummary;
+        console.log(send)
         setRedirect(send);
     }
 
@@ -73,7 +120,7 @@ function Report(props) {
         var active = 0;
         var cancelled = 0;
         const today = reportDate;
-        var salesToday = salesItems.filter((item)=> item.category ===today)
+        var salesToday = props.salesItems.filter((item)=> item.category ===today)
         salesToday.map((val) => val.valid ? active++ : cancelled++);
     }
     const getStats = () => {
@@ -82,7 +129,7 @@ function Report(props) {
         var cashTotal = 0;
         var tickets = 0;
         const today = reportDate;
-        var salesToday = salesItems.filter((item)=> item.category ===today && item.valid)
+        var salesToday = props.salesItems.filter((item)=> item.category ===today && item.valid)
         salesToday.map((val, key) => {
             if (val.valid && val.taxInfo!=="EGRESO") {
                 salesTotal += val.total
@@ -98,6 +145,7 @@ function Report(props) {
         const ticket = (salesTotal / salesToday.length);
         const tmp = (Math.round(ticket * 100) / 100).toFixed(2)
         const result = parseFloat(tmp);
+        setTotalNum(salesToday.length);
         setAvCard(cardTotal);
         setAvCash(cashTotal);
         setAvTicket(result);
@@ -129,7 +177,9 @@ function Report(props) {
                     <h4 className="pfff"><b>Tarjeta</b>{' '}<FontAwesomeIcon icon={faCreditCard}/> Q.{avCard}</h4>
                     <h4 className="pfff"><b>Efectivo</b>{' '}<FontAwesomeIcon icon={faMoneyBillWave}/>: Q.{avCash}</h4>
                     <br></br>
-                    <Button theme="warning" href={redirectURL} onClick={closeSalesDay} ><FontAwesomeIcon icon={faEnvelope}/>{'  '}Enviar cierre de caja</Button>
+                    {/* <Button theme="warning" href={triggerReport ? redirectURL : "" }onClick={setTrigger(!triggerReport)} ><FontAwesomeIcon icon={faEnvelope}/>{'  '}{redirectURL!==""? 'Enviar cierre de caja' : 'Generar cierre de caja'}</Button> */}
+                { !triggerReport &&<Button className="date-button" onClick={()=>setTrigger(!triggerReport)}>Generar resumen</Button>}
+                { triggerReport &&<Button className="date-button" href={redirectURL}>Enviar resumen</Button>}
                 </div>)
             }
         </>
