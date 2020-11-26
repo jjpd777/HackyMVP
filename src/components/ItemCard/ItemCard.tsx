@@ -27,6 +27,7 @@ function ItemCard(props: ItemCardProps) {
   const { menuItem, cart, setCartItems } = props;
   const [modalOpen, setModalOpen] = useState(false);
   const [cancel, setCancel] = useState(false);
+  const [time, setTime]=useState("")
 
   const getStatusText = () => menuItem.valid ? <FontAwesomeIcon icon={faCheckCircle} />: <FontAwesomeIcon icon={faTimes} />
   const cancelSale = (saleItem) => {
@@ -48,12 +49,18 @@ function ItemCard(props: ItemCardProps) {
 
 
   const egreso = menuItem.taxInfo === "EGRESO";
+  const parseDate = (date)=> {
+    if(!date) return
+    const datewithSecs = date.split(' ')[1];
+    const response = datewithSecs.slice(0,-3)
 
+    return response;
+}
   return (
     <div className="card-container">
       <table onClick={() => setModalOpen(true)} className="table">
         <td className="tableu">
-      {getStatusText()}{'  '}{':  Qtz.'}<b>{String(menuItem.total)}</b>
+        {parseDate(menuItem.date)}{'  '}{'=>  Qtz.'}<b>{String(menuItem.total)}{" : "}{getStatusText()}</b>
         </td>
       </table>
 

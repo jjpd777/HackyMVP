@@ -1,17 +1,16 @@
 import database from "./firebase";
 
+const STORENAME= "GERONA"
 const SHOP_URL = "/gerona"
 const INVENTORY_URL = SHOP_URL + "/inventario";
 const SALES_URL = SHOP_URL + "/ventas"
+
 // const INVENTORY_URL = "/inventario-borgona";
 // const SALES_URL =  "/ventas-borgona"
 
 // ====>>>> <<<<=====
-const getOriginalInventory = ()=>{
-  const original = "/inventario-borgona";
-  const db = database.ref(original);
-  return db;
-}
+
+const getStoreName = ()=> STORENAME;
 
 const getDate = ()=>{
   var date = new Date();
@@ -19,7 +18,7 @@ const getDate = ()=>{
 }
 
 const seedInventory = (data) => {
-  const newSeedURL = "/novita/inventario";
+  const newSeedURL = "/comercia/inventario";
   const db = database.ref(newSeedURL);
   return db.push(data);
 };
@@ -65,6 +64,7 @@ const updateSale = (key, data) => {
 
 export default {
   getDate,
+  getStoreName,
   removeInventory,
   getAllInventory,
   createInventory,

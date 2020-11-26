@@ -14,8 +14,15 @@ const transcribe = (inventory) => {
       };
       DBservice.seedInventory(data);
     })
-
   };
+  const resetDB = (menuItems)=>{
+    menuItems.map((item)=>{
+      const tmp ={
+        quantityavailable :0
+      }
+      DBservice.updateInventory(item.id, tmp)
+    })
+  }
 
 
-export default {transcribe};
+export default {transcribe, resetDB};

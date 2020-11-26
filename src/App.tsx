@@ -34,6 +34,7 @@ function App() {
   const [uqIDTable, setUqID] = useState<any>([])
   const [currentTab, setCurrentTab] = useState("/");
   const [summaryURL, setURL] = useState("");
+  const [STORENAME,setSTORENAME] = useState(DBservice.getStoreName())
   
 //======> <======//
 // const [seedElements, loadingSeed, errorSeed] = useList(DBservice.getOriginalInventory());
@@ -95,20 +96,13 @@ function App() {
     </Link>
 
   const seedButton = ()=>{
-    if(loading || !salesItems.length) return
+    if(loading || !menuItems.length) return
     seedDB.transcribe(menuItems)
     console.log("success")
   }
   const ready = summaryURL !== "";
 
-  const resetDB = ()=>{
-    menuItems.map((item)=>{
-      const tmp ={
-        quantityavailable :0
-      }
-      DBservice.updateInventory(item.id, tmp)
-    })
-  }
+  
 
   // const seedDatabase =()=>{
   //   if(loadingSeed || !seedItems.length) return;
@@ -144,7 +138,7 @@ function App() {
               <Route exact path={["/"]}>
                 <br></br>
                 <br></br>
-                <h1> <FontAwesomeIcon icon={faCashRegister} /> Caja Gerona</h1>
+                <h1> <FontAwesomeIcon icon={faCashRegister} /> {STORENAME}</h1>
                 <Menu
                   menuItems={menuItems}
                   cart={cart}
@@ -228,8 +222,7 @@ function App() {
               </Route>
             </Switch>
           </div>)}
-          {/* <Button href={summaryURL} onClick={() => getSalesSummary()}>{ready ? "Enviar reporte de ventas" : "Generar reporte"}</Button> */}
-          {/* <Button onClick={()=> resetDB()} ></Button>  */}
+          {/* <Button onClick={()=> seedDB.resetDB(menuItems)} ></Button>  */}
           {/* <Button onClick={()=> seedButton()}></Button> */}
     </div>
   );
