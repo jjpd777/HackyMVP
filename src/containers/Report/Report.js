@@ -35,6 +35,8 @@ function Report(props) {
     const [reportDate, setReportDate] = useState(DBservice.getDate());
     const [totalNumTickets, setTotalNum]= useState(0);
     const [triggerReport, setTrigger] =useState(false)
+    const [STORENAME,setSTORENAME] = useState(DBservice.getStoreName())
+
 
 
     function getDateforSection() {
@@ -91,7 +93,7 @@ function Report(props) {
         console.log(sortedArray)
 
 
-        var totalSales = "%0A%0AEl dia de hoy las ventas fueron las siguientes:%0A%0A" 
+        var totalSales = "%0A%0AHoy las ventas fueron las siguientes:%0A%0A" 
         sortedArray.map((item)=>{
           totalSales+= "*x"+ String(item.sold) + "* "+ item.name +"%0A"
         })
@@ -103,7 +105,7 @@ function Report(props) {
         // console.log(menuItems)
         if(!props.menuItems) return;
         var baseURL = "https://wa.me/50249503041?text=";
-        const welcome = "Buenas de *Borgoña Gerona*,"
+        const welcome = "Buenas de *"+ STORENAME+"*";
         const totalSales = "%0A%0AEl dia de hoy " + getDateforSection() + " el *total de ventas fué: Qtz. " + String(avCash + avCard)+"* en *"+String(totalNumTickets)+"* tickets.";
         const ticketText = "%0A%0A*El ticket promedio* fué de: *Qtz. " + String(avTicket) + "*"
         const numCardText = "%0A%0A*Ventas en tarjeta: Qtz" + avCard + "*";
