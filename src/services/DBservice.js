@@ -1,12 +1,12 @@
 import database from "./firebase";
 
-const STORENAME= "PLAZOLETA"
-const SHOP_URL = "/plazoleta"
-const INVENTORY_URL = SHOP_URL + "/inventario";
-const SALES_URL = SHOP_URL + "/ventas"
+const STORENAME= "METROPLAZA"
+// const SHOP_URL = "/plazoleta"
+// const INVENTORY_URL = SHOP_URL + "/inventario";
+// const SALES_URL = SHOP_URL + "/ventas"
 
-// const INVENTORY_URL = "/inventario-borgona";
-// const SALES_URL =  "/ventas-borgona"
+const INVENTORY_URL = "/inventario-getfit";
+const SALES_URL =  "/ventas-getfit"
 
 // ====>>>> <<<<=====
 

@@ -91,7 +91,7 @@ function App() {
       </Link>
     </Button>
     :
-    <Link to={endpoint} onClick={() => setCurrentTab(endpoint)} className="nav-link">
+    <Link  to={endpoint} onClick={() => setCurrentTab(endpoint)} className="nav-link">
       {text}
     </Link>
 
@@ -114,7 +114,7 @@ function App() {
   return (
 
     <div className="App">
-      <nav className="navbar navbar-expand navbar-dark bg-dark">
+      <nav className="navbar navbar-expand">
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
             {returnNav("/", "CAJA")}
@@ -171,7 +171,7 @@ function App() {
                 <Route exact path={["/ventas"]}>
                   <br></br>
                   <br></br>
-                  <h1> <FontAwesomeIcon icon={faBalanceScale} /></h1>
+                  <h1> <FontAwesomeIcon icon={faBalanceScale} />VENTAS</h1>
                   <br></br>
                   <Report salesItems={salesItems} menuItems={menuItems}/>
                   <Menu
@@ -210,8 +210,7 @@ function App() {
               <Route exact path={["/inventario"]}>
                 <br></br>
                 <br></br>
-                <h1> <FontAwesomeIcon icon={faStoreAlt} /></h1>
-                <h2>Editar inventario</h2>
+                <h1> <FontAwesomeIcon icon={faStoreAlt} /> Editar</h1>
                 <AddItem
                   menuItems={menuItems}
                   cart={cart}

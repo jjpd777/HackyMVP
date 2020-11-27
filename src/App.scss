@@ -28,17 +28,28 @@ h1{
   margin-top:2rem;
   margin-bottom: 3rem;
 }
-.nav{
+.navbar{
+  font-size: 2rem;
+  font-weight:800;
+  min-height: 4rem;
+  background:rgb(68, 218, 126);
+
+  .nav{
   color:red;
 }
 .nav-item{
+  color:red;
+  .link{
+    color:red;
+  }
   .highlight{
     background-color: white;
+    font-size:2.3rem;
     .nav-link{
       color:rgb(211, 63, 63);
     }
   }
-}
+}}
 .table{
   .tableu{
     padding-top:1.5rem;
