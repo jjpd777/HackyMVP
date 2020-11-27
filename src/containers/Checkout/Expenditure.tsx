@@ -118,8 +118,7 @@ function Checkout(props: ExpenditureProps) {
       </>
       :  
       <>
-      <h1><FontAwesomeIcon icon={faPencilAlt}/></h1>
-      <h2>Registrar nuevo producto</h2>;
+      <h1><FontAwesomeIcon icon={faPencilAlt}/> REGISTRAR INVENTARIO</h1>
       </>
 
   const getTitle = ()=> expenditure ? 

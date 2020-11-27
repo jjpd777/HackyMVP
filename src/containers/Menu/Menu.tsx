@@ -96,6 +96,7 @@ function Menu(props: MenuProps) {
     );
   });
 
+  const isInventory = props.pos ==="pos" ? "top" :"top-1";
   return (
     <div className="container">
         { props.pos==="sales" ? (
@@ -104,9 +105,10 @@ function Menu(props: MenuProps) {
         )
         :(
           <>
+          <div className="bruh-header">{currentSection}</div>
            {getHeaders().map((val) =>
         <Button
-        className="top"
+        className={isInventory}
           onClick={() => {
             setCurrentSection(String(val));
           }
@@ -114,7 +116,6 @@ function Menu(props: MenuProps) {
       {val}
         </Button>)}
         <br></br>
-          <div className="bruh-header">{currentSection}</div>
           <div className="menu-container">{response}</div>
           <br></br>
           <br></br>

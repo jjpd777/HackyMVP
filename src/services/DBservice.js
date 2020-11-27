@@ -1,7 +1,7 @@
 import database from "./firebase";
 
-const STORENAME= "COMERCIA"
-const SHOP_URL = "/comercia"
+const STORENAME= "GERONA"
+const SHOP_URL = "/gerona"
 const INVENTORY_URL = SHOP_URL + "/inventario";
 const SALES_URL = SHOP_URL + "/ventas"
 
