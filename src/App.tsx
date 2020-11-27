@@ -84,13 +84,7 @@ function App() {
     });
     return totalVal;
   };
-  const returnNav = (endpoint, text) => endpoint === currentTab ?
-    <Button className="highlight">
-      <Link to={endpoint} className="navy">
-        {text}
-      </Link>
-    </Button>
-    :
+  const returnNav = (endpoint, text) => 
     <Link  to={endpoint} onClick={() => setCurrentTab(endpoint)} className="nav-link">
       {text}
     </Link>
@@ -123,10 +117,10 @@ function App() {
             {returnNav("/ventas", "VENTAS")}
           </li>
           <li className="nav-item size-lg">
-            {returnNav("/egresos", "REGISTRAR INVENTARIO")}
+            {returnNav("/egresos", "REGISTRAR INV.")}
           </li>
           <li className="nav-item">
-            {returnNav("/inventario", "EDITAR INVENTARIO")}
+            {returnNav("/inventario", "EDITAR INV.")}
           </li>
         </div>
       </nav>
