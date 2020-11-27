@@ -13,6 +13,7 @@ import {
   faHandshake,
   faPhone,
   faCreditCard,
+  faFlagCheckered,
   faMapPin,
   faShoppingBasket,
   faCamera,
@@ -52,13 +53,12 @@ function App() {
 
   return (
     <div className="App">
-      
+      <header className="App-header">
+            <Header/>
+          </header>
       <section className="container">
         {currentPage === PageEnum.MENU && (
           <>
-          <header className="App-header">
-            <Header/>
-          </header>
           <Menu
             menuItems={menuItems}
             cart={cart}
@@ -93,7 +93,16 @@ function App() {
           </Button>
         </div>
       )) ||
-        null}
+      <>
+      <h6>Impulsado por</h6>
+      
+      <a href="mailto:juanjosepalacio@ingetelca.gt?Subject=Interés%20en%20Pronto%20Software&body=Hola Juan José! Me interesa saber más sobre Pronto Software :)" target="_top">
+        
+      <h3><em>PRONTO SOFTWARE </em>{'  '} <FontAwesomeIcon icon={faFlagCheckered}/></h3>
+        
+        </a>
+            </>
+        }
     </div>
   );
 }

@@ -90,6 +90,7 @@ function Checkout(props: CheckoutProps) {
   const [timer, setTimer]=useState(false);
 
   const [paulo, setPaulo]= useState(true);
+  const [downloadURL, setDownloadURL] = useState("")
 
 
   const extraCallbacks = [setZone, setVehicle, setClimate, setSpecial];
@@ -370,6 +371,7 @@ function Checkout(props: CheckoutProps) {
       
       file2write.getDownloadURL().then(function (url) {
         setTimer(true);
+        setDownloadURL(url);
         var fetchthatbitch = url;
         var whatsAppBase = baseBRUH +"text=Buenas%20ingeniero%0A%0AEste%20es%20el%20enlace%20al%20reporte%20%0A%0A"
         const craftString = (message) => {
@@ -393,7 +395,6 @@ function Checkout(props: CheckoutProps) {
 
   return (
     <div className="checkout-container">
-      <img src="http://ingetelca.gt/wp-content/uploads/2011/07/logopeq.png" />
       <div className="order-summary">
         <ListGroup>
           {getCartItems().map((item, index) => {
@@ -409,7 +410,7 @@ function Checkout(props: CheckoutProps) {
       </div>
       <br />
       {true && <Dropdown open={modalOpen} toggle={() => setModalOpen(!modalOpen)} className="drop-down">
-        <DropdownToggle className="button" split><b>{person !== "" ? person : "Escoger ingeniero"}</b></DropdownToggle>
+        <DropdownToggle className="button" split><b>{person !== "" ? person : "Técnico encargado"}</b></DropdownToggle>
         <DropdownMenu >
           {engineers.map((engineer, key) =>
             <DropdownItem
@@ -424,12 +425,15 @@ function Checkout(props: CheckoutProps) {
           )}
         </DropdownMenu>
       </Dropdown>}
+      <Button onClick={props.onBack} className="button-secondary" outline block>
+              <FontAwesomeIcon icon={faArrowAltCircleLeft} />{'  '}Editar elementos
+            </Button>
 
       {step1 && (
         <div className="store-location" >
-          <h5>Enviar a:</h5>
-          <FormRadio onChange={()=>setPaulo(true)} onClick={()=>setPaulo(true)}checked={paulo}>Ing. Paulo</FormRadio>
-          <FormRadio onChange={()=>setPaulo(false)} onClick={()=>setPaulo(false)}  checked={!paulo}>Ing. William</FormRadio>
+          {/* <h5>Enviar a:</h5> */}
+          {/* <FormRadio onChange={()=>setPaulo(true)} onClick={()=>setPaulo(true)}checked={paulo}>Ing. Paulo</FormRadio>
+          <FormRadio onChange={()=>setPaulo(false)} onClick={()=>setPaulo(false)}  checked={!paulo}>Ing. William</FormRadio> */}
           <br></br>
           <div className="shipping-info">
             <h5>Llenar la siguiente info</h5>
@@ -493,9 +497,6 @@ function Checkout(props: CheckoutProps) {
               </>
             )
             }
-            <Button onClick={props.onBack} className="button-secondary" outline block>
-              <FontAwesomeIcon icon={faArrowAltCircleLeft} />{'  '}Editar listado
-            </Button>
             {!whatsApp && sendIt &&
               <Button
                 theme="warning"
@@ -503,13 +504,23 @@ function Checkout(props: CheckoutProps) {
                 className="button-pdf">
                 GENERAR PDF
             </Button>}
-            {whatsApp && timer && <Button
+            {whatsApp && timer && 
+            <>
+             {/* <Button
               theme="success"
               href={redirectURL}
+               block>
+                               ENVIAR VIA WHATSAPP
+            </Button> */}
+            <Button
+              theme="success"
+              href={downloadURL}
               className="button" block>
-              ENVIAR EN PDF
-            </Button>}
-            {!timer && whatsApp && <Button className="wait-button" onClick={()=>console.log(timer)}>Por favor un momento</Button>}
+                              Descargar PDF
+            </Button>
+              </>
+          }
+            {!timer && whatsApp && <Button className="wait-button" >Por favor un momento</Button>}
           </div>
         </div>
       ) || null}

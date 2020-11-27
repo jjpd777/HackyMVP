@@ -1,7 +1,16 @@
 .tagline {
-    padding-top: 20px;
+    // padding-top: 15px;
+    margin-top:-1.3rem;
+    margin-bottom:1rem;
     font-weight: bold;
     font-style: italic;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     color: rgb(19, 18, 18);
+  }
+  p{
+    font-size:1rem;
+    font-weight: 600;
+  }
+  .contratista{
+    max-width: 3rem;
   }
