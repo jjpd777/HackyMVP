@@ -221,7 +221,7 @@ function App() {
               </Route>
             </Switch>
           </div>)}
-          {/* <Button onClick={()=> seedDB.resetDB(menuItems)} ></Button>  */}
+          <Button onClick={()=> seedDB.resetDB(menuItems)} >hey</Button> 
           {/* <Button onClick={()=> seedButton()}></Button> */}
     </div>
   );
