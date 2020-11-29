@@ -25,25 +25,26 @@ import {
 
 
 function Report(props) {
-    const { salesItems, menuItems } = props;
+    const { salesItems } = props;
     const [avTicket, setAvTicket] = useState(0);
     const [avCard, setAvCard] = useState(0);
     const [avCash, setAvCash] = useState(0);
     const [redirectURL, setRedirect] = useState("");
     const [ticketNum, setTicket] = useState(0);
     const [dropDown, setDropDown]= useState(false);
-    const [reportDate, setReportDate] = useState(DBservice.getDate());
+    const sectionDate = DBservice.getDateforSection();
+    const [reportDate, setReportDate] = useState(sectionDate);
     const [totalNumTickets, setTotalNum]= useState(0);
     const [triggerReport, setTrigger] =useState(false)
     const [STORENAME,setSTORENAME] = useState(DBservice.getStoreName())
 
 
 
-    function getDateforSection() {
-        var date = new Date();
-        return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+    // function getDateforSection() {
+    //   const DMY = DBservice.newMHMY().split("&")[1];
+    //   return DMY;
 
-    }
+    // }
     function getDatesforButton() {
         var date = new Date();
         var datesArray = [];
@@ -74,13 +75,13 @@ function Report(props) {
      }
     
       const getSalesSummary = () => {
-        if(!props.menuItems) return;
+        if(!props.registerItems) return;
 
         let response= [];
-        props.menuItems.map((item) => {
+        props.registerItems.map((item) => {
           if (item.quantityavailable > 0) {
             const itemSold = {
-              id: item.id,
+              id: item.productID,
               name: item.name,
               sold: item.quantityavailable
             }
@@ -89,8 +90,7 @@ function Report(props) {
         }
         )
         var sortedArray = bubbleSort(response);
-        sortedArray = sortedArray.reverse()
-        console.log(sortedArray)
+        sortedArray = sortedArray.reverse();
 
 
         var totalSales = "%0A%0AHoy las ventas fueron las siguientes:%0A%0A" 
@@ -102,11 +102,11 @@ function Report(props) {
       }
 
     const closeSalesDay = () => {
-        // console.log(menuItems)
+
         if(!props.menuItems) return;
         var baseURL = "https://wa.me/50249503041?text=";
         const welcome = "Buenas de *"+ STORENAME+"*";
-        const totalSales = "%0A%0AEl dia de hoy " + getDateforSection() + " el *total de ventas fué: Qtz. " + String(avCash + avCard)+"* en *"+String(totalNumTickets)+"* tickets.";
+        const totalSales = "%0A%0AEl dia de hoy " + reportDate + " el *total de ventas fué: Qtz. " + String(avCash + avCard)+"* en *"+String(totalNumTickets)+"* tickets.";
         const ticketText = "%0A%0A*El ticket promedio* fué de: *Qtz. " + String(avTicket) + "*"
         const numCardText = "%0A%0A*Ventas en tarjeta: Qtz" + avCard + "*";
         const numCashText = "%0A%0A*Ventas en efectivo: Qtz" + avCash + "*";
@@ -114,7 +114,6 @@ function Report(props) {
         const response = resp.split(" ").join("%20");
         const inventorySummary = getSalesSummary();
         const send = baseURL + response + inventorySummary;
-        console.log(send)
         setRedirect(send);
     }
 

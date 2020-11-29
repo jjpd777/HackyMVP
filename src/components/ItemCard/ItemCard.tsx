@@ -8,7 +8,7 @@ import {
 } from 'shards-react';
 
 import {
-  faCheckCircle,faTimes
+  faCheckCircle,faTimes, faClock
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -19,8 +19,8 @@ import { validate } from '@babel/types';
 
 interface ItemCardProps {
   menuItem: any;
-  cart: CartItem[];
-  setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
+  cart: any[];
+  setCartItems: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
 function ItemCard(props: ItemCardProps) {
@@ -42,15 +42,26 @@ function ItemCard(props: ItemCardProps) {
   const egreso = menuItem.taxInfo === "EGRESO";
   const parseDate = (date)=> {
     if(!date) return
-    const datewithSecs = date.split(' ')[1];
-    const response = datewithSecs.slice(0,-3);
+    var response = date.split('&')[0];
     return response;
-}
+  }
+  const subToCount = () => {
+    menuItem.pedido.forEach((purchasedItem) => {
+      cart.map((registeredItem) => {
+        if (registeredItem.productID === purchasedItem.id) {
+          const destinationItem = cart.find((x)=> x.productID === purchasedItem.id);
+          const tmp = destinationItem.quantityavailable - purchasedItem.quantity;
+          const dataUpdate = { "quantityavailable": tmp };
+          DBservice.updateSoldUnits(destinationItem.uniqueIdentifier, dataUpdate);
+        }
+      });
+    });
+  }
   return (
     <div className="card-container">
       <table onClick={() => setModalOpen(true)} className="table">
         <td className="tableu">
-        {parseDate(menuItem.date)}{'  '}{'=>  Qtz.'}<b>{String(menuItem.total)}{" : "}{getStatusText()}</b>
+        <b>{parseDate(menuItem.date)}</b>{'   --  '}{'  Qtz.'}<b>{String(menuItem.total)}{"  --  "}{getStatusText()}</b>
         </td>
       </table>
 
@@ -97,8 +108,12 @@ function ItemCard(props: ItemCardProps) {
                 <Button pill inline className="save" theme="danger" onClick={() => {
                   setCancel(false);
                 }}> no</Button>
-                <Button pill inline className="save" theme="success" onClick={() => {
-                  setModalOpen(!modalOpen); cancelSale(menuItem); setCancel(false)
+                <Button pill inline className="save" theme="success" 
+                onClick={() => {
+                  setModalOpen(!modalOpen); 
+                  cancelSale(menuItem);
+                  subToCount();
+                  setCancel(false);
                 }}>si</Button>
               </>
             }

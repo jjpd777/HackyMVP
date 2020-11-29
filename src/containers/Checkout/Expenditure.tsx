@@ -24,7 +24,7 @@ import { Switch, Route, Link } from "react-router-dom";
 
 interface ExpenditureProps {
   menuItems: MenuItem[];
-  cart: CartItem[];
+  cart: any[];
   totalCartValue: number;
   emptyCart: () => void;
 }

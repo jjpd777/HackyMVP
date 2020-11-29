@@ -22,8 +22,8 @@ import { MenuItem } from '../../containers/Menu/Menu';
 
 interface PoSCardProps {
   menuItem: MenuItem;
-  cart: CartItem[];
-  setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
+  cart: any[];
+  setCartItems: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
 function PoSCard(props: PoSCardProps) {

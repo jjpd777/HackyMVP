@@ -26,7 +26,7 @@ import { Switch, Route, Link } from "react-router-dom";
 
 interface CheckoutProps {
   menuItems: MenuItem[];
-  cart: CartItem[];
+  cart: any[];
   totalCartValue: number;
   registerItems: any[];
   emptyCart: () => void;
@@ -43,16 +43,11 @@ function Checkout(props: CheckoutProps) {
   const [taxInfo, setTaxInfo] = useState(false);
   const [tax, setTaxText] = useState("");
 
-  function getFormattedDate() {
-    var date = new Date();
-    var str = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-    return str;
+  const dateForSection = DBservice.getDateforSection();
+  function getFullDate() {
+    return DBservice.newMHMY();
   }
-  function getDateforSection() {
-    var date = new Date();
-    return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
-
-  }
+ 
 
 
   const getCartItems = () => {
@@ -121,9 +116,9 @@ function Checkout(props: CheckoutProps) {
 
     const payment = getPayment();
     const order = getShopCartJSON();
-    const time = getFormattedDate();
+    const time = getFullDate();
     const taxString = getTaxInfo();
-    const dateCategory = getDateforSection();
+    const dateCategory = dateForSection;
 
 
     const newRow = {
@@ -141,7 +136,6 @@ function Checkout(props: CheckoutProps) {
     }
     DBservice.createSale(newRow)
       .then(() => {
-        // console.log(newRow)
       })
       .catch(e => {
         console.log(e);

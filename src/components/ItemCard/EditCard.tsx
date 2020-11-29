@@ -14,7 +14,7 @@ import DBservice from '../../services/DBservice';
 
 interface PoSCardProps {
   menuItem: MenuItem;
-  cart: CartItem[];
+  cart: any[];
   setCartItems: React.Dispatch<React.SetStateAction<any>>;
 }
 
@@ -28,7 +28,6 @@ function EditCard(props: PoSCardProps) {
     <div className="card-container">
       <div onClick={()=>{
           props.setCartItems(menuItem.id);
-          console.log(menuItem.id)
     }}>
       <Card className="card">
         <CardBody

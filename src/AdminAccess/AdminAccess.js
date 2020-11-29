@@ -14,24 +14,16 @@ const SALES = DESTINATION + "/sales/"
 
 
 function AdminAccess(props){
-    const start = SALES+DBservice.newDate()
+    const start = SALES+DBservice.getDateforSection()
     const [dbRegisterSales, loading, error] = useList(DBservice.getAllTest(start));
 
     useEffect(()=> check())
-    const newDate = ()=>{
-        var today = new Date();
-        var min = String(today.getMinutes()).padStart(2, '0');
-        var hr = String(today.getHours()).padStart(2, '0');
-        var dd = String(today.getDate()).padStart(2, '0');
-        var mm = String(today.getMonth() + 1).padStart(2, '0');
-        var yyyy = today.getFullYear();
-        return min+ ":"+hr+ "&"+mm + '%' + dd + '%' + yyyy;
-    }
+   
 
     const startSalesDay = ()=>{
         if(props.loading || !props.menuItems.length) return;
         DBservice.seedSales(props.menuItems, start);
-        console.log("success");
+
     }
     const recreateDatabase = ()=>{
         if(props.loading || !props.menuItems.length) return;

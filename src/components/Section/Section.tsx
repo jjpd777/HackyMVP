@@ -26,7 +26,7 @@ import { getByTestId } from '@testing-library/dom';
 interface SectionProps {
   title: string;
   menuItems: MenuItem[];
-  cart: CartItem[];
+  cart: any[];
   pos: String;
   sectionOnScreen: String;
   setCartItems: React.Dispatch<React.SetStateAction<any>>;
@@ -80,14 +80,14 @@ function Section(props: SectionProps) {
         </Col>
       )
   }
-
+  const parseTitle = (str)=> str.split("%").join("/") 
 
   return (
     <div className="section-container">
           {pos === "sales" && (
                 <>
                     <div  onClick={() => setIsOpen(!isOpen)} className="section-header">
-                      <h5>{props.title}{' '}
+                      <h5>{parseTitle(props.title)}{' '}
                       {!isOpen && <FontAwesomeIcon icon={faAngleDoubleDown} />}{' '}
                       {isOpen && <FontAwesomeIcon icon={faArrowUp} />}
                       </h5>

@@ -25,7 +25,7 @@ export interface MenuItem {
 
 interface MenuProps {
   menuItems: MenuItem[];
-  cart: CartItem[];
+  cart: any[];
   setCartItems: React.Dispatch<React.SetStateAction<any>>;
   pos: String;
 }

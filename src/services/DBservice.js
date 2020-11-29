@@ -19,14 +19,20 @@ const getDate = ()=>{
   var date = new Date();
   return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
 }
-const newDate = ()=>{
+
+const newMHMY = ()=>{
   var today = new Date();
   var min = String(today.getMinutes()).padStart(2, '0');
   var hr = String(today.getHours()).padStart(2, '0');
   var dd = String(today.getDate()).padStart(2, '0');
   var mm = String(today.getMonth() + 1).padStart(2, '0');
   var yyyy = today.getFullYear();
-  return mm + '%' + dd + '%' + yyyy;
+  return hr+ ":"+min+ "&"+mm + '-' + dd + '-' + yyyy;
+}
+function getDateforSection() {
+  const DMY = newMHMY().split("&")[1];
+  return DMY;
+
 }
 
 const seedInventory = (data) => {
@@ -85,7 +91,7 @@ const seedSales = (inventory,destination) => {
 };
 
 const updateSoldUnits= (key, data) => {
-  const start = SALES+newDate()
+  const start = SALES+getDateforSection();
   const db = database.ref(start);
   return db.child(key).update(data);
 };
@@ -130,7 +136,8 @@ const updateSale = (key, data) => {
 
 
 export default {
-  newDate,
+  getDateforSection,
+  newMHMY,
   updateSoldUnits,
   transcribe,
   seedSales,

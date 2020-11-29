@@ -30,7 +30,7 @@ function App() {
 
   const [dbElements, loading, error] = useList(DBservice.getAllInventory());
   const [dbSales, salesLoading, salesError] = useList(DBservice.getAllSales());
-  const [cart, setCartItems] = useState<CartItem[]>([]);
+  const [cart, setCartItems] = useState<any[]>([]);
   const [uqIDTable, setUqID] = useState<any>([])
   const [currentTab, setCurrentTab] = useState("/");
   const [summaryURL, setURL] = useState("");
@@ -39,7 +39,7 @@ function App() {
   const DESTINATION = "/admin-db";
   const SALES = DESTINATION + "/sales/";
 
-  const start = SALES+DBservice.newDate()
+  const start = SALES+DBservice.getDateforSection();
 
   const [dbRegisterSales, regLoading, regError] = useList(DBservice.getAllTest(start));
   const [registerItems, setRegisterItems] = useState<any[]>([]);
@@ -74,11 +74,7 @@ function App() {
     setRegisterItems(obj);
   }
 
-  const getRankings = (dboject) => {
-    const uniqd = dboject.map((tutorial) => tutorial.key);
-    setUqID(uniqd);
 
-  }
   const emptyCart = () => setCartItems([]);
 
   const getTotalCartValue = () => {
@@ -104,9 +100,6 @@ function App() {
   return (
 
     <div className="App">
-      <Button onClick={()=>console.log(dbRegisterSales)}></Button>
-
-
       <nav className="navbar navbar-expand">
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
@@ -165,7 +158,7 @@ function App() {
                   <br></br>
                   <h1> <FontAwesomeIcon icon={faBalanceScale} />VENTAS</h1>
                   <br></br>
-                  <Report salesItems={salesItems} menuItems={menuItems}/>
+                  <Report salesItems={salesItems} menuItems={menuItems} registerItems={registerItems}/>
                   <Menu
                     menuItems={salesItems}
                     cart={registerItems}
