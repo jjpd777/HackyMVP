@@ -18,7 +18,7 @@ import { MenuItem } from '../Menu/Menu';
 import DBservice from "../../services/DBservice";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Switch, Route, Link } from "react-router-dom";
-import seedDB from '../../services/seedDB';
+
 
 
 

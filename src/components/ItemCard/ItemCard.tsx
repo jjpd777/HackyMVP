@@ -30,30 +30,20 @@ function ItemCard(props: ItemCardProps) {
   const [time, setTime]=useState("")
 
   const getStatusText = () => menuItem.valid ? <FontAwesomeIcon icon={faCheckCircle} />: <FontAwesomeIcon icon={faTimes} />
+  
+  
   const cancelSale = (saleItem) => {
     const dataUpdate = { "valid": false };
     DBservice.updateSale(saleItem.id, dataUpdate)
   }
-  // const removeFromCount = () => {
-  //   menuItem.pedido.forEach((order) => {
-  //     saleItem.map((menuItem) => {
-  //       if (cartItem.itemId === menuItem.id) {
-  //         const tmp = menuItem.quantityavailable + cartItem.quantity;
-  //         const dataUpdate = { "quantityavailable": tmp };
-  //         DBservice.updateInventory(menuItem.id, dataUpdate)
-  //           .then(() => console.log(menuItem.id))
-  //       }
-  //     });
-  //   });
-  // }
-
+  
+ 
 
   const egreso = menuItem.taxInfo === "EGRESO";
   const parseDate = (date)=> {
     if(!date) return
     const datewithSecs = date.split(' ')[1];
-    const response = datewithSecs.slice(0,-3)
-
+    const response = datewithSecs.slice(0,-3);
     return response;
 }
   return (

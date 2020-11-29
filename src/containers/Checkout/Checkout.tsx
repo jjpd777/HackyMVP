@@ -28,6 +28,7 @@ interface CheckoutProps {
   menuItems: MenuItem[];
   cart: CartItem[];
   totalCartValue: number;
+  registerItems: any[];
   emptyCart: () => void;
 }
 
@@ -74,10 +75,10 @@ function Checkout(props: CheckoutProps) {
     cart.forEach((cartItem) => {
       menuItems.map((menuItem) => {
         if (cartItem.itemId === menuItem.id) {
-          const tmp = menuItem.quantityavailable + cartItem.quantity;
+          const destinationItem = props.registerItems.find((x)=> x.productID === menuItem.id);
+          const tmp = cartItem.quantity + destinationItem.quantityavailable;
           const dataUpdate = { "quantityavailable": tmp };
-          DBservice.updateInventory(menuItem.id, dataUpdate)
-            .then(() => console.log(menuItem.id))
+          DBservice.updateSoldUnits(destinationItem.uniqueIdentifier, dataUpdate);
         }
       });
     });

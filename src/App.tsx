@@ -9,10 +9,9 @@ import Report from './containers/Report/Report'
 import DBservice from "./services/DBservice";
 import { Switch, Route, Link } from "react-router-dom";
 import AddItem from './containers/AddItems/AddItems'
+import AdminAccess from './AdminAccess/AdminAccess'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCashRegister, faBalanceScale, faStoreAlt, faPencilAlt, faTimes, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-import DBseed from "./services/seedDB"
-import seedDB from './services/seedDB';
 
 
 
@@ -28,6 +27,7 @@ export enum PageEnum {
 function App() {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [salesItems, setSalesItems] = useState<any[]>([]);
+
   const [dbElements, loading, error] = useList(DBservice.getAllInventory());
   const [dbSales, salesLoading, salesError] = useList(DBservice.getAllSales());
   const [cart, setCartItems] = useState<CartItem[]>([]);
@@ -35,19 +35,22 @@ function App() {
   const [currentTab, setCurrentTab] = useState("/");
   const [summaryURL, setURL] = useState("");
   const [STORENAME,setSTORENAME] = useState(DBservice.getStoreName())
-  
-//======> <======//
-// const [seedElements, loadingSeed, errorSeed] = useList(DBservice.getOriginalInventory());
-// const [seedItems, setSeed] = useState<any[]>([]);
 
-//======>
+  const DESTINATION = "/admin-db";
+  const SALES = DESTINATION + "/sales/";
+
+  const start = SALES+DBservice.newDate()
+
+  const [dbRegisterSales, regLoading, regError] = useList(DBservice.getAllTest(start));
+  const [registerItems, setRegisterItems] = useState<any[]>([]);
 
   useEffect(() => {
     placeItems(dbElements);
     placeSales(dbSales);
-  }, [dbElements, dbSales]);
+    placeRegister(dbRegisterSales);
+  }, [dbElements, dbSales,dbRegisterSales]);
 
-  // useEffect(()=> getRankings(dbSales))
+
 
   const placeSales = (dboject) => {
     const obj = dboject.map((tutorial) => tutorial.val());
@@ -57,7 +60,6 @@ function App() {
     setSalesItems(sales);
   }
   const placeItems = (dboject) => {
-    // THIS IS SO HACKY LOOOOOOL BY FAR THE MOST VULNERABLE PART OF THE APPLICATION
     const obj = dboject.map((tutorial) => tutorial.val());
     const uniqd = dboject.map((tutorial) => tutorial.key);
 
@@ -65,6 +67,12 @@ function App() {
     setMenuItems(obj);
   }
 
+  const placeRegister = (dboject) => {
+    const obj = dboject.map((tutorial) => tutorial.val());
+    const uniqd = dboject.map((tutorial) => tutorial.key);
+    obj.map((item, ix) => item.uniqueIdentifier = uniqd[ix]);
+    setRegisterItems(obj);
+  }
 
   const getRankings = (dboject) => {
     const uniqd = dboject.map((tutorial) => tutorial.key);
@@ -89,25 +97,16 @@ function App() {
       {text}
     </Link>
 
-  const seedButton = ()=>{
-    if(loading || !menuItems.length) return
-    seedDB.transcribe(menuItems)
-    console.log("success")
-  }
   const ready = summaryURL !== "";
 
-  
 
-  // const seedDatabase =()=>{
-  //   if(loadingSeed || !seedItems.length) return;
-  //   seedDB.transcribe(seedItems);
-  //   console.log("SUCCESS")
 
-  //   ///
-  // }
   return (
 
     <div className="App">
+      <Button onClick={()=>console.log(dbRegisterSales)}></Button>
+
+
       <nav className="navbar navbar-expand">
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
@@ -124,7 +123,6 @@ function App() {
           </li>
         </div>
       </nav>
-      {/* <Button onClick = {()=>seedButton()}></Button> */}
       {loading ? (<Button size="lg" theme="danger" className="loading">Cargando...</Button>)
         : (
           <div className="container">
@@ -170,7 +168,7 @@ function App() {
                   <Report salesItems={salesItems} menuItems={menuItems}/>
                   <Menu
                     menuItems={salesItems}
-                    cart={cart}
+                    cart={registerItems}
                     setCartItems={setCartItems}
                     pos={"sales"}
                   ></Menu>
@@ -185,6 +183,7 @@ function App() {
                   cart={cart}
                   totalCartValue={getTotalCartValue()}
                   emptyCart={() => emptyCart()}
+                  registerItems ={registerItems}
                 ></Checkout>
               </Route>
             </Switch>
@@ -200,7 +199,6 @@ function App() {
               </Route>
             </Switch>
             <Switch>
-
               <Route exact path={["/inventario"]}>
                 <br></br>
                 <br></br>
@@ -215,8 +213,14 @@ function App() {
               </Route>
             </Switch>
           </div>)}
-          {/* <Button onClick={()=> seedDB.resetDB(menuItems)} >hey</Button>  */}
-          {/* <Button onClick={()=> seedButton()}></Button> */}
+          <Switch>
+              <Route exact path={["/admin"]}>
+                <br></br>
+                <br></br>
+                <h1> <FontAwesomeIcon icon={faStoreAlt} /> Editar</h1>
+               <AdminAccess menuItems={menuItems} loading={loading}/>
+              </Route>
+            </Switch>
     </div>
   );
 }
