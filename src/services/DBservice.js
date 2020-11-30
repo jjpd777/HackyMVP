@@ -1,25 +1,24 @@
 import database from "./firebase";
 
-const STORENAME= "DESARROLLO"
-const SHOP_URL = "/admin-db"
+const STORENAME= "COMERCIA"
+const SHOP_URL = "/comercia"
+
 const INVENTORY_URL = SHOP_URL + "/inventario";
-const SALES_URL = SHOP_URL + "/ventas"
+const SALES_URL = SHOP_URL + "/sales"
+const REGISTER = SHOP_URL + "/global-count/";
 
 // const INVENTORY_URL = "/inventario-getfit";
 // const SALES_URL =  "/ventas-getfit"
 
-const TESTING = "/admin-db";
-const DESTINATION = "/admin-db";
-const SALES = DESTINATION + "/sales/";
 // ====>>>> <<<<=====
 
 const getStoreName = ()=> STORENAME;
 
-const getDate = ()=>{
-  var date = new Date();
-  return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
-}
 
+const removeAllSales =()=>{
+  const fuckedUp = REGISTER+getDateforSection();
+  return database.ref(fuckedUp).remove();
+}
 const newMHMY = ()=>{
   var today = new Date();
   var min = String(today.getMinutes()).padStart(2, '0');
@@ -32,7 +31,12 @@ const newMHMY = ()=>{
 function getDateforSection() {
   const DMY = newMHMY().split("&")[1];
   return DMY;
+}
 
+const getRegisterAddress = ()=>{
+  const date = getDateforSection();
+  const testAddress = REGISTER+date;
+  return testAddress
 }
 
 const seedInventory = (data) => {
@@ -46,12 +50,24 @@ const checkExistence = (table)=>{
   return db;
 }
 
-const createTest = (data, table) => {
-  const db = database.ref(table);
+const createRegister = (item) => {
+  var data = {
+    uniqueIdentifier:"",
+    productID: item.id,
+    category: item.category,
+    name: item.name,
+    brief: "",
+    quantityavailable: 0,
+    price: item.price,
+    image: "",
+  };
+
+  const db = database.ref(getRegisterAddress());
   return db.push(data);
 };
 
-const getAllTest = (testAddress) =>{
+const getAllTest = () =>{
+  const testAddress = getRegisterAddress();
   const db = database.ref(testAddress);
   return db;
 }
@@ -72,7 +88,7 @@ const transcribe = (inventory,destination) => {
     db.push(data);
   })
 };
-const seedSales = (inventory,destination) => {
+const seedSales = (inventory) => {
   inventory.map((item)=>{
     var data = {
       uniqueIdentifier:"",
@@ -85,13 +101,13 @@ const seedSales = (inventory,destination) => {
       image: "",
     };
 
-    const db = database.ref(destination);
+    const db = database.ref(getRegisterAddress());
     db.push(data);
   })
 };
 
 const updateSoldUnits= (key, data) => {
-  const start = SALES+getDateforSection();
+  const start = REGISTER+getDateforSection();
   const db = database.ref(start);
   return db.child(key).update(data);
 };
@@ -137,14 +153,14 @@ const updateSale = (key, data) => {
 
 export default {
   getDateforSection,
+  removeAllSales,
   newMHMY,
   updateSoldUnits,
   transcribe,
   seedSales,
   getAllTest,
-  createTest,
+  createRegister,
   checkExistence,
-  getDate,
   getStoreName,
   removeInventory,
   getAllInventory,

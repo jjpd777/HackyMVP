@@ -19,19 +19,12 @@ import Menu, { MenuItem } from '../Menu/Menu';
 // pos={true}
 function AddItem(props) {
   var { menuItems, cart, setCartItems, pos } = props;
-  const [avTicket, setAvTicket] = useState(0);
-  const [title, setTitle] = useState("");
   const [currentEdit, setCurrentEdit] = useState("");
 
   const [currentName, setCurrentName] = useState("");
   const [currentPrice, setCurrentPrice] = useState(0);
   const [currentCat, setCurrentCat] = useState("");
-
-  function getDateforSection() {
-    var date = new Date();
-    return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
-
-  }
+  
   const saveChanges = () => {
     const dataUpdate = {
       "name": currentName,

@@ -9,7 +9,7 @@ import Report from './containers/Report/Report'
 import DBservice from "./services/DBservice";
 import { Switch, Route, Link } from "react-router-dom";
 import AddItem from './containers/AddItems/AddItems'
-import AdminAccess from './AdminAccess/AdminAccess'
+// import AdminAccess from './AdminAccess/AdminAccess'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCashRegister, faBalanceScale, faStoreAlt, faPencilAlt, faTimes, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 
@@ -24,6 +24,8 @@ export enum PageEnum {
   CHECKOUT,
   ADDITEM
 }
+
+
 function App() {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [salesItems, setSalesItems] = useState<any[]>([]);
@@ -31,26 +33,40 @@ function App() {
   const [dbElements, loading, error] = useList(DBservice.getAllInventory());
   const [dbSales, salesLoading, salesError] = useList(DBservice.getAllSales());
   const [cart, setCartItems] = useState<any[]>([]);
-  const [uqIDTable, setUqID] = useState<any>([])
   const [currentTab, setCurrentTab] = useState("/");
   const [summaryURL, setURL] = useState("");
   const [STORENAME,setSTORENAME] = useState(DBservice.getStoreName())
 
-  const DESTINATION = "/admin-db";
-  const SALES = DESTINATION + "/sales/";
-
-  const start = SALES+DBservice.getDateforSection();
-
-  const [dbRegisterSales, regLoading, regError] = useList(DBservice.getAllTest(start));
+  const [dbRegisterSales, regLoading, regError] = useList(DBservice.getAllTest());
   const [registerItems, setRegisterItems] = useState<any[]>([]);
+
+
 
   useEffect(() => {
     placeItems(dbElements);
     placeSales(dbSales);
-    placeRegister(dbRegisterSales);
-  }, [dbElements, dbSales,dbRegisterSales]);
+    // checkIfFirstSale();
+  }, [dbElements, dbSales]);
+
+  useEffect(()=> placeRegister(dbRegisterSales),[dbRegisterSales] )
+  
+  useEffect(()=> checkIfFirstSale())
+
+   
+
+    const startSalesDay = ()=>{
+        if(loading || registerItems.length) return;
+        console.log("GETTING HERE")
+        DBservice.seedSales(menuItems);
+    }
+    //
 
 
+    const checkIfFirstSale = ()=>{ 
+      // if(!dbRegisterSales) return
+      if(dbRegisterSales) if( !regLoading && !dbRegisterSales.length) startSalesDay();
+      else return;
+    };
 
   const placeSales = (dboject) => {
     const obj = dboject.map((tutorial) => tutorial.val());
@@ -95,11 +111,16 @@ function App() {
 
   const ready = summaryURL !== "";
 
-
+////
 
   return (
 
     <div className="App">
+      {/* <Button >{registerItems.length}</Button>
+      <Button > {menuItems.length}</Button> */}
+      {/* <Button onClick={()=>console.log(dbRegisterSales)}></Button> */}
+    
+
       <nav className="navbar navbar-expand">
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
@@ -157,14 +178,13 @@ function App() {
                   <br></br>
                   <br></br>
                   <h1> <FontAwesomeIcon icon={faBalanceScale} />VENTAS</h1>
-                  <br></br>
-                  <Report salesItems={salesItems} menuItems={menuItems} registerItems={registerItems}/>
                   <Menu
                     menuItems={salesItems}
                     cart={registerItems}
                     setCartItems={setCartItems}
                     pos={"sales"}
                   ></Menu>
+                 <Report salesItems={salesItems} menuItems={menuItems} registerItems={registerItems}/>
                 </Route>
               </Switch>)}
 
@@ -206,14 +226,14 @@ function App() {
               </Route>
             </Switch>
           </div>)}
-          <Switch>
+          {/* <Switch>
               <Route exact path={["/admin"]}>
                 <br></br>
                 <br></br>
                 <h1> <FontAwesomeIcon icon={faStoreAlt} /> Editar</h1>
                <AdminAccess menuItems={menuItems} loading={loading}/>
               </Route>
-            </Switch>
+            </Switch> */}
     </div>
   );
 }

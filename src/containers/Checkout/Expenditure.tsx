@@ -108,7 +108,17 @@ function Checkout(props: ExpenditureProps) {
       price: price,
       image: "",
     };
-    DBservice.createInventory(data);
+    const invKey = DBservice.createInventory(data);
+    var regData = {
+      id: invKey.key,
+      category: category,
+      name: name,
+      brief: "",
+      quantityavailable: quantityAv,
+      price: price,
+      image: "",
+    };
+    DBservice.createRegister(regData);
   }
 
   const getHeader = ()=>  expenditure ? 

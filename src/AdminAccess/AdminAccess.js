@@ -15,14 +15,14 @@ const SALES = DESTINATION + "/sales/"
 
 function AdminAccess(props){
     const start = SALES+DBservice.getDateforSection()
-    const [dbRegisterSales, loading, error] = useList(DBservice.getAllTest(start));
+    const [dbRegisterSales, loading, error] = useList(DBservice.getAllTest());
 
-    useEffect(()=> check())
+    // useEffect(()=> check())
    
 
     const startSalesDay = ()=>{
         if(props.loading || !props.menuItems.length) return;
-        DBservice.seedSales(props.menuItems, start);
+        DBservice.seedSales(props.menuItems);
 
     }
     const recreateDatabase = ()=>{
@@ -34,14 +34,15 @@ function AdminAccess(props){
         if(dbRegisterSales.length) return;
         startSalesDay();
     };
-    const insertTest = ()=>DBservice.createTest("TEST",start)
+
 
     return(
         <>
         <Button onClick={()=> recreateDatabase()}> RECREAR BASE DE DATOS</Button>
-        <Button onClick={()=> check()} > Check Existence</Button>
-        <Button onClick={()=> insertTest()}> INSERT</Button>
-        <Button onClick={()=> console.log(dbRegisterSales.length)}>LENGTH</Button>
+        {/* <Button onClick={()=> check()} > Check Existence</Button> */}
+
+        {/* <Button onClick={()=> console.log(dbRegisterSales.length)}>LENGTH</Button> */}
+        <Button onClick={()=>DBservice.removeAllSales()}/>
 
 
         </>

@@ -153,7 +153,7 @@ function Report(props) {
     }
     return (
         <>
-       <Dropdown className="date-container" open={dropDown} toggle={()=> setDropDown(!dropDown)} group>
+       {/* <Dropdown className="date-container" open={dropDown} toggle={()=> setDropDown(!dropDown)} group>
         <Button className="date-button">{reportDate}</Button>
         <DropdownToggle split />
         <DropdownMenu>
@@ -161,7 +161,7 @@ function Report(props) {
                 <DropdownItem className="drop-item" onClick={()=>setReportDate(String(date))}>{date}</DropdownItem>
                 )}
         </DropdownMenu>
-      </Dropdown>        
+      </Dropdown>         */}
       {!avTicket ? (
                 <div className="main">
                     <h3 className="stud" ><b>Todavía no hay ventas </b></h3>
