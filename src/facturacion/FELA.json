@@ -1,0 +1,56 @@
+{
+    "Transaccion": {
+        "tipoaccion": "certificacion",
+        "tipodoc": "factura"
+    },
+    "compra": {
+        "champurradas": {
+            "precio": "25",
+            "unidades": "4",
+            "PoS": "B"
+        }
+    },
+    "infoConsumidor": {
+        "nombre": "Juan José Palacio",
+        "pago": "tarjeta",
+        "factura": {
+            "nit": "123456",
+            "email": "juanjosepalacio@ingetelca.gt",
+            "departamento": "Guatemala",
+            "municipio": "Fraijanes",
+            "código postal": "01001",
+            "direccion": "13 calle 1-53",
+            "telefono": " 42007503"
+        }
+    },
+    "infoTienda": {
+        "nombre": "La Borgoña",
+        "sede": "Gerona",
+        "numeroSede": "123",
+        "nit": "3444666"
+    }
+}
+
+{
+    "statusCode": 200,
+    "body": {
+        "success": {
+            "Codigo": 1,
+            "Mensaje": "Documento Certificado Exitosamente!",
+            "AcuseReciboSAT": "",
+            "CodigosSAT": "Acuse de RECIBO PENDIENTE",
+            "ResponseDATA1": "PD94bWwgdmVyc2lvVudG8+",
+            "ResponseDATA2": "",
+            "ResponseDATA3": "",
+            "Autorizacion": "24DA5FC3-4D28-4044-9548-91A8D6DF04DD",
+            "Serie": "24DA5FC3",
+            "NUMERO": "1294483524",
+            "Fecha_DTE": "2020-11-23T17:41:27",
+            "NIT_EFACE": "000029808952",
+            "NOMBRE_EFACE": "Sistemas Evolutivos, S.A.",
+            "NIT_COMPRADOR": "123456789",
+            "NOMBRE_COMPRADOR": "Juan José Palacio",
+            "BACKPROCESOR": "BACK02"
+        }
+    }
+}

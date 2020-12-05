@@ -11,7 +11,7 @@ import { Switch, Route, Link } from "react-router-dom";
 import AddItem from './containers/AddItems/AddItems'
 // import AdminAccess from './AdminAccess/AdminAccess'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCashRegister, faBalanceScale, faStoreAlt, faPencilAlt, faTimes, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { faFlagCheckered, faCashRegister, faBalanceScale, faStoreAlt, faPencilAlt, faTimes, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -144,7 +144,7 @@ function App() {
               <Route exact path={["/"]}>
                 <br></br>
                 <br></br>
-                <h1> <FontAwesomeIcon icon={faCashRegister} /> {STORENAME}</h1>
+                <h1> {STORENAME} {" "} <FontAwesomeIcon icon={faFlagCheckered}/></h1>
                 <Menu
                   menuItems={menuItems}
                   cart={cart}

@@ -26,8 +26,10 @@
     background-color: #013057;
   }
   .button-cancel{
-    background-color: rgb(189, 52, 52);
-    color:white;
+    background-color:rgb(253, 73, 2);
+    color:rgb(255, 203, 166);
+    // color:white;
+    border:0;
     max-height:7rem;
     min-width:13rem;
     font-size:4rem;
@@ -86,7 +88,7 @@
     margin-block-end:0.5rem;
     margin-right:200px;
     margin-left:4rem;
-    background-color: rgb(183, 255, 123);
+    background-color: rgb(252, 166, 105);
     border:red;
   }
   h1{
@@ -109,8 +111,10 @@
   align-self: center;
   margin-bottom:5rem;
   .next{
-    background-color:green;
+    background-color: #FD6A02;
+    border:0;
     color: white;
+    font-size:3rem;
     font-weight: 1000;
   }
   .h4{

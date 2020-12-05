@@ -14,13 +14,14 @@ import {
   FormRadio,
 } from 'shards-react';
 import {
-  faRedo, faCheckCircle, faTimes, faMoneyBillWave, faCreditCard
+  faRedo, faCheckCircle, faTimes, faMoneyBillWave, faCreditCard, faArrowLeft
 } from '@fortawesome/free-solid-svg-icons';
 import { CartItem } from '../../App';
 import { MenuItem } from '../Menu/Menu';
 import DBservice from "../../services/DBservice";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Switch, Route, Link } from "react-router-dom";
+import GenerateReceipt from "../../facturacion/facturacion"
 
 
 
@@ -48,6 +49,10 @@ function Checkout(props: CheckoutProps) {
     return DBservice.newMHMY();
   }
  
+  const getTaxInfo = () => taxInfo ? tax : "CF";
+  const getPayment = () => payMethod ? 'efectivo' : 'tarjeta';
+
+  const purchaseProof = !taxInfo  &&  payMethod;
 
 
   const getCartItems = () => {
@@ -80,7 +85,6 @@ function Checkout(props: CheckoutProps) {
   }
 
 
-  const getPayment = () => payMethod ? 'efectivo' : 'tarjeta';
   const getShopCartJSON = () => {
     let response: any[] = [];
     getCartItems().map((item, key) => {
@@ -93,7 +97,6 @@ function Checkout(props: CheckoutProps) {
     })
     return response;
   }
-  const getTaxInfo = () => taxInfo ? tax : "C.F.";
 
   const registerSale = () => {
     if (!name) return
@@ -122,24 +125,15 @@ function Checkout(props: CheckoutProps) {
 
 
     const newRow = {
-      "id": "",
-      "name": name,
-      "address": address,
-      "phone": phone,
-      "payment": payment,
-      "taxInfo": taxString,
-      "total": props.totalCartValue,
-      "date": time, //"2020-11-15 22:9:32"
-      "pedido": order,
-      "category": dateCategory, //"15-11-2020"
-      "valid": true,
+      "id": "", "name": name, "address": address,
+      "phone": phone, "payment": payment,"taxInfo": taxString,
+      "total": props.totalCartValue,"date": time, "pedido": order,
+      "category": dateCategory, "valid": true,
     }
     DBservice.createSale(newRow)
-      .then(() => {
-      })
-      .catch(e => {
-        console.log(e);
-      });
+    
+    const receiptInfo = [name,payMethod, taxString, address, time, order];
+    // GenerateReceipt.generate(purchaseProof, receiptInfo)
     setNextPayment(true);
   }
 
@@ -149,7 +143,7 @@ function Checkout(props: CheckoutProps) {
         <>
           <div className="finalize">
             <br></br>
-            <h4 className="done"> <FontAwesomeIcon icon={faCheckCircle} />{'  '} Compra Registrada</h4>
+            <h1 className="done"> <FontAwesomeIcon icon={faCheckCircle} />{'  '} Compra Registrada</h1>
             <br></br>
             <Link to="/">
               <Button className="next" theme="success">
@@ -191,7 +185,7 @@ function Checkout(props: CheckoutProps) {
             <div>
               <div className="shipping-info">
                 <Button className="simple-pay" onClick={() => setPayment(!payMethod)}> {retPayButton()}</Button>
-                <Button className="simple-pay" onClick={() => setTaxInfo(!taxInfo)}> <h1>{taxInfo ? "# NIT" : "C.F."}</h1></Button>
+                <Button className="simple-pay" onClick={() => {setTaxInfo(!taxInfo); setTaxText("");setName("Anónimo")}}> <h1>{taxInfo ? "# NIT" : "C.F."}</h1></Button>
 
                 {taxInfo && (
                   <>
@@ -209,16 +203,18 @@ function Checkout(props: CheckoutProps) {
                         setTaxText(e.target.value);
                       }}
                     />
+                     <FormTextarea
+                  className="input"
+                  value={address}
+                  onChange={(e) => {
+                    setAddress(e.target.value);
+                  }}
+                />
+
                   </>
                 )
                 }
-                {/* <FormTextarea
-              className="input"
-              placeholder="Celular"
-              onChange={(e) => {
-                setPhone(e.target.value);
-              }}
-            /> */}
+                   
                 <Button
                   onClick={() => { writeOrder(); registerSale(); addToCount() }}
                   // href={writeOrder(name, address, phone, payMethod)}
@@ -233,7 +229,7 @@ function Checkout(props: CheckoutProps) {
                   </Link>
                   <Link to={"/"}>
                     <Button className="button-secondary" >
-                      <FontAwesomeIcon icon={faRedo} />{'  '}
+                      <FontAwesomeIcon icon={faArrowLeft} />{'  '}
                     </Button>
                   </Link>
                 </div>

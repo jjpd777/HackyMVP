@@ -16,6 +16,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DBservice from '../../services/DBservice'
 
+
 import {
     Dropdown,
     DropdownToggle,
@@ -38,21 +39,6 @@ function Report(props) {
     const [triggerReport, setTrigger] =useState(false)
     const [STORENAME,setSTORENAME] = useState(DBservice.getStoreName())
 
-
-
-    // function getDateforSection() {
-    //   const DMY = DBservice.newMHMY().split("&")[1];
-    //   return DMY;
-
-    // }
-    function getDatesforButton() {
-        var date = new Date();
-        var datesArray = [];
-        for(var i=0; i<7 ; i++) datesArray.push(date.getDate()-i + "-" + (date.getMonth() + 1) + "-" + date.getFullYear())
-        return datesArray;
-    }
-
-    // useEffect(()=> setReportDate(getDateforSection()))
     useEffect(() => {
         getStats();
         ticketsReport();
@@ -131,7 +117,7 @@ function Report(props) {
         var tickets = 0;
         const today = reportDate;
         var salesToday = props.salesItems.filter((item)=> item.category ===today && item.valid)
-        salesToday.map((val, key) => {
+        salesToday.map((val) => {
             if (val.valid && val.taxInfo!=="EGRESO") {
                 salesTotal += val.total
                 tickets++;
@@ -150,6 +136,21 @@ function Report(props) {
         setAvCard(cardTotal);
         setAvCash(cashTotal);
         setAvTicket(result);
+    }
+    const simpleJSON = ()=>{
+      var tmp = [];
+      var tmp1 = [];
+      const exe = "EXAMPLE"
+      for(var i=0; i<6;i++) tmp[exe[i]]= i;
+      for(var i=0; i<6;i++) tmp1[exe[6-i]]= 6-i;
+
+      tmp["anexus"]= tmp1;
+
+
+      return tmp;
+    }
+    const exe= ()=>{
+      DBservice.insertJSON(simpleJSON())
     }
     return (
         <>
@@ -181,6 +182,8 @@ function Report(props) {
                     {/* <Button theme="warning" href={triggerReport ? redirectURL : "" }onClick={setTrigger(!triggerReport)} ><FontAwesomeIcon icon={faEnvelope}/>{'  '}{redirectURL!==""? 'Enviar cierre de caja' : 'Generar cierre de caja'}</Button> */}
                 { !triggerReport &&<Button className="date-button" onClick={()=>setTrigger(!triggerReport)}>Generar resumen</Button>}
                 { triggerReport &&<Button className="date-button" href={redirectURL}>Enviar resumen</Button>}
+                <Button onClick={()=> exe()} ></Button>
+
                 </div>)
             }
         </>

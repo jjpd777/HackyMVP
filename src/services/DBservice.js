@@ -1,11 +1,17 @@
 import database from "./firebase";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFlagCheckered, faBalanceScale, faStoreAlt, faPencilAlt, faTimes, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 
-const STORENAME= "COMERCIA"
-const SHOP_URL = "/comercia"
+
+
+const STORENAME= "PRONTO SOFTWARE"
+const SHOP_URL = "/admin-db"
 
 const INVENTORY_URL = SHOP_URL + "/inventario";
 const SALES_URL = SHOP_URL + "/sales"
 const REGISTER = SHOP_URL + "/global-count/";
+
+const DABBLING = "/success"
 
 // const INVENTORY_URL = "/inventario-getfit";
 // const SALES_URL =  "/ventas-getfit"
@@ -14,6 +20,10 @@ const REGISTER = SHOP_URL + "/global-count/";
 
 const getStoreName = ()=> STORENAME;
 
+const insertJSON = (data)=>{
+  const db = database.ref(DABBLING);
+  return db.push(data);
+}
 
 const removeAllSales =()=>{
   const fuckedUp = REGISTER+getDateforSection();
@@ -169,5 +179,6 @@ export default {
   getAllSales,
   createSale,
   updateSale,
-  seedInventory
+  seedInventory,
+  insertJSON
 };
