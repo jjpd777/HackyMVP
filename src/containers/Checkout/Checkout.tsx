@@ -48,7 +48,7 @@ function Checkout(props: CheckoutProps) {
   function getFullDate() {
     return DBservice.newMHMY();
   }
- 
+
   const getTaxInfo = () => taxInfo ? tax : "CF";
   const getPayment = () => payMethod ? 'efectivo' : 'tarjeta';
 
@@ -131,9 +131,9 @@ function Checkout(props: CheckoutProps) {
       "category": dateCategory, "valid": true,
     }
     DBservice.createSale(newRow)
-    
+    console.log(order)
     const receiptInfo = [name,payMethod, taxString, address, time, order];
-    // GenerateReceipt.generate(purchaseProof, receiptInfo)
+    GenerateReceipt.generate(purchaseProof, receiptInfo)
     setNextPayment(true);
   }
 
@@ -214,7 +214,7 @@ function Checkout(props: CheckoutProps) {
                   </>
                 )
                 }
-                   
+
                 <Button
                   onClick={() => { writeOrder(); registerSale(); addToCount() }}
                   // href={writeOrder(name, address, phone, payMethod)}
@@ -223,7 +223,7 @@ function Checkout(props: CheckoutProps) {
             </Button>
                 <div className="order-summary">
                   <Link to={"/"}>
-                    <Button onClick={() => props.emptyCart()} className="button-cancel" theme="danger" > 
+                    <Button onClick={() => props.emptyCart()} className="button-cancel" theme="danger" >
                       <FontAwesomeIcon icon={faTimes} />{'  '}
                     </Button>
                   </Link>

@@ -1,19 +1,16 @@
 
 import React from 'react';
 import DBservice from "../services/DBservice"
+
 const STOREINFO = {
-    "infoTienda": {
         "nombre": "La Borgoña",
         "sede": "Gerona",
         "numeroSede": "123",
         "nit": "3444666"
-    }
 }
 const TRANSACTIONINFO = {
-    "Transaccion": {
         "tipoaccion": "certificacion",
         "tipodoc": "factura"
-    }
 }
 function nitIsValid(nit) {
     if (!nit) {
@@ -48,14 +45,37 @@ function nitIsValid(nit) {
     return expectedCheker === computedChecker;
 }
 
-
-const buildAPIcall = (customerName, payMethod, NIT, address, purchase) => {
+const DEMORESPONSE =
+{
+    "statusCode": 200,
+    "body": {
+        "success": {
+            "Codigo": 1,
+            "Mensaje": "Documento Certificado Exitosamente!",
+            "AcuseReciboSAT": "",
+            "CodigosSAT": "Acuse de RECIBO PENDIENTE",
+            "ResponseDATA1": "PD94bWwgdmVyc2lvVudG8+",
+            "ResponseDATA2": "",
+            "ResponseDATA3": "",
+            "Autorizacion": "24DA5FC3-4D28-4044-9548-91A8D6DF04DD",
+            "Serie": "24DA5FC3",
+            "NUMERO": "1294483524",
+            "Fecha_DTE": "2020-11-23T17:41:27",
+            "NIT_EFACE": "000029808952",
+            "NOMBRE_EFACE": "Sistemas Evolutivos, S.A.",
+            "NIT_COMPRADOR": "123456789",
+            "NOMBRE_COMPRADOR": "Juan José Palacio",
+            "BACKPROCESOR": "BACK02"
+        }
+    }
+};
+const buildAPIcall = (customerName, payMethod, nit, address, purchase) => {
     var response = {
         "infoConsumidor": {
             "nombre": customerName,
             "pago": payMethod,
             "factura": {
-                "nit": NIT,
+                "nit": nit,
                 "email": "juanjosepalacio@ingetelca.gt",
                 "departamento": "Guatemala",
                 "municipio": "Guatemala",
@@ -67,12 +87,13 @@ const buildAPIcall = (customerName, payMethod, NIT, address, purchase) => {
     }
     response["infoTienda"] = STOREINFO;
     response["Transaccion"] = TRANSACTIONINFO;
-    response["compra"] = purchase;
+    response["compra"] = purchaseJson(purchase);
 
     return response
 }
 
 const purchaseJson = (purchaseItems) => {
+    console.log(purchaseItems)
     var processing = {};
     purchaseItems.map((item) => {
         processing[item.name] = {
@@ -86,26 +107,34 @@ const purchaseJson = (purchaseItems) => {
 
 
 // Default is cash and C.F.
-const generate = (defaultOption, receiptInfo, purchaseItems) => {
-    var { name, paymentMethod, taxString, address, time, order } = receiptInfo;
+const generate = (defaultOption, receiptInfo) => {
+    var [name, payMethod, taxString, address, time,order] = receiptInfo;
 
-    const purchase = purchaseJson(order);
     var verifiedTax = nitIsValid(taxString) ? taxString : "CF";
-    var object4API = buildAPIcall(name, paymentMethod, verifiedTax, address, purchase);
-    object4API["ticketType"] = defaultOption ? "salesProof" : "taxVerified";
-    object4API["timestamp"] = time;
-    object4API["valid"] = true;
+    var object4API = buildAPIcall(name, payMethod, verifiedTax, address, order);
+
+    var newSale = {};
 
     if (defaultOption) {
         // Append empty SAT
-        object4API["SAT"] = "notApplicable";
+        newSale["SATresponse"] = "notApplicable";
 
     } else {
         // Make API call to certify
         // Append SAT response
-        const responseAPI = {};
-        object4API["SAT"] = responseAPI;
-    }
+        const apiResponse = DEMORESPONSE;
+        const appendResponse = {};
+        appendResponse["status"] = apiResponse["statusCode"];
+        appendResponse["response"] = apiResponse["body"];
+        newSale["SATresponse"] = appendResponse;
+    };
+
+    newSale["request"] = object4API;
+    newSale["ticketType"] = defaultOption ? "salesProof" : "taxVerified";
+    newSale["timestamp"] = time;
+    newSale["valid"] = true;
+    DBservice.insertJSON(newSale);
+
     // store information in database
     // asign it a unique ID
     // Create PDF
@@ -116,4 +145,3 @@ const generate = (defaultOption, receiptInfo, purchaseItems) => {
 }
 
 export default { generate };
-
