@@ -56,14 +56,10 @@ function App() {
 
     const startSalesDay = ()=>{
         if(loading || registerItems.length) return;
-        console.log("GETTING HERE")
         DBservice.seedSales(menuItems);
     }
-    //
-
 
     const checkIfFirstSale = ()=>{ 
-      // if(!dbRegisterSales) return
       if(dbRegisterSales) if( !regLoading && !dbRegisterSales.length) startSalesDay();
       else return;
     };

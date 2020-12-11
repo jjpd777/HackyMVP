@@ -99,27 +99,35 @@ function Checkout(props: ExpenditureProps) {
   
   const insertInventory = ()=>{
     if (!name || !category || price===0) return
+
+    const stockInfo = {
+      inStock:78,
+      sold:0,
+    }
     var data = {
       id: "",
       category: category,
       name: name,
-      brief: "",
+      brief:"OK",
       quantityavailable: quantityAv,
       price: price,
       image: "",
+      stock :stockInfo,
     };
     const invKey = DBservice.createInventory(data);
     var regData = {
       id: invKey.key,
-      category: category,
-      name: name,
-      brief: "",
+      category: category, //<==
+      name: name,//<==
+      brief: stockInfo,
       quantityavailable: quantityAv,
-      price: price,
-      image: "",
+      price: price,//<==
+      image: "",//<==
+      stock :stockInfo,
+
     };
     DBservice.createRegister(regData);
-  }
+  };
 
   const getHeader = ()=>  expenditure ? 
       <>

@@ -82,7 +82,7 @@ function Checkout(props: CheckoutProps) {
         }
       });
     });
-  }
+  };
 
 
   const getShopCartJSON = () => {
@@ -130,8 +130,8 @@ function Checkout(props: CheckoutProps) {
       "total": props.totalCartValue,"date": time, "pedido": order,
       "category": dateCategory, "valid": true,
     }
-    DBservice.createSale(newRow)
-    console.log(order)
+    DBservice.createSale(newRow);
+    console.log(order);
     const receiptInfo = [name,payMethod, taxString, address, time, order];
     GenerateReceipt.generate(purchaseProof, receiptInfo)
     setNextPayment(true);

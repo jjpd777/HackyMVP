@@ -149,20 +149,8 @@ function Report(props) {
 
       return tmp;
     }
-    const exe= ()=>{
-      DBservice.insertJSON(simpleJSON())
-    }
     return (
         <>
-       {/* <Dropdown className="date-container" open={dropDown} toggle={()=> setDropDown(!dropDown)} group>
-        <Button className="date-button">{reportDate}</Button>
-        <DropdownToggle split />
-        <DropdownMenu>
-            {getDatesforButton().map((date)=>
-                <DropdownItem className="drop-item" onClick={()=>setReportDate(String(date))}>{date}</DropdownItem>
-                )}
-        </DropdownMenu>
-      </Dropdown>         */}
       {!avTicket ? (
                 <div className="main">
                     <h3 className="stud" ><b>Todavía no hay ventas </b></h3>
@@ -182,7 +170,6 @@ function Report(props) {
                     {/* <Button theme="warning" href={triggerReport ? redirectURL : "" }onClick={setTrigger(!triggerReport)} ><FontAwesomeIcon icon={faEnvelope}/>{'  '}{redirectURL!==""? 'Enviar cierre de caja' : 'Generar cierre de caja'}</Button> */}
                 { !triggerReport &&<Button className="date-button" onClick={()=>setTrigger(!triggerReport)}>Generar resumen</Button>}
                 { triggerReport &&<Button className="date-button" href={redirectURL}>Enviar resumen</Button>}
-                <Button onClick={()=> exe()} ></Button>
 
                 </div>)
             }

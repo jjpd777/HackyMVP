@@ -4,8 +4,8 @@ import { faFlagCheckered, faBalanceScale, faStoreAlt, faPencilAlt, faTimes, faSh
 
 
 
-const STORENAME= "PRONTO SOFTWARE"
-const SHOP_URL = "/admin-db"
+const STORENAME= "DEV"
+const SHOP_URL = "/" + STORENAME
 
 const INVENTORY_URL = SHOP_URL + "/inventario";
 const SALES_URL = SHOP_URL + "/sales"
@@ -55,25 +55,11 @@ const seedInventory = (data) => {
   return db.push(data);
 };
 
-const checkExistence = (table)=>{
-  const db = database.ref(table);
-  return db;
-}
 
 const createRegister = (item) => {
-  var data = {
-    uniqueIdentifier:"",
-    productID: item.id,
-    category: item.category,
-    name: item.name,
-    brief: "",
-    quantityavailable: 0,
-    price: item.price,
-    image: "",
-  };
-
+ 
   const db = database.ref(getRegisterAddress());
-  return db.push(data);
+  return db.push(item);
 };
 
 const getAllTest = () =>{
@@ -151,8 +137,8 @@ const getAllSales = () => {
 };
 
 const createSale = (data) => {
-  const db = database.ref(SALES_URL);
-  return db.push(data);
+  const db = database.ref(SALES_URL).push();
+  return db.set(data);
 };
 
 const updateSale = (key, data) => {
@@ -170,7 +156,6 @@ export default {
   seedSales,
   getAllTest,
   createRegister,
-  checkExistence,
   getStoreName,
   removeInventory,
   getAllInventory,

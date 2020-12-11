@@ -42,7 +42,6 @@ function AdminAccess(props){
         {/* <Button onClick={()=> check()} > Check Existence</Button> */}
 
         {/* <Button onClick={()=> console.log(dbRegisterSales.length)}>LENGTH</Button> */}
-        <Button onClick={()=>DBservice.removeAllSales()}/>
 
 
         </>
