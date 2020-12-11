@@ -136,7 +136,9 @@ function Checkout(props: CheckoutProps) {
     "Luis Alberto Gudiel Polanco": "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_10_5830862428.png?alt=media&token=c86e709e-ee67-4eef-811b-3b86fbcffcbe",
     "Victor Manuel Reyes Rivera": "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_4_5725059954.png?alt=media&token=bf8d0a1c-6041-40f9-bb98-40ee16a83327",
     "Edin Gilberto Borja Molina": "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_5_3004968665.png?alt=media&token=b551d73b-34ff-49f4-aae2-e4937aca16bf",
-    "Manuel Borja":"https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_5_7993497549.png?alt=media&token=8f101e14-f957-4cd0-8861-b23dc811f9a1"
+    "Manuel Borja":"https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_5_7993497549.png?alt=media&token=8f101e14-f957-4cd0-8861-b23dc811f9a1",
+    "René de Jesús Pérez" : "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_3_5673844416.png?alt=media&token=c3db2cd5-e522-4d23-b9b5-96f5a0388547"
+  
   };
 
   useEffect(() => {
@@ -169,11 +171,6 @@ function Checkout(props: CheckoutProps) {
     });
     return cartItems;
   };
-
-  const writePointer = () => {
-    database.ref('/pointer').push(1);
-  }
- 
 
   async function modifyPdf() {
     const url = "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/SEGURIDAD-INDUSTRIAL.pdf?alt=media&token=7c665e8a-f302-4552-b96a-bbcdc7ad042c"
@@ -349,6 +346,11 @@ function Checkout(props: CheckoutProps) {
         resize = 0.3;
         yCoord = 67;
       }
+      if (person === "René de Jesús Pérez") {
+        xCoord =410;
+        resize = 0.15;
+        yCoord = 60;
+      }
       return [resize, xCoord, yCoord]
     }
     const sizeAndLocation = getSizeAndLocation();
@@ -500,7 +502,7 @@ function Checkout(props: CheckoutProps) {
             {!whatsApp && sendIt &&
               <Button
                 theme="warning"
-                onClick={() => { modifyPdf(); setWhatsApp(!whatsApp);writePointer() }}
+                onClick={() => { modifyPdf(); setWhatsApp(!whatsApp); }}
                 className="button-pdf">
                 GENERAR PDF
             </Button>}

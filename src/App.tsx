@@ -94,13 +94,13 @@ function App() {
         </div>
       )) ||
       <>
-      <h6>Impulsado por</h6>
+      {/* <h6>Impulsado por</h6>
       
       <a href="mailto:juanjosepalacio@ingetelca.gt?Subject=Interés%20en%20Pronto%20Software&body=Hola Juan José! Me interesa saber más sobre Pronto Software :)" target="_top">
         
       <h3><em>PRONTO SOFTWARE </em>{'  '} <FontAwesomeIcon icon={faFlagCheckered}/></h3>
         
-        </a>
+        </a> */}
             </>
         }
     </div>
