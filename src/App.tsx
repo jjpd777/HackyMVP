@@ -49,6 +49,7 @@ function App() {
   }, [dbElements, dbSales]);
 
   useEffect(()=> placeRegister(dbRegisterSales),[dbRegisterSales] )
+
   
   useEffect(()=> checkIfFirstSale())
 
