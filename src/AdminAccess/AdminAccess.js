@@ -25,10 +25,7 @@ function AdminAccess(props){
         DBservice.seedSales(props.menuItems);
 
     }
-    const recreateDatabase = ()=>{
-        if(props.loading || !props.menuItems.length) return;
-        DBservice.transcribe(props.menuItems, start);
-    }
+
 
     const check = ()=>{ 
         if(dbRegisterSales.length) return;
@@ -38,7 +35,7 @@ function AdminAccess(props){
 
     return(
         <>
-        <Button onClick={()=> recreateDatabase()}> RECREAR BASE DE DATOS</Button>
+        {/* <Button onClick={()=> recreateDatabase()}> RECREAR BASE DE DATOS</Button> */}
         {/* <Button onClick={()=> check()} > Check Existence</Button> */}
 
         {/* <Button onClick={()=> console.log(dbRegisterSales.length)}>LENGTH</Button> */}

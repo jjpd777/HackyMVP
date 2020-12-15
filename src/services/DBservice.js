@@ -5,15 +5,17 @@ import { faFlagCheckered, faBalanceScale, faStoreAlt, faPencilAlt, faTimes, faSh
 
 
 const STORENAME= "DEV"
-const SHOP_URL = "/" + STORENAME
+const ROOT = "GETFIT"
+const SHOP_URL = ROOT + "/" + STORENAME
 
-const INVENTORY_URL = SHOP_URL + "/inventario";
+// const INVENTORY_URL = SHOP_URL + "/inventory";
+const INVENTORY_URL = ROOT + "/inventory";
+
 const SALES_URL = SHOP_URL + "/sales"
-const REGISTER = SHOP_URL + "/global-count/";
+const REGISTER = SHOP_URL + "/daily-transactions/";
 
 const DABBLING = "/success"
 
-// const INVENTORY_URL = "/inventario-getfit";
 // const SALES_URL =  "/ventas-getfit"
 
 // ====>>>> <<<<=====
@@ -50,16 +52,18 @@ const getRegisterAddress = ()=>{
 }
 
 const seedInventory = (data) => {
-  const newSeedURL = "/admin-trial/inventario";
+  const newSeedURL = "/admin-trial/inventory";
   const db = database.ref(newSeedURL);
   return db.push(data);
 };
 
 
-const createRegister = (item) => {
- 
-  const db = database.ref(getRegisterAddress());
-  return db.push(item);
+const insert2daily = (data) => {
+  const todaysTable = getRegisterAddress();
+  var ref = database().ref(todaysTable).push();
+  var insertionData = data;
+  insertionData.insertionID = ref.key;
+  ref.set(insertionData);
 };
 
 const getAllTest = () =>{
@@ -68,38 +72,31 @@ const getAllTest = () =>{
   return db;
 }
 
-const transcribe = (inventory,destination) => {
-  inventory.map((item)=>{
-    var data = {
-      id: "",
-      category: item.category,
-      name: item.name,
-      brief: "",
-      quantityavailable: 0,
-      price: item.price,
-      image: "",
-    };
-
-    const db = database.ref(destination);
-    db.push(data);
-  })
-};
 const seedSales = (inventory) => {
-  inventory.map((item)=>{
-    var data = {
-      uniqueIdentifier:"",
-      productID: item.id,
-      category: item.category,
-      name: item.name,
-      brief: "",
-      quantityavailable: 0,
-      price: item.price,
-      image: "",
+  console.log("INVE", inventory)
+  const DESTINATION = getRegisterAddress() + '/';
+    // if(database().ref(DESTINATION)) return;
+  
+    const stockInfo = {
+        inStock: 0,
+        sold: 0,
     };
-
-    const db = database.ref(getRegisterAddress());
-    db.push(data);
-  })
+    console.log(inventory)
+    console.log(DESTINATION)
+    inventory.map((item) => {
+        const db = database.ref(DESTINATION).push();
+        
+        var data = {
+            productID: item.id,
+            category: item.category,
+            name: item.name,
+            price: item.price,
+            image: item.image,
+            stock: stockInfo,
+            insertionID: db.key,
+        };
+        db.set(data);
+    });
 };
 
 const updateSoldUnits= (key, data) => {
@@ -115,8 +112,12 @@ const getAllInventory = () => {
 };
 
 const createInventory = (data) => {
-  const db = database.ref(INVENTORY_URL);
-  return db.push(data);
+  console.log(INVENTORY_URL)
+  var ref = database.ref(INVENTORY_URL).push();
+  var insertionData = data;
+  insertionData.id = ref.key;
+  ref.set(insertionData);
+  return ref.key;
 };
 
 const updateInventory = (key, data) => {
@@ -152,10 +153,9 @@ export default {
   removeAllSales,
   newMHMY,
   updateSoldUnits,
-  transcribe,
   seedSales,
   getAllTest,
-  createRegister,
+  insert2daily,
   getStoreName,
   removeInventory,
   getAllInventory,

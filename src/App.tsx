@@ -121,7 +121,7 @@ function App() {
       <nav className="navbar navbar-expand">
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
-            {returnNav("/", "CAJA")}
+            {returnNav("/", "INGRESOS")}
           </li>
           <li className="nav-item">
             {returnNav("/ventas", "VENTAS")}

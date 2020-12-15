@@ -39,9 +39,14 @@ function Checkout(props: ExpenditureProps) {
   const [expenditure, setExpenditure] = useState(false)
 
   function getFormattedDate() {
-    var date = new Date();
-    var str = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-    return str;
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    var hr = String(today.getHours()).padStart(2, '0');
+    var mn = String(today.getMinutes()).padStart(2, '0');
+    const timestamp = hr + ':' + mn + '&' + dd + '-' + mm + '-' + yyyy;
+    return timestamp;
   }
   function getDateforSection() {
     var date = new Date();
@@ -108,25 +113,42 @@ function Checkout(props: ExpenditureProps) {
       id: "",
       category: category,
       name: name,
-      brief:"OK",
-      quantityavailable: quantityAv,
       price: price,
       image: "",
-      stock :stockInfo,
     };
-    const invKey = DBservice.createInventory(data);
-    var regData = {
-      id: invKey.key,
-      category: category, //<==
-      name: name,//<==
-      brief: stockInfo,
-      quantityavailable: quantityAv,
-      price: price,//<==
-      image: "",//<==
-      stock :stockInfo,
 
-    };
-    DBservice.createRegister(regData);
+    // var newT = {
+    //   productID: ,
+    //   category: category,
+    //   name: item.name,
+    //   price: item.price,
+    //   image: item.image,
+    //   stock: stockInfo,
+    //   insertionID: db.key,
+    // }
+    console.log("DATA", data)
+    const invKey = DBservice.createInventory(data);
+    // var regData = {
+    //   id: invKey.key,
+    //   category: category, //<==
+    //   name: name,//<==
+    //   brief: stockInfo,
+    //   quantityavailable: quantityAv,
+    //   price: price,//<==
+    //   image: "",//<==
+    //   stock :stockInfo,
+
+    // };
+    var dataDaily = {
+      productID:invKey ,
+      category: category,
+      name: name,
+      price: price,
+      image: "",
+      stock: stockInfo,
+      insertionID: "" ,
+    }
+    DBservice.insert2daily(dataDaily);
   };
 
   const getHeader = ()=>  expenditure ? 
