@@ -105,7 +105,7 @@ function Menu(props: MenuProps) {
         )
         :(
           <>
-          <div className="bruh-header">{currentSection}</div>
+          {/* <div className="bruh-header">{currentSection}</div> */}
            {getHeaders().map((val) =>
         <Button
         className={isInventory}

@@ -5,13 +5,14 @@ import { useList } from "react-firebase-hooks/database";
 import { Button } from 'shards-react';
 import Checkout from './containers/Checkout/Checkout';
 import Expenditure from './containers/Checkout/Expenditure';
-import Report from './containers/Report/Report'
+import Report from './containers/Report/Report';
+import Movements from './containers/Movements/Movements';
 import DBservice from "./services/DBservice";
 import { Switch, Route, Link } from "react-router-dom";
 import AddItem from './containers/AddItems/AddItems'
 // import AdminAccess from './AdminAccess/AdminAccess'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFlagCheckered, faCashRegister, faBalanceScale, faStoreAlt, faPencilAlt, faTimes, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { faFlagCheckered, faCashRegister, faBalanceScale, faStoreAlt, faPencilAlt, faTimes, faShoppingCart, faTruck } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -39,7 +40,7 @@ function App() {
 
   const [dbRegisterSales, regLoading, regError] = useList(DBservice.getAllTest());
   const [registerItems, setRegisterItems] = useState<any[]>([]);
-
+  const [enterOrExit, setEnterOrExit] = useState<boolean>(true);
 
 
   useEffect(() => {
@@ -103,7 +104,7 @@ function App() {
   };
   const returnNav = (endpoint, text) => 
     <Link  to={endpoint} onClick={() => setCurrentTab(endpoint)} className="nav-link">
-      {text}
+      {text} |
     </Link>
 
   const ready = summaryURL !== "";
@@ -113,18 +114,13 @@ function App() {
   return (
 
     <div className="App">
-      {/* <Button >{registerItems.length}</Button>
-      <Button > {menuItems.length}</Button> */}
-      {/* <Button onClick={()=>console.log(dbRegisterSales)}></Button> */}
-    
-
       <nav className="navbar navbar-expand">
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
-            {returnNav("/", "INGRESOS")}
+            {returnNav("/", "INGRESOS & EGRESOS")}
           </li>
           <li className="nav-item">
-            {returnNav("/ventas", "VENTAS")}
+            {returnNav("/ventas", "NEWSFEED")}
           </li>
           <li className="nav-item size-lg">
             {returnNav("/egresos", "REGISTRAR INV.")}
@@ -141,7 +137,8 @@ function App() {
               <Route exact path={["/"]}>
                 <br></br>
                 <br></br>
-                <h1> {STORENAME} {" "} <FontAwesomeIcon icon={faFlagCheckered}/></h1>
+                {/* <h1> {STORENAME} {" "} <FontAwesomeIcon icon={faFlagCheckered}/></h1> */}
+                <Button className ="enterOrExit" onClick={()=>setEnterOrExit(!enterOrExit)}> {enterOrExit ? "INGRESOS" : "EGRESOS"}</Button>
                 <Menu
                   menuItems={menuItems}
                   cart={cart}
@@ -156,7 +153,7 @@ function App() {
                       <Link className="tmp" to={"/checkout"}>
                         <Button
                           className="checkout-button" block>
-                          <FontAwesomeIcon icon={faShoppingCart} />
+                          <FontAwesomeIcon icon={faTruck} />
                         </Button>
                       </Link>
                       <Button onClick={() => emptyCart()} className="empty" theme="danger" outline block> <FontAwesomeIcon icon={faTimes} />
@@ -174,27 +171,34 @@ function App() {
                 <Route exact path={["/ventas"]}>
                   <br></br>
                   <br></br>
-                  <h1> <FontAwesomeIcon icon={faBalanceScale} />VENTAS</h1>
-                  <Menu
+                  <h1> <FontAwesomeIcon icon={faTruck} />{'  '}Newsfeed</h1>
+                  {/* <Menu
                     menuItems={salesItems}
                     cart={registerItems}
                     setCartItems={setCartItems}
                     pos={"sales"}
                   ></Menu>
-                 <Report salesItems={salesItems} menuItems={menuItems} registerItems={registerItems}/>
+                 <Report salesItems={salesItems} menuItems={menuItems} registerItems={registerItems}/> */}
+                 <Movements/>
                 </Route>
               </Switch>)}
 
             <Switch>
 
               <Route exact path={["/checkout"]}>
+              <br></br>
+              <br></br>
+              <br></br>
+              {!!cart.length &&  <h1>{enterOrExit ? "INGRESOS" : "EGRESOS"}</h1>}
                 <Checkout
                   menuItems={menuItems}
                   cart={cart}
                   totalCartValue={getTotalCartValue()}
                   emptyCart={() => emptyCart()}
                   registerItems ={registerItems}
+                  enterOrExit = {enterOrExit}
                 ></Checkout>
+                   
               </Route>
             </Switch>
             <Switch>

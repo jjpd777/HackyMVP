@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Checkout.scss';
 
 import {
@@ -31,28 +31,23 @@ interface CheckoutProps {
   totalCartValue: number;
   registerItems: any[];
   emptyCart: () => void;
+  enterOrExit: boolean;
 }
 
 function Checkout(props: CheckoutProps) {
-  const { menuItems, cart } = props;
+  const { menuItems, cart, registerItems, enterOrExit } = props;
+  const ORIGINARRAY = ["FÁBRICA", "METROPLAZA", "P.F.", "MAJADAS"];
+  const DESTARRAY = ["METROPLAZA", "P.F.", "MAJADAS"]
 
   const [name, setName] = useState("Anónimo");
-  const [address, setAddress] = useState("Ciudad de Guatemala");
-  const [phone, setPhone] = useState("+502");
   const [nextPayment, setNextPayment] = useState(false);
-  const [payMethod, setPayment] = useState(true);
   const [taxInfo, setTaxInfo] = useState(false);
-  const [tax, setTaxText] = useState("");
 
-  const dateForSection = DBservice.getDateforSection();
-  function getFullDate() {
-    return DBservice.newMHMY();
-  }
 
-  const getTaxInfo = () => taxInfo ? tax : "CF";
-  const getPayment = () => payMethod ? 'efectivo' : 'tarjeta';
-
-  const purchaseProof = !taxInfo  &&  payMethod;
+  const [originPTR, setOriginPtr]= useState(0);
+  const [destPTR, setDestPtr]= useState(0);
+  const [originMovement, setOrigin] = useState(ORIGINARRAY[originPTR]);
+  const [destinationMovement, setDestination] = useState(DESTARRAY[destPTR]);  
 
 
   const getCartItems = () => {
@@ -71,18 +66,24 @@ function Checkout(props: CheckoutProps) {
     });
     return cartItems;
   };
-  const addToCount = () => {
+  const handleEnterOrExit = () => {
     cart.forEach((cartItem) => {
-      menuItems.map((menuItem) => {
-        if (cartItem.itemId === menuItem.id) {
-          const destinationItem = props.registerItems.find((x)=> x.productID === menuItem.id);
-          const tmp = cartItem.quantity + destinationItem.quantityavailable;
-          const dataUpdate = { "quantityavailable": tmp };
-          DBservice.updateSoldUnits(destinationItem.uniqueIdentifier, dataUpdate);
+      registerItems.map((register) => {
+        if (cartItem.itemId === register.productID) {
+          const destinationItem = props.registerItems.find((x)=> x.productID === register.productID);
+          var tmp =0; 
+          console.log("DEST",destinationItem)
+          if(enterOrExit) tmp = cartItem.quantity + destinationItem.stock.inStock;
+          else tmp = destinationItem.stock.inStock - cartItem.quantity;
+          const dataUpdate = { "stock/inStock": tmp };
+
+          DBservice.updateSoldUnits(destinationItem.insertionID, dataUpdate);
         }
       });
     });
   };
+
+
 
 
   const getShopCartJSON = () => {
@@ -99,42 +100,31 @@ function Checkout(props: CheckoutProps) {
   }
 
   const registerSale = () => {
-    if (!name) return
     setName("");
-    setAddress("");
-    setPhone("");
-    setTaxText("");
     setTaxInfo(false);
     props.emptyCart();
   };
-  const retPayButton = () => payMethod ?
-    (
-      <h1>Efectivo <FontAwesomeIcon icon={faMoneyBillWave} /></h1>
-    ) : (
-      <h1>Tarjeta <FontAwesomeIcon icon={faCreditCard} /> </h1>
-    )
+  const originOrDest = (flag) => <h1>{flag ? "ORIGEN: " + originMovement : "DESTINO: " + destinationMovement}</h1>
 
   const writeOrder = () => {
-    if (!name) return
+    const cartsJson = getShopCartJSON();
+    const timestamp =  DBservice.newMHMY();
+    const typeMovement = enterOrExit ? "INGRESO" : "EGRESO" 
+    var inventoryMovement = {
+      movementID:"",
+      type: typeMovement,
+      origin: originMovement,
+      destination: destinationMovement,
+      timestamp: timestamp,
+      movementItems: cartsJson,
+      notes: name,
+      status: true,
+    };
+    DBservice.createMovement(inventoryMovement)
 
-    const payment = getPayment();
-    const order = getShopCartJSON();
-    const time = getFullDate();
-    const taxString = getTaxInfo();
-    const dateCategory = dateForSection;
-
-
-    const newRow = {
-      "id": "", "name": name, "address": address,
-      "phone": phone, "payment": payment,"taxInfo": taxString,
-      "total": props.totalCartValue,"date": time, "pedido": order,
-      "category": dateCategory, "valid": true,
-    }
-    DBservice.createSale(newRow);
-    console.log(order);
-    const receiptInfo = [name,payMethod, taxString, address, time, order];
-    GenerateReceipt.generate(purchaseProof, receiptInfo)
+    handleEnterOrExit();
     setNextPayment(true);
+    registerSale();
   }
 
   return (
@@ -143,11 +133,11 @@ function Checkout(props: CheckoutProps) {
         <>
           <div className="finalize">
             <br></br>
-            <h1 className="done"> <FontAwesomeIcon icon={faCheckCircle} />{'  '} Compra Registrada</h1>
+            <h1 className="done"> <FontAwesomeIcon icon={faCheckCircle} />{'  '} Movimiento Registrado</h1>
             <br></br>
             <Link to="/">
               <Button className="next" theme="success">
-                Registrar otra compra</Button>
+                Registrar otro movimiento</Button>
             </Link>
 
           </div>
@@ -162,11 +152,11 @@ function Checkout(props: CheckoutProps) {
                       <div>
                         <h2>( x{item.quantity} )  {item.name}</h2>
                       </div>
-                      <h2>Qtz. {item.price * item.quantity}</h2>
+                      {/* <h2>Qtz. {item.price * item.quantity}</h2> */}
                     </ListGroupItem>
                   );
                 })}
-                <ListGroupItem
+                {/* <ListGroupItem
                   style={{ fontWeight: 600 }}
                   className="list-item"
                   key={'deliv'}>
@@ -178,16 +168,30 @@ function Checkout(props: CheckoutProps) {
                 >
                   <h2>Total</h2>
                   <h1>Qtz. {props.totalCartValue}</h1>
-                </ListGroupItem>
+                </ListGroupItem> */}
               </ListGroup>
             </div>
             <br></br>
             <div>
               <div className="shipping-info">
-                <Button className="simple-pay" onClick={() => setPayment(!payMethod)}> {retPayButton()}</Button>
-                <Button className="simple-pay" onClick={() => {setTaxInfo(!taxInfo); setTaxText("");setName("Anónimo")}}> <h1>{taxInfo ? "# NIT" : "C.F."}</h1></Button>
+                <Button className="simple-pay" 
+                onClick={() => {
+                  var iterator = originPTR +1;
+                  var ix = iterator %4;
+                  setOrigin(ORIGINARRAY[ix]);
+                  setOriginPtr(iterator);
+                }
+                }>  {originOrDest(true)}</Button>
+               <Button className="simple-pay" 
+                onClick={() => {
+                  var iterator = destPTR +1;
+                  var ix = iterator %3;
+                  setDestination(DESTARRAY[ix]);
+                  setDestPtr(iterator);
+                }
+                }> {originOrDest(false)}</Button>
 
-                {taxInfo && (
+                {/* {taxInfo && (
                   <>
                     <FormInput
                       className="input"
@@ -213,13 +217,24 @@ function Checkout(props: CheckoutProps) {
 
                   </>
                 )
-                }
+                } */}
+                <br></br>
+                <br></br>
+                <br></br>
+                <h2>Notas adicionales</h2>
+                  <FormInput
+                      className="input"
+                      placeholder="Por favor mandar..."
+                      onChange={(e) => {
+                        setName(e.target.value);
+                      }}
+                    />
 
                 <Button
-                  onClick={() => { writeOrder(); registerSale(); addToCount() }}
+                  onClick={() => { writeOrder(); registerSale();  }}
                   // href={writeOrder(name, address, phone, payMethod)}
                   className="button" block>
-                  Registrar
+                  Registrar movimiento
             </Button>
                 <div className="order-summary">
                   <Link to={"/"}>

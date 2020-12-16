@@ -13,7 +13,7 @@ const INVENTORY_URL = ROOT + "/inventory";
 
 const SALES_URL = SHOP_URL + "/sales"
 const REGISTER = SHOP_URL + "/daily-transactions/";
-
+const MOVEMENT_URL = ROOT + "/movements/"
 const DABBLING = "/success"
 
 // const SALES_URL =  "/ventas-getfit"
@@ -25,6 +25,11 @@ const getStoreName = ()=> STORENAME;
 const insertJSON = (data)=>{
   const db = database.ref(DABBLING);
   return db.push(data);
+};
+
+const getDailyMovementAddress = ()=>{
+  const DATE = newMHMY().split('&')[1]
+  return MOVEMENT_URL + DATE;
 }
 
 const removeAllSales =()=>{
@@ -38,7 +43,7 @@ const newMHMY = ()=>{
   var dd = String(today.getDate()).padStart(2, '0');
   var mm = String(today.getMonth() + 1).padStart(2, '0');
   var yyyy = today.getFullYear();
-  return hr+ ":"+min+ "&"+mm + '-' + dd + '-' + yyyy;
+  return hr+ ":"+min+ "&"+dd + '-' + mm + '-' + yyyy;
 }
 function getDateforSection() {
   const DMY = newMHMY().split("&")[1];
@@ -60,10 +65,16 @@ const seedInventory = (data) => {
 
 const insert2daily = (data) => {
   const todaysTable = getRegisterAddress();
-  var ref = database().ref(todaysTable).push();
+  var ref = database.ref(todaysTable).push();
   var insertionData = data;
   insertionData.insertionID = ref.key;
   ref.set(insertionData);
+};
+
+const update2daily= (key, data) => {
+  const start = REGISTER+getDateforSection();
+  const db = database.ref(start);
+  return db.child(key).update(data);
 };
 
 const getAllTest = () =>{
@@ -73,7 +84,6 @@ const getAllTest = () =>{
 }
 
 const seedSales = (inventory) => {
-  console.log("INVE", inventory)
   const DESTINATION = getRegisterAddress() + '/';
     // if(database().ref(DESTINATION)) return;
   
@@ -81,8 +91,6 @@ const seedSales = (inventory) => {
         inStock: 0,
         sold: 0,
     };
-    console.log(inventory)
-    console.log(DESTINATION)
     inventory.map((item) => {
         const db = database.ref(DESTINATION).push();
         
@@ -119,6 +127,15 @@ const createInventory = (data) => {
   ref.set(insertionData);
   return ref.key;
 };
+const createMovement = (data) => {
+  const DESTINATION = getDailyMovementAddress();
+  const ref = database.ref(DESTINATION).push();
+  var insertionData = data;
+  insertionData.id = ref.key;
+  ref.set(insertionData);
+  return ref.key;
+};
+
 
 const updateInventory = (key, data) => {
   const db = database.ref(INVENTORY_URL);
@@ -142,11 +159,24 @@ const createSale = (data) => {
   return db.set(data);
 };
 
+
+
 const updateSale = (key, data) => {
   const db = database.ref(SALES_URL);
   return db.child(key).update(data);
 };
 
+const updateStock = (key, data)=>{
+  const db = database.ref(SALES_URL);
+  return db.child(key).update(data);
+
+}
+
+const getAllMovements = () => {
+  const DESTINATION = getDailyMovementAddress();
+  const db = database.ref(DESTINATION);
+  return db;
+};
 
 export default {
   getDateforSection,
@@ -165,5 +195,10 @@ export default {
   createSale,
   updateSale,
   seedInventory,
-  insertJSON
+  insertJSON,
+  //////
+  updateStock,
+  update2daily,
+  createMovement,
+  getAllMovements,
 };

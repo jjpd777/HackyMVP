@@ -106,7 +106,7 @@ function Checkout(props: ExpenditureProps) {
     if (!name || !category || price===0) return
 
     const stockInfo = {
-      inStock:78,
+      inStock:0,
       sold:0,
     }
     var data = {
@@ -117,28 +117,8 @@ function Checkout(props: ExpenditureProps) {
       image: "",
     };
 
-    // var newT = {
-    //   productID: ,
-    //   category: category,
-    //   name: item.name,
-    //   price: item.price,
-    //   image: item.image,
-    //   stock: stockInfo,
-    //   insertionID: db.key,
-    // }
     console.log("DATA", data)
     const invKey = DBservice.createInventory(data);
-    // var regData = {
-    //   id: invKey.key,
-    //   category: category, //<==
-    //   name: name,//<==
-    //   brief: stockInfo,
-    //   quantityavailable: quantityAv,
-    //   price: price,//<==
-    //   image: "",//<==
-    //   stock :stockInfo,
-
-    // };
     var dataDaily = {
       productID:invKey ,
       category: category,

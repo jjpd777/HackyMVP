@@ -86,8 +86,9 @@
   .simple-pay{
     margin-block-start: 0.5rem;
     margin-block-end:0.5rem;
-    margin-right:200px;
-    margin-left:4rem;
+    margin-inline: 1rem;
+    // margin-right:200px;
+    // margin-left:4rem;
     background-color: rgb(252, 166, 105);
     border:red;
   }

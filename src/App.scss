@@ -112,6 +112,14 @@ img {
 }
 
 .container{
+  .enterOrExit{
+    font-size: 2rem;
+    min-width: 20rem;
+    margin-bottom: 3rem;
+    background-color: rgb(255, 93, 29);
+    border-color: red;
+    font-weight: 500
+  }
   .fixed-checkout {
     background-color: #ffffff;
     position: fixed;
