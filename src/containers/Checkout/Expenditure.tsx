@@ -113,17 +113,15 @@ function Checkout(props: ExpenditureProps) {
       id: "",
       category: category,
       name: name,
-      price: price,
+      price: Number(price),
       image: "",
     };
-
-    console.log("DATA", data)
     const invKey = DBservice.createInventory(data);
     var dataDaily = {
       productID:invKey ,
       category: category,
       name: name,
-      price: price,
+      price: Number(price),
       image: "",
       stock: stockInfo,
       insertionID: "" ,
