@@ -4,7 +4,7 @@ import { faFlagCheckered, faBalanceScale, faStoreAlt, faPencilAlt, faTimes, faSh
 
 
 
-const STORENAME= "DEV"
+const STORENAME= "METROPLAZA"
 const ROOT = "GETFIT"
 const SHOP_URL = ROOT + "/" + STORENAME
 

@@ -6,6 +6,7 @@ import { Button } from 'shards-react';
 import Checkout from './containers/Checkout/Checkout';
 import Expenditure from './containers/Checkout/Expenditure';
 import Report from './containers/Report/Report';
+import Inventory from './containers/Inventory/Inventory';
 import Movements from './containers/Movements/Movements';
 import DBservice from "./services/DBservice";
 import { Switch, Route, Link } from "react-router-dom";
@@ -110,6 +111,8 @@ function App() {
   const ready = summaryURL !== "";
 
 ////
+// console.log("INVfasdfasdf", registerItems)
+
 
   return (
 
@@ -127,6 +130,9 @@ function App() {
           </li>
           <li className="nav-item">
             {returnNav("/inventario", "EDITAR INV.")}
+          </li>
+          <li className="nav-item">
+            {returnNav("/instock", "STOCK")}
           </li>
         </div>
       </nav>
@@ -226,7 +232,21 @@ function App() {
                 ></AddItem>
               </Route>
             </Switch>
+
+            <Switch>
+              <Route exact path={["/instock"]}>
+                <br></br>
+                <br></br>
+                <h1> <FontAwesomeIcon icon={faStoreAlt} /> Inventario</h1>
+              <Inventory
+              registerItems ={registerItems}
+
+              ></Inventory>
+              </Route>
+            </Switch>
           </div>)}
+
+         
           {/* <Switch>
               <Route exact path={["/admin"]}>
                 <br></br>
