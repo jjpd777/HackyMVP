@@ -10,7 +10,8 @@ import Inventory from './containers/Inventory/Inventory';
 import Movements from './containers/Movements/Movements';
 import DBservice from "./services/DBservice";
 import { Switch, Route, Link } from "react-router-dom";
-import AddItem from './containers/AddItems/AddItems'
+import AddItem from './containers/AddItems/AddItems';
+import Sales from './containers/Sales/Sales';
 // import AdminAccess from './AdminAccess/AdminAccess'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFlagCheckered, faCashRegister, faBalanceScale, faStoreAlt, faPencilAlt, faTimes, faShoppingCart, faTruck } from '@fortawesome/free-solid-svg-icons';
@@ -117,13 +118,20 @@ function App() {
   return (
 
     <div className="App">
+      {/* <Button onClick = {()=> DBservice.helperAdmin(menuItems)}> HEYO</Button> */}
       <nav className="navbar navbar-expand">
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
             {returnNav("/", "INGRESOS & EGRESOS")}
           </li>
+          {/* <li className="nav-item">
+            {returnNav("/registro", "INGRESOS & EGRESOS")}
+          </li> */}
           <li className="nav-item">
-            {returnNav("/ventas", "NEWSFEED")}
+            {returnNav("/ventas", "VENTAS")}
+          </li>
+          <li className="nav-item">
+            {returnNav("/newsfeed", "NEWSFEED")}
           </li>
           <li className="nav-item size-lg">
             {returnNav("/egresos", "REGISTRAR INV.")}
@@ -174,7 +182,7 @@ function App() {
               (<Button size="lg" theme="danger" className="loading">Cargando...</Button>)
               :
               (<Switch>
-                <Route exact path={["/ventas"]}>
+                <Route exact path={["/newsfeed"]}>
                   <br></br>
                   <br></br>
                   <h1> <FontAwesomeIcon icon={faTruck} />{'  '}Newsfeed</h1>
@@ -188,7 +196,13 @@ function App() {
                  <Movements/>
                 </Route>
               </Switch>)}
+              <Switch>
 
+            <Route exact path={["/ventas"]}>
+                <Sales/>
+            </Route>
+            </Switch>
+  
             <Switch>
 
               <Route exact path={["/checkout"]}>
@@ -208,7 +222,7 @@ function App() {
               </Route>
             </Switch>
             <Switch>
-
+                 
               <Route exact path={["/egresos"]}>
                 <Expenditure
                   menuItems={menuItems}

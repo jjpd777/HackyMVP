@@ -36,7 +36,7 @@ interface CategoryOpenState {
 function Menu(props: MenuProps) {
   const { menuItems, cart, setCartItems } = props;
 
-  const [currentSection, setCurrentSection] = useState("Lo más vendido")
+  const [currentSection, setCurrentSection] = useState("Galletas")
   useEffect(() => {
     setMenuList(menuItems);
   }, [menuItems]);

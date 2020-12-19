@@ -20,7 +20,7 @@ import Menu, { MenuItem } from '../Menu/Menu';
 function AddItem(props) {
   var { menuItems, cart, setCartItems, pos } = props;
   const [currentEdit, setCurrentEdit] = useState("");
-
+  const [priorInfo, setPriorInfo] = useState()
   const [currentName, setCurrentName] = useState("");
   const [currentPrice, setCurrentPrice] = useState(0);
   const [currentCat, setCurrentCat] = useState("");
@@ -32,7 +32,14 @@ function AddItem(props) {
       "category": currentCat
     };
     DBservice.updateInventory(currentEdit, dataUpdate).catch(e=>console.log(e));
+
+    const record = {
+      "prior": priorInfo,
+      "new" : dataUpdate
+    }
+    DBservice.changesLog(record);
     setCurrentEdit("");
+    setPriorInfo();
 
 
   }
@@ -48,6 +55,7 @@ function AddItem(props) {
     setCurrentCat(tmp.category)
     setCurrentName(tmp.name);
     setCurrentPrice(tmp.price);
+    setPriorInfo(tmp)
   };
 
   return (

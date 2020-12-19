@@ -36,7 +36,7 @@ interface CheckoutProps {
 
 function Checkout(props: CheckoutProps) {
   const { menuItems, cart, registerItems, enterOrExit } = props;
-  const ORIGINARRAY = ["FÁBRICA", "METROPLAZA", "P.F.", "MAJADAS"];
+  const ORIGINARRAY = ["FÁBRICA", "METROPLAZA", "P.F.", "MAJADAS", "Inventario existente"];
   const DESTARRAY = ["METROPLAZA", "P.F.", "MAJADAS"]
 
   const [name, setName] = useState("Anónimo");
@@ -82,6 +82,21 @@ function Checkout(props: CheckoutProps) {
       });
     });
   };
+  const handleExistingInv = () => {
+    cart.forEach((cartItem) => {
+      registerItems.map((register) => {
+        if (cartItem.itemId === register.productID) {
+          const destinationItem = props.registerItems.find((x)=> x.productID === register.productID);
+          var tmp =0; 
+          console.log("DEST",destinationItem)
+          tmp = cartItem.quantity + destinationItem.stock.inStock;
+          const dataUpdate = { "stock/inStock": tmp };
+
+          DBservice.updateSoldUnits(destinationItem.insertionID, dataUpdate);
+        }
+      });
+    });
+  };
 
 
 
@@ -109,7 +124,12 @@ function Checkout(props: CheckoutProps) {
   const writeOrder = () => {
     const cartsJson = getShopCartJSON();
     const timestamp =  DBservice.newMHMY();
-    const typeMovement = enterOrExit ? "INGRESO" : "EGRESO" 
+    var typeMovement = enterOrExit ? "INGRESO" : "EGRESO" ;
+    const existingInvFlag = originMovement === "Inventario existente";
+    
+    if(existingInvFlag) {
+      typeMovement = "Inventario existente";
+    }
     var inventoryMovement = {
       movementID:"",
       type: typeMovement,
@@ -122,7 +142,7 @@ function Checkout(props: CheckoutProps) {
     };
     DBservice.createMovement(inventoryMovement)
 
-    handleEnterOrExit();
+    existingInvFlag ? handleExistingInv() : handleEnterOrExit();
     setNextPayment(true);
     registerSale();
   }
@@ -177,7 +197,7 @@ function Checkout(props: CheckoutProps) {
                 <Button className="simple-pay" 
                 onClick={() => {
                   var iterator = originPTR +1;
-                  var ix = iterator %4;
+                  var ix = iterator %5;
                   setOrigin(ORIGINARRAY[ix]);
                   setOriginPtr(iterator);
                 }

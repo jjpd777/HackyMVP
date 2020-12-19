@@ -4,13 +4,12 @@ import { faFlagCheckered, faBalanceScale, faStoreAlt, faPencilAlt, faTimes, faSh
 
 
 
-const STORENAME= "METROPLAZA"
-const ROOT = "GETFIT"
+const STORENAME= "AUTOPAN"
+const ROOT = "BORGONA"
 const SHOP_URL = ROOT + "/" + STORENAME
 
 // const INVENTORY_URL = SHOP_URL + "/inventory";
-const INVENTORY_URL = ROOT + "/inventory";
-
+const INVENTORY_URL =  ROOT + "/inventory";
 const SALES_URL = SHOP_URL + "/sales"
 const REGISTER = SHOP_URL + "/daily-transactions/";
 const MOVEMENT_URL = ROOT + "/movements/"
@@ -20,6 +19,7 @@ const DABBLING = "/success"
 
 // ====>>>> <<<<=====
 
+const getFitFlag = () =>  ROOT === "GETFIT";
 const getStoreName = ()=> STORENAME;
 
 const insertJSON = (data)=>{
@@ -27,6 +27,22 @@ const insertJSON = (data)=>{
   return db.push(data);
 };
 
+const helperAdmin = (inventory)=>{
+  inventory.map((x)=>{
+    const db = database.ref(ROOT+"/inventory").push();
+    const insertion = {
+      category: x.category,
+      id: db.key,
+      image: x.image,
+      name: x.name,
+      price: x.price,
+    };
+    db.set(insertion)
+
+  })
+  
+
+}
 const getDailyMovementAddress = ()=>{
   const DATE = newMHMY().split('&')[1]
   return MOVEMENT_URL + DATE;
@@ -153,6 +169,10 @@ const getAllSales = () => {
   const db = database.ref(SALES_URL);
   return db;
 };
+const fetchDateSales = (date) => {
+  const db = database.ref(SALES_URL+"/"+ date);
+  return db;
+};
 
 const createSale = (data) => {
   const db = database.ref(SALES_URL).push();
@@ -177,7 +197,10 @@ const getAllMovements = () => {
   const db = database.ref(DESTINATION);
   return db;
 };
-
+const changesLog = (data)=>{
+  const db = database.ref(ROOT +"/changes-log");
+  db.push(data);
+}
 export default {
   getDateforSection,
   removeAllSales,
@@ -201,4 +224,8 @@ export default {
   update2daily,
   createMovement,
   getAllMovements,
+  getFitFlag,
+  fetchDateSales,
+  helperAdmin,
+  changesLog
 };
