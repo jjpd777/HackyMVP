@@ -20,6 +20,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { CartItem } from '../../App';
 import { MenuItem } from '../Menu/Menu';
+import {InventoryDB, newMHDMY} from '../../services/DBservice';
 
 interface CheckoutProps {
   menuItems: MenuItem[];
@@ -31,20 +32,17 @@ interface CheckoutProps {
 function Checkout(props: CheckoutProps) {
   const { menuItems, cart } = props;
 
-  const [name, setName] = useState();
+  const [additionalNotes, setAdditionalNotes] = useState();
   const [address, setAddress] = useState();
   const [phone, setPhone] = useState();
 
   const [payMethod, setPayment] = useState(true)
   const [locindex, setLocation] = useState(0);
+  const {insert2factory} = InventoryDB();
 
   const locations = ["Plaza Gerona", "Plaza Comercia", "Plaza Novitá","Condado Fraijanes","Plazoleta"];
   const minPaymentAmount = props.totalCartValue > 0;
-  function getFormattedDate() {
-    var date = new Date();
-    var str = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-    return str;
-  }
+ 
   const getCartItems = () => {
     let cartItems: any[] = [];
     cart.forEach((cartItem) => {
@@ -70,46 +68,32 @@ function Checkout(props: CheckoutProps) {
     return message;
   }
 
-  const writeOrder = (checkName, checkAddress, thisphone, payment) => {
-    // if (!checkName || !checkAddress || !thisphone || !minPaymentAmount) return
-    const getPayment = payment ? 'efectivo' : 'tarjeta';
-    let order = "";
+  const insert2Factory = () => {
+    let factoryOrder: any[]=[];
+    
+    const time = newMHDMY();
+
     cart.forEach((cartItem) => {
       menuItems.map((menuItem) => {
         if (cartItem.itemId === menuItem.id) {
-          const tmp = "[(x" + String(cartItem.quantity) + ") " + menuItem.name + " ]"
-          order += tmp
+          const elementOrder = {
+            "name" : menuItem.name,
+            "quantity" : cartItem.quantity,
+            "id" : menuItem.id,
+          };
+          factoryOrder.push(elementOrder); 
         }
       });
     });
-    const time = getFormattedDate();
     const newRow = {
-      "localidad": locations[locindex],
-      "Notas adicionales": name,
-      "Orden" : order,
-      "hora" : time,
+      "location": locations[locindex],
+      "additionalNotes": additionalNotes,
+      "order" : factoryOrder,
+      "timestamp" : time,
     }
-    console.log(newRow)
-    var url = 'https://sheet2api.com/v1/WExfuaSVRrOs/ventaslalloronagt/inventario-borgona';
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newRow),
-    })
-      .then(response => response.json())
-      .then(newRow => {
-        console.log('Success:', newRow);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+   insert2factory(newRow) 
   }
-  const letsCheckout = (checkName, checkAddress, thisphone, payment) => {
-    // if (!checkName || !checkAddress || !thisphone || !minPaymentAmount) return
-    const getPayment = payment ? 'efectivo' : 'tarjeta';
-
+  const letsCheckout = () => {
     let baseURL = "https://wa.me/50251740464?text=";
     let textBody = "Buenas noches de parte de *" + String(locations[locindex]) + "*. La lista de hoy es la siguiente:%0A%0A";
 
@@ -121,7 +105,7 @@ function Checkout(props: CheckoutProps) {
         }
       });
     });
-    textBody = textBody + "%0A%0A*NOTAS ADICIONALES* " + name;
+    textBody = textBody + "%0A%0A*NOTAS ADICIONALES* " + additionalNotes;
     textBody = craftString(textBody);
     var purchase = baseURL + textBody + "%0A%0A*BENDICIONES%20PARA%20TODOS*";
 
@@ -130,7 +114,7 @@ function Checkout(props: CheckoutProps) {
 //Condado Fraijanes Plazoleta
   return (
     <div className="checkout-container">
-      <img src="https://scontent.fgua5-1.fna.fbcdn.net/v/t1.0-9/60454009_2403050509745003_1658534653943873536_o.png?_nc_cat=108&_nc_sid=85a577&_nc_ohc=E2i8isONLjYAX8WoHjo&_nc_ht=scontent.fgua5-1.fna&oh=aac791af829983b21b70abcdffb419e5&oe=5FB542FE" />
+      <img src='https://drive.google.com/uc?export=view&id=1wx14Fqu_4OovuKMELpHbiwe2SpaA8gDS' />
       <div className="order-summary">
         <ListGroup>
           {getCartItems().map((item, index) => {
@@ -221,17 +205,17 @@ function Checkout(props: CheckoutProps) {
               type="text"
               size="lg"
               placeholder="Escribir notas"
-              value={name}
+              value={additionalNotes}
               onChange={(e) => {
-                setName(e.target.value);
+                setAdditionalNotes(e.target.value);
               }}
             />
             <Button onClick={props.onBack} className="button-secondary" outline block>
         <FontAwesomeIcon icon={faArrowAltCircleLeft}/>{'  '}Regresar al Menu
       </Button>
             <Button
-              onClick={() => writeOrder(name, address, phone, payMethod)}
-              href={letsCheckout(name, address, phone, payMethod)}
+              onClick={() => insert2Factory()}
+              href={letsCheckout()}
               className="button" block>
               Enviar listado de inventario
             </Button>

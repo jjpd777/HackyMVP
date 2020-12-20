@@ -6,16 +6,12 @@ import {
   CardBody,
   CardTitle,
   CardSubtitle,
-  Modal,
-  ModalBody,
-  ModalHeader,
-  InputGroup,
-  InputGroupText,
-  InputGroupAddon,
-  FormInput,
 } from 'shards-react';
 import { CartItem } from '../../App';
 import { MenuItem } from '../../containers/Menu/Menu';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faFlagCheckered, faCashRegister, faBalanceScale, faStoreAlt, faPencilAlt, faTimes, faShoppingCart, faTruck } from '@fortawesome/free-solid-svg-icons';
+
 
 interface ItemCardProps {
   menuItem: MenuItem;
@@ -64,25 +60,29 @@ function ItemCard(props: ItemCardProps) {
     }
   };
 
+  const itemPresentFlag = cart.find((x) => x.itemId === menuItem.id);
+
   return (
-    <div className="card-container">
-      <Card className="card">
+    <>
+    <div onClick={() => addOneToCart()} className="card-container">
+      <Card  className="card">
         <CardBody className="card-body">
           {/* {menuItem.image !== "" && (<img width="150" src={menuItem.image} />)} */}
           <div className="card-content">
-            <CardTitle>{menuItem.name}</CardTitle>
+            <CardTitle className="card-title">{menuItem.name}</CardTitle>
             <CardSubtitle>{menuItem.brief}</CardSubtitle>
           </div>
           <div className="card-price">
-            Unds (
-        {cart.find((x) => x.itemId === menuItem.id) ?.quantity || 0})
+
+        {cart.find((x) => x.itemId === menuItem.id) ?.quantity || ""}
           </div>
         </CardBody>
       </Card>
-      <Button className="decrease" theme="danger" onClick={() => removeOneFromCart()}> - </Button>
-      <Button className="increase" theme="success" onClick={() => addOneToCart()}> + </Button>
+{/* <Button className="increase" theme="success" onClick={() => addOneToCart()}> + </Button> */}
       
     </div>
+    {    itemPresentFlag && <Button className="decrease" theme="danger" onClick={() => removeOneFromCart()}> <FontAwesomeIcon icon={faTrash}/> </Button>}      
+    </>
   );
 }
 

@@ -4,7 +4,11 @@ import Menu, { MenuItem } from './containers/Menu/Menu';
 import { Button } from 'shards-react';
 import Checkout from './containers/Checkout/Checkout';
 import { menuItemsMock } from './menu';
-import Header from './containers/Header/Header'
+import Header from './containers/Header/Header';
+import database from 'firebase/database';
+import { InventoryDB } from './services/DBservice';
+import { useFirebaseApp, useUser } from 'reactfire';
+
 
 import {
   faLocationArrow,
@@ -31,12 +35,31 @@ function App() {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [cart, setCartItems] = useState<CartItem[]>([]);
   const [currentPage, setCurrentPage] = useState<PageEnum>(PageEnum.MENU);
+  const [inventory, setInventory] = useState<any>([])
 
   useEffect(() => {
     // Call API to load the menu
     setMenuItems(menuItemsMock);
   }, []);
 
+  const {root4inventory } = InventoryDB();
+  useEffect(() => {
+
+    const ref = root4inventory();
+    const refVal = ref.on('value', function (snapshot) {
+      const snap = snapshot.val();
+      const responseKeys = Object.keys(snap);
+      let elements: any[] = [];
+      responseKeys.map((key, val) => {
+        const inventoryElement = snap[key];
+        elements.push(inventoryElement)
+      })
+      setInventory(elements);
+    });
+    return () => ref.off('value', refVal)
+  }, [])
+
+  console.log("ELE", inventory)
 
   const getTotalCartValue = () => {
     let totalVal = 0;
@@ -52,18 +75,18 @@ function App() {
 
   return (
     <div className="App">
-      
+
       <section className="container">
         {currentPage === PageEnum.MENU && (
           <>
-          <header className="App-header">
-            <Header/>
-          </header>
-          <Menu
-            menuItems={menuItems}
-            cart={cart}
-            setCartItems={setCartItems}
-          ></Menu>
+            <header className="App-header">
+            <Header />
+            </header>
+            <Menu
+              menuItems={menuItems}
+              cart={cart}
+              setCartItems={setCartItems}
+            ></Menu>
           </>
         )}
         {currentPage === PageEnum.CHECKOUT && (

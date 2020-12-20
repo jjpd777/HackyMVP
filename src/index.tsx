@@ -5,11 +5,15 @@ import 'shards-ui/dist/css/shards.min.css';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { FirebaseAppProvider } from 'reactfire';
+import config from './services/firebase-config';
 
 ReactDOM.render(
+  <FirebaseAppProvider firebaseConfig={config}>
   <React.StrictMode>
     <App />
   </React.StrictMode>,
+  </FirebaseAppProvider>,
   document.getElementById('root')
 );
 
