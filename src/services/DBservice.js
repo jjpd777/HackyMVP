@@ -4,7 +4,7 @@ import { faFlagCheckered, faBalanceScale, faStoreAlt, faPencilAlt, faTimes, faSh
 
 
 
-const STORENAME= "AUTOPAN"
+const STORENAME= "GERONA"
 const ROOT = "BORGONA"
 const SHOP_URL = ROOT + "/" + STORENAME
 
@@ -40,9 +40,13 @@ const helperAdmin = (inventory)=>{
     db.set(insertion)
 
   })
-  
-
 }
+const root4shops = () => {
+  const ref = database.ref(ROOT + '/');
+  return ref;
+
+};
+
 const getDailyMovementAddress = ()=>{
   const DATE = newMHMY().split('&')[1]
   return MOVEMENT_URL + DATE;
@@ -227,5 +231,6 @@ export default {
   getFitFlag,
   fetchDateSales,
   helperAdmin,
-  changesLog
+  changesLog,
+  root4shops
 };

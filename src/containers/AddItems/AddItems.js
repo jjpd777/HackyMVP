@@ -31,12 +31,12 @@ function AddItem(props) {
       "price": currentPrice,
       "category": currentCat
     };
-    DBservice.updateInventory(currentEdit, dataUpdate).catch(e=>console.log(e));
-
     const record = {
       "prior": priorInfo,
       "new" : dataUpdate
-    }
+    };
+
+    DBservice.updateInventory(currentEdit, dataUpdate).catch(e=>console.log(e));
     DBservice.changesLog(record);
     setCurrentEdit("");
     setPriorInfo();

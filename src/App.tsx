@@ -44,6 +44,11 @@ function App() {
   const [registerItems, setRegisterItems] = useState<any[]>([]);
   const [enterOrExit, setEnterOrExit] = useState<boolean>(true);
 
+  const [salesAll, setAllShops] = useState<any[]>([]);
+  const [loadingReport, setLoading] = useState<boolean>(true);
+  const [shopKeys, setShopKeys] = useState<any[]>([]);
+  const [individualShops, setIndividualShops] =useState<any[]>([]);
+  const [sortFlag, setSortFlag] = useState<boolean>(false);
 
   useEffect(() => {
     placeItems(dbElements);
@@ -53,21 +58,7 @@ function App() {
 
   useEffect(()=> placeRegister(dbRegisterSales),[dbRegisterSales] )
 
-  
-  useEffect(()=> checkIfFirstSale())
-
-   
-
-    const startSalesDay = ()=>{
-        if(loading || registerItems.length) return;
-        DBservice.seedSales(menuItems);
-    }
-
-    const checkIfFirstSale = ()=>{ 
-      if(dbRegisterSales) if( !regLoading && !dbRegisterSales.length) startSalesDay();
-      else return;
-    };
-
+  const getFitFlag = DBservice.getFitFlag();
   const placeSales = (dboject) => {
     const obj = dboject.map((tutorial) => tutorial.val());
     const uniqd = dboject.map((tutorial) => tutorial.key);
@@ -90,6 +81,77 @@ function App() {
     setRegisterItems(obj);
   }
 
+  const sumShopSales = (shopSales) => {
+    var salesTotal = 0;
+    shopSales.map((item) => {
+      const purchaseSummary = item.summary;
+      salesTotal += purchaseSummary.status === "valid" ? Number(purchaseSummary.total) : 0;
+    })
+    return salesTotal;
+  };
+  function bubbleSort(arr){
+    var len = arr.length;
+    for (var i = len-1; i>=0; i--){
+      for(var j = 1; j<=i; j++){
+        if(arr[j-1].sold >arr[j].sold){
+            var temp = arr[j-1];
+            arr[j-1] = arr[j];
+            arr[j] = temp;
+         }
+      }
+    }
+    return arr;
+ }
+
+
+
+  useEffect(() => {
+    const ref = DBservice.root4shops();
+    const refVal = ref.on('value', function (snapshot) {
+      // const DATE2FETCH = DBservice.getDateforSection();
+      const DATE2FETCH = "15-12-2020"
+
+      let response: any[]= [];
+      let individualS: any[]= [];
+      let keyVal: any[]= [];
+      const snap = snapshot.val();
+      const respKeys = Object.keys(snap);
+      const newKeysz = respKeys.filter((x)=> x !== "inventory");
+      const thisk =  newKeysz.filter((x)=> x !== "changes-log");
+
+      thisk.map((key) => {
+        const shop = snap[key];
+        var storeItems: any[]= [];
+        const dailyFlag = shop["sales"];
+
+        if (!!dailyFlag) {
+        const dailytransactions = dailyFlag[DATE2FETCH]
+        keyVal.push(key);
+          const nKeys = Object.keys(dailytransactions);
+          nKeys.map((k) => response.push(dailytransactions[k]));
+          nKeys.map((k) => storeItems.push(dailytransactions[k]));
+
+        }
+        individualS.push(storeItems);
+      })
+      setAllShops(response);
+      var array2sort: any[]= [];
+      individualS.map((shop,ix)=> {
+        const sum = sumShopSales(shop);
+        array2sort.push([shop,sum, keyVal[ix]])
+      });
+      const sortedArray = bubbleSort(array2sort).reverse();
+      const rsp = sortedArray.map((item)=> item[0]);
+      setIndividualShops(rsp);
+      const otherRsp = sortedArray.map((item)=> item[2]);
+      setShopKeys(otherRsp);
+      setLoading(!loadingReport);
+      console.log("LOL", otherRsp)
+    });
+    return () => ref.off('value', refVal)
+  }, [])
+
+  console.log(individualShops)
 
   const emptyCart = () => setCartItems([]);
 
@@ -121,27 +183,24 @@ function App() {
       {/* <Button onClick = {()=> DBservice.helperAdmin(menuItems)}> HEYO</Button> */}
       <nav className="navbar navbar-expand">
         <div className="navbar-nav mr-auto">
-          <li className="nav-item">
+        { getFitFlag && <li className="nav-item">
             {returnNav("/", "INGRESOS & EGRESOS")}
-          </li>
-          {/* <li className="nav-item">
-            {returnNav("/registro", "INGRESOS & EGRESOS")}
-          </li> */}
+          </li>}
           <li className="nav-item">
             {returnNav("/ventas", "VENTAS")}
           </li>
-          <li className="nav-item">
+         {getFitFlag && <li className="nav-item">
             {returnNav("/newsfeed", "NEWSFEED")}
-          </li>
+          </li>}
           <li className="nav-item size-lg">
             {returnNav("/egresos", "REGISTRAR INV.")}
           </li>
           <li className="nav-item">
             {returnNav("/inventario", "EDITAR INV.")}
           </li>
-          <li className="nav-item">
+          {getFitFlag &&<li className="nav-item">
             {returnNav("/instock", "STOCK")}
-          </li>
+          </li>}
         </div>
       </nav>
       {loading ? (<Button size="lg" theme="danger" className="loading">Cargando...</Button>)
