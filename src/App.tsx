@@ -76,10 +76,10 @@ function App() {
                     <br></br>
         <Router>
           <Link to="/">
-            <Button theme="success">Inventario</Button>
+          { currentPage === PageEnum.MENU && <Button className="switch-inv" theme="success">Inventario</Button>}
           </Link>
           <Link to="/previas">
-         { currentPage === PageEnum.MENU && <Button theme="success">Peticiones previas</Button>}
+         { currentPage === PageEnum.MENU && <Button className="switch-inv"  theme="warning">Recientes</Button>}
           </Link>
           <Switch>
             <Route exact path={["/previas"]}>
@@ -91,12 +91,11 @@ function App() {
               <section className="container">
                 {currentPage === PageEnum.MENU && (
                   <>
-                            { !menuItems.length && (
-                            <>
-                            <br></br>
-                            <Button>Cargando...</Button>
-                            </>
-                            )}
+                    { !menuItems.length && (
+                      <>
+                      <br></br> <Button>Cargando...</Button>
+                      </>
+                    )}
                     <Menu
                       menuItems={menuItems}
                       cart={cart}

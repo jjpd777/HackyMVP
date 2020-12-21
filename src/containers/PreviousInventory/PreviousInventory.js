@@ -43,11 +43,10 @@ function PreviousInventory() {
         const ref = root4previousInv();
 
         const refVal = ref.on('value', function (snapshot) {
-            if(!snapshot.val()) setPreviousIn([]);
-            else{
-          const snap = snapshot.val();
-          const responseKeys = Object.keys(snap);
-          setPreviousIn(responseKeys.map((k) => snap[k]));
+            if(snapshot.val()){
+                const snap = snapshot.val();
+                const responseKeys = Object.keys(snap);
+                setPreviousIn(responseKeys.map((k) => snap[k]));
 }        });
         setFlag(false)
         return () => ref.off('value', refVal)
