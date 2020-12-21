@@ -23,7 +23,7 @@ export interface MenuItem {
 }
 
 interface MenuProps {
-  menuItems: MenuItem[];
+  menuItems: any[];
   cart: CartItem[];
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
 }
@@ -37,7 +37,7 @@ function Menu(props: MenuProps) {
     setMenuList(menuItems);
   }, [menuItems]);
 
-  const [menuList, setMenuList] = useState<MenuItem[]>(menuItems);
+  const [menuList, setMenuList] = useState<any[]>(menuItems);
 
   const categories = groupBy(menuList, (x) => x.category);
 
@@ -61,7 +61,7 @@ function Menu(props: MenuProps) {
   };
   const sections: JSX.Element[] = [];
   Object.entries(categories).map(([key, value], index) => {
-    sections.push(
+    key !=="demostracion" &&  sections.push(
       <Section
         title={key}
         menuItems={value}

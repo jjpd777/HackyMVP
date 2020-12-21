@@ -38,11 +38,15 @@ export const InventoryDB = () => {
   const root4inventory = () => {
     return database.ref(INVENTORY_URL);
   };
-
+  const root4previousInv = () => {
+    const DESTINATION = DAILYORDERS + '/' + DateforSection();
+    return database.ref(DESTINATION);
+  };
   const insert2factory = (data)=>{
-    return database.ref(DAILYORDERS).push(data);
+    const DESTINATION = DAILYORDERS + '/' + DateforSection() +'/';
+    return database.ref(DESTINATION).push(data);
   };
 
-  return {root4inventory, insert2factory };
+  return {root4inventory, insert2factory, root4previousInv };
 };
 

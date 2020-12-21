@@ -3,11 +3,14 @@ import './App.scss';
 import Menu, { MenuItem } from './containers/Menu/Menu';
 import { Button } from 'shards-react';
 import Checkout from './containers/Checkout/Checkout';
-import { menuItemsMock } from './menu';
 import Header from './containers/Header/Header';
-import database from 'firebase/database';
 import { InventoryDB } from './services/DBservice';
-import { useFirebaseApp, useUser } from 'reactfire';
+import PreviousInventory from './containers/PreviousInventory/PreviousInventory'
+import {
+  BrowserRouter as Router,
+  Switch, Route, Link
+} from "react-router-dom";
+
 
 
 import {
@@ -32,34 +35,23 @@ export enum PageEnum {
   CHECKOUT,
 }
 function App() {
-  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  const [menuItems, setMenuItems] = useState<any[]>([]);
   const [cart, setCartItems] = useState<CartItem[]>([]);
   const [currentPage, setCurrentPage] = useState<PageEnum>(PageEnum.MENU);
-  const [inventory, setInventory] = useState<any>([])
 
+
+  const { root4inventory } = InventoryDB();
   useEffect(() => {
-    // Call API to load the menu
-    setMenuItems(menuItemsMock);
-  }, []);
-
-  const {root4inventory } = InventoryDB();
-  useEffect(() => {
-
     const ref = root4inventory();
     const refVal = ref.on('value', function (snapshot) {
       const snap = snapshot.val();
       const responseKeys = Object.keys(snap);
-      let elements: any[] = [];
-      responseKeys.map((key, val) => {
-        const inventoryElement = snap[key];
-        elements.push(inventoryElement)
-      })
-      setInventory(elements);
+      setMenuItems(responseKeys.map((k) => snap[k]));
     });
     return () => ref.off('value', refVal)
   }, [])
 
-  console.log("ELE", inventory)
+
 
   const getTotalCartValue = () => {
     let totalVal = 0;
@@ -73,51 +65,78 @@ function App() {
     return totalVal;
   };
 
-  return (
-    <div className="App">
+  const checkoutFlag = currentPage === PageEnum.CHECKOUT;
 
-      <section className="container">
-        {currentPage === PageEnum.MENU && (
-          <>
-            <header className="App-header">
-            <Header />
-            </header>
-            <Menu
-              menuItems={menuItems}
-              cart={cart}
-              setCartItems={setCartItems}
-            ></Menu>
-          </>
-        )}
-        {currentPage === PageEnum.CHECKOUT && (
-          <Checkout
-            menuItems={menuItems}
-            cart={cart}
-            totalCartValue={getTotalCartValue()}
-            onBack={() => {
-              setCurrentPage(PageEnum.MENU);
-            }}
-          ></Checkout>
-        )}
-      </section>
-      <br />
-      <br></br>
-      <br></br>
-      {(cart.length && currentPage === PageEnum.MENU && (
-        <div className="fixed-checkout">
-          <Button
-            onClick={() => {
-              setCurrentPage(PageEnum.CHECKOUT);
-            }}
-            className="checkout-button"
-            block
-          >
-            Revisar la lista para enviar
+  return (
+    <>
+      <div className="App">
+      <header className="App-header">
+                      <Header />
+                    </header>
+                    <br></br>
+        <Router>
+          <Link to="/">
+            <Button theme="success">Inventario</Button>
+          </Link>
+          <Link to="/previas">
+         { currentPage === PageEnum.MENU && <Button theme="success">Peticiones previas</Button>}
+          </Link>
+          <Switch>
+            <Route exact path={["/previas"]}>
+              <PreviousInventory/>
+            </Route>
+          </Switch>
+          <Switch>
+            <Route exact path={["/"]}>
+              <section className="container">
+                {currentPage === PageEnum.MENU && (
+                  <>
+                            { !menuItems.length && (
+                            <>
+                            <br></br>
+                            <Button>Cargando...</Button>
+                            </>
+                            )}
+                    <Menu
+                      menuItems={menuItems}
+                      cart={cart}
+                      setCartItems={setCartItems}
+                    ></Menu>
+                  </>
+                )}
+                {currentPage === PageEnum.CHECKOUT && (
+                  <Checkout
+                    menuItems={menuItems}
+                    cart={cart}
+                    totalCartValue={getTotalCartValue()}
+                    onBack={() => {
+                      setCurrentPage(PageEnum.MENU);
+                    }}
+                  ></Checkout>
+                )}
+              </section>
+              <br />
+              <br></br>
+              <br></br>
+              {(cart.length && currentPage === PageEnum.MENU && (
+                <div className="fixed-checkout">
+                  <Button
+                    onClick={() => {
+                      setCurrentPage(PageEnum.CHECKOUT);
+                    }}
+                    className="checkout-button"
+                    block
+                  >
+                    Revisar la lista para enviar
           </Button>
-        </div>
-      )) ||
-        null}
-    </div>
+                </div>
+              )) ||
+                null}
+            </Route>
+          </Switch>
+        </Router>
+      </div>
+    </>
   );
 }
 

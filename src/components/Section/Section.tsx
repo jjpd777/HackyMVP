@@ -18,7 +18,7 @@ import ItemCard from '../ItemCard/ItemCard';
 
 interface SectionProps {
   title: string;
-  menuItems: MenuItem[];
+  menuItems: any[];
   cart: CartItem[];
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
 }

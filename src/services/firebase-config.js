@@ -1,4 +1,3 @@
-import firebase from "firebase/app";
 import "firebase/database";
 import "firebase/auth";
 import "firebase/firestore";
@@ -14,9 +13,5 @@ var config = {
     measurementId: "G-B4S9LCYH3T",
 };
 
-// firebase.initializeApp(config);
-// const auth = firebase.auth();
-// const database = firebase.database();
-// const firestore = firebase.firestore();
 
 export default config;
