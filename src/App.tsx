@@ -108,13 +108,14 @@ function App() {
   useEffect(() => {
     const ref = DBservice.root4shops();
     const refVal = ref.on('value', function (snapshot) {
-      // const DATE2FETCH = DBservice.getDateforSection();
-      const DATE2FETCH = "15-12-2020"
+      const DATE2FETCH = DBservice.getDateforSection();
+      // const DATE2FETCH = "15-12-2020"
 
       let response: any[]= [];
       let individualS: any[]= [];
       let keyVal: any[]= [];
       const snap = snapshot.val();
+      if(!snap) return;
       const respKeys = Object.keys(snap);
       const newKeysz = respKeys.filter((x)=> x !== "inventory");
       const thisk =  newKeysz.filter((x)=> x !== "changes-log");
@@ -124,7 +125,7 @@ function App() {
         var storeItems: any[]= [];
         const dailyFlag = shop["sales"];
 
-        if (!!dailyFlag) {
+        if (!!dailyFlag && dailyFlag[DATE2FETCH]) {
         const dailytransactions = dailyFlag[DATE2FETCH]
         keyVal.push(key);
           const nKeys = Object.keys(dailytransactions);
@@ -146,12 +147,10 @@ function App() {
       const otherRsp = sortedArray.map((item)=> item[2]);
       setShopKeys(otherRsp);
       setLoading(!loadingReport);
-      console.log("LOL", otherRsp)
     });
     return () => ref.off('value', refVal)
   }, [])
 
-  console.log(individualShops)
 
   const emptyCart = () => setCartItems([]);
 
@@ -183,15 +182,15 @@ function App() {
       {/* <Button onClick = {()=> DBservice.helperAdmin(menuItems)}> HEYO</Button> */}
       <nav className="navbar navbar-expand">
         <div className="navbar-nav mr-auto">
-        { getFitFlag && <li className="nav-item">
+        {/* { getFitFlag && <li className="nav-item">
             {returnNav("/", "INGRESOS & EGRESOS")}
-          </li>}
+          </li>} */}
           <li className="nav-item">
             {returnNav("/ventas", "VENTAS")}
           </li>
-         {getFitFlag && <li className="nav-item">
+         {/* {getFitFlag && <li className="nav-item">
             {returnNav("/newsfeed", "NEWSFEED")}
-          </li>}
+          </li>} */}
           <li className="nav-item size-lg">
             {returnNav("/egresos", "REGISTRAR INV.")}
           </li>

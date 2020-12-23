@@ -4,13 +4,13 @@ import { faFlagCheckered, faBalanceScale, faStoreAlt, faPencilAlt, faTimes, faSh
 
 
 
-const STORENAME= "GERONA"
-const ROOT = "BORGONA"
+const STORENAME= "CENTRAL"
+const ROOT = "SEVILLA"
 const SHOP_URL = ROOT + "/" + STORENAME
 
 // const INVENTORY_URL = SHOP_URL + "/inventory";
 const INVENTORY_URL =  ROOT + "/inventory";
-const SALES_URL = SHOP_URL + "/sales"
+const SALES_URL = SHOP_URL + "/sales/"
 const REGISTER = SHOP_URL + "/daily-transactions/";
 const MOVEMENT_URL = ROOT + "/movements/"
 const DABBLING = "/success"
@@ -19,7 +19,7 @@ const DABBLING = "/success"
 
 // ====>>>> <<<<=====
 
-const getFitFlag = () =>  ROOT === "GETFIT";
+const getFitFlag = () =>  true;
 const getStoreName = ()=> STORENAME;
 
 const insertJSON = (data)=>{
@@ -173,6 +173,17 @@ const getAllSales = () => {
   const db = database.ref(SALES_URL);
   return db;
 };
+
+const getDaySales = (date) => {
+  const db = database.ref(SALES_URL +date);
+  return db;
+};
+const getDayInv = (date) => {
+  const db = database.ref(REGISTER +date);
+  return db;
+};
+
+
 const fetchDateSales = (date) => {
   const db = database.ref(SALES_URL+"/"+ date);
   return db;
@@ -186,7 +197,8 @@ const createSale = (data) => {
 
 
 const updateSale = (key, data) => {
-  const db = database.ref(SALES_URL);
+  const date = getDateforSection();
+  const db = database.ref(SALES_URL+date);
   return db.child(key).update(data);
 };
 
@@ -232,5 +244,7 @@ export default {
   fetchDateSales,
   helperAdmin,
   changesLog,
-  root4shops
+  root4shops,
+  getDaySales,
+  getDayInv
 };
