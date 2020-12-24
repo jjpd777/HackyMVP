@@ -8,10 +8,14 @@ import Expenditure from './containers/Checkout/Expenditure';
 import Report from './containers/Report/Report';
 import Inventory from './containers/Inventory/Inventory';
 import Movements from './containers/Movements/Movements';
-import DBservice from "./services/DBservice";
+import DBservice, {AdminReportsDB, DateUtil, 
+  DailyTransactionsDB, SalesDB,
+  InventoryDB
+} from "./services/DBservice";
 import { Switch, Route, Link } from "react-router-dom";
 import AddItem from './containers/AddItems/AddItems';
 import Sales from './containers/Sales/Sales';
+import {sumShopSales, bubbleSort} from './utils/Utils';
 // import AdminAccess from './AdminAccess/AdminAccess'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFlagCheckered, faCashRegister, faBalanceScale, faStoreAlt, faPencilAlt, faTimes, faShoppingCart, faTruck } from '@fortawesome/free-solid-svg-icons';
@@ -30,17 +34,21 @@ export enum PageEnum {
 
 
 function App() {
+  const getFitFlag = DBservice.getFitFlag();
+  const {getStandardDate} = DateUtil();
+  const {root4shops} = AdminReportsDB();
+  const {getDailyTransactions} = DailyTransactionsDB();
+  const {getAllSales} = SalesDB();
+  const {getAllInventory} = InventoryDB();
+
+
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [salesItems, setSalesItems] = useState<any[]>([]);
-
-  const [dbElements, loading, error] = useList(DBservice.getAllInventory());
-  const [dbSales, salesLoading, salesError] = useList(DBservice.getAllSales());
   const [cart, setCartItems] = useState<any[]>([]);
   const [currentTab, setCurrentTab] = useState("/");
   const [summaryURL, setURL] = useState("");
   const [STORENAME,setSTORENAME] = useState(DBservice.getStoreName())
 
-  const [dbRegisterSales, regLoading, regError] = useList(DBservice.getAllTest());
   const [registerItems, setRegisterItems] = useState<any[]>([]);
   const [enterOrExit, setEnterOrExit] = useState<boolean>(true);
 
@@ -48,69 +56,46 @@ function App() {
   const [loadingReport, setLoading] = useState<boolean>(true);
   const [shopKeys, setShopKeys] = useState<any[]>([]);
   const [individualShops, setIndividualShops] =useState<any[]>([]);
-  const [sortFlag, setSortFlag] = useState<boolean>(false);
-
-  useEffect(() => {
-    placeItems(dbElements);
-    placeSales(dbSales);
-    // checkIfFirstSale();
-  }, [dbElements, dbSales]);
-
-  useEffect(()=> placeRegister(dbRegisterSales),[dbRegisterSales] )
-
-  const getFitFlag = DBservice.getFitFlag();
-  const placeSales = (dboject) => {
-    const obj = dboject.map((tutorial) => tutorial.val());
-    const uniqd = dboject.map((tutorial) => tutorial.key);
-    obj.map((item, ix) => item.id = uniqd[ix]);
-    const sales = obj.reverse();
-    setSalesItems(sales);
-  }
-  const placeItems = (dboject) => {
-    const obj = dboject.map((tutorial) => tutorial.val());
-    const uniqd = dboject.map((tutorial) => tutorial.key);
-
-    obj.map((item, ix) => item.id = uniqd[ix]);
-    setMenuItems(obj);
-  }
-
-  const placeRegister = (dboject) => {
-    const obj = dboject.map((tutorial) => tutorial.val());
-    const uniqd = dboject.map((tutorial) => tutorial.key);
-    obj.map((item, ix) => item.uniqueIdentifier = uniqd[ix]);
-    setRegisterItems(obj);
-  }
-
-  const sumShopSales = (shopSales) => {
-    var salesTotal = 0;
-    shopSales.map((item) => {
-      const purchaseSummary = item.summary;
-      salesTotal += purchaseSummary.status === "valid" ? Number(purchaseSummary.total) : 0;
-    })
-    return salesTotal;
-  };
-  function bubbleSort(arr){
-    var len = arr.length;
-    for (var i = len-1; i>=0; i--){
-      for(var j = 1; j<=i; j++){
-        if(arr[j-1].sold >arr[j].sold){
-            var temp = arr[j-1];
-            arr[j-1] = arr[j];
-            arr[j] = temp;
-         }
-      }
-    }
-    return arr;
- }
 
 
+ useEffect(()=>{
+  const ref = getDailyTransactions();
+  const refVal = ref.on('value', function (snapshot) {
+    const snap = snapshot.val();
+    if(!snap) return;
+    const respKeys = Object.keys(snap);
+    setRegisterItems(respKeys.map((k)=>snap[k]))
+  });
+  return () => ref.off('value', refVal)
+}, [])
 
-  useEffect(() => {
-    const ref = DBservice.root4shops();
+useEffect(()=>{
+  const ref = getAllSales();
+  const refVal = ref.on('value', function (snapshot) {
+    const snap = snapshot.val();
+    if(!snap) return;
+    const respKeys = Object.keys(snap);
+    setSalesItems(respKeys.map((k)=>snap[k]))
+  });
+  return () => ref.off('value', refVal)
+}, [])
+
+useEffect(()=>{
+  const ref = getAllInventory();
+  const refVal = ref.on('value', function (snapshot) {
+    const snap = snapshot.val();
+    if(!snap) return;
+    const respKeys = Object.keys(snap);
+    setMenuItems(respKeys.map((k)=>snap[k]))
+  });
+  return () => ref.off('value', refVal)
+}, [])
+
+useEffect(() => {
+    const ref = root4shops();
     const refVal = ref.on('value', function (snapshot) {
-      const DATE2FETCH = DBservice.getDateforSection();
+      const DATE2FETCH = getStandardDate();
       // const DATE2FETCH = "15-12-2020"
-
       let response: any[]= [];
       let individualS: any[]= [];
       let keyVal: any[]= [];
@@ -182,16 +167,16 @@ function App() {
       {/* <Button onClick = {()=> DBservice.helperAdmin(menuItems)}> HEYO</Button> */}
       <nav className="navbar navbar-expand">
         <div className="navbar-nav mr-auto">
-        {/* { getFitFlag && <li className="nav-item">
+        { getFitFlag && <li className="nav-item">
             {returnNav("/", "INGRESOS & EGRESOS")}
-          </li>} */}
+          </li>}
           <li className="nav-item">
             {returnNav("/ventas", "VENTAS")}
           </li>
-         {/* {getFitFlag && <li className="nav-item">
+         {getFitFlag && <li className="nav-item">
             {returnNav("/newsfeed", "NEWSFEED")}
-          </li>} */}
-          <li className="nav-item size-lg">
+          </li>}
+          {/* <li className="nav-item size-lg">
             {returnNav("/egresos", "REGISTRAR INV.")}
           </li>
           <li className="nav-item">
@@ -199,17 +184,17 @@ function App() {
           </li>
           {getFitFlag &&<li className="nav-item">
             {returnNav("/instock", "STOCK")}
-          </li>}
+          </li>} */}
         </div>
       </nav>
-      {loading ? (<Button size="lg" theme="danger" className="loading">Cargando...</Button>)
+      {false ? (<Button size="lg" theme="danger" className="loading">Cargando...</Button>)
         : (
           <div className="container">
             <Switch>
               <Route exact path={["/"]}>
                 <br></br>
                 <br></br>
-                {/* <h1> {STORENAME} {" "} <FontAwesomeIcon icon={faFlagCheckered}/></h1> */}
+                <h1> {STORENAME} {" "} <FontAwesomeIcon icon={faFlagCheckered}/></h1>
                 <Button className ="enterOrExit" onClick={()=>setEnterOrExit(!enterOrExit)}> {enterOrExit ? "INGRESOS" : "EGRESOS"}</Button>
                 <Menu
                   menuItems={menuItems}
@@ -236,7 +221,7 @@ function App() {
                 </div>
               </Route>
             </Switch>
-            {loading || salesLoading ?
+            {false || false ?
               (<Button size="lg" theme="danger" className="loading">Cargando...</Button>)
               :
               (<Switch>

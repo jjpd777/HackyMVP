@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   FormTextarea, FormInput
 } from 'shards-react';
-import DBservice from '../../services/DBservice'
+import DBservice, { InventoryDB } from '../../services/DBservice'
 
 import { Button } from 'shards-react';
 import './AddItems.scss'
@@ -18,6 +18,8 @@ import Menu, { MenuItem } from '../Menu/Menu';
 // setCartItems={setCartItems}
 // pos={true}
 function AddItem(props) {
+
+  const {updateInventory} = InventoryDB();
   var { menuItems, cart, setCartItems, pos } = props;
   const [currentEdit, setCurrentEdit] = useState("");
   const [priorInfo, setPriorInfo] = useState()
@@ -36,7 +38,7 @@ function AddItem(props) {
       "new" : dataUpdate
     };
 
-    DBservice.updateInventory(currentEdit, dataUpdate).catch(e=>console.log(e));
+    updateInventory(currentEdit, dataUpdate).catch(e=>console.log(e));
     DBservice.changesLog(record);
     setCurrentEdit("");
     setPriorInfo();

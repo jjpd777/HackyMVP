@@ -14,7 +14,7 @@ import {
     faMoneyBillWave
   } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import DBservice from '../../services/DBservice';
+import DBservice, {MovementsDB, DateUtil} from '../../services/DBservice';
 import { useList } from "react-firebase-hooks/database";
 
 
@@ -30,18 +30,21 @@ import {
 
 function Movements() {
     const [movements, setMovements] = useState([]);
-    const DATE = DBservice.getDateforSection();
-
-    const [dbMovements, loading, error] = useList(DBservice.getAllMovements());
+    const {getStandardDate} = DateUtil();
+    const DATE = getStandardDate();
+    const {getAllMovements} = MovementsDB();
     
-      useEffect(()=> placeMov(dbMovements),[dbMovements] )
+    useEffect(()=>{
+      const movementsReference = getAllMovements();
+      const refVal = movementsReference.on('value', function (snapshot) {
+        const snap = snapshot.val();
+        if(!snap) return;
+        const respKeys = Object.keys(snap);
+        setMovements(respKeys.map((k)=>snap[k]))
+      });
+      return () => movementsReference.off('value', refVal)
+    }, [])
     
-      const placeMov = (dboject) => {
-        const obj = dboject.map((tutorial) => tutorial.val());
-        const sales = obj.reverse();
-        setMovements(sales);
-      }
-
   
     return (
         <>

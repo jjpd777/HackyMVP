@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { CartItem } from '../../App';
 import { MenuItem } from '../../containers/Menu/Menu';
-import DBservice from '../../services/DBservice'
+import DBservice, {SalesDB} from '../../services/DBservice'
 import { validate } from '@babel/types';
 
 interface ItemCardProps {
@@ -28,13 +28,13 @@ function ItemCard(props: ItemCardProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const [cancel, setCancel] = useState(false);
   const [time, setTime]=useState("")
-
+  const {updateSale} = SalesDB();
   const getStatusText = () => menuItem.valid ? <FontAwesomeIcon icon={faCheckCircle} />: <FontAwesomeIcon icon={faTimes} />
   
   
   const cancelSale = (saleItem) => {
     const dataUpdate = { "valid": false };
-    DBservice.updateSale(saleItem.id, dataUpdate)
+    updateSale(saleItem.id, dataUpdate)
   }
   
  
@@ -52,7 +52,7 @@ function ItemCard(props: ItemCardProps) {
           const destinationItem = cart.find((x)=> x.productID === purchasedItem.id);
           const tmp = destinationItem.quantityavailable - purchasedItem.quantity;
           const dataUpdate = { "quantityavailable": tmp };
-          DBservice.updateSoldUnits(destinationItem.uniqueIdentifier, dataUpdate);
+          // DBservice.updateSoldUnits(destinationItem.uniqueIdentifier, dataUpdate);
         }
       });
     });

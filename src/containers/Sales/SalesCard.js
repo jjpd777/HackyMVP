@@ -10,7 +10,7 @@ import {
     faTrash
   } from '@fortawesome/free-solid-svg-icons';
   import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import DBservice from '../../services/DBservice';
+import DBservice, {SalesDB} from '../../services/DBservice';
 
 
 function SalesCard(props){
@@ -24,12 +24,13 @@ function SalesCard(props){
     const boolFlag = status==="valid";
     const favStatus = <FontAwesomeIcon icon= {boolFlag ? faCheckCircle : faTimes} />
     const taxString = salesSummary.taxInfo;
+    const {updateSale} = SalesDB();
 
     const writeCancelledSale = (key)=> {
         const update = { 'summary/status': 'cancelled'};
         setCancel(false);
         updateOnCancellation();
-        DBservice.updateSale(key,update);
+        updateSale(key,update);
 
 
     }

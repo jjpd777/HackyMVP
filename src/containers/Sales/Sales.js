@@ -14,10 +14,11 @@ import {
     faMoneyBillWave
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import DBservice from '../../services/DBservice';
+
 import { useList } from "react-firebase-hooks/database";
 import { Container, Row, Col } from "shards-react";
 import SalesCard from './SalesCard';
+import DBservice, {MovementsDB, DateUtil, SalesDB, DailyTransactionsDB} from '../../services/DBservice';
 
 
 import {
@@ -30,8 +31,10 @@ import { bool } from 'prop-types';
 
 
 function Sales() {
-
-    const TODAY = DBservice.getDateforSection();
+    const {getStandardDate} = DateUtil();
+    const {getDaySales} = SalesDB();
+    const TODAY = getStandardDate();
+    const {getTransactions4Date} = DailyTransactionsDB();
     // const TODAY ="20-12-2020";
     const [shopSale, setShopSale] = useState([]);
     const [insertIDs, setInsIDs]= useState([])
@@ -39,8 +42,7 @@ function Sales() {
   
   
     useEffect(() => {
-
-        const ref = DBservice.getDaySales(TODAY);
+        const ref = getDaySales(TODAY);
 
         const refVal = ref.on('value', function (snapshot) {
           const snap = snapshot.val();
@@ -52,8 +54,7 @@ function Sales() {
       }, [])
     
       useEffect(() => {
-
-        const ref = DBservice.getDayInv(TODAY);
+        const ref = getTransactions4Date(TODAY);
 
         const refVal = ref.on('value', function (snapshot) {
           const snap = snapshot.val();

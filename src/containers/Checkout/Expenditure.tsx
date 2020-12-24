@@ -15,9 +15,10 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { CartItem } from '../../App';
 import { MenuItem } from '../Menu/Menu';
-import DBservice from "../../services/DBservice";
+import DBservice, {InventoryDB} from "../../services/DBservice";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Switch, Route, Link } from "react-router-dom";
+import Inventory from '../Inventory/Inventory';
 
 
 
@@ -31,6 +32,7 @@ interface ExpenditureProps {
 
 function Checkout(props: ExpenditureProps) {
 
+  const {createInventory} = InventoryDB();
   const [name, setName] = useState();
   const [price, setPrice] = useState(0);
   const [nextPayment, setNextPayment] = useState(false);
@@ -92,13 +94,13 @@ function Checkout(props: ExpenditureProps) {
       "category": dateCategory,
       "valid": true,
     }
-    DBservice.createSale(newRow)
-      .then(() => {
-        // console.log(newRow)
-      })
-      .catch(e => {
-        console.log(e);
-      });
+    // DBservice.createSale(newRow)
+    //   .then(() => {
+    //     // console.log(newRow)
+    //   })
+    //   .catch(e => {
+    //     console.log(e);
+    //   });
 
   }
   
@@ -116,17 +118,17 @@ function Checkout(props: ExpenditureProps) {
       price: Number(price),
       image: "",
     };
-    const invKey = DBservice.createInventory(data);
-    var dataDaily = {
-      productID:invKey ,
-      category: category,
-      name: name,
-      price: Number(price),
-      image: "",
-      stock: stockInfo,
-      insertionID: "" ,
-    }
-    DBservice.insert2daily(dataDaily);
+    createInventory(data);
+    // var dataDaily = {
+    //   productID:invKey ,
+    //   category: category,
+    //   name: name,
+    //   price: Number(price),
+    //   image: "",
+    //   stock: stockInfo,
+    //   insertionID: "" ,
+    // }
+    // DBservice.insert2daily(dataDaily);
   };
 
   const getHeader = ()=>  expenditure ? 

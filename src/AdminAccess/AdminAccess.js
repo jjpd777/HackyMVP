@@ -22,7 +22,6 @@ function AdminAccess(props){
 
     const startSalesDay = ()=>{
         if(props.loading || !props.menuItems.length) return;
-        DBservice.seedSales(props.menuItems);
 
     }
 

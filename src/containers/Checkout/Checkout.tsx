@@ -18,7 +18,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { CartItem } from '../../App';
 import { MenuItem } from '../Menu/Menu';
-import DBservice from "../../services/DBservice";
+
+import DBservice, {MovementsDB, DateUtil} from "../../services/DBservice";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Switch, Route, Link } from "react-router-dom";
 import GenerateReceipt from "../../facturacion/facturacion"
@@ -42,8 +43,8 @@ function Checkout(props: CheckoutProps) {
   const [name, setName] = useState("Anónimo");
   const [nextPayment, setNextPayment] = useState(false);
   const [taxInfo, setTaxInfo] = useState(false);
-
-
+  const {newMHDMY} = DateUtil();
+  const {createMovement} = MovementsDB();
   const [originPTR, setOriginPtr]= useState(0);
   const [destPTR, setDestPtr]= useState(0);
   const [originMovement, setOrigin] = useState(ORIGINARRAY[originPTR]);
@@ -123,7 +124,7 @@ function Checkout(props: CheckoutProps) {
 
   const writeOrder = () => {
     const cartsJson = getShopCartJSON();
-    const timestamp =  DBservice.newMHMY();
+    const timestamp =  newMHDMY();
     var typeMovement = enterOrExit ? "INGRESO" : "EGRESO" ;
     const existingInvFlag = originMovement === "Inventario existente";
     
@@ -140,7 +141,7 @@ function Checkout(props: CheckoutProps) {
       notes: name,
       status: true,
     };
-    DBservice.createMovement(inventoryMovement)
+    createMovement(inventoryMovement)
 
     existingInvFlag ? handleExistingInv() : handleEnterOrExit();
     setNextPayment(true);

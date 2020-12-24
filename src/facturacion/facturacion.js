@@ -1,6 +1,6 @@
 
 import React from 'react';
-import DBservice from "../services/DBservice"
+
 
 const STOREINFO = {
         "nombre": "La Borgoña",
@@ -133,7 +133,7 @@ const generate = (defaultOption, receiptInfo) => {
     newSale["ticketType"] = defaultOption ? "salesProof" : "taxVerified";
     newSale["timestamp"] = time;
     newSale["valid"] = true;
-    DBservice.insertJSON(newSale);
+
 
     // store information in database
     // asign it a unique ID

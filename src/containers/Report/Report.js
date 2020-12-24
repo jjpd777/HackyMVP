@@ -14,7 +14,7 @@ import {
     faMoneyBillWave
   } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import DBservice from '../../services/DBservice'
+import DBservice , {DateUtil}from '../../services/DBservice'
 
 
 import {
@@ -33,7 +33,11 @@ function Report(props) {
     const [redirectURL, setRedirect] = useState("");
     const [ticketNum, setTicket] = useState(0);
     const [dropDown, setDropDown]= useState(false);
-    const sectionDate = DBservice.getDateforSection();
+
+    const {getStandardDate} = DateUtil();
+
+
+    const sectionDate = getStandardDate();
     const [reportDate, setReportDate] = useState(sectionDate);
     const [totalNumTickets, setTotalNum]= useState(0);
     const [triggerReport, setTrigger] =useState(false)
