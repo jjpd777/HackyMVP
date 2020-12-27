@@ -52,11 +52,11 @@ function SalesCard(props){
             unix: unixTimestamp,
             timestamp: readableTime,
             productID: x.id,
-            type: "VENTA",
+            type: "VENTA_CANCELACION",
             store: storeName,
             productName: x.name,
             price: x.price,
-            units: x.quantity,
+            units: -x.quantity,
           };
       insertLedgerEntry(data);
         })

@@ -61,7 +61,7 @@ function Movements() {
         <br></br>
         <br></br>
         <h2>{DATE}</h2>
-        {movements.length && movements.map((x)=><><MovementCard movement={x}/></>)}
+        {!!movements.length && movements.map((x)=><><MovementCard movement={x}/></>)}
         <br></br>
         </div>
         </>

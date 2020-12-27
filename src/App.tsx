@@ -8,7 +8,7 @@ import Expenditure from './containers/Checkout/Expenditure';
 import Report from './containers/Report/Report';
 import Inventory from './containers/Inventory/Inventory';
 import Movements from './containers/Movements/Movements';
-import DBservice, {AdminReportsDB, DateUtil, 
+import DBservice, {AdminReportsDB, DateUtil, StoreDetailUtil,
   DailyTransactionsDB, SalesDB,
   InventoryDB
 } from "./services/DBservice";
@@ -40,6 +40,8 @@ function App() {
   const {getDailyTransactions} = DailyTransactionsDB();
   const {getAllSales} = SalesDB();
   const {getAllInventory} = InventoryDB();
+  const {GET_STORE_NAME} = StoreDetailUtil();
+  const STORENAME = GET_STORE_NAME();
 
 
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
@@ -47,7 +49,7 @@ function App() {
   const [cart, setCartItems] = useState<any[]>([]);
   const [currentTab, setCurrentTab] = useState("/");
   const [summaryURL, setURL] = useState("");
-  const [STORENAME,setSTORENAME] = useState(DBservice.getStoreName())
+
 
   const [registerItems, setRegisterItems] = useState<any[]>([]);
   const [enterOrExit, setEnterOrExit] = useState<boolean>(true);
@@ -166,15 +168,15 @@ useEffect(()=>{
     <div className="App">
       <nav className="navbar navbar-expand">
         <div className="navbar-nav mr-auto">
-        { getFitFlag && <li className="nav-item">
+        {/* { getFitFlag && <li className="nav-item">
             {returnNav("/", "INGRESOS & EGRESOS")}
-          </li>}
+          </li>} */}
           <li className="nav-item">
-            {returnNav("/ventas", "VENTAS")}
+            {returnNav("/ventas", "VENTAS "+STORENAME)}
           </li>
-         {getFitFlag && <li className="nav-item">
+         {/* {getFitFlag && <li className="nav-item">
             {returnNav("/newsfeed", "NEWSFEED")}
-          </li>}
+          </li>} */}
           {/* <li className="nav-item size-lg">
             {returnNav("/egresos", "REGISTRAR INV.")}
           </li>

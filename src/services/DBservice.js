@@ -1,12 +1,11 @@
 import database from "./firebase";
-
-const STORENAME = "METROPLAZA"
-const ROOT = "GETFIT"
-const SHOP_URL = ROOT + "/" + STORENAME
+const ROOT = "BORGONA";
+const STORENAME = "COMERCIA";
+const SHOP_URL = ROOT + "/" + STORENAME;
 const INVENTORY_URL = ROOT + "/inventory";
-const SALES_URL = SHOP_URL + "/sales/"
+const SALES_URL = SHOP_URL + "/sales/";
 const REGISTER = SHOP_URL + "/daily-transactions/";
-const MOVEMENT_URL = ROOT + "/movements/"
+const MOVEMENT_URL = ROOT + "/movements/";
 const LEDGER_URL = ROOT + '/ledger/';
 
 
@@ -70,6 +69,7 @@ export const MovementsDB = () => {
     return ref.key;
   };
 
+  
 
   return { getAllMovements, createMovement }
 };
@@ -152,7 +152,12 @@ export const LedgerDB = ()=>{
       const reference = database.ref(DESTINATION).push(data);
       return reference;
   };
-  return {insertLedgerEntry, fetchNewsfeed};
+  const updateLedger= (key, data)=>{
+    const db = database.ref(DESTINATION);
+    return db.child(key).update(data);
+  }
+
+  return {insertLedgerEntry, fetchNewsfeed, updateLedger};
 };
 
 

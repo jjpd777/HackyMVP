@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardBody, CardTitle, CardSubtitle, CardColumns, CardFooter, CardText } from 'shards-react';
 import { Container, Row, Col } from "shards-react";
 import { Button } from 'shards-react';
@@ -11,34 +11,57 @@ import {
     faTruck,
     faPhone
   } from '@fortawesome/free-solid-svg-icons';
+  import {
+    ListGroup,
+    ListGroupItem,
+    FormInput,
+    FormRadio,
+  } from 'shards-react';
   import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import DBservice, {SalesDB} from '../../services/DBservice';
+import DBservice, {SalesDB, LedgerDB, DateUtil} from '../../services/DBservice';
 
 
 function MovementCard(props){
 
     const {movement} = props;
-    const x = movement;
+    const [x, setX] = useState(movement);
+    useEffect(()=> setX(movement),[movement])
+    const {updateLedger} = LedgerDB();
+    const {newMHDMY} = DateUtil();
+    const [thirdEmployee, setThirdEmployee] = useState("");
     const [action, setAction] = useState(false);
-    const [delivered, setStatus] = useState(false);
+
+    const MOVEMENT_ID = x.movementID;
     const ORIGIN = x.origin;
     const DESTINATION = x.destination;
-    const QUIEN_DESPACHA = x.firstEmployee;
-    const MENSAJERO = x.secondEmployee;
+    const FIRST_EMPLOYEE = x.firstEmployee;
+    const SECOND_EMPLOYEE = x.secondEmployee;
+    const THIRD_EMPLOYEE = x.thirdEmployee;
     const TIMESTAMP = x.timestamp.split('&')[0]
     const ORDER = x.movementItems;
-    const ADDITIONAL_N = "Bring bitches";
-    const STATUS = true;
+    const ADDITIONAL_N = x.notes;
+    const RECEIVED_STATUS = x.received;
+    const RECEIVED_TIMESTAMP = x.receivedTimestamp.split('&')[0]
+    const RECEIVED = x.thirdEmployee !=='RECEIVER';
+
+    const updateReceivedMovement = ()=>{
+      if(thirdEmployee==="")return;
+      const data ={
+        thirdEmployee: thirdEmployee,
+        received:true,
+        receivedTimestamp:newMHDMY()
+      };
+      updateLedger(MOVEMENT_ID,data);
+    }
     
 
 
     // const favStatus = <FontAwesomeIcon icon= {STATUS ? faCheckCircle : faTimes} />
-    const favStatus =  <Button theme={ delivered ? "success" : "warning"}><FontAwesomeIcon icon={delivered ? faCheckCircle : faTruck }/>{'  '}
-    {delivered ?  'Recibido':'En camino'}
+    const favStatus = (x)=>  <Button theme={ x ? "success" : "warning"}><FontAwesomeIcon icon={x ? faCheckCircle : faTruck }/>{'  '}
+    { x ?  'Recibido':'En camino'}
     </Button>
 
     const triggerAction = ()=>{
-        setStatus(!delivered);
         setAction(!action)
     }
 
@@ -63,7 +86,7 @@ function MovementCard(props){
 
             <CardBody className="additional-notes">
 
-                <h6> "THIS IS ONE VERy LONG SENTENCE, LIKE THE ROAD TO SUCCESS ITSLEF"</h6>
+                <h6> {ADDITIONAL_N}</h6>
             </CardBody>
             </CardSubtitle>
             
@@ -73,18 +96,32 @@ function MovementCard(props){
 
             <div className="subdiv">
             {'  '}
-            {favStatus} 
+            {favStatus(RECEIVED_STATUS)} 
           </div>
           {ORDER.map((x)=><p>{x.name}</p>)}
 
           </div>
         </CardBody>
-        <CardFooter><b>{'Despachado por '}</b>{QUIEN_DESPACHA}<b>{' a '}</b>{MENSAJERO}{' a las '}{TIMESTAMP} {' de hoy'}.</CardFooter>
+        <CardFooter><b>{'Despachado por '}</b>{FIRST_EMPLOYEE}<b>{' a '}</b>{SECOND_EMPLOYEE}{' a las '}{TIMESTAMP} {' de hoy'}.</CardFooter>
+       { RECEIVED && <CardFooter><b>{'Recibido por '}</b>{THIRD_EMPLOYEE}{' a las '}{RECEIVED_TIMESTAMP} {' de hoy'}.</CardFooter>}
       </Card>
+  
       </div>
+      {action && !RECEIVED &&( 
+      <>
+      <h3>Persona que recibe:</h3>
+      <FormInput
+            className="input"
+            placeholder=""
+            onChange={(e) => {
+              setThirdEmployee(e.target.value);
+            }}
+              />
+              { action && !RECEIVED&&  <Button className="canc-sale" onClick={()=>updateReceivedMovement()}theme="success"> <FontAwesomeIcon icon={faCheckCircle}/></Button>}        
+      </>)
+                    }
       
-{ action &&  <Button className="cancel-sale"> <FontAwesomeIcon icon={faTrash}/></Button>}        
-{ action &&  <Button className="whatsapp-sale"> <FontAwesomeIcon icon={faPhone}/></Button>}        
+{ action &&  <Button className="whatsapp" theme="success"> WhatsApp{'  '} <FontAwesomeIcon icon={faCheckCircle}/></Button>}        
 
 </>
     )
