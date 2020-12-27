@@ -7,6 +7,7 @@ const INVENTORY_URL = ROOT + "/inventory";
 const SALES_URL = SHOP_URL + "/sales/"
 const REGISTER = SHOP_URL + "/daily-transactions/";
 const MOVEMENT_URL = ROOT + "/movements/"
+const LEDGER_URL = ROOT + '/ledger/';
 
 
 
@@ -16,23 +17,16 @@ const getFitFlag = () => true;
 const getStoreName = () => STORENAME;
 
 
-// JUSTIFIED TO SEED INVENTORY
-const helperAdmin = (inventory) => {
-  inventory.map((x) => {
-    const db = database.ref(ROOT + "/inventory").push();
-    const insertion = {
-      category: x.category,
-      id: db.key,
-      image: x.image,
-      name: x.name,
-      price: x.price,
-    };
-    db.set(insertion)
+export const StoreDetailUtil = ()=>{
+  const GET_STORE_NAME = ()=> STORENAME;
 
-  })
+  return { GET_STORE_NAME};
 };
 
 export const DateUtil = () => {
+  const unixTime = ()=>{
+    return Math.round((new Date()).getTime() / 1000);
+  };
   const newMHDMY = () => {
     var today = new Date();
     var min = String(today.getMinutes()).padStart(2, '0');
@@ -46,7 +40,7 @@ export const DateUtil = () => {
     const DMY = newMHDMY().split("&")[1];
     return DMY;
   }
-  return { newMHDMY, getStandardDate }
+  return { newMHDMY, getStandardDate, unixTime }
 }
 
 export const AdminReportsDB = () => {
@@ -60,20 +54,16 @@ export const AdminReportsDB = () => {
 export const MovementsDB = () => {
   const { getStandardDate } = DateUtil();
   const timestamp = getStandardDate();
-  const getDailyMovementAddress = () => {
-    const DATE = timestamp.split('&')[1]
-    return MOVEMENT_URL + DATE;
-  };
+  const DESTINATION = MOVEMENT_URL + timestamp;;
 
   const getAllMovements = () => {
-    const DESTINATION = getDailyMovementAddress();
     const db = database.ref(DESTINATION);
     return db;
   };
 
   const createMovement = (data) => {
-    const DESTINATION = getDailyMovementAddress();
-    const ref = database.ref(DESTINATION).push();
+    const MOV_DST = LEDGER_URL+ timestamp;
+    const ref = database.ref(MOV_DST).push();
     var insertionData = data;
     insertionData.movementID = ref.key;
     ref.set(insertionData);
@@ -92,9 +82,9 @@ export const DailyTransactionsDB = () => {
     return testAddress
   }
   const getDailyTransactions = () => {
-    // const testAddress = getRegisterAddress();
-    const DESTINATION = REGISTER + "19-12-2020"
-    const db = database.ref(DESTINATION);
+    const testAddress = getRegisterAddress();
+    // const DESTINATION = REGISTER + "19-12-2020"
+    const db = database.ref(testAddress);
     return db;
   };
   const getTransactions4Date = (date) => {
@@ -150,7 +140,20 @@ export const InventoryDB = () => {
 
 };
 
-
+export const LedgerDB = ()=>{
+  const {newMHDMY} = DateUtil();
+  const READABLE_TIMESTAMP = newMHDMY().split('&')[1];
+  const DESTINATION = LEDGER_URL + READABLE_TIMESTAMP;
+  const fetchNewsfeed = ()=>{
+      const reference = database.ref(DESTINATION);
+      return reference;
+  }
+  const insertLedgerEntry = (data)=>{
+      const reference = database.ref(DESTINATION).push(data);
+      return reference;
+  };
+  return {insertLedgerEntry, fetchNewsfeed};
+};
 
 
 
@@ -196,7 +199,6 @@ export default {
   //////
   updateStock,
   getFitFlag,
-  helperAdmin,
   changesLog,
 };
 

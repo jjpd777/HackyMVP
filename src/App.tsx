@@ -91,50 +91,50 @@ useEffect(()=>{
   return () => ref.off('value', refVal)
 }, [])
 
-useEffect(() => {
-    const ref = root4shops();
-    const refVal = ref.on('value', function (snapshot) {
-      const DATE2FETCH = getStandardDate();
-      // const DATE2FETCH = "15-12-2020"
-      let response: any[]= [];
-      let individualS: any[]= [];
-      let keyVal: any[]= [];
-      const snap = snapshot.val();
-      if(!snap) return;
-      const respKeys = Object.keys(snap);
-      const newKeysz = respKeys.filter((x)=> x !== "inventory");
-      const thisk =  newKeysz.filter((x)=> x !== "changes-log");
+// useEffect(() => {
+//     const ref = root4shops();
+//     const refVal = ref.on('value', function (snapshot) {
+//       const DATE2FETCH = getStandardDate();
+//       // const DATE2FETCH = "15-12-2020"
+//       let response: any[]= [];
+//       let individualS: any[]= [];
+//       let keyVal: any[]= [];
+//       const snap = snapshot.val();
+//       if(!snap) return;
+//       const respKeys = Object.keys(snap);
+//       const newKeysz = respKeys.filter((x)=> x !== "inventory");
+//       const thisk =  newKeysz.filter((x)=> x !== "changes-log");
 
-      thisk.map((key) => {
-        const shop = snap[key];
-        var storeItems: any[]= [];
-        const dailyFlag = shop["sales"];
+//       thisk.map((key) => {
+//         const shop = snap[key];
+//         var storeItems: any[]= [];
+//         const dailyFlag = shop["sales"];
 
-        if (!!dailyFlag && dailyFlag[DATE2FETCH]) {
-        const dailytransactions = dailyFlag[DATE2FETCH]
-        keyVal.push(key);
-          const nKeys = Object.keys(dailytransactions);
-          nKeys.map((k) => response.push(dailytransactions[k]));
-          nKeys.map((k) => storeItems.push(dailytransactions[k]));
+//         if (!!dailyFlag && dailyFlag[DATE2FETCH]) {
+//         const dailytransactions = dailyFlag[DATE2FETCH]
+//         keyVal.push(key);
+//           const nKeys = Object.keys(dailytransactions);
+//           nKeys.map((k) => response.push(dailytransactions[k]));
+//           nKeys.map((k) => storeItems.push(dailytransactions[k]));
 
-        }
-        individualS.push(storeItems);
-      })
-      setAllShops(response);
-      var array2sort: any[]= [];
-      individualS.map((shop,ix)=> {
-        const sum = sumShopSales(shop);
-        array2sort.push([shop,sum, keyVal[ix]])
-      });
-      const sortedArray = bubbleSort(array2sort).reverse();
-      const rsp = sortedArray.map((item)=> item[0]);
-      setIndividualShops(rsp);
-      const otherRsp = sortedArray.map((item)=> item[2]);
-      setShopKeys(otherRsp);
-      setLoading(!loadingReport);
-    });
-    return () => ref.off('value', refVal)
-  }, [])
+//         }
+//         individualS.push(storeItems);
+//       })
+//       setAllShops(response);
+//       var array2sort: any[]= [];
+//       individualS.map((shop,ix)=> {
+//         const sum = sumShopSales(shop);
+//         array2sort.push([shop,sum, keyVal[ix]])
+//       });
+//       const sortedArray = bubbleSort(array2sort).reverse();
+//       const rsp = sortedArray.map((item)=> item[0]);
+//       setIndividualShops(rsp);
+//       const otherRsp = sortedArray.map((item)=> item[2]);
+//       setShopKeys(otherRsp);
+//       setLoading(!loadingReport);
+//     });
+//     return () => ref.off('value', refVal)
+//   }, [])
 
 
   const emptyCart = () => setCartItems([]);
@@ -164,7 +164,6 @@ useEffect(() => {
   return (
 
     <div className="App">
-      {/* <Button onClick = {()=> DBservice.helperAdmin(menuItems)}> HEYO</Button> */}
       <nav className="navbar navbar-expand">
         <div className="navbar-nav mr-auto">
         { getFitFlag && <li className="nav-item">
@@ -195,7 +194,7 @@ useEffect(() => {
                 <br></br>
                 <br></br>
                 <h1> {STORENAME} {" "} <FontAwesomeIcon icon={faFlagCheckered}/></h1>
-                <Button className ="enterOrExit" onClick={()=>setEnterOrExit(!enterOrExit)}> {enterOrExit ? "INGRESOS" : "EGRESOS"}</Button>
+                <Button className ="enterOrExit" disabled={true} > {"DESPACHO"}</Button>
                 <Menu
                   menuItems={menuItems}
                   cart={cart}
@@ -234,8 +233,8 @@ useEffect(() => {
                     cart={registerItems}
                     setCartItems={setCartItems}
                     pos={"sales"}
-                  ></Menu>
-                 <Report salesItems={salesItems} menuItems={menuItems} registerItems={registerItems}/> */}
+                  ></Menu> */}
+                 {/* <Report salesItems={salesItems} menuItems={menuItems} registerItems={registerItems}/> */}
                  <Movements/>
                 </Route>
               </Switch>)}
@@ -252,7 +251,7 @@ useEffect(() => {
               <br></br>
               <br></br>
               <br></br>
-              {!!cart.length &&  <h1>{enterOrExit ? "INGRESOS" : "EGRESOS"}</h1>}
+              {!!cart.length &&  <h1>{"DESPACHOS"}</h1>}
                 <Checkout
                   menuItems={menuItems}
                   cart={cart}

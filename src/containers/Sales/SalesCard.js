@@ -10,11 +10,15 @@ import {
     faTrash
   } from '@fortawesome/free-solid-svg-icons';
   import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import DBservice, {SalesDB} from '../../services/DBservice';
+import DBservice, {SalesDB, LedgerDB, StoreDetailUtil, DateUtil} from '../../services/DBservice';
 
 
 function SalesCard(props){
-    const {salesItem, insertIDs} = props;
+    const {salesItem} = props;
+    const {insertLedgerEntry} = LedgerDB();
+    const { unixTime, newMHDMY } = DateUtil();
+    const {  GET_STORE_NAME, GET_JUST_POS } = StoreDetailUtil();
+
     const [cancelSale, setCancel] = useState(false);
     const salesSummary = salesItem.summary;
     const timestamp = salesSummary.timestamp.split('&')[0];
@@ -27,9 +31,9 @@ function SalesCard(props){
     const {updateSale} = SalesDB();
 
     const writeCancelledSale = (key)=> {
+        updateLedger();
         const update = { 'summary/status': 'cancelled'};
         setCancel(false);
-        updateOnCancellation();
         updateSale(key,update);
 
 
@@ -38,21 +42,24 @@ function SalesCard(props){
         if(!boolFlag) return
         setCancel(!cancelSale);
     };
-    const updateOnCancellation = () => {
-        console.log(cartElements, "FSAD")
-        cartElements.map((cartItem) => {
-          insertIDs.map((register) => {
-              console.log("here", cartItem, register)
-            if (cartItem.id === register.productID) {
-              const destinationItem = insertIDs.find((x)=> x.productID === cartItem.id);
-              console.log("FOUND", destinationItem);
-              const soldUnits =  destinationItem.stock.sold -cartItem.quantity;
-              const inStockUnits = destinationItem.stock.inStock + cartItem.quantity;
-              const dataUpdate = { "stock/sold": soldUnits, "stock/inStock":inStockUnits};
-              DBservice.updateSoldUnits(destinationItem.insertionID, dataUpdate);
-            }
-          });
-        });
+    const updateLedger = () => {
+      const unixTimestamp = unixTime();
+      const readableTime = newMHDMY();
+      const storeName = GET_STORE_NAME();
+  
+        cartElements.map((x) => {
+          const data = {
+            unix: unixTimestamp,
+            timestamp: readableTime,
+            productID: x.id,
+            type: "VENTA",
+            store: storeName,
+            productName: x.name,
+            price: x.price,
+            units: x.quantity,
+          };
+      insertLedgerEntry(data);
+        })
       };
     return(
         <>

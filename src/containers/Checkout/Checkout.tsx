@@ -40,16 +40,19 @@ function Checkout(props: CheckoutProps) {
   const ORIGINARRAY = ["FÁBRICA", "METROPLAZA", "P.F.", "MAJADAS", "Inventario existente"];
   const DESTARRAY = ["METROPLAZA", "P.F.", "MAJADAS"]
 
-  const [name, setName] = useState("Anónimo");
   const [nextPayment, setNextPayment] = useState(false);
   const [taxInfo, setTaxInfo] = useState(false);
-  const {newMHDMY} = DateUtil();
+  const [additionalNotes, setAdditionalNotes] = useState("- Ninguna");
+  const {newMHDMY, unixTime} = DateUtil();
   const {createMovement} = MovementsDB();
   const [originPTR, setOriginPtr]= useState(0);
   const [destPTR, setDestPtr]= useState(0);
   const [originMovement, setOrigin] = useState(ORIGINARRAY[originPTR]);
-  const [destinationMovement, setDestination] = useState(DESTARRAY[destPTR]);  
+  const [destinationMovement, setDestination] = useState(DESTARRAY[destPTR]);
 
+  const [firstEmployee, setFirstEmployee] = useState("");
+  const [secondEmployee, setSecondEmployee] = useState("-");
+  const INVENTORY_REG_FLAG = originMovement ==="Inventario existente";
 
   const getCartItems = () => {
     let cartItems: any[] = [];
@@ -66,37 +69,6 @@ function Checkout(props: CheckoutProps) {
       });
     });
     return cartItems;
-  };
-  const handleEnterOrExit = () => {
-    cart.forEach((cartItem) => {
-      registerItems.map((register) => {
-        if (cartItem.itemId === register.productID) {
-          const destinationItem = props.registerItems.find((x)=> x.productID === register.productID);
-          var tmp =0; 
-          console.log("DEST",destinationItem)
-          if(enterOrExit) tmp = cartItem.quantity + destinationItem.stock.inStock;
-          else tmp = destinationItem.stock.inStock - cartItem.quantity;
-          const dataUpdate = { "stock/inStock": tmp };
-
-          DBservice.updateSoldUnits(destinationItem.insertionID, dataUpdate);
-        }
-      });
-    });
-  };
-  const handleExistingInv = () => {
-    cart.forEach((cartItem) => {
-      registerItems.map((register) => {
-        if (cartItem.itemId === register.productID) {
-          const destinationItem = props.registerItems.find((x)=> x.productID === register.productID);
-          var tmp =0; 
-          console.log("DEST",destinationItem)
-          tmp = cartItem.quantity + destinationItem.stock.inStock;
-          const dataUpdate = { "stock/inStock": tmp };
-
-          DBservice.updateSoldUnits(destinationItem.insertionID, dataUpdate);
-        }
-      });
-    });
   };
 
 
@@ -116,34 +88,41 @@ function Checkout(props: CheckoutProps) {
   }
 
   const registerSale = () => {
-    setName("");
+    setFirstEmployee("");
+    setSecondEmployee("-");
     setTaxInfo(false);
     props.emptyCart();
   };
-  const originOrDest = (flag) => <h1>{flag ? "ORIGEN: " + originMovement : "DESTINO: " + destinationMovement}</h1>
+  const inventoryOriginText = INVENTORY_REG_FLAG ? "" : "ORIGEN: ";
+  const inventoryDestinationText = INVENTORY_REG_FLAG ? "Registrar en " : "DESTINO: ";
+  const originOrDest = (flag) => <h1>{flag ? inventoryOriginText + originMovement : inventoryDestinationText + destinationMovement}</h1>
 
-  const writeOrder = () => {
+  const createMovementInLedger = () => {
+    if(firstEmployee ==="") return;
     const cartsJson = getShopCartJSON();
     const timestamp =  newMHDMY();
-    var typeMovement = enterOrExit ? "INGRESO" : "EGRESO" ;
-    const existingInvFlag = originMovement === "Inventario existente";
-    
-    if(existingInvFlag) {
-      typeMovement = "Inventario existente";
-    }
+    const unix = unixTime();
+    var typeMovement = "DESPACHO";
+    if(originMovement === "Inventario existente") typeMovement= "INGRESO_INVENTARIO";
+ 
     var inventoryMovement = {
       movementID:"",
+      unix:unix,
       type: typeMovement,
       origin: originMovement,
       destination: destinationMovement,
       timestamp: timestamp,
       movementItems: cartsJson,
-      notes: name,
+      received: true,
+      notes: additionalNotes,
       status: true,
+      firstEmployee: firstEmployee,
+      secondEmployee: secondEmployee,
+      thirdEmployee: "RECEIVER",
+
     };
     createMovement(inventoryMovement)
 
-    existingInvFlag ? handleExistingInv() : handleEnterOrExit();
     setNextPayment(true);
     registerSale();
   }
@@ -241,18 +220,39 @@ function Checkout(props: CheckoutProps) {
                 } */}
                 <br></br>
                 <br></br>
+                <h2>Nombre de quien despacha</h2>
+                  <FormInput
+                      className="input"
+                      placeholder="Persona que entrega producto"
+                      onChange={(e) => {
+                        setFirstEmployee(e.target.value);
+                      }}
+                    />
+                <br></br>
+                {!INVENTORY_REG_FLAG && 
+                <>
+                <h2>Mensajero (opcional)</h2>
+                  <FormInput
+                      className="input"
+                      placeholder=""
+                      onChange={(e) => {
+                        setSecondEmployee(e.target.value);
+                      }}
+                    />
+                    </>
+                    }
                 <br></br>
                 <h2>Notas adicionales</h2>
                   <FormInput
                       className="input"
                       placeholder="Por favor mandar..."
                       onChange={(e) => {
-                        setName(e.target.value);
+                        setAdditionalNotes(e.target.value);
                       }}
                     />
 
                 <Button
-                  onClick={() => { writeOrder(); registerSale();  }}
+                  onClick={() => { createMovementInLedger(); }}
                   // href={writeOrder(name, address, phone, payMethod)}
                   className="button" block>
                   Registrar movimiento
