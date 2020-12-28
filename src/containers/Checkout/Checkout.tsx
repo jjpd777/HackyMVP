@@ -57,6 +57,11 @@ function Checkout(props: CheckoutProps) {
     };
    setRedirectURL(whatsAppURL);
    insert2factory(newInventoryRequest);
+  };
+
+  const resetVariables = ()=>{
+    setAdditionalNotes("-Ninguna");
+    setRedirectURL("");
   }
 
   return (
@@ -98,7 +103,7 @@ function Checkout(props: CheckoutProps) {
         <FontAwesomeIcon icon={faArrowAltCircleLeft}/>{'  '}Regresar
       </Button>
             <Button
-              onClick={() => readyFlag ? null :  generateCheckout()}
+              onClick={() => readyFlag ? resetVariables() :  generateCheckout()}
               href={redirectURL}
               className="button" block>
               {readyFlag ? "Enviar listado de inventario" : "Generar listado"}

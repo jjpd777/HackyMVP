@@ -1,6 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFlagCheckered, faBalanceScale, faStoreAlt, faPencilAlt, faTimes, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-
 import { useFirebaseApp, useUser } from 'reactfire';
 
 const STORENAME = "GERONA"
@@ -9,10 +6,7 @@ const ROOT = "BORGONA"
 const SHOP_URL = ROOT + "/" + STORENAME;
 
 const INVENTORY_URL = SHOP_URL + "/inventory/";
-const SALES_URL = SHOP_URL + "/sales/"
-const REGISTER = SHOP_URL + "/global-count/";
-const DABBLING = "/success";
-const DAILYORDERS = "/orders-factory"
+const DAILYORDERS =  ROOT + "/orders-factory";
 
 
 export const getStoreName = () => STORENAME;
@@ -43,7 +37,7 @@ export const InventoryDB = () => {
     return database.ref(DESTINATION);
   };
   const insert2factory = (data)=>{
-    const DESTINATION = DAILYORDERS + '/' + DateforSection() +'/';
+    const DESTINATION = DAILYORDERS + '/' + DateforSection();
     return database.ref(DESTINATION).push(data);
   };
 
