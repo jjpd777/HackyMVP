@@ -10,7 +10,7 @@
 
 export const generateWhatsAppURL = (cart, menuItems, additionalNotes, location) => {
     let baseURL = "https://wa.me/50251740464?text=";
-    let textBody = "Buenas%20noches%20de%20parte%20de%20*" + String(location) + "*. La%20lista%20de%20hoy%20es%20la%20siguiente:%0A%0A";
+    let textBody = "Buenas%20de%20parte%20de%20*" + String(location) + "*. La%20lista%20de%20hoy%20es%20la%20siguiente:%0A%0A";
 
     cart.map((cartItem) => {
       menuItems.map((menuItem) => {

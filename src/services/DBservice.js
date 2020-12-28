@@ -4,9 +4,7 @@ import { useFirebaseApp, useUser } from 'reactfire';
 const STORENAME = "GERONA"
 const ROOT = "BORGONA"
 
-const SHOP_URL = ROOT + "/" + STORENAME;
-
-const INVENTORY_URL = SHOP_URL + "/inventory/";
+const INVENTORY_URL = ROOT + "/inventory/";
 const DAILYORDERS =  ROOT + "/orders-factory";
 
 

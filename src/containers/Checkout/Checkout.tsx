@@ -85,10 +85,11 @@ function Checkout(props: CheckoutProps) {
       }}>
           <FontAwesomeIcon icon={faTruck}/>{'  '}{location} 
       </Button>
+      <h5>(Toca para cambiar localidad)</h5>
       </div>
       <br />
        <div className="shipping-info">
-            <h5>Notas adicionales:</h5>
+            <h2>Notas adicionales:</h2>
             <FormInput
               className="input"
               type="text"
