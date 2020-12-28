@@ -1,5 +1,6 @@
 import { useFirebaseApp, useUser } from 'reactfire';
 
+// COOL!
 const STORENAME = "GERONA"
 const ROOT = "BORGONA"
 
