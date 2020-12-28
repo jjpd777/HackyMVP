@@ -29,18 +29,16 @@ function EditCard(props: PoSCardProps) {
       <div onClick={()=>{
           props.setCartItems(menuItem.id);
     }}>
-      <Card className="card">
+      <Card className="cardy">
         <CardBody
          className="card-body">
           {/* {menuItem.image !== "" && (<img width="150" src={menuItem.image} />)} */}
           <div className="card-content">
-            <CardTitle className="title">{menuItem.name}</CardTitle>
+            <CardTitle className="titley">{menuItem.name}</CardTitle>
           </div>
-          <div className="card-price">
-            <div className="subdiv">
+          <div className="edit-price">
             {'  '}
             {menuItem.price} 
-          </div>
     <p>Qtz</p>
           </div>
         </CardBody>

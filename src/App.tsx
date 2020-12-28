@@ -93,50 +93,6 @@ useEffect(()=>{
   return () => ref.off('value', refVal)
 }, [])
 
-// useEffect(() => {
-//     const ref = root4shops();
-//     const refVal = ref.on('value', function (snapshot) {
-//       const DATE2FETCH = getStandardDate();
-//       // const DATE2FETCH = "15-12-2020"
-//       let response: any[]= [];
-//       let individualS: any[]= [];
-//       let keyVal: any[]= [];
-//       const snap = snapshot.val();
-//       if(!snap) return;
-//       const respKeys = Object.keys(snap);
-//       const newKeysz = respKeys.filter((x)=> x !== "inventory");
-//       const thisk =  newKeysz.filter((x)=> x !== "changes-log");
-
-//       thisk.map((key) => {
-//         const shop = snap[key];
-//         var storeItems: any[]= [];
-//         const dailyFlag = shop["sales"];
-
-//         if (!!dailyFlag && dailyFlag[DATE2FETCH]) {
-//         const dailytransactions = dailyFlag[DATE2FETCH]
-//         keyVal.push(key);
-//           const nKeys = Object.keys(dailytransactions);
-//           nKeys.map((k) => response.push(dailytransactions[k]));
-//           nKeys.map((k) => storeItems.push(dailytransactions[k]));
-
-//         }
-//         individualS.push(storeItems);
-//       })
-//       setAllShops(response);
-//       var array2sort: any[]= [];
-//       individualS.map((shop,ix)=> {
-//         const sum = sumShopSales(shop);
-//         array2sort.push([shop,sum, keyVal[ix]])
-//       });
-//       const sortedArray = bubbleSort(array2sort).reverse();
-//       const rsp = sortedArray.map((item)=> item[0]);
-//       setIndividualShops(rsp);
-//       const otherRsp = sortedArray.map((item)=> item[2]);
-//       setShopKeys(otherRsp);
-//       setLoading(!loadingReport);
-//     });
-//     return () => ref.off('value', refVal)
-//   }, [])
 
 
   const emptyCart = () => setCartItems([]);
@@ -172,18 +128,18 @@ useEffect(()=>{
             {returnNav("/", "INGRESOS & EGRESOS")}
           </li>} */}
           <li className="nav-item">
-            {returnNav("/ventas", "VENTAS "+STORENAME)}
+            {returnNav("/ventas", "VENTAS ")}
           </li>
          {/* {getFitFlag && <li className="nav-item">
             {returnNav("/newsfeed", "NEWSFEED")}
           </li>} */}
-          {/* <li className="nav-item size-lg">
-            {returnNav("/egresos", "REGISTRAR INV.")}
+          <li className="nav-item size-lg">
+            {returnNav("/registro", "REGISTRAR INV.")}
           </li>
           <li className="nav-item">
             {returnNav("/inventario", "EDITAR INV.")}
           </li>
-          {getFitFlag &&<li className="nav-item">
+          {/* {getFitFlag &&<li className="nav-item">
             {returnNav("/instock", "STOCK")}
           </li>} */}
         </div>
@@ -193,33 +149,7 @@ useEffect(()=>{
           <div className="container">
             <Switch>
               <Route exact path={["/"]}>
-                <br></br>
-                <br></br>
-                <h1> {STORENAME} {" "} <FontAwesomeIcon icon={faFlagCheckered}/></h1>
-                <Button className ="enterOrExit" disabled={true} > {"DESPACHO"}</Button>
-                <Menu
-                  menuItems={menuItems}
-                  cart={cart}
-                  setCartItems={setCartItems}
-                  pos={"pos"}
-                ></Menu>
-                <br></br>
-                <br></br>
-                <div className="fixed-checkout">
-                  {(cart.length > 0 && (
-                    <>
-                      <Link className="tmp" to={"/checkout"}>
-                        <Button
-                          className="checkout-button" block>
-                          <FontAwesomeIcon icon={faTruck} />
-                        </Button>
-                      </Link>
-                      <Button onClick={() => emptyCart()} className="empty" theme="danger" outline block> <FontAwesomeIcon icon={faTimes} />
-                      </Button>
-                    </>
-                  )) ||
-                    null}
-                </div>
+              <Report/>
               </Route>
             </Switch>
             {false || false ?
@@ -267,7 +197,7 @@ useEffect(()=>{
             </Switch>
             <Switch>
                  
-              <Route exact path={["/egresos"]}>
+              <Route exact path={["/registro"]}>
                 <Expenditure
                   menuItems={menuItems}
                   cart={cart}

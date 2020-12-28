@@ -160,7 +160,7 @@ function Checkout(props: ExpenditureProps) {
           <br></br>
            <h4 className="done"> <FontAwesomeIcon icon={faCheckCircle} />{'  '} {expenditure ? "Egreso registrado": "Producto registrado"}</h4>
            <br></br>
-           <Link to="/egresos">
+           <Link to="/registro">
             <Button className="next" onClick={()=>setNextPayment(false)} theme ="success"> 
             Registrar otro {expenditure ? "egreso": "producto"}</Button>
             </Link>
@@ -175,7 +175,7 @@ function Checkout(props: ExpenditureProps) {
    <div className="shipping-info">
    <h4>Categoría:</h4>
    <FormInput
-       className="input"
+       className="inputExpe"
        placeholder="Categoría del producto"
        value={category}
        onChange={(e) => {
@@ -184,7 +184,7 @@ function Checkout(props: ExpenditureProps) {
      />
     <h4>Nombre del producto:</h4>
    <FormInput
-       className="input"
+       className="inputExpe"
        placeholder="Nombre producto"
        value={name}
        onChange={(e) => {
@@ -193,7 +193,7 @@ function Checkout(props: ExpenditureProps) {
      />
           <h4>Precio del producto:</h4>
      <FormInput
-       className="input"
+       className="inputExpe"
        type="number"
        placeholder="Precio en Qtz."
        onChange={(e) => {
@@ -224,7 +224,7 @@ function Checkout(props: ExpenditureProps) {
           <h4>Descripción:</h4>
           <div className="shipping-info">
             <FormInput
-              className="input"
+              className="inputExpe"
               placeholder="Descripción del egreso"
               value={name}
               onChange={(e) => {
@@ -233,7 +233,7 @@ function Checkout(props: ExpenditureProps) {
             />
             <h4>Precio Qtz.</h4>
             <FormInput
-              className="input"
+              className="inputExpe"
               type="number"
               placeholder="valor de egreso"
               onChange={(e) => {

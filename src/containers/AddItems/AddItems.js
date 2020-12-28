@@ -66,21 +66,21 @@ function AddItem(props) {
         <div className="main">
           <br></br>
           <FormInput
-            className="input"
+            className="input-Edit"
             value={currentCat}
             onChange={(e) => {
               setCurrentCat(e.target.value);
             }}
           />
           <FormInput
-            className="input"
+            className="input-Edit"
             value={currentName}
             onChange={(e) => {
               setCurrentName(e.target.value);
             }}
           />
           <FormInput
-            className="input"
+            className="input-Edit"
             type="number"
             value={currentPrice}
             onChange={(e) => {
