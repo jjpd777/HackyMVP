@@ -1,14 +1,14 @@
 import database from "./firebase";
 const ROOT = "BORGONA";
-const STORENAME = "COMERCIA";
+const STORE_LIST = ["GERONA", "AUTOPAN", "NOVITA", "PLAZOLETA", "FRAIJANES","COMERCIA"];
+const STORENAME = STORE_LIST[1];
 const SHOP_URL = ROOT + "/" + STORENAME;
 const INVENTORY_URL = ROOT + "/inventory";
 const SALES_URL = SHOP_URL + "/sales/";
 const REGISTER = SHOP_URL + "/daily-transactions/";
 const MOVEMENT_URL = ROOT + "/movements/";
 const LEDGER_URL = ROOT + '/ledger/';
-
-
+const OPEN_CLOSE_CASH = SHOP_URL + '/open-close/';
 
 // ====>>>> <<<<=====
 
@@ -18,8 +18,8 @@ const getStoreName = () => STORENAME;
 
 export const StoreDetailUtil = ()=>{
   const GET_STORE_NAME = ()=> STORENAME;
-
-  return { GET_STORE_NAME};
+  const GET_LIST_STORES = () =>STORE_LIST;
+  return { GET_STORE_NAME, GET_LIST_STORES};
 };
 
 export const DateUtil = () => {
@@ -96,6 +96,8 @@ export const DailyTransactionsDB = () => {
 };
 
 export const SalesDB = () => {
+  const { getStandardDate } = DateUtil();
+  const timestamp = getStandardDate();
   const getAllSales = () => {
     const db = database.ref(SALES_URL);
     return db;
@@ -103,15 +105,25 @@ export const SalesDB = () => {
   const getDaySales = (date) => {
     const db = database.ref(SALES_URL + date);
     return db;
+  }; 
+  
+  const getDaySalesDynamically = (date, shop) => {
+    console.log(ROOT+"/"+shop + "/"+ date, "SADFSD")
+    const db = database.ref(ROOT+"/"+shop + "/sales/"+ date);
+    return db;
   };
   const updateSale = (key, data) => {
-    const { getStandardDate } = DateUtil();
-    const timestamp = getStandardDate();
-
     const db = database.ref(SALES_URL + timestamp);
     return db.child(key).update(data);
   };
-  return { getAllSales, getDaySales, updateSale }
+
+  const updateSaleDynamically = (shop, key, data) => {
+    const db = database.ref(ROOT+"/"+shop + "/sales/"+ timestamp);
+    return db.child(key).update(data);
+  };
+
+  return { getAllSales, getDaySales, 
+          updateSale, getDaySalesDynamically, updateSaleDynamically }
 };
 
 export const InventoryDB = () => {
@@ -158,6 +170,26 @@ export const LedgerDB = ()=>{
   }
 
   return {insertLedgerEntry, fetchNewsfeed, updateLedger};
+};
+
+export const StartCloseDB = ()=>{
+  const { getStandardDate } = DateUtil();
+  const READABLE_TIMESTAMP = getStandardDate();
+
+  const isCashRegisterOpen = (shop)=>{
+    const DSST= ROOT+'/'+shop+'/open-close/'+READABLE_TIMESTAMP + '/caja/open';
+    console.log("DEST", DSST)
+        const reference = database.ref(DSST);
+      return reference;
+  };
+
+  const isCashRegisterClosed = (shop)=>{
+    const DSST =  ROOT+'/'+shop+'/open-close/'+READABLE_TIMESTAMP + '/caja/close'
+      const reference = database.ref(DSST);
+    return reference;
+};
+
+  return {isCashRegisterOpen, isCashRegisterClosed};
 };
 
 

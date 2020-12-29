@@ -34,7 +34,7 @@ function ItemCard(props: ItemCardProps) {
   
   const cancelSale = (saleItem) => {
     const dataUpdate = { "valid": false };
-    updateSale(saleItem.id, dataUpdate)
+    // updateSale(saleItem.id, dataUpdate)
   }
   
  

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {sumShopSales, bubbleSort} from '../../utils/Utils';
-
+import ReportCard from './ReportCard'
 import { Button } from 'shards-react';
 import './Report.scss' 
 import {
@@ -15,7 +15,7 @@ import {
     faMoneyBillWave
   } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import DBservice , {DateUtil, AdminReportsDB}from '../../services/DBservice'
+import DBservice , {DateUtil, AdminReportsDB, StartCloseDB}from '../../services/DBservice'
 
 
 import {
@@ -27,20 +27,22 @@ import {
 
 
 function Report() {
-    const [avTicket, setAvTicket] = useState(0);
-    const [avCard, setAvCard] = useState(0);
-    const [avCash, setAvCash] = useState(0);
-    const [redirectURL, setRedirect] = useState("");
-    const [ticketNum, setTicket] = useState(0);
-    const [dropDown, setDropDown]= useState(false);
+  
     const {root4shops} = AdminReportsDB();
     const salesItems=[];
-    const [salesAll, setAllShops] = useState([]);
     const [loadingReport, setLoading] = useState(true);
     const [shopKeys, setShopKeys] = useState([]);
     const [individualShops, setIndividualShops] =useState([]);
+    const [openedDay, setOpenedDay]=useState("Aún no han abierto.");
+    const [closeSalesDay, setClosedDay]=useState("Aún no han cerrado.");
+
 
     const {getStandardDate} = DateUtil();
+    const { isCashRegisterOpen,isCashRegisterClosed } = StartCloseDB();
+
+
+   
+    
     useEffect(() => {
     const ref = root4shops();
     const refVal = ref.on('value', function (snapshot) {
@@ -83,32 +85,32 @@ function Report() {
 
 
 
-    const sectionDate = getStandardDate();
-    const [reportDate, setReportDate] = useState(sectionDate);
-    const [totalNumTickets, setTotalNum]= useState(0);
-    const [triggerReport, setTrigger] =useState(false)
-    const [STORENAME,setSTORENAME] = useState(DBservice.getStoreName())
+    // const sectionDate = getStandardDate();
+    // const [reportDate, setReportDate] = useState(sectionDate);
+    // const [totalNumTickets, setTotalNum]= useState(0);
+    // const [triggerReport, setTrigger] =useState(false)
+    // const [STORENAME,setSTORENAME] = useState(DBservice.getStoreName())
 
-    useEffect(() => {
-        // getStats();
-        // ticketsReport();
-    },[salesItems, reportDate])
+    // useEffect(() => {
+    //     // getStats();
+    //     // ticketsReport();
+    // },[salesItems, reportDate])
 
     // useEffect(()=>closeSalesDay(),[triggerReport])
 
-    function bubbleSort(arr){
-        var len = arr.length;
-        for (var i = len-1; i>=0; i--){
-          for(var j = 1; j<=i; j++){
-            if(arr[j-1].sold >arr[j].sold){
-                var temp = arr[j-1];
-                arr[j-1] = arr[j];
-                arr[j] = temp;
-             }
-          }
-        }
-        return arr;
-     }
+    // function bubbleSort(arr){
+    //     var len = arr.length;
+    //     for (var i = len-1; i>=0; i--){
+    //       for(var j = 1; j<=i; j++){
+    //         if(arr[j-1].sold >arr[j].sold){
+    //             var temp = arr[j-1];
+    //             arr[j-1] = arr[j];
+    //             arr[j] = temp;
+    //          }
+    //       }
+    //     }
+    //     return arr;
+    //  }
     
       // const getSalesSummary = () => {
       //   if(!props.registerItems) return;
@@ -162,33 +164,33 @@ function Report() {
     //     var salesToday = props.salesItems.filter((item)=> item.category ===today)
     //     salesToday.map((val) => val.valid ? active++ : cancelled++);
     // }
-    const getStats = () => {
-        var salesTotal = 0;
-        var cardTotal = 0;
-        var cashTotal = 0;
-        var tickets = 0;
-        const today = reportDate;
-        var salesToday = salesItems.filter((item)=> item.category ===today && item.valid)
-        salesToday.map((val) => {
-            if (val.valid && val.taxInfo!=="EGRESO") {
-                salesTotal += val.total
-                tickets++;
-                if (val.payment === "tarjeta") {
-                    cardTotal += val.total;
-                }
-                else cashTotal += val.total;
-            }
-            setTicket(tickets)
-        })
+    // const getStats = () => {
+    //     var salesTotal = 0;
+    //     var cardTotal = 0;
+    //     var cashTotal = 0;
+    //     var tickets = 0;
+    //     const today = "reportDate";
+    //     var salesToday = salesItems.filter((item)=> item.category ===today && item.valid)
+    //     salesToday.map((val) => {
+    //         if (val.valid && val.taxInfo!=="EGRESO") {
+    //             salesTotal += val.total
+    //             tickets++;
+    //             if (val.payment === "tarjeta") {
+    //                 cardTotal += val.total;
+    //             }
+    //             else cashTotal += val.total;
+    //         }
+    //         setTicket(tickets)
+    //     })
 
-        const ticket = (salesTotal / salesToday.length);
-        const tmp = (Math.round(ticket * 100) / 100).toFixed(2)
-        const result = parseFloat(tmp);
-        setTotalNum(salesToday.length);
-        setAvCard(cardTotal);
-        setAvCash(cashTotal);
-        setAvTicket(result);
-    }
+    //     const ticket = (salesTotal / salesToday.length);
+    //     const tmp = (Math.round(ticket * 100) / 100).toFixed(2)
+    //     const result = parseFloat(tmp);
+    //     // setTotalNum(salesToday.length);
+    //     setAvCard(cardTotal);
+    //     setAvCash(cashTotal);
+    //     setAvTicket(result);
+    // }
     const simpleJSON = ()=>{
       var tmp = [];
       var tmp1 = [];
@@ -202,30 +204,23 @@ function Report() {
       return tmp;
     }
     return (
-        <>
-      {!avTicket ? (
-                <div className="main">
-                    <h3 className="stud" ><b>Todavía no hay ventas </b></h3>
-                </div>)
-            : (
-
-                <div className="main">
-                    <br></br>
-                    <br></br>
-                    <h2 className="stud" > Qtz.{avCash + avCard}</h2><h3 className="detailz">en {ticketNum} tickets</h3>
-                    <h2>- -- -</h2>
-                    <h3 className="study" ><b>Q.</b>{avTicket} / ticket</h3>
-                   
-                    <h4 className="pfff"><b>Tarjeta</b>{' '}<FontAwesomeIcon icon={faCreditCard}/> Q.{avCard}</h4>
-                    <h4 className="pfff"><b>Efectivo</b>{' '}<FontAwesomeIcon icon={faMoneyBillWave}/>: Q.{avCash}</h4>
-                    <br></br>
-                    {/* <Button theme="warning" href={triggerReport ? redirectURL : "" }onClick={setTrigger(!triggerReport)} ><FontAwesomeIcon icon={faEnvelope}/>{'  '}{redirectURL!==""? 'Enviar cierre de caja' : 'Generar cierre de caja'}</Button> */}
-                { !triggerReport &&<Button className="date-button" onClick={()=>setTrigger(!triggerReport)}>Generar resumen</Button>}
-                { triggerReport &&<Button className="date-button" href={redirectURL}>Enviar resumen</Button>}
-
-                </div>)
-            }
-        </>
+      <>
+      <br></br>
+      <br></br>
+      {/* <Button className="switch-store" onClick={()=> next_store()}>  {storeHandler}</Button> */}
+      <br></br>
+      <h2>29-12-2020</h2>
+      {/* <h2><FontAwesomeIcon icon={faCashRegister} /> El día de hoy van {validTickets2Date} tickets.</h2> */}
+      {!individualShops.length && <Button className="not-yet">Todavía no hay ventas...</Button>}
+      {/* {!!individualShops.length && <h3>Últimas 3 son visibles y cancelables</h3>} */}
+      <div className="sales-list-new">
+      {individualShops.map((item, ix) =>
+              <>
+               <ReportCard reportItem={item} storeKey={shopKeys[ix]}/>
+              </>
+      )}
+      </div>
+  </>
     )
 
 }

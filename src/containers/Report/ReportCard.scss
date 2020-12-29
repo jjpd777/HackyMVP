@@ -1,0 +1,22 @@
+.report-card{
+    min-width: 15rem;
+    .rep-card-body{
+        align-self: center;
+    }
+    .rep-title{
+        font-size: 2rem;
+    }
+    h3{
+        font-size: 2rem;
+    }
+    .rep-transactions{
+        margin-top:-1rem;
+    }
+}
+
+.report-wzp{
+    background-color:rgb(61, 133, 3);
+    margin-top:-1rem;
+    font-size: 2rem;
+    border:0;
+}

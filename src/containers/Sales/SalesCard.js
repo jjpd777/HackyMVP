@@ -14,27 +14,29 @@ import DBservice, {SalesDB, LedgerDB, StoreDetailUtil, DateUtil} from '../../ser
 
 
 function SalesCard(props){
-    const {salesItem} = props;
+    const {store, salesItem} = props;
     const {insertLedgerEntry} = LedgerDB();
     const { unixTime, newMHDMY } = DateUtil();
     const {  GET_STORE_NAME, GET_JUST_POS } = StoreDetailUtil();
+    console.log("SALESYY",salesItem)
 
     const [cancelSale, setCancel] = useState(false);
     const salesSummary = salesItem.summary;
-    const timestamp = salesSummary.timestamp.split('&')[0];
+    console.log(salesSummary)
+    const tstamp = salesSummary.timestamp.split('&')[0];
     const status = salesSummary.status;
     const cartElements = salesSummary.cartItems;
     const insertSale = salesItem.insertionID;
     const boolFlag = status==="valid";
     const favStatus = <FontAwesomeIcon icon= {boolFlag ? faCheckCircle : faTimes} />
     const taxString = salesSummary.taxInfo;
-    const {updateSale} = SalesDB();
-
+    const {updateSale, updateSaleDynamically} = SalesDB();
+    const STORE = "GERONA";
     const writeCancelledSale = (key)=> {
         updateLedger();
         const update = { 'summary/status': 'cancelled'};
         setCancel(false);
-        updateSale(key,update);
+        updateSaleDynamically(store, key,update);
 
 
     }
@@ -69,7 +71,7 @@ function SalesCard(props){
          className="card-body">
           {/* {menuItem.image !== "" && (<img width="150" src={menuItem.image} />)} */}
           <div className="card-content">
-            <CardTitle className="title">{' '}{salesSummary.paymentMethod} {' '} {timestamp}</CardTitle>
+            <CardTitle className="title">{' '}{salesSummary.paymentMethod} {' '} {tstamp}</CardTitle>
             <CardSubtitle>  
             <h3>NIT:<b>{taxString}</b></h3>
             </CardSubtitle>
