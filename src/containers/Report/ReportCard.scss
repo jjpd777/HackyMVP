@@ -3,20 +3,40 @@
     .rep-card-body{
         align-self: center;
     }
+    .rep-sub-title{
+        margin-top: 1rem;
+        h2{
+            font-size: 1.8rem;
+        }
+        h3{
+            font-size: 1.5rem;
+            color:rgb(255, 115, 0);
+        }
+    }
     .rep-title{
-        font-size: 2rem;
+        font-size: 1.7rem;
+        font-weight:900;
     }
-    h3{
-        font-size: 2rem;
+    h4{
+        font-size: 1rem;
     }
+    h5{
+        font-size:0.7rem;
+    }
+   
     .rep-transactions{
         margin-top:-1rem;
     }
 }
 
 .report-wzp{
-    background-color:rgb(61, 133, 3);
+    background-color:rgb(255, 230, 198);
+    min-width: 14rem;
     margin-top:-1rem;
-    font-size: 2rem;
+    margin-left:3rem;
+    margin-right:auto;
+    h2{
+        font-size: 1rem;
+    }
     border:0;
 }

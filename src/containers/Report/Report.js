@@ -22,23 +22,29 @@ import {
     Dropdown,
     DropdownToggle,
     DropdownMenu,
+    FormInput,
     DropdownItem
   } from "shards-react";
 
 
 function Report() {
-  
+  const {getStandardDate} = DateUtil();
+    const { isCashRegisterOpen,isCashRegisterClosed } = StartCloseDB();
     const {root4shops} = AdminReportsDB();
-    const salesItems=[];
+
+    const TODAY = getStandardDate();
+    // const salesItems=[];
     const [loadingReport, setLoading] = useState(true);
     const [shopKeys, setShopKeys] = useState([]);
     const [individualShops, setIndividualShops] =useState([]);
     const [openedDay, setOpenedDay]=useState("Aún no han abierto.");
     const [closeSalesDay, setClosedDay]=useState("Aún no han cerrado.");
-
-
-    const {getStandardDate} = DateUtil();
-    const { isCashRegisterOpen,isCashRegisterClosed } = StartCloseDB();
+    const [dateHandler, setDateHandler] = useState(TODAY);
+    const [listOfDates, setListOfDates]  = useState([]);
+    const [openDD, setDD] = useState(false);
+    const [listOpenClose, setListOC] = useState([]);
+    const [lockKeyPad, setLockKey] = useState("");
+    
 
 
    
@@ -46,44 +52,55 @@ function Report() {
     useEffect(() => {
     const ref = root4shops();
     const refVal = ref.on('value', function (snapshot) {
-      const DATE2FETCH = getStandardDate();
-      let individualS=[];
-      let keyVal = [];
+      const DATE2FETCH = dateHandler;
+      var individualS=[]; var dailyStoreRecord = [];
+      var keyVal = []; var tmp_longest = [];
+
       const snap = snapshot.val();
       if(!snap) return;
       const respKeys = Object.keys(snap);
-      const xx = respKeys.filter((x)=> x !== "inventory");
-      const yy =  xx.filter((x)=> x !== "ledger");
+      const xx = respKeys.filter((x)=> x !== "inventory"); const yy =  xx.filter((x)=> x !== "ledger");
       const keys = yy.filter((x)=> x !=="orders-factory")
 
       keys.map((key) => {
         const shop = snap[key];
-        var storeItems= [];
+        var storeItems= []; var openCloseRecord = [];
         const SALES_TABLE = shop['sales'];
+        const OPEN_CLOSE_TABLE = shop['open-close'];
         keyVal.push(key);
+        const datesExamined = Object.keys(SALES_TABLE);
+
+        tmp_longest = datesExamined.length>tmp_longest.length ? datesExamined :tmp_longest;
 
         if (!!SALES_TABLE && SALES_TABLE[DATE2FETCH]) {
-          const dailytransactions = SALES_TABLE[DATE2FETCH]
+          const dailytransactions = SALES_TABLE[DATE2FETCH];
+          const dailyOpenClose = OPEN_CLOSE_TABLE[DATE2FETCH];
+
           const nKeys = Object.keys(dailytransactions);
+          const nnKeys = Object.keys(dailyOpenClose);
+
           nKeys.map((k) => storeItems.push(dailytransactions[k]));
-        }
-        individualS.push(storeItems);
+          nnKeys.map((k)=> openCloseRecord.push(dailyOpenClose[k]))
+        };
+        individualS.push(storeItems); 
+        dailyStoreRecord.push(openCloseRecord);
       })
+
       var array2sort=[];
       individualS.map((shop,ix)=> {
         const sum = sumShopSales(shop);
-        array2sort.push([shop,sum, keyVal[ix]])
+        array2sort.push([shop,sum, keyVal[ix], dailyStoreRecord[ix]]);
       });
       const sortedArray = bubbleSort(array2sort).reverse();
 
       setIndividualShops(sortedArray.map((item)=> item[0]));
       setShopKeys( sortedArray.map((item)=> item[2]));
+      setListOC(sortedArray.map((x)=> x[3]))
       setLoading(!loadingReport);
+      setListOfDates(tmp_longest);
     });
     return () => ref.off('value', refVal)
-  }, [])
-
-
+  }, [dateHandler])
 
     // const sectionDate = getStandardDate();
     // const [reportDate, setReportDate] = useState(sectionDate);
@@ -138,85 +155,47 @@ function Report() {
       //   const rsp = totalSales.split(' ').join("%20");
       //   return rsp;
       // }
-      console.log(individualShops,"BR")
-
-      console.log(shopKeys,"IND")
-    // const closeSalesDay = () => {
-
-    //     if(true) return;
-    //     var baseURL = "https://wa.me/50249503041?text=";
-    //     const welcome = "Buenas de *"+ STORENAME+"*";
-    //     const totalSales = "%0A%0AEl dia de hoy " + reportDate + " el *total de ventas fué: Qtz. " + String(avCash + avCard)+"* en *"+String(totalNumTickets)+"* tickets.";
-    //     const ticketText = "%0A%0A*El ticket promedio* fué de: *Qtz. " + String(avTicket) + "*"
-    //     const numCardText = "%0A%0A*Ventas en tarjeta: Qtz" + avCard + "*";
-    //     const numCashText = "%0A%0A*Ventas en efectivo: Qtz" + avCash + "*";
-    //     const resp = welcome + totalSales + ticketText + numCardText + numCashText;
-    //     const response = resp.split(" ").join("%20");
-    //     const inventorySummary = getSalesSummary();
-    //     const send = baseURL + response + inventorySummary;
-    //     setRedirect(send);
-    // }
-
-    // const ticketsReport = () => {
-    //     var active = 0;
-    //     var cancelled = 0;
-    //     const today = reportDate;
-    //     var salesToday = props.salesItems.filter((item)=> item.category ===today)
-    //     salesToday.map((val) => val.valid ? active++ : cancelled++);
-    // }
-    // const getStats = () => {
-    //     var salesTotal = 0;
-    //     var cardTotal = 0;
-    //     var cashTotal = 0;
-    //     var tickets = 0;
-    //     const today = "reportDate";
-    //     var salesToday = salesItems.filter((item)=> item.category ===today && item.valid)
-    //     salesToday.map((val) => {
-    //         if (val.valid && val.taxInfo!=="EGRESO") {
-    //             salesTotal += val.total
-    //             tickets++;
-    //             if (val.payment === "tarjeta") {
-    //                 cardTotal += val.total;
-    //             }
-    //             else cashTotal += val.total;
-    //         }
-    //         setTicket(tickets)
-    //     })
-
-    //     const ticket = (salesTotal / salesToday.length);
-    //     const tmp = (Math.round(ticket * 100) / 100).toFixed(2)
-    //     const result = parseFloat(tmp);
-    //     // setTotalNum(salesToday.length);
-    //     setAvCard(cardTotal);
-    //     setAvCash(cashTotal);
-    //     setAvTicket(result);
-    // }
-    const simpleJSON = ()=>{
-      var tmp = [];
-      var tmp1 = [];
-      const exe = "EXAMPLE"
-      for(var i=0; i<6;i++) tmp[exe[i]]= i;
-      for(var i=0; i<6;i++) tmp1[exe[6-i]]= 6-i;
-
-      tmp["anexus"]= tmp1;
-
-
-      return tmp;
+    const assembleForGlobalReport = ()=>{
+        var largeShop =[];
+        individualShops.map((x)=> largeShop.push(...x))
+        return largeShop;
     }
+
     return (
       <>
       <br></br>
       <br></br>
-      {/* <Button className="switch-store" onClick={()=> next_store()}>  {storeHandler}</Button> */}
       <br></br>
-      <h2>29-12-2020</h2>
-      {/* <h2><FontAwesomeIcon icon={faCashRegister} /> El día de hoy van {validTickets2Date} tickets.</h2> */}
-      {!individualShops.length && <Button className="not-yet">Todavía no hay ventas...</Button>}
+      
       {/* {!!individualShops.length && <h3>Últimas 3 son visibles y cancelables</h3>} */}
       <div className="sales-list-new">
-      {individualShops.map((item, ix) =>
+      {!individualShops.length && <Button className="not-yet-rep">Cargando...</Button>}
+      <br></br>
+      {lockKeyPad !== "1234" && <> 
+      <h3 className="keyEntry">Clave para entrar: </h3>
+      <FormInput
+            className="admin-rep-access"
+            value={lockKeyPad}
+            onChange={(e) => {
+              setLockKey(e.target.value);
+            }}
+          />
+      </>}
+   { lockKeyPad === "1234" &&  <Dropdown  open={openDD} toggle={()=>{setDD(!openDD)}}>
+        <DropdownToggle className="drop-rep-dates" theme="success">{dateHandler}</DropdownToggle>
+        <DropdownMenu>
+          {listOfDates.map((x)=>
               <>
-               <ReportCard reportItem={item} storeKey={shopKeys[ix]}/>
+                <DropdownItem onClick={()=>setDateHandler(x)}>{x}</DropdownItem>
+              </>
+          )}
+        </DropdownMenu>
+      </Dropdown>}
+     { lockKeyPad=== "1234" && <ReportCard reportItem={assembleForGlobalReport()} storeKey={"GLOBAL"} openCloseProp={[]} />}
+
+      {lockKeyPad === "1234" && individualShops.map((item, ix) =>
+              <>
+               <ReportCard reportItem={item} storeKey={String(shopKeys[ix])} openCloseProp={listOpenClose[ix]}/>
               </>
       )}
       </div>

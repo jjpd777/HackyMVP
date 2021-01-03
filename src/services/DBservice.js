@@ -178,7 +178,6 @@ export const StartCloseDB = ()=>{
 
   const isCashRegisterOpen = (shop)=>{
     const DSST= ROOT+'/'+shop+'/open-close/'+READABLE_TIMESTAMP + '/caja/open';
-    console.log("DEST", DSST)
         const reference = database.ref(DSST);
       return reference;
   };

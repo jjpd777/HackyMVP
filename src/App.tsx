@@ -133,12 +133,12 @@ useEffect(()=>{
          {/* {getFitFlag && <li className="nav-item">
             {returnNav("/newsfeed", "NEWSFEED")}
           </li>} */}
-          <li className="nav-item size-lg">
+          {/* <li className="nav-item size-lg">
             {returnNav("/registro", "REGISTRAR INV.")}
           </li>
           <li className="nav-item">
             {returnNav("/inventario", "EDITAR INV.")}
-          </li>
+          </li> */}
           {/* {getFitFlag &&<li className="nav-item">
             {returnNav("/instock", "STOCK")}
           </li>} */}
