@@ -44,7 +44,8 @@ function Report() {
     const [openDD, setDD] = useState(false);
     const [listOpenClose, setListOC] = useState([]);
     const [lockKeyPad, setLockKey] = useState("");
-    
+    const [BOOL_MOFO, SET_BOOL] = useState(false);
+
 
 
    
@@ -68,11 +69,11 @@ function Report() {
         const SALES_TABLE = shop['sales'];
         const OPEN_CLOSE_TABLE = shop['open-close'];
         keyVal.push(key);
-        const datesExamined = Object.keys(SALES_TABLE);
-
-        tmp_longest = datesExamined.length>tmp_longest.length ? datesExamined :tmp_longest;
 
         if (!!SALES_TABLE && SALES_TABLE[DATE2FETCH]) {
+          const datesExamined = Object.keys(SALES_TABLE);
+          tmp_longest = datesExamined.length>tmp_longest.length ? datesExamined :tmp_longest;
+
           const dailytransactions = SALES_TABLE[DATE2FETCH];
           const dailyOpenClose = OPEN_CLOSE_TABLE[DATE2FETCH];
 
@@ -102,64 +103,14 @@ function Report() {
     return () => ref.off('value', refVal)
   }, [dateHandler])
 
-    // const sectionDate = getStandardDate();
-    // const [reportDate, setReportDate] = useState(sectionDate);
-    // const [totalNumTickets, setTotalNum]= useState(0);
-    // const [triggerReport, setTrigger] =useState(false)
-    // const [STORENAME,setSTORENAME] = useState(DBservice.getStoreName())
-
-    // useEffect(() => {
-    //     // getStats();
-    //     // ticketsReport();
-    // },[salesItems, reportDate])
-
-    // useEffect(()=>closeSalesDay(),[triggerReport])
-
-    // function bubbleSort(arr){
-    //     var len = arr.length;
-    //     for (var i = len-1; i>=0; i--){
-    //       for(var j = 1; j<=i; j++){
-    //         if(arr[j-1].sold >arr[j].sold){
-    //             var temp = arr[j-1];
-    //             arr[j-1] = arr[j];
-    //             arr[j] = temp;
-    //          }
-    //       }
-    //     }
-    //     return arr;
-    //  }
-    
-      // const getSalesSummary = () => {
-      //   if(!props.registerItems) return;
-
-      //   let response= [];
-      //   props.registerItems.map((item) => {
-      //     if (item.quantityavailable > 0) {
-      //       const itemSold = {
-      //         id: item.productID,
-      //         name: item.name,
-      //         sold: item.quantityavailable
-      //       }
-      //       response.push(itemSold);
-      //     }
-      //   }
-      //   )
-      //   var sortedArray = bubbleSort(response);
-      //   sortedArray = sortedArray.reverse();
-
-
-      //   var totalSales = "%0A%0AHoy las ventas fueron las siguientes:%0A%0A" 
-      //   sortedArray.map((item)=>{
-      //     totalSales+= "*x"+ String(item.sold) + "* "+ item.name +"%0A"
-      //   })
-      //   const rsp = totalSales.split(' ').join("%20");
-      //   return rsp;
-      // }
     const assembleForGlobalReport = ()=>{
         var largeShop =[];
         individualShops.map((x)=> largeShop.push(...x))
         return largeShop;
     }
+    const UNLOCK_BOOLEAN =  lockKeyPad === "1234";
+    const FULL_STORE = assembleForGlobalReport();
+
 
     return (
       <>
@@ -171,7 +122,7 @@ function Report() {
       <div className="sales-list-new">
       {!individualShops.length && <Button className="not-yet-rep">Cargando...</Button>}
       <br></br>
-      {lockKeyPad !== "1234" && <> 
+      {!UNLOCK_BOOLEAN && <> 
       <h3 className="keyEntry">Clave para entrar: </h3>
       <FormInput
             className="admin-rep-access"
@@ -181,7 +132,8 @@ function Report() {
             }}
           />
       </>}
-   { lockKeyPad === "1234" &&  <Dropdown  open={openDD} toggle={()=>{setDD(!openDD)}}>
+      <br></br>
+   { UNLOCK_BOOLEAN &&  <Dropdown  open={openDD} toggle={()=>{setDD(!openDD)}}>
         <DropdownToggle className="drop-rep-dates" theme="success">{dateHandler}</DropdownToggle>
         <DropdownMenu>
           {listOfDates.map((x)=>
@@ -191,14 +143,15 @@ function Report() {
           )}
         </DropdownMenu>
       </Dropdown>}
-     { lockKeyPad=== "1234" && <ReportCard reportItem={assembleForGlobalReport()} storeKey={"GLOBAL"} openCloseProp={[]} />}
+     { UNLOCK_BOOLEAN && <ReportCard reportItem={FULL_STORE} storeKey={"GLOBAL"} openCloseProp={[]} />}
 
-      {lockKeyPad === "1234" && individualShops.map((item, ix) =>
-              <>
-               <ReportCard reportItem={item} storeKey={String(shopKeys[ix])} openCloseProp={listOpenClose[ix]}/>
-              </>
+      {individualShops.map((item, ix) =>
+        <>
+        {UNLOCK_BOOLEAN && <ReportCard reportItem={item} storeKey={String(shopKeys[ix])} openCloseProp={listOpenClose[ix]}/>}              
+        </>
       )}
       </div>
+
   </>
     )
 

@@ -1,15 +1,18 @@
 .report-card{
     min-width: 15rem;
+    .BRUH{
+        margin-top:-2rem;
+    }
     .rep-card-body{
         align-self: center;
     }
     .rep-sub-title{
-        margin-top: 1rem;
+        margin-top: 0rem;
         h2{
-            font-size: 1.8rem;
+            font-size: 1.4rem;
         }
         h3{
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             color:rgb(255, 115, 0);
         }
     }
@@ -17,15 +20,16 @@
         font-size: 1.7rem;
         font-weight:900;
     }
+  
     h4{
         font-size: 1rem;
     }
     h5{
-        font-size:0.7rem;
+        font-size:1rem;
     }
    
     .rep-transactions{
-        margin-top:-1rem;
+
     }
 }
 

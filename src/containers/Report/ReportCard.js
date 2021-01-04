@@ -36,48 +36,48 @@ function ReportCard(props){
     const getValues = (input)=>{
         const xK = Object.keys(input);
         const resp = xK.map((xx)=>input[xx]);
-        console.log("HELPER", resp)
         return resp[0];
     }
 
     console.log(openCloseProp)
     useEffect(()=>{
         if(!openCloseProp) return
-        var openName = ""; var openAmount =0;
-        var closeName= ""; var closeAmount = 0;
+        var openName = ""; var openAmount =0; var closeName= ""; 
+        var closeAmountCash = 0; var closeAmountCard = 0;
 
         const checkValidProp = openCloseProp[0];
 
         if(!!checkValidProp){
             if(checkValidProp.open){
                 const tmpList = getValues(checkValidProp.open);
-                openAmount = tmpList.openAmount;
+                openAmount = tmpList.openAmountCash;
                 openName = tmpList.name;
                 setOpenedDay([openName, openAmount]);
             }
             if(checkValidProp.close){
                 const tmpList = getValues(checkValidProp.close)
-                closeAmount = tmpList.closeAmount;
+                console.log("SIMPLE", tmpList)
+                closeAmountCash = tmpList.closeAmountCash;
+                closeAmountCard = tmpList.closeAmountCard;
                 closeName = tmpList.name;
-                setClosedDay([closeName, closeAmount])
+                console.log("BRUHHHH",[closeName, closeAmountCash, closeAmountCard])
+                setClosedDay([closeName, closeAmountCash, closeAmountCard])
             }
         }
 
     },[openCloseProp])
 
-    useEffect(() => {
-        if(!storeKey) return;
-        const reference = isCashRegisterClosed(storeKey);
-        const onValChange = reference.on('value', (snapshot) => {
-        const x = snapshot.val();
-        if(!x) return
-        const kz = Object.keys(x);
-        setClosedDay(kz.map((xx)=>x[xx]))
-        });
-        return () => reference.off('value', onValChange);
-      }, [])
-    
-      console.log("PROPPING",openedDay)
+    // useEffect(() => {
+    //     if(!storeKey) return;
+    //     const reference = isCashRegisterClosed(storeKey);
+    //     const onValChange = reference.on('value', (snapshot) => {
+    //     const x = snapshot.val();
+    //     if(!x) return
+    //     const kz = Object.keys(x);
+    //     setClosedDay(kz.map((xx)=>x[xx]))
+    //     });
+    //     return () => reference.off('value', onValChange);
+    //   }, [])
    
     useEffect(()=>{
         generateReportSummary();
@@ -103,23 +103,36 @@ function ReportCard(props){
     
     useEffect(()=>{generateReportSummary()},[props]);
 
+    const CLOSED_DAY_FLAG = closedDay[0]!=="";
+
     const triggerWhatsAppMessage = ()=>{
         generateReportSummary()
         setWhatsAppFlag(!wzapFlag)
     };
+    const generateBalance = ()=> {
+    if(CLOSED_DAY_FLAG){
+        const cashInStore = Number(openedDay[1]) + Number(cashTotal);
+        const cashBalance = Number(cashInStore)-Number(closedDay[1]);
+        const cardBalance = Number(cardTotal) - Number(closedDay[2]);
+        return (<>
+        <h2>Balances</h2>
+        <h3>efectivo: Q.{cashBalance} tarjeta: Q.{cardBalance}</h3></>)
+    }else{
+        return(<h2>No hay balance todavía.</h2>)
+    }
 
-    const openSummary = ()=> 
-    <>
-       { openedDay[0]=== "" ? <h5> Aún no ha abierto.</h5> :
-        <h5>Abierto por <b>{openedDay[0] }</b> con {' Q.'}{openedDay[1]}{' '} en caja.</h5>
-       }
-    </>
-     const closeSummary = ()=> 
-     <>
-        { closedDay[0]=== "" ? <h5> Aún no ha cerrado.</h5> :
-         <h5>Cerrado por <b>{closedDay[0] }</b> con {' Q.'}{closedDay[1]}{' '} en caja.</h5>
-        }
-     </>
+    }
+    const openSummary = ()=> {
+        const RESP = 'Abrió ' + openedDay[0] + ' con Q.' + openedDay[1]+" en caja.";
+        return openedDay[0]=== "" ? " Aún no ha abierto." : RESP;
+    }
+
+     const closeSummary = ()=> {
+         if(closedDay[0]==="") return;
+         console.log(closedDay, "NIGGY")
+        const RESP = 'Cerró ' + closedDay[0] + ' con Q.' + closedDay[1]+" en caja y "+ closedDay[2] + " en PoS.";
+        return closedDay[0]=== "" ? " Aún no ha cerrado." : RESP;
+     }
     return(
         <>
     <div className="report-card" onClick={()=> !GLOBAL_FLAG ? triggerWhatsAppMessage(): null} >
@@ -131,15 +144,18 @@ function ReportCard(props){
             <CardTitle className="rep-title">{storeKey}{' '}<FontAwesomeIcon icon={faCashRegister}/></CardTitle>
             <CardSubtitle className="rep-sub-title">  
                 <h2>Qtz. {averageTicket} / ticket</h2>
-                <h3>{'Qtz.'}{totalSales} {' en '}{validTickets}{' tickets.'}</h3>
+                <h3>{'Q.'}{totalSales} {' en '}{validTickets}{' tickets.'}</h3>
 
-            {!GLOBAL_FLAG &&  <h4 className="rep-transactions">EFECTIVO: Q.{cashTotal} {' '}TARJETA: Q.{cardTotal}</h4>}            </CardSubtitle>
+            {!GLOBAL_FLAG && <> <h4 className="rep-transactions">EFECTIVO: Q.{cashTotal}</h4><h4> {' '}TARJETA: Q.{cardTotal}</h4></>}            </CardSubtitle>
           </div>
         </CardBody>
-        <h3>Balance: </h3>
+        <div className="BRUH">
+            {!GLOBAL_FLAG && <><h3>{openSummary()}</h3><h3>{closeSummary()}</h3></>}
+
+        </div>
       </Card>
       </div>
-{ wzapFlag &&  <Button onClick={()=> {}}className="report-wzp"> <h2>{openSummary()}</h2><h2>{closeSummary()}</h2></Button>}        
+{ wzapFlag &&  <Button onClick={()=> {}}className="report-wzp">{generateBalance()} </Button>}        
 </>
     )
 }
