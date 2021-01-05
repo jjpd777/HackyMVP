@@ -6,6 +6,7 @@ import './ReportCard.scss'
 import {
     faArrowAltCircleLeft,
     faCheckCircle,
+    faCreditCard,
     faTimes,
     faStore,
     faTrash,
@@ -32,7 +33,9 @@ function ReportCard(props){
     const [easyK, setEasyK] = useState(true);
     const GLOBAL_FLAG = storeKey ==="GLOBAL";
 
-
+    function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
     const getValues = (input)=>{
         const xK = Object.keys(input);
         const resp = xK.map((xx)=>input[xx]);
@@ -56,29 +59,15 @@ function ReportCard(props){
             }
             if(checkValidProp.close){
                 const tmpList = getValues(checkValidProp.close)
-                console.log("SIMPLE", tmpList)
                 closeAmountCash = tmpList.closeAmountCash;
                 closeAmountCard = tmpList.closeAmountCard;
                 closeName = tmpList.name;
-                console.log("BRUHHHH",[closeName, closeAmountCash, closeAmountCard])
                 setClosedDay([closeName, closeAmountCash, closeAmountCard])
             }
         }
 
     },[openCloseProp])
 
-    // useEffect(() => {
-    //     if(!storeKey) return;
-    //     const reference = isCashRegisterClosed(storeKey);
-    //     const onValChange = reference.on('value', (snapshot) => {
-    //     const x = snapshot.val();
-    //     if(!x) return
-    //     const kz = Object.keys(x);
-    //     setClosedDay(kz.map((xx)=>x[xx]))
-    //     });
-    //     return () => reference.off('value', onValChange);
-    //   }, [])
-   
     useEffect(()=>{
         generateReportSummary();
     },[reportItem])
@@ -114,11 +103,19 @@ function ReportCard(props){
         const cashInStore = Number(openedDay[1]) + Number(cashTotal);
         const cashBalance = Number(cashInStore)-Number(closedDay[1]);
         const cardBalance = Number(cardTotal) - Number(closedDay[2]);
+        const balance_card_text = (cardBalance>0 ? "Sobró " : "Faltó Q." )+ cardBalance + " de tarjeta y "
+        const balance_cash_text = (cashBalance>0 ? "sobró " : "faltó Q." )+ cashBalance + " de efectivo."
+
         return (<>
-        <h2>Balances</h2>
-        <h3>efectivo: Q.{cashBalance} tarjeta: Q.{cardBalance}</h3></>)
+            <h3>{balance_card_text}{balance_cash_text}</h3>
+        </>)
     }else{
-        return(<h2>No hay balance todavía.</h2>)
+        return(<h3>No hay balance todavía.</h3>)
+    };
+
+    const whatsAppBalance = ()=>{
+        const rsp = "";
+
     }
 
     }
@@ -143,14 +140,20 @@ function ReportCard(props){
           <div className="rep-card-content">
             <CardTitle className="rep-title">{storeKey}{' '}<FontAwesomeIcon icon={faCashRegister}/></CardTitle>
             <CardSubtitle className="rep-sub-title">  
-                <h2>Qtz. {averageTicket} / ticket</h2>
-                <h3>{'Q.'}{totalSales} {' en '}{validTickets}{' tickets.'}</h3>
+                 <h2>{'Q.'}{numberWithCommas(totalSales)} {' total '}</h2>
+                 <h5>{'en '}{validTickets}{' tickets.'}</h5>
 
-            {!GLOBAL_FLAG && <> <h4 className="rep-transactions">EFECTIVO: Q.{cashTotal}</h4><h4> {' '}TARJETA: Q.{cardTotal}</h4></>}            </CardSubtitle>
+                <h3>Qtz. {averageTicket} / ticket</h3>
+
+            {!GLOBAL_FLAG && <> <h4 className="rep-transactions"><FontAwesomeIcon icon={faMoneyBill}/>{' '}EFECTIVO: Q.{cashTotal}</h4><h4> {' '} <FontAwesomeIcon icon={faCreditCard}/>{' '}TARJETA: Q.{cardTotal}</h4></>}            
+            </CardSubtitle>
           </div>
         </CardBody>
         <div className="BRUH">
-            {!GLOBAL_FLAG && <><h3>{openSummary()}</h3><h3>{closeSummary()}</h3></>}
+            {!GLOBAL_FLAG && <>
+            <h5>{openSummary()}</h5><h5>{closeSummary()}</h5>
+            
+            </>}
 
         </div>
       </Card>

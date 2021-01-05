@@ -128,8 +128,11 @@ useEffect(()=>{
             {returnNav("/", "INGRESOS & EGRESOS")}
           </li>} */}
           <li className="nav-item">
-            {returnNav("/ventas", "VENTAS ")}
+            {returnNav("/", "ADMINISTRACIÓN")}
           </li>
+          {/* <li className="nav-item">
+            {returnNav("/ventas", "VENTAS ")}
+          </li> */}
          {/* {getFitFlag && <li className="nav-item">
             {returnNav("/newsfeed", "NEWSFEED")}
           </li>} */}

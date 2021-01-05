@@ -37,17 +37,26 @@ main{
     font-size:2rem;
   }
 
+
   .sales-list-new{
     font-size: 2rem;
+    .insider-thing{
+      margin-top:-4rem;
+    }
 
     .keyEntry{
       min-width: 15rem;
     }
     .drop-rep-dates{
+      margin-block-start: 2rem;
+
       min-width: 10rem;
       margin-bottom:2rem;
     }
     .drop-rep-dates{
+      margin-top:-10rem;
+
+      // margin-top:-1rem;
       font-size: 2rem;
       min-width: 20rem;
     }

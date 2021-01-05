@@ -1,7 +1,8 @@
 import database from "./firebase";
-const ROOT = "BORGONA";
-const STORE_LIST = ["GERONA", "AUTOPAN", "NOVITA", "PLAZOLETA", "FRAIJANES","COMERCIA"];
-const STORENAME = STORE_LIST[1];
+const ROOT = "DEMOSTRACION";
+// const STORE_LIST = ["GERONA", "AUTOPAN", "NOVITA", "PLAZOLETA", "FRAIJANES","COMERCIA"];
+const STORE_LIST = ["TEXTILES-ORLANDO"]
+const STORENAME = STORE_LIST[0];
 const SHOP_URL = ROOT + "/" + STORENAME;
 const INVENTORY_URL = ROOT + "/inventory";
 const SALES_URL = SHOP_URL + "/sales/";

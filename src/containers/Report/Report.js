@@ -61,7 +61,8 @@ function Report() {
       if(!snap) return;
       const respKeys = Object.keys(snap);
       const xx = respKeys.filter((x)=> x !== "inventory"); const yy =  xx.filter((x)=> x !== "ledger");
-      const keys = yy.filter((x)=> x !=="orders-factory")
+      const kk = yy.filter((x)=> x !== "orders-factory"); const kkzk = kk.filter((x)=>  x !== "LISTOSOFTWARE");
+      const keys = kkzk.filter((x)=>  x !== "changes-log");
 
       keys.map((key) => {
         const shop = snap[key];
@@ -108,16 +109,12 @@ function Report() {
         individualShops.map((x)=> largeShop.push(...x))
         return largeShop;
     }
-    const UNLOCK_BOOLEAN =  lockKeyPad === "1234";
+    const UNLOCK_BOOLEAN =  lockKeyPad === "0991";
     const FULL_STORE = assembleForGlobalReport();
 
 
     return (
-      <>
-      <br></br>
-      <br></br>
-      <br></br>
-      
+      <> 
       {/* {!!individualShops.length && <h3>Últimas 3 son visibles y cancelables</h3>} */}
       <div className="sales-list-new">
       {!individualShops.length && <Button className="not-yet-rep">Cargando...</Button>}
@@ -143,6 +140,7 @@ function Report() {
           )}
         </DropdownMenu>
       </Dropdown>}
+      <div className="insider-thing">
      { UNLOCK_BOOLEAN && <ReportCard reportItem={FULL_STORE} storeKey={"GLOBAL"} openCloseProp={[]} />}
 
       {individualShops.map((item, ix) =>
@@ -150,6 +148,7 @@ function Report() {
         {UNLOCK_BOOLEAN && <ReportCard reportItem={item} storeKey={String(shopKeys[ix])} openCloseProp={listOpenClose[ix]}/>}              
         </>
       )}
+      </div>
       </div>
 
   </>
