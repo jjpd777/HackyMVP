@@ -1,11 +1,26 @@
 .report-card{
     min-width: 15rem;
+    
     .BRUH{
         margin-top:-2rem;
         max-width: 15rem;
         margin-bottom:1rem;
         justify-content: center;
         align-self: center;
+        h3{
+            padding-block-start: 1px;
+            margin-top:1rem;
+            font-weight: 700;
+        }
+        .in-balance{
+            color:green;
+        }
+        .balance-positive{
+            color: rgb(255, 187, 0);
+        }
+        .balance-negative{
+            color:red;
+        }
     }
     .rep-card-body{
         align-self: center;
@@ -38,14 +53,14 @@
 }
 
 .report-wzp{
-    background-color:rgb(255, 198, 123);
+    background-color:rgb(255, 177, 177);
     border-color:red;
     min-width: 16rem;
     margin-top:0rem;
-    margin-left:2.2rem;
+    margin-left:0rem;
     margin-right:auto;
-    h3{
-        font-size: 1rem;
+    h5{
+        font-size: 0.7rem;
         font-weight: 800;
     }
 

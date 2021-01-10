@@ -61,7 +61,7 @@ function Report() {
       if(!snap) return;
       const respKeys = Object.keys(snap);
       const xx = respKeys.filter((x)=> x !== "inventory"); const yy =  xx.filter((x)=> x !== "ledger");
-      const kk = yy.filter((x)=> x !== "orders-factory"); const kkzk = kk.filter((x)=>  x !== "LISTOSOFTWARE");
+      const kk = yy.filter((x)=> x !== "orders-factory"); const kkzk = kk.filter((x)=>  x!== "LISTOSOFTWARE");
       const keys = kkzk.filter((x)=>  x !== "changes-log");
 
       keys.map((key) => {
@@ -117,6 +117,7 @@ function Report() {
       <> 
       {/* {!!individualShops.length && <h3>Últimas 3 son visibles y cancelables</h3>} */}
       <div className="sales-list-new">
+      <h2>ADMINISTRACIÓN</h2>
       {!individualShops.length && <Button className="not-yet-rep">Cargando...</Button>}
       <br></br>
       {!UNLOCK_BOOLEAN && <> 

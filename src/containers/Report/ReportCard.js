@@ -98,19 +98,37 @@ function ReportCard(props){
         generateReportSummary()
         setWhatsAppFlag(!wzapFlag)
     };
+    const parseAway = (xx)=>{
+        var x = String(xx);
+        var y = String(parseFloat(x.replace(/,/g,'')))
+        var z = parseFloat(y.replace(/-/g,''))
+        return z;
+    }
     const generateBalance = ()=> {
     if(CLOSED_DAY_FLAG){
-        const cashInStore = Number(openedDay[1]) + Number(cashTotal);
-        const cashBalance = Number(cashInStore)-Number(closedDay[1]);
-        const cardBalance = Number(cardTotal) - Number(closedDay[2]);
-        const balance_card_text = (cardBalance>0 ? "Sobró " : "Faltó Q." )+ cardBalance + " de tarjeta y "
-        const balance_cash_text = (cashBalance>0 ? "sobró " : "faltó Q." )+ cashBalance + " de efectivo."
+        const openKash = parseAway(openedDay[1]); const closeKash = parseAway(closedDay[1]);
+        const closeKard = parseAway(closedDay[2]);
+        const cashInStore = openKash + Number(cashTotal); // 1458 - 12
+        const cashBalance = closeKash - Number(cashInStore); 
+        const cardBalance = Number(cardTotal) - closeKard;
+        const cardBool = cardBalance<0 || cardBalance===0; const cashBool = cashBalance>0 || cashBalance===0;
+        const cardTxt = cardBool ? "Sobró $ tarjeta" : "Faltó $ tarjeta";
+        const cashTxt = cashBool ? "Sobró $ efectivo" : "Faltó $ efectivo";
+        const balance_card_text = (cardBalance===0 ? "Las ventas en tarjeta cuadraron cabal." : "VisaNet/Bantrab registró Q." + parseAway(cardBalance.toFixed(2)) + (cardBool ?" más":" menos") + " que Listosoftware." );
+        const balance_cash_text = (cashBalance===0 ? "Las ventas en efectivo cuadraron cabal." : "En caja hay Q."+ parseAway(cashBalance.toFixed(2)) + (cashBool ?" más ":" menos ")+ " de lo registrado por Listosoftware.");
+        var cardStyle ="in-balance"; var cashStyle="in-balance";
+        
+        if(cardBalance!==0) cardStyle = cardBool ? "balance-positive" : "balance-negative";
+        if(cashBalance !==0) cashStyle =  cashBool ? "balance-positive" : "balance-negative";
 
         return (<>
-            <h3>{balance_card_text}{balance_cash_text}</h3>
+            {cardBalance!==0 && <h3>{cardTxt}</h3>}
+            <h5 className={cardStyle}>{balance_card_text}</h5>
+           {cashBalance!==0 && <h3>{cashTxt}</h3>}
+            <h5 className= {cashStyle}>{balance_cash_text}</h5>
         </>)
     }else{
-        return(<h3>No hay balance todavía.</h3>)
+        return(<h4>No hay balance todavía.</h4>)
     };
 
     const whatsAppBalance = ()=>{
@@ -127,7 +145,7 @@ function ReportCard(props){
      const closeSummary = ()=> {
          if(closedDay[0]==="") return;
          console.log(closedDay, "NIGGY")
-        const RESP = 'Cerró ' + closedDay[0] + ' con Q.' + closedDay[1]+" en caja y "+ closedDay[2] + " en PoS.";
+        const RESP = 'Cerró ' + closedDay[0] + ' con Q.' + closedDay[1]+" en caja y Q."+ closedDay[2] + " en PoS.";
         return closedDay[0]=== "" ? " Aún no ha cerrado." : RESP;
      }
     return(
@@ -151,14 +169,15 @@ function ReportCard(props){
         </CardBody>
         <div className="BRUH">
             {!GLOBAL_FLAG && <>
-            <h5>{openSummary()}</h5><h5>{closeSummary()}</h5>
+                {generateBalance()}
             
             </>}
 
         </div>
       </Card>
       </div>
-{ wzapFlag &&  <Button onClick={()=> {}}className="report-wzp">{generateBalance()} </Button>}        
+{ wzapFlag &&  <Button onClick={()=> {}}className="report-wzp">            <h5>{openSummary()}</h5><h5>{closeSummary()}</h5>
+</Button>}        
 </>
     )
 }

@@ -10,7 +10,7 @@ import {
 
 import { CartItem } from '../../App';
 import { MenuItem } from '../../containers/Menu/Menu';
-import DBservice from '../../services/DBservice';
+import DBservice, {InventoryDB} from '../../services/DBservice';
 
 interface PoSCardProps {
   menuItem: MenuItem;
@@ -22,7 +22,7 @@ function EditCard(props: PoSCardProps) {
   const { menuItem, cart, setCartItems } = props;
   const [modalOpen, setModalOpen] = useState(false);
   const [currentEdit, setCurrentEdit] = useState();
-
+  const {removeInventory} = InventoryDB();
 
   return (
     <div className="card-container">
@@ -44,7 +44,7 @@ function EditCard(props: PoSCardProps) {
         </CardBody>
       </Card>
       </div>
-      {/* <Button className="decrease" theme="danger" onClick={() => DBservice.removeInventory(menuItem.id)}> remove </Button> */}
+      <Button className="decrease" theme="danger" onClick={() => removeInventory(menuItem.id)}> remove </Button>
       {/* <Button className="increase" theme="success" onClick={() => addOneToCart()}> <FontAwesomeIcon icon={faCircle}/> </Button> */}
     </div>
   );

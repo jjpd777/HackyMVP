@@ -127,21 +127,22 @@ useEffect(()=>{
         {/* { getFitFlag && <li className="nav-item">
             {returnNav("/", "INGRESOS & EGRESOS")}
           </li>} */}
-          <li className="nav-item">
+          {/* <li className="nav-item">
             {returnNav("/", "ADMINISTRACIÓN")}
           </li>
-          {/* <li className="nav-item">
+          <li className="nav-item">
             {returnNav("/ventas", "VENTAS ")}
-          </li> */}
-         {/* {getFitFlag && <li className="nav-item">
-            {returnNav("/newsfeed", "NEWSFEED")}
-          </li>} */}
+          </li>
           <li className="nav-item size-lg">
             {returnNav("/registro", "REGISTRAR INV.")}
           </li>
           <li className="nav-item">
             {returnNav("/inventario", "EDITAR INV.")}
-          </li>
+          </li> */}
+         {/* {getFitFlag && <li className="nav-item">
+            {returnNav("/newsfeed", "NEWSFEED")}
+          </li>} */}
+       
           {/* {getFitFlag &&<li className="nav-item">
             {returnNav("/instock", "STOCK")}
           </li>} */}
@@ -149,12 +150,16 @@ useEffect(()=>{
       </nav>
       {false ? (<Button size="lg" theme="danger" className="loading">Cargando...</Button>)
         : (
-          <div className="container">
-            <Switch>
+          <>
+          <div className="report-container">
+          <Switch>
               <Route exact path={["/"]}>
               <Report/>
               </Route>
             </Switch>
+          </div>
+          <div className="container">
+           
             {false || false ?
               (<Button size="lg" theme="danger" className="loading">Cargando...</Button>)
               :
@@ -235,7 +240,9 @@ useEffect(()=>{
               ></Inventory>
               </Route>
             </Switch>
-          </div>)}
+          </div>
+          </>
+          )}
 
          
           {/* <Switch>
