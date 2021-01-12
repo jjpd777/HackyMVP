@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import './Header.scss'
 import { DateforSection } from '../../services/DBservice';
+import listoLogo from '../../logo_v22.png';
+import fireLogo from '../../fire-logo.png'
+import felLogo from '../../fel-rm.png';
+import wazup from '../../wzup.png';
+import dopy from '../../dopezt.jpeg'
 
 import {
-  faLocationArrow,
-  faClock,
-  faMotorcycle,
-  faHandshake,
-  faPhone,
-  faCreditCard,
-  faPhoneAlt,
-  faMapPin,
-  faShoppingBasket,
   faCamera,
+  faGlasses,
+  faStopwatch,
+  faHammer,
+  faCheckCircle, faPhone, faReceipt, faPager, faPrint
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -20,10 +20,39 @@ function Header(){
   const currentDate = DateforSection().split('/')[0];
 
 return (
-  <div>
-        {/* <img src={restDetails["srcImage"]} /> */}
-        <div className="tagline">Inventario Borgoña</div>]
-        <h2>{currentDate}</h2>
+  <div className="description-header">
+    <div>
+    <img className="listo-logo" src={fireLogo} />
+    </div>
+        {/* <div className="tagline">Facturación por WhatsApp</div>] */}
+        <img className="fel-logo" src={felLogo} />
+        <img className="wazup-logo" src={wazup} />
+        <div className="selling-prop">
+        <h4> Facturas prácticas por WhatsApp.</h4>
+        <h4>- - -</h4>
+        </div>
+      
+        <div className="selling-points">
+          <h5>
+          <FontAwesomeIcon className="icon" icon={faStopwatch}/>{' '} Facturación en segundos 
+          </h5>
+          <h5>
+          <FontAwesomeIcon className="icon" icon={faCheckCircle}/>{' '} Con cualquier celular, tablet ó PC
+          </h5>   
+          <h5>
+          <FontAwesomeIcon className="icon" icon={faPrint}/>{' '} Opción PDF descargable
+          </h5>   
+          <img className="dopy" src={dopy} />
+          <h4>
+            Atención premium 
+          </h4>
+          <h5>
+          <FontAwesomeIcon className="icon" icon={faGlasses}/>{' '} Asesoría tributaria incluída
+          </h5>
+          <h5>
+          <FontAwesomeIcon className="icon" icon={faPhone}/>{' '} Soporte técnico 24/7
+          </h5>   
+        </div>
 
   </div>
   );

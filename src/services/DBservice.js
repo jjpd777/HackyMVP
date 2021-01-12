@@ -2,7 +2,9 @@ import { useFirebaseApp, useUser } from 'reactfire';
 
 // COOL!
 const STORENAME = "GERONA"
-const ROOT = "BORGONA"
+const ROOT = "LISTOSOFTWARE"
+
+const GENERAL_DEMO = ROOT + "/record/"
 
 const INVENTORY_URL = ROOT + "/inventory/";
 const DAILYORDERS =  ROOT + "/orders-factory";
@@ -42,4 +44,13 @@ export const InventoryDB = () => {
 
   return {root4inventory, insert2factory, root4previousInv };
 };
+
+export const ReceiptDB = ()=>{
+  const database = useFirebaseApp().database();
+  const insertReceipt = (data)=>{
+    const DESTINATION = GENERAL_DEMO + DateforSection();
+    return database.ref(DESTINATION).push(data);
+  }
+  return {insertReceipt}
+}
 

@@ -4,7 +4,7 @@
 
 .App-header {
   padding-bottom: 1.5625rem;
-  background-color: #f7f7ff;
+  background-color: #fffaf7;
   min-height: 20vh;
   display: flex;
   flex-direction: column;
@@ -12,14 +12,23 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-  border-bottom: dashed 1px #577399;
+  border-bottom: dashed 3px #ff7707;
+  border
 
   img {
     margin: 2rem 1.3rem 1rem 1.3rem;
     width: 10rem;
   }
 }
-
+.demo-div{
+  h4{
+    color:red;
+    font-weight: 800;
+  }
+  .instructions{
+    justify-content: left;
+  }
+}
 .App-link {
   color: #61dafb;
 }

@@ -37,19 +37,19 @@ export enum PageEnum {
 function App() {
   const [menuItems, setMenuItems] = useState<any[]>([]);
   const [cart, setCartItems] = useState<CartItem[]>([]);
-  const [currentPage, setCurrentPage] = useState<PageEnum>(PageEnum.MENU);
+  const [currentPage, setCurrentPage] = useState<PageEnum>(PageEnum.CHECKOUT);
 
 
   const { root4inventory } = InventoryDB();
-  useEffect(() => {
-    const ref = root4inventory();
-    const refVal = ref.on('value', function (snapshot) {
-      const snap = snapshot.val();
-      const responseKeys = Object.keys(snap);
-      setMenuItems(responseKeys.map((k) => snap[k]));
-    });
-    return () => ref.off('value', refVal)
-  }, [])
+  // useEffect(() => {
+  //   const ref = root4inventory();
+  //   const refVal = ref.on('value', function (snapshot) {
+  //     const snap = snapshot.val();
+  //     const responseKeys = Object.keys(snap);
+  //     setMenuItems(responseKeys.map((k) => snap[k]));
+  //   });
+  //   return () => ref.off('value', refVal)
+  // }, [])
 
 
 
@@ -71,9 +71,21 @@ function App() {
     <>
       <div className="App">
       <header className="App-header">
-                      <Header />
-                    </header>
-                    <br></br>
+        <Header />
+      </header>
+            <br></br>
+        <div className="demo-div">
+        <h4>- - -</h4>
+
+          <h4>DEMOSTRACIÓN EN VIVO </h4>
+          <h5> Facturación electrónica en 3 pasos</h5>
+          <div className="instructions">
+            <h5>1) Llenar datos a continuación </h5>
+            <h5>2) Click "Generar factura" </h5>
+            <h5>3) Click "Enviar por WhatsApp"</h5>
+            <h4>- - -</h4>
+          </div>
+        </div>
         <Router>
           <Link to="/">
           { currentPage === PageEnum.MENU && <Button className="switch-inv" theme="success">Inventario</Button>}

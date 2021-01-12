@@ -1,44 +1,61 @@
 .checkout-container {
   display: flex;
   flex-direction: column;
-  margin-top: 4rem;
+  margin-top: 1rem;
   justify-content: center; 
+  .whatsApp-fields{
+    .input{
+      margin-top:1rem;
+    }
+    h2{
+      margin-top:1rem;
+      font-size:1.5rem;
+    }
+  }
   img {
        align-self: center;
     margin: 2rem 1.3rem 2rem 1.3rem;
     width: 10rem;
   }
-  .button {
-    margin-top:1rem;
-    background-color: #589b00;
-    font-weight: 600;
-    font-size:1.4rem;
-    border-color:transparent;
+  .final-action-buttons{
+    margin-bottom: 3rem;
+    max-width: 15rem;
+    align-self: center;
+    .button {
+      margin-top:1rem;
+      background-color: #589b00;
+      font-weight: 600;
+      font-size:1.4rem;
+      border-color:transparent;
+  
+    }
+    .button:hover {
+      background-color: #013057;
+    }
+    .button-secondary {
+      background-color:rgb(252, 131, 62);
+      margin-top:1rem;
+      font-size:1.2rem;
+      color: #011627;
+    }
+    .button-secondary:hover {
+      border-color: #014073;
+      background-color: transparent;
+    }
+  }
+  
 
-  }
-  .button:hover {
-    background-color: #013057;
-  }
 
-  .button-secondary {
-    background-color:rgb(255, 135, 65);
-    margin-top:1rem;
-    font-size:1.2rem;
-    color: #011627;
-  }
-  .button-secondary:hover {
-    border-color: #014073;
-    background-color: transparent;
-  }
   .pill{
     margin-top:10px;
   }
   .order-summary{
+    align-self: center;
     .shop-location{
       font-size:1.4rem;
       font-weight:600;
-      margin-top:1.5rem;
-      margin-bottom:1.5rem;
+      // margin-top:1.5rem;
+      // margin-bottom:1.5rem;
       border-color:transparent;
       background-color:rgb(255, 81, 0);
     }
