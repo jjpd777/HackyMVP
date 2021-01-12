@@ -21,6 +21,19 @@
         .balance-negative{
             color:red;
         }
+        .balance{
+            color:green;
+            font-weight: 700;
+
+        }
+        .executive-balance{
+            color:red;
+           
+            h4{
+                color:red;
+            }
+        }
+
     }
     .rep-card-body{
         align-self: center;
@@ -32,12 +45,14 @@
         }
         h3{
             font-size: 1.2rem;
-            color:rgb(255, 115, 0);
+            font-weight: 700;
+            color:green;
         }
     }
     .rep-title{
-        font-size: 1.7rem;
-        font-weight:900;
+        font-size: 1.2rem;
+        color:rgb(226, 102, 0);
+        font-weight:40;
     }
   
     h4{

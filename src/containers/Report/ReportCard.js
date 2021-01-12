@@ -61,8 +61,11 @@ function ReportCard(props){
                 const tmpList = getValues(checkValidProp.close)
                 closeAmountCash = tmpList.closeAmountCash;
                 closeAmountCard = tmpList.closeAmountCard;
+                var expenditures = tmpList.expenditures;
+                expenditures = expenditures ? expenditures : 0;
+
                 closeName = tmpList.name;
-                setClosedDay([closeName, closeAmountCash, closeAmountCard])
+                setClosedDay([closeName, closeAmountCash, closeAmountCard, expenditures])
             }
         }
 
@@ -108,6 +111,8 @@ function ReportCard(props){
     if(CLOSED_DAY_FLAG){
         const openKash = parseAway(openedDay[1]); const closeKash = parseAway(closedDay[1]);
         const closeKard = parseAway(closedDay[2]);
+        const expenditures = parseAway(closedDay[3]);
+
         const cashInStore = openKash + Number(cashTotal); // 1458 - 12
         const cashBalance = closeKash - Number(cashInStore); 
         const cardBalance = Number(cardTotal) - closeKard;
@@ -117,15 +122,22 @@ function ReportCard(props){
         const balance_card_text = (cardBalance===0 ? "Las ventas en tarjeta cuadraron cabal." : "VisaNet/Bantrab registró Q." + parseAway(cardBalance.toFixed(2)) + (cardBool ?" más":" menos") + " que Listosoftware." );
         const balance_cash_text = (cashBalance===0 ? "Las ventas en efectivo cuadraron cabal." : "En caja hay Q."+ parseAway(cashBalance.toFixed(2)) + (cashBool ?" más ":" menos ")+ " de lo registrado por Listosoftware.");
         var cardStyle ="in-balance"; var cashStyle="in-balance";
-        
+        const expenditure_text = Number(expenditures)===0 ? "Cero gastos" : "Qtz." + expenditures+" en gastos";
         if(cardBalance!==0) cardStyle = cardBool ? "balance-positive" : "balance-negative";
         if(cashBalance !==0) cashStyle =  cashBool ? "balance-positive" : "balance-negative";
 
         return (<>
-            {cardBalance!==0 && <h3>{cardTxt}</h3>}
-            <h5 className={cardStyle}>{balance_card_text}</h5>
-           {cashBalance!==0 && <h3>{cashTxt}</h3>}
-            <h5 className= {cashStyle}>{balance_cash_text}</h5>
+            <h4 className="balance">- - BALANCE - - </h4>
+            <div className="executive-summary">
+            {cardBalance!==0 ? <h5>{cardTxt}</h5> : <h5> <FontAwesomeIcon icon={faCheckCircle}/>{'  '}Tarjeta cabal.</h5>}
+            {cashBalance!==0 ? <h5>{cashTxt}</h5> : <h5><FontAwesomeIcon icon={faCheckCircle}/>{'  '}Efectivo cabal.</h5>}
+            <h5>{expenditure_text}</h5>
+            </div>
+            <h4 className="balance">*  *  *</h4>
+
+            {cardBalance!==0 && <h5 className={cardStyle}>{balance_card_text}</h5>}
+            {cashBalance !==0 && <h5 className= {cashStyle}>{balance_cash_text}</h5>}
+
         </>)
     }else{
         return(<h4>No hay balance todavía.</h4>)
@@ -144,7 +156,6 @@ function ReportCard(props){
 
      const closeSummary = ()=> {
          if(closedDay[0]==="") return;
-         console.log(closedDay, "NIGGY")
         const RESP = 'Cerró ' + closedDay[0] + ' con Q.' + closedDay[1]+" en caja y Q."+ closedDay[2] + " en PoS.";
         return closedDay[0]=== "" ? " Aún no ha cerrado." : RESP;
      }
@@ -160,9 +171,8 @@ function ReportCard(props){
             <CardSubtitle className="rep-sub-title">  
                  <h2>{'Q.'}{numberWithCommas(totalSales)} {' total '}</h2>
                  <h5>{'en '}{validTickets}{' tickets.'}</h5>
-
-                <h3>Qtz. {averageTicket} / ticket</h3>
-
+                {!GLOBAL_FLAG && <h3> - - Ventas - -</h3>}
+                <h5>Qtz. {averageTicket} / ticket</h5>
             {!GLOBAL_FLAG && <> <h4 className="rep-transactions"><FontAwesomeIcon icon={faMoneyBill}/>{' '}EFECTIVO: Q.{cashTotal}</h4><h4> {' '} <FontAwesomeIcon icon={faCreditCard}/>{' '}TARJETA: Q.{cardTotal}</h4></>}            
             </CardSubtitle>
           </div>

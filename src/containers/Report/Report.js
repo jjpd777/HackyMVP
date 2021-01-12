@@ -44,7 +44,6 @@ function Report() {
     const [openDD, setDD] = useState(false);
     const [listOpenClose, setListOC] = useState([]);
     const [lockKeyPad, setLockKey] = useState("");
-    const [BOOL_MOFO, SET_BOOL] = useState(false);
 
 
 
@@ -84,10 +83,10 @@ function Report() {
           nKeys.map((k) => storeItems.push(dailytransactions[k]));
           nnKeys.map((k)=> openCloseRecord.push(dailyOpenClose[k]))
         };
+
         individualS.push(storeItems); 
         dailyStoreRecord.push(openCloseRecord);
       })
-
       var array2sort=[];
       individualS.map((shop,ix)=> {
         const sum = sumShopSales(shop);
@@ -109,7 +108,7 @@ function Report() {
         individualShops.map((x)=> largeShop.push(...x))
         return largeShop;
     }
-    const UNLOCK_BOOLEAN =  lockKeyPad === "0991";
+    const UNLOCK_BOOLEAN =  lockKeyPad !== "0991";
     const FULL_STORE = assembleForGlobalReport();
 
 
