@@ -1,0 +1,43 @@
+
+.rec-container{
+    h3{
+        color:rgb(255, 101, 29);
+        font-weight: 700;
+        font-style: italic;
+        font-family: Georgia;
+    }
+    display: flex;
+    flex-direction: column;
+    margin-top: 4rem;
+    justify-content: center; 
+    // justify-content: center;
+    // margin: 0 auto;
+    .card-inv-rec{
+        margin: 0 auto;
+        min-width:20rem;
+    }
+    .card-content-rec{
+        margin: 0 auto;
+
+        .card-title-rec{
+            color:red;
+            align-self: auto;
+            margin-right: 10px;
+    
+        }
+    }
+    
+}
+
+.retry-btn-rec{
+    display: flex;
+    margin: 0 auto;
+    font-size:1.1rem;
+    background-color: rgb(255, 102, 0);
+    border:none;
+    margin-top:-1rem;
+    margin-bottom: 0.5rem;
+    padding-bottom: 10px;
+    min-width: 7rem;
+    justify-content: center; 
+}
