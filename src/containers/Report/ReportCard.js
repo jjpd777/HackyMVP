@@ -114,7 +114,7 @@ function ReportCard(props){
         const expenditures = parseAway(closedDay[3]);
 
         const cashInStore = openKash + Number(cashTotal); // 1458 - 12
-        const cashBalance = closeKash - Number(cashInStore); 
+        const cashBalance = closeKash - Number(cashInStore) -expenditures; 
         const cardBalance = Number(cardTotal) - closeKard;
         const cardBool = cardBalance<0 || cardBalance===0; const cashBool = cashBalance>0 || cashBalance===0;
         const cardTxt = cardBool ? "Sobró $ tarjeta" : "Faltó $ tarjeta";

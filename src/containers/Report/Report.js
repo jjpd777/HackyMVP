@@ -108,7 +108,7 @@ function Report() {
         individualShops.map((x)=> largeShop.push(...x))
         return largeShop;
     }
-    const UNLOCK_BOOLEAN =  lockKeyPad !== "0991";
+    const UNLOCK_BOOLEAN =  lockKeyPad === "0991";
     const FULL_STORE = assembleForGlobalReport();
 
 
