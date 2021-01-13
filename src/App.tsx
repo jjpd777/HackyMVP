@@ -5,7 +5,8 @@ import { Button } from 'shards-react';
 import Checkout from './containers/Checkout/Checkout';
 import Header from './containers/Header/Header';
 import { InventoryDB } from './services/DBservice';
-import PreviousInventory from './containers/PreviousInventory/PreviousInventory'
+import PreviousInventory from './containers/PreviousInventory/PreviousInventory';
+import CreateTemplate from './containers/CreateTemplate/CreateTemplate';
 import {
   BrowserRouter as Router,
   Switch, Route, Link
@@ -71,9 +72,10 @@ function App() {
     <>
       <div className="App">
       <header className="App-header">
-                      <Header />
-                    </header>
+        <Header />
+      </header>
                     <br></br>
+                    <CreateTemplate/>
         <Router>
           <Link to="/">
           { currentPage === PageEnum.MENU && <Button className="switch-inv" theme="success">Inventario</Button>}

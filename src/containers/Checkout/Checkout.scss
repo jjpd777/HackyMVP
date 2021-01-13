@@ -1,7 +1,7 @@
 .checkout-container {
   display: flex;
   flex-direction: column;
-  margin-top: 4rem;
+  margin-top: 1rem;
   justify-content: center; 
   img {
        align-self: center;
@@ -34,10 +34,14 @@
     margin-top:10px;
   }
   .order-summary{
+    h5{
+      font-size:1rem;
+      margin-top:-1rem;
+    }
     .shop-location{
       font-size:1.4rem;
       font-weight:600;
-      margin-top:1.5rem;
+      margin-top:1rem;
       margin-bottom:1.5rem;
       border-color:transparent;
       background-color:rgb(255, 81, 0);
@@ -69,9 +73,15 @@
 }
 
 .shipping-info {
+  h2{
+    font-size: 2rem;
+    padding-top: 20px;
+  }
 
   .card {
     padding: 40px;
+    font-size: 0.4rem;
+
   }
   .input {
     margin-top: 20px;

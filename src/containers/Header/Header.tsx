@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Header.scss'
 import { DateforSection } from '../../services/DBservice';
+import logo from '../../fire-logo.png'
 
 import {
   faLocationArrow,
@@ -21,9 +22,10 @@ function Header(){
 
 return (
   <div>
-        {/* <img src={restDetails["srcImage"]} /> */}
-        <div className="tagline">Inventario Borgoña</div>]
+        <img className="listo-logo-png"src={logo} />
+        <div className="tagline">Inventario Borgoña
         <h2>{currentDate}</h2>
+        </div>]
 
   </div>
   );

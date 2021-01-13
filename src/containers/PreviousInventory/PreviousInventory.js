@@ -8,6 +8,7 @@ import {
     CardSubtitle,
   } from 'shards-react';
 
+import './PreviousInventory.scss'
 
 import {
     faEnve,
@@ -54,24 +55,25 @@ function PreviousInventory() {
 
       
     return (
-        <>
-        <br></br>
-        <br></br><br></br>
+      <div className="rec-container">
         {loadingF && <Button>Cargando...</Button>}
+        {!!previousInv.length  && <h3>Previos envíos</h3>}
+        
        {!!previousInv.length ? previousInv.map((inv)=> <>
-     <Card  className="card">
-        <CardBody className="card-body">
-          <div className="card-content">
-            <CardTitle className="card-title">{inv.timestamp.split('&')[0]}</CardTitle>
+     <Card  className="card-inv-rec">
+        <CardBody className="card-body-rec">
+          <div className="card-content-rec">
+            <CardTitle className="card-title-rec">{inv.timestamp.split('&')[0]}</CardTitle>
             <CardSubtitle>{inv.location}</CardSubtitle>
           </div>
         </CardBody>
       </Card>
-      <Button className="retry-btn" href={inv.whatsAppURL}> Enviar de nuevo {'  '}<FontAwesomeIcon icon={faEnvelope}/></Button>
+      <Button className="retry-btn-rec" href={inv.whatsAppURL}> <FontAwesomeIcon icon={faEnvelope}/></Button>
      </>)
     : <h1>Todavia no hay ingresos</h1> 
     }
-     </>
+    </div>
+
     )
 
 }

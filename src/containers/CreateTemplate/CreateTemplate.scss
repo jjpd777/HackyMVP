@@ -1,0 +1,44 @@
+.create-template-container{
+    margin: 0 auto;
+    margin-bottom: 10rem;
+    // min-width: 35rem;
+    h1{
+        color:rgb(255, 101, 29);
+        font-weight: 700;
+        font-style: italic;
+        font-family: Georgia;
+        margin-bottom: 3rem;
+    }
+
+    .create-input-fields{
+        margin-top:-2rem;
+        max-width: 30rem;
+
+        h5{
+            margin-top:1rem;
+        }
+        margin: 0 auto;
+        padding:2rem;
+    }
+
+    .wrap-up-actions{
+        margin: 0 auto;
+
+        .decline{
+            background-color: rgb(255, 105, 59);
+            margin-right:0.5rem;
+            min-width: 7rem;
+            font-size: 1.7rem;
+            border:none;
+        }
+        .accept{
+            margin-left:0.5rem;
+            min-width: 7rem;
+            background-color: green;
+            font-size: 1.7rem;
+            border:none;
+
+
+        }
+    }
+}
