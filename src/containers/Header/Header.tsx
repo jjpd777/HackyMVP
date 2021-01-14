@@ -5,14 +5,24 @@ import listoLogo from '../../logo_v22.png';
 import fireLogo from '../../fire-logo.png'
 import felLogo from '../../fel-rm.png';
 import wazup from '../../wzup.png';
-import dopy from '../../dopezt.jpeg'
+import dopy from '../../dopezt.jpeg';
+import {
+  BrowserRouter as Router,
+  Switch, Route, Link
+} from "react-router-dom";
+
+import {
+  Button,
+} from 'shards-react';
 
 import {
   faCamera,
   faGlasses,
   faStopwatch,
   faHammer,
-  faCheckCircle, faPhone, faReceipt, faPager, faPrint
+  faMousePointer,
+  faCheckCircle, faPhone, faEye, faPager, faPrint,
+  faHandPointer
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -28,23 +38,33 @@ return (
         <img className="fel-logo" src={felLogo} />
         <img className="wazup-logo" src={wazup} />
         <div className="selling-prop">
-        <h4> Facturas prácticas por WhatsApp.</h4>
+        <h4> Facturación por WhatsApp en segundos.</h4>
         <h4>- - -</h4>
         </div>
       
         <div className="selling-points">
           <h5>
-          <FontAwesomeIcon className="icon" icon={faStopwatch}/>{' '} Facturación en segundos 
+          <FontAwesomeIcon className="icon" icon={faCheckCircle}/>{' '} Con cualquier celular ó PC
+          </h5>   
+          <h5>
+          <FontAwesomeIcon className="icon" icon={faStopwatch}/>{' '} No requiere impresora
           </h5>
           <h5>
-          <FontAwesomeIcon className="icon" icon={faCheckCircle}/>{' '} Con cualquier celular, tablet ó PC
-          </h5>   
+          <FontAwesomeIcon className="icon" icon={faPrint}/>{' '} PDF descargable
+          </h5>  
           <h5>
-          <FontAwesomeIcon className="icon" icon={faPrint}/>{' '} Opción PDF descargable
-          </h5>   
+          {/* <Switch>
+            <Route exact path={["/previas"]}>
+              <PreviousInventory/>
+            </Route>
+          </Switch> */}
+          <Link to="/demostracion">
+            <Button className="view-demo" pill > Demostración <FontAwesomeIcon className="check-it" icon={faEye}/></Button>
+          </Link>
+          </h5>
           <img className="dopy" src={dopy} />
           <h4>
-            Atención premium 
+          ¿Qué incluye?
           </h4>
           <h5>
           <FontAwesomeIcon className="icon" icon={faGlasses}/>{' '} Asesoría tributaria incluída

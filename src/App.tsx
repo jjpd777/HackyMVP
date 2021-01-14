@@ -10,7 +10,8 @@ import {
   BrowserRouter as Router,
   Switch, Route, Link
 } from "react-router-dom";
-
+import Footer from './LandingPage/Footer/Footer';
+import DemoTemplate from './LandingPage/Demo/DemoTemplate'
 
 
 import {
@@ -70,11 +71,8 @@ function App() {
   return (
     <>
       <div className="App">
-      <header className="App-header">
-        <Header />
-      </header>
-            <br></br>
-        <div className="demo-div">
+                <br></br>
+        {/* <div className="demo-div">
         <h4>- - -</h4>
 
           <h4>DEMOSTRACIÓN EN VIVO </h4>
@@ -85,11 +83,19 @@ function App() {
             <h5>3) Click "Enviar por WhatsApp"</h5>
             <h4>- - -</h4>
           </div>
-        </div>
+        </div> */}
         <Router>
-          <Link to="/">
+        <Switch>
+            <Route exact path={["/"]}>
+            <header className="App-header">
+              <Header />
+            </header>
+            </Route>
+          </Switch>
+          {/* <Link to="/">
           { currentPage === PageEnum.MENU && <Button className="switch-inv" theme="success">Inventario</Button>}
-          </Link>
+          
+          </Link> */}
           <Link to="/previas">
          { currentPage === PageEnum.MENU && <Button className="switch-inv"  theme="warning">Recientes</Button>}
           </Link>
@@ -99,7 +105,12 @@ function App() {
             </Route>
           </Switch>
           <Switch>
-            <Route exact path={["/"]}>
+            <Route exact path={["/demostracion"]}>
+              <DemoTemplate/>
+            </Route>
+          </Switch>
+          <Switch>
+            <Route exact path={["/4"]}>
               <section className="container">
                 {currentPage === PageEnum.MENU && (
                   <>
@@ -146,6 +157,7 @@ function App() {
             </Route>
           </Switch>
         </Router>
+        <Footer/>
       </div>
     </>
   );

@@ -56,19 +56,7 @@ function Checkout(props: CheckoutProps) {
   const METHODS_HELPER = [setName, setConsumption, setTotal, setNIT, setAddress, setPhoneNum]
 
   const {insertReceipt} = ReceiptDB();
-  // const generateCheckout = () => {
-  //   const timestamp = newMHDMY();
-  //   const whatsAppURL = generateWhatsAppURL(simpleCart, menuItems, additionalNotes, location);
-  //   const newInventoryRequest = {
-  //     "location": location,
-  //     "additionalNotes": additionalNotes,
-  //     "order" : simpleCart,
-  //     "timestamp" : timestamp,
-  //     "whatsAppURL": whatsAppURL,
-  //   };
-  //  setRedirectURL(whatsAppURL);
-  //  insert2factory(newInventoryRequest);
-  // };
+
 
   const generateReceipt = ()=>{
     if(!phoneNum || total ===0) return;
