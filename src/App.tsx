@@ -127,9 +127,9 @@ useEffect(()=>{
         {/* { getFitFlag && <li className="nav-item">
             {returnNav("/", "INGRESOS & EGRESOS")}
           </li>} */}
-          <li className="nav-item">
+          {/* <li className="nav-item">
             {returnNav("/", "ADMINISTRACIÓN")}
-          </li>
+          </li> */}
           <li className="nav-item">
             {returnNav("/ventas", "VENTAS ")}
           </li>
@@ -167,7 +167,7 @@ useEffect(()=>{
                 <Route exact path={["/newsfeed"]}>
                   <br></br>
                   <br></br>
-                  <h1> <FontAwesomeIcon icon={faTruck} />{'  '}Newsfeed</h1>
+                  {/* <h1> <FontAwesomeIcon icon={faTruck} />{'  '}Newsfeed</h1> */}
                   {/* <Menu
                     menuItems={salesItems}
                     cart={registerItems}
@@ -175,7 +175,7 @@ useEffect(()=>{
                     pos={"sales"}
                   ></Menu> */}
                  {/* <Report salesItems={salesItems} menuItems={menuItems} registerItems={registerItems}/> */}
-                 <Movements/>
+                 {/* <Movements/> */}
                 </Route>
               </Switch>)}
               <Switch>

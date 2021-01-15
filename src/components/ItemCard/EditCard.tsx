@@ -44,7 +44,7 @@ function EditCard(props: PoSCardProps) {
         </CardBody>
       </Card>
       </div>
-      <Button className="decrease" theme="danger" onClick={() => removeInventory(menuItem.id)}> remove </Button>
+      {/* <Button className="decrease" theme="danger" onClick={() => removeInventory(menuItem.id)}> remove </Button> */}
       {/* <Button className="increase" theme="success" onClick={() => addOneToCart()}> <FontAwesomeIcon icon={faCircle}/> </Button> */}
     </div>
   );
