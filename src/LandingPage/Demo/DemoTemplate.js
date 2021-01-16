@@ -7,16 +7,18 @@ import {
     Link
   } from "react-router-dom";
 import {
-    faLocationArrow, faMoneyBillAlt, faCreditCard,
+    faLocationArrow, faMoneyBillAlt, faCreditCard, faFilePdf,
 
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {callAPI4Receipt, buildAPIcall, request2API,parseAPIresponse} from './ReceiptUtils'
 import {ReceiptDB} from '../../services/DBservice';
+import GeneratePDF from './GeneratePDF/GeneratePDF'
 
 
 import './DemoTemplate.scss';
 import fireLogo from '../../fire-logo.png';
+import {createPDF, craftString }from './GeneratePDF/UtilsPDF';
 
 
 function DemoTemplate() {
@@ -32,6 +34,7 @@ function DemoTemplate() {
     const [paymentPTR, setPaymentPTR] = useState(0);
     const [apiCallLoading, setAPILoading] = useState(false);
     const [isCashSelected, setCashOrCard] = useState(true);
+    const [pdfURL, setPDFurl] = useState("");
 
     const paymentMethod = isCashSelected ? "efectivo" : "tarjeta";
 
@@ -46,10 +49,12 @@ function DemoTemplate() {
         if(!phoneNum || total ===0) return;
         const APIreq = buildAPIcall(paymentMethod,name, nit, consumption, total);
         setAPILoading(true);
-    
+        
         request2API(APIreq).then(data=>{
         const TAX_DETAIL = parseAPIresponse(data);
         const whatsAppTaxURL = callAPI4Receipt(FIELDS_HELPER,TAX_DETAIL);
+
+        
         var insertionData = {};
         insertionData['whatsAppURL'] = whatsAppTaxURL;
         insertionData['req'] = APIreq;
@@ -116,19 +121,24 @@ function DemoTemplate() {
                 {/* <Button onClick={props.onBack} className="button-secondary" outline block>
           <FontAwesomeIcon icon={faArrowAltCircleLeft}/>{'  '}Regresar
         </Button> */}
-                {!apiCallLoading &&
+                {!apiCallLoading && !readyFlag &&
                     <Button
-                        onClick={() => readyFlag ? resetVariables() : generateReceipt()}
+                        onClick={() => generateReceipt()}
                         href={redirectURL}
                         className="button" block>
-                        {readyFlag ? "Enviar por WhatsApp" : "Generar factura"}
+                        {"Generar factura"}
                     </Button>}
                 {apiCallLoading &&
                     <Button
                         className="button" block>
                         Verificando con la SAT...
-        </Button>}
+                </Button>}
             </div>
+                <div className="pdf-section">
+                {/* {readyFlag && <Button className="download-pdf" href={pdfURL}> Descargar PDF <FontAwesomeIcon icon={faFilePdf}/>  </Button>} */}
+                {readyFlag && <GeneratePDF whatsAppURL={redirectURL} printingElements={FIELDS_HELPER} />}
+
+                </div>
         </div>
     );
 }

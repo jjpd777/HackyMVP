@@ -22,7 +22,8 @@ import {
   faHammer,
   faMousePointer,
   faCheckCircle, faPhone, faEye, faPager, faPrint,
-  faHandPointer
+  faHandPointer,
+  faFilePdf
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -47,10 +48,10 @@ return (
           <FontAwesomeIcon className="icon" icon={faCheckCircle}/>{' '} Con cualquier celular ó PC
           </h5>   
           <h5>
-          <FontAwesomeIcon className="icon" icon={faStopwatch}/>{' '} No requiere impresora
+          <FontAwesomeIcon className="icon" icon={faPrint}/>{' '} No requiere impresora
           </h5>
           <h5>
-          <FontAwesomeIcon className="icon" icon={faPrint}/>{' '} PDF descargable
+          <FontAwesomeIcon className="icon" icon={faFilePdf}/>{' '} PDF descargable
           </h5>  
           <h5>
           {/* <Switch>
