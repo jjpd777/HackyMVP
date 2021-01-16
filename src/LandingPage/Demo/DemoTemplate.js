@@ -11,6 +11,9 @@ import {
 
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {callAPI4Receipt, buildAPIcall, request2API,parseAPIresponse} from './ReceiptUtils'
+import {ReceiptDB} from '../../services/DBservice';
+
 
 import './DemoTemplate.scss';
 import fireLogo from '../../fire-logo.png';
@@ -27,19 +30,35 @@ function DemoTemplate() {
     const [address, setAddress] = useState("Ciudad de Guatemala");
     const [phoneNum, setPhoneNum] = useState("");
     const [paymentPTR, setPaymentPTR] = useState(0);
-    const [paymentMethod, setPaymentMethod] = useState(PAYMENT_MENTHODS[paymentPTR]);
     const [apiCallLoading, setAPILoading] = useState(false);
+    const [isCashSelected, setCashOrCard] = useState(true);
+
+    const paymentMethod = isCashSelected ? "efectivo" : "tarjeta";
 
     const TEXT_HELPER = ["Nombre cliente:", "Consumo:", "Total consumido Qtz:", "Número de NIT:", "Dirección:", "Número celular:"];
-    const FIELDS_HELPER = [name, consumption, total, nit, address, phoneNum];
+    const FIELDS_HELPER = [name, consumption, total, nit, address, phoneNum, paymentMethod];
     const METHODS_HELPER = [setName, setConsumption, setTotal, setNIT, setAddress, setPhoneNum]
-    const [isCashSelected, setCashOrCard] = useState(true);
+
+    const {insertReceipt} = ReceiptDB();
 
 
     const generateReceipt = () => {
-        if (!phoneNum || total === 0) return;
+        if(!phoneNum || total ===0) return;
+        const APIreq = buildAPIcall(paymentMethod,name, nit, consumption, total);
         setAPILoading(true);
-        setRedirectURL("0")
+    
+        request2API(APIreq).then(data=>{
+        const TAX_DETAIL = parseAPIresponse(data);
+        const whatsAppTaxURL = callAPI4Receipt(FIELDS_HELPER,TAX_DETAIL);
+        var insertionData = {};
+        insertionData['whatsAppURL'] = whatsAppTaxURL;
+        insertionData['req'] = APIreq;
+        insertionData['res'] = data;
+        setRedirectURL(whatsAppTaxURL);
+        insertReceipt(insertionData);
+        setAPILoading(false);
+        })
+       
 
 
     }
@@ -51,9 +70,8 @@ function DemoTemplate() {
     const nextPaymentMethod = () => {
         const newPointer = (paymentPTR + 1) % PAYMENT_MENTHODS.length;
         setPaymentPTR(newPointer);
-        setPaymentMethod(PAYMENT_MENTHODS[newPointer])
     };
-
+    console.log(paymentMethod)
     return (
         <div className="demo-container">
             <div className="header-demo">
