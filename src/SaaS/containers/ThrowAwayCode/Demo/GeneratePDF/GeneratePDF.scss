@@ -1,0 +1,32 @@
+.pdf-module{
+    margin-top:2rem;
+    .create-pdf{
+        background-color:rgb(255, 104, 104);
+        font-size:1.8rem;
+        border:transparent;
+    }
+    .waiting-pdf{
+        background-color:rgb(255, 163, 163);
+        color:black;
+        font-size:1.8rem;
+        border:transparent;
+    }
+    .download-pdf{
+        background-color:rgb(255, 21, 0);
+        font-size:1.7rem;
+        border:transparent;
+    }
+    .whatsapp-message{
+        background-color:rgb(83, 172, 10);
+        font-size:1.7rem;
+        border:transparent;
+        margin-top:1rem;
+        width:15rem;
+    }
+    .next-btn{
+        background-color:rgb(253, 137, 28);
+        font-size:1.7rem;
+        border:transparent;
+        margin-top:1rem;
+        width:15rem;    }
+}

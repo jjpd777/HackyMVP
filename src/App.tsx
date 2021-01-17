@@ -5,6 +5,11 @@ import { Button } from 'shards-react';
 import Checkout from './containers/Checkout/Checkout';
 import Header from './containers/Header/Header';
 import { InventoryDB } from './services/DBservice';
+
+
+import { useUser, useFirebaseApp } from 'reactfire';
+
+
 import PreviousInventory from './containers/PreviousInventory/PreviousInventory'
 import {
   BrowserRouter as Router,
@@ -13,16 +18,14 @@ import {
 import Footer from './LandingPage/Footer/Footer';
 import DemoTemplate from './LandingPage/Demo/DemoTemplate'
 
+import Signup from './SaaS/containers/Signup/Signup';
+import Login from './SaaS/containers/Login/Login';
+import Logout from './SaaS/containers/Logout/Logout';
+import Exercise from './SaaS/containers/ThrowAwayCode/Excercise'
+
 
 import {
   faLocationArrow,
-  faClock,
-  faMotorcycle,
-  faHandshake,
-  faPhone,
-  faCreditCard,
-  faMapPin,
-  faShoppingBasket,
   faCamera,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -40,124 +43,54 @@ function App() {
   const [cart, setCartItems] = useState<CartItem[]>([]);
   const [currentPage, setCurrentPage] = useState<PageEnum>(PageEnum.CHECKOUT);
 
-
+  // const firebase = useFirebaseApp();
   const { root4inventory } = InventoryDB();
-  // useEffect(() => {
-  //   const ref = root4inventory();
-  //   const refVal = ref.on('value', function (snapshot) {
-  //     const snap = snapshot.val();
-  //     const responseKeys = Object.keys(snap);
-  //     setMenuItems(responseKeys.map((k) => snap[k]));
-  //   });
-  //   return () => ref.off('value', refVal)
-  // }, [])
-
-
-
-  const getTotalCartValue = () => {
-    let totalVal = 0;
-    cart.forEach((cartItem) => {
-      menuItems.map((menuItem) => {
-        if (cartItem.itemId === menuItem.id) {
-          totalVal += cartItem.quantity * menuItem.price;
-        }
-      });
-    });
-    return totalVal;
-  };
-
-  const checkoutFlag = currentPage === PageEnum.CHECKOUT;
+  const user = useUser();
+  console.log("USER BABY", user)
 
   return (
     <>
       <div className="App">
-                <br></br>
-        {/* <div className="demo-div">
-        <h4>- - -</h4>
-
-          <h4>DEMOSTRACIÓN EN VIVO </h4>
-          <h5> Facturación electrónica en 3 pasos</h5>
-          <div className="instructions">
-            <h5>1) Llenar datos a continuación </h5>
-            <h5>2) Click "Generar factura" </h5>
-            <h5>3) Click "Enviar por WhatsApp"</h5>
-            <h4>- - -</h4>
-          </div>
-        </div> */}
         <Router>
-        <Switch>
-            <Route exact path={["/"]}>
-            <header className="App-header">
-              <Header />
-            </header>
-            </Route>
-          </Switch>
-          {/* <Link to="/">
-          { currentPage === PageEnum.MENU && <Button className="switch-inv" theme="success">Inventario</Button>}
-          
-          </Link> */}
-          <Link to="/previas">
-         { currentPage === PageEnum.MENU && <Button className="switch-inv"  theme="warning">Recientes</Button>}
-          </Link>
+
           <Switch>
-            <Route exact path={["/previas"]}>
-              <PreviousInventory/>
+            <Route exact path={["/"]}>
+                <Header />
             </Route>
           </Switch>
+
+          <Switch>
+            <Route path={["/:handle"]} children={<Exercise/>}/>
+          </Switch>
+
           <Switch>
             <Route exact path={["/demostracion"]}>
               <DemoTemplate/>
             </Route>
           </Switch>
+
           <Switch>
-            <Route exact path={["/4"]}>
-              <section className="container">
-                {currentPage === PageEnum.MENU && (
-                  <>
-                    { !menuItems.length && (
-                      <>
-                      <br></br> <Button>Cargando...</Button>
-                      </>
-                    )}
-                    <Menu
-                      menuItems={menuItems}
-                      cart={cart}
-                      setCartItems={setCartItems}
-                    ></Menu>
-                  </>
-                )}
-                {currentPage === PageEnum.CHECKOUT && (
-                  <Checkout
-                    menuItems={menuItems}
-                    cart={cart}
-                    totalCartValue={getTotalCartValue()}
-                    onBack={() => {
-                      setCurrentPage(PageEnum.MENU);
-                    }}
-                  ></Checkout>
-                )}
-              </section>
-              <br />
-              <br></br>
-              <br></br>
-              {(cart.length && currentPage === PageEnum.MENU && (
-                <div className="fixed-checkout">
-                  <Button
-                    onClick={() => {
-                      setCurrentPage(PageEnum.CHECKOUT);
-                    }}
-                    className="checkout-button"
-                    block
-                  >
-                    Revisar la lista para enviar
-          </Button>
-                </div>
-              )) ||
-                null}
+            <Route exact path={["/demostracion"]}>
+              <DemoTemplate/>
             </Route>
           </Switch>
+
+          <Switch>
+            <Route exact path={["/registro"]}>
+              <Signup/>
+            </Route>
+          </Switch>
+          
+          <Switch>
+            <Route exact path={["/login"]}>
+             {user && <Login/>}
+             {user && <Logout/>}
+            </Route>
+          </Switch>
+          
+
         </Router>
-        <Footer/>
+        <Footer />
       </div>
     </>
   );

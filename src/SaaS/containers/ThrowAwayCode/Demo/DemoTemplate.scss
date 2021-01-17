@@ -1,0 +1,98 @@
+.demo-container{
+    .revision-text{
+        text-align: left;
+        margin: 0 auto;
+        h4{
+            color:rgb(255, 83, 52);
+
+        }
+    }
+    .pdf-section{
+        .download-pdf{
+            margin-top:2rem;
+            font-size:1.5rem;
+            background-color: rgb(248, 93, 93);
+            border:transparent;
+        }
+    }
+    .listo-logo{
+        // margin-top: 2rem;
+        margin-top:-4rem;
+        margin-bottom: -8rem;
+        max-width: 20rem;
+      }
+    .header-demo{
+        margin-bottom:1rem;
+        h2{
+        margin-top:1rem;
+        font-size:2.5rem;
+        color:rgb(255, 81, 0);
+        font-weight: 700;
+        font-style: italic;
+        font-family: Georgia;
+        }
+    }
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+    justify-content: center; 
+    .whatsApp-fields-demo{
+        .input{
+            min-height: 0.1rem;
+        }
+        min-width: 20rem;
+        margin: 0 auto;
+        .headery-demo{
+            font-size: 1rem;
+            text-align: left;
+            h3{
+                color:rgba(189, 60, 0, 0.938);
+                margin-top:-1rem;
+                margin-bottom:-1rem;
+                font-size: 1.2rem;
+            }
+        }
+    }
+    .final-action-buttons-demo{
+        max-width: 15rem;
+        margin: 0 auto;
+        margin-top:2rem;
+    }
+    .demo-summary{
+        margin-top: 2rem;
+        .pill-btn{
+            margin-left:10px;
+            margin-right:10px;
+            background-color: rgb(255, 81, 0);
+            font-size: 1.2rem;
+            border-color: rgb(245, 152, 76);
+        }
+        .not-pill-btn{
+            margin-left:10px;
+            color:rgb(255, 81, 0);
+            margin-right:10px;
+            background-color: transparent;
+            font-size: 1.2rem;
+            border-color: rgb(245, 152, 76);
+        }
+    }
+
+    .final-action-buttons-demo{
+        .edit-receipt{
+            background-color: rgb(253, 83, 5);
+            margin-bottom:2rem; 
+            border:0;
+            font-size:1.5rem;
+        }
+        .button{
+            background-color:rgb(83, 172, 10);
+            margin: 0 auto;
+            border-color: transparent;
+            font-size: 1.7rem;
+
+            font-weight: 500;
+            color:rgb(220, 252, 220);
+
+        }
+    }
+}
