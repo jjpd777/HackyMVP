@@ -35,10 +35,12 @@ function Excercise(){
     const faviconHelper = [faCashRegister, faPencilAlt, faGlasses]
     console.log(currentCategory)
     const categoryBool = currentCategory ==="";
-
+    const solagro = "https://solagroguate.com/wp-content/uploads/2020/05/g2994.png"
     return(
     <>
+    {/* <img className="solagro-logo" src={solagro} /> */}
     <img className="exercise-logo" src={fireLogo} />
+
    { PASSWORDVALID ? 
    <div className="exercise-container">
        <div className="exercise-mini-header">
