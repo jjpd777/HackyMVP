@@ -10,9 +10,10 @@ import {
   } from "react-router-dom";
 import {
     faLocationArrow, faMoneyBillAlt, faCreditCard, 
-    faFilePdf,faCheckCircle, faDotCircle, faCheck, faPencilAlt, faPhone
+    faFilePdf,faCheckCircle, faDotCircle, faCheck, faPencilAlt, faPhone, faCashRegister, faEnvelope, faArrowLeft, faGlasses
 
 } from '@fortawesome/free-solid-svg-icons';
+import satLogo from '../../../../final-art-sat.jpeg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {callAPI4Receipt, buildAPIcall, request2API,parseAPIresponse} from './ReceiptUtils'
 import {ReceiptDB} from '../../../../services/DBservice';
@@ -23,7 +24,8 @@ import './DemoTemplate.scss';
 import {createPDF, craftString }from './GeneratePDF/UtilsPDF';
 
 
-function DemoTemplate() {
+function DemoTemplate(props) {
+    const {navHelper} = props;
     const PAYMENT_MENTHODS = ["efectivo", "tarjeta"];
     const [redirectURL, setRedirectURL] = useState("");
     const readyFlag = redirectURL !== "";
@@ -40,6 +42,7 @@ function DemoTemplate() {
     const [reviewed, setReviewed] = useState(false);
     const [isDone, setDone] = useState(false);
     const [isReadyForNext, setIsReadyForNext] = useState(false);
+    const [pdfFlag, setPDFFlag] = useState(false);
 
     const paymentMethod = isCashSelected ? "efectivo" : "tarjeta";
 
@@ -70,6 +73,7 @@ function DemoTemplate() {
         insertReceipt(insertionData);
         setAPILoading(false);
         setIsReadyForNext(true);
+        setPDFFlag(true);
         })
        
 
@@ -88,7 +92,8 @@ function DemoTemplate() {
                 <Link to="/">
                 {/* <img className="listo-logo" src={fireLogo} /> */}
                 </Link>
-            </div>
+                {(!reviewed && !isReadyForNext  && !apiCallLoading )&& <Button className="go-back" onClick={()=>navHelper("")}> <FontAwesomeIcon icon={faArrowLeft}/>Regresar </Button>}                
+                </div>
            { reviewed && <div className="revision-text">
            <Card  className="card">
                 <CardBody className="card-body">
@@ -144,38 +149,43 @@ function DemoTemplate() {
                 <>
                  <Button
             onClick={() => setReviewed(true)}
-            className="button" block>
-            {"Revisar recibo"}
+            className="button-revision">
+            <FontAwesomeIcon icon={faGlasses}/> {" Revisar factura"}
                  </Button>
                  </>
                  )
             }
                 {!apiCallLoading && !readyFlag && reviewed &&
                   ( <> 
-                    <Button
-                onClick={() => setReviewed(false)}
-                className="edit-receipt" block>
-                <FontAwesomeIcon icon={faPencilAlt}/> {"Editar recibo"}
-                 </Button>
                   <Button
                         onClick={() => generateReceipt()}
                         href={redirectURL}
-                        className="button" block>
-                        {"Generar factura"}
+                        className="button-gen" block>
+                      <FontAwesomeIcon icon={faEnvelope}/>  {"Certificar"}
                     </Button>
+                    <Button
+                onClick={() => setReviewed(false)}
+                className="edit-receipt" block>
+                <FontAwesomeIcon icon={faPencilAlt}/> {"Editar "}
+                 </Button>
                     </>
                     )
                 
                 }
                 {apiCallLoading &&
+                <div className="loading-btns"> 
                     <Button
                         className="button" block>
-                        Verificando con la SAT...
-                </Button>}
+                        Verificando...
+                    </Button>
+                    <img className="sat-logo" src={satLogo} />
+                </div>
+                }
             </div>
                 <div className="pdf-section">
                 {/* {readyFlag && <Button className="download-pdf" href={pdfURL}> Descargar PDF <FontAwesomeIcon icon={faFilePdf}/>  </Button>} */}
-                {readyFlag && <GeneratePDF whatsAppURL={redirectURL} printingElements={FIELDS_HELPER} />}
+                {readyFlag && <GeneratePDF whatsAppURL={redirectURL} printingElements={FIELDS_HELPER} pdfFlag ={pdfFlag} />}
+                { readyFlag && <Button className="go-back" onClick={()=>navHelper("")}> <FontAwesomeIcon icon={faArrowLeft}/>Regresar </Button>}            
                 </div>
         </div>
         </>

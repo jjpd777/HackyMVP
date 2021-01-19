@@ -5,12 +5,23 @@ import {
     Card,
     CardBody,
 } from 'shards-react';
-import CardTemplate from './CardTemplate'
+import CardTemplate from './CardTemplate';
+import { faCheckCircle, faBook, faCreditCard, faArrowLeft,
+    faGlasses, faMoneyBillAlt,faPhoneSquare,
+    faFileExcel,
+    faClock
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function CardCollection(){
+import './CardCollection.scss';
+
+function CardCollection(props){
+    const {navHelper} = props;
 
     return(
 <>
+<Button className="go-back" onClick={()=>navHelper("")}> <FontAwesomeIcon icon={faArrowLeft}/>Regresar </Button>
+
     <CardTemplate/>
     <CardTemplate/>
     <CardTemplate/>

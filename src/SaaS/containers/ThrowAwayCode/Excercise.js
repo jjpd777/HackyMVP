@@ -27,7 +27,7 @@ import { faCheckCircle, faBook, faPencilAlt, faGlasses, faReceipt, faTicketAlt, 
 function Excercise(){
     let { handle } = useParams();
     const [user, setUser] = useState("");
-    const [currentCategory, setCurrent] = useState("");
+    const [currentCategory, setCurrentCategory] = useState("");
     const PASS = "paralistos";
     const PASSWORDVALID = user !== PASS;
 
@@ -35,6 +35,7 @@ function Excercise(){
     const faviconHelper = [faCashRegister, faPencilAlt, faGlasses]
     console.log(currentCategory)
     const categoryBool = currentCategory ==="";
+
     return(
     <>
     <img className="exercise-logo" src={fireLogo} />
@@ -42,21 +43,21 @@ function Excercise(){
    <div className="exercise-container">
        <div className="exercise-mini-header">
            {categoryBool && textHelper.map((x, ix)=>
-           <Button onClick={()=>setCurrent(x)} className="input"> 
+           <Button onClick={()=>setCurrentCategory(x)} className="input"> 
               <FontAwesomeIcon icon={faviconHelper[ix]}/>  {x}
            </Button>)}
            <h2>{currentCategory}</h2>
        </div>
-
-        <div>
-      { !categoryBool && currentCategory==="Facturación" && <DemoTemplate/>}
-      { !categoryBool && currentCategory==="Contabilidad"  && <Excell/>}
-      { !categoryBool && currentCategory==="Registro"  && <CardCollection/>}
-      
-      <div className="exercise-mini-header">
-      {!categoryBool && <Button className="go-back" onClick={()=>setCurrent("")} > 
-      <FontAwesomeIcon icon={faArrowLeft}/>Regresar</Button>}
+       <div className="exercise-mini-header">
+      {/* {!categoryBool && <Button className="go-back" onClick={()=>setCurrentCategory("")} > 
+      <FontAwesomeIcon icon={faArrowLeft}/>Regresar</Button>} */}
       </div>
+        <div>
+      { !categoryBool && currentCategory==="Facturación" && <DemoTemplate navHelper = {setCurrentCategory}/>}
+      { !categoryBool && currentCategory==="Contabilidad"  && <Excell navHelper = {setCurrentCategory}/>}
+      { !categoryBool && currentCategory==="Registro"  && <CardCollection navHelper = {setCurrentCategory}/>}
+      
+     
 
         </div>
     </div> :

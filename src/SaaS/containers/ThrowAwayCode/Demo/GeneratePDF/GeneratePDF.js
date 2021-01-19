@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react';
 import './GeneratePDF.scss';
 import { degrees, PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import {
-    faClock, faMoneyBillAlt, faCreditCard,faFilePdf, faPhone, faGlasses, faArrowRight
+    faClock, faMoneyBillAlt, faCreditCard,faFilePdf, faPhone, faGlasses, faArrowRight, faCheckCircle
 
 } from '@fortawesome/free-solid-svg-icons';
 import {createPDF }from './UtilsPDF';
 
 import {
     Button,
-    FormInput
+    FormInput,
+    Card,
+    CardBody,
 } from 'shards-react';
 
 import firebase from 'firebase';
@@ -19,11 +21,10 @@ const download = require("downloadjs");
 
 
 function GeneratePDF(props) {
-    const {whatsAppURL} = props;
+    const {whatsAppURL, pdfFlag} = props;
     const [header, setHeader] = useState("");
     const [downloadURL, setDownloadURL] = useState("");
     const [isGenerating, setIsGenerating] = useState(false);
-
     const craftString = (message) => {
   
         message = message.split("%").join("%25")
@@ -35,7 +36,11 @@ function GeneratePDF(props) {
         message = message.split("/").join("%2F")
         console.log(message, "MESSAGE")
         return message;
-    }
+    };
+
+    useEffect(()=>{
+        if(pdfFlag) createPDF()
+    },[pdfFlag])
 
     async function createPDF() {
         const url = "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/factura-001204-listosoftware.pdf?alt=media&token=95cfac58-2ae0-41db-9449-f2e186a5ebf1"
@@ -86,17 +91,29 @@ function GeneratePDF(props) {
 
     return (
         <div className="pdf-module">
-       { !isGenerating && !isDownloadable && 
-        <Button onClick={()=>createPDF()} theme="success" className="create-pdf"> 
-            Generar PDF
+       { !isGenerating && !isDownloadable &&
+       <div>
+       <h3>Certificación exitosa!</h3>
+       <h1><FontAwesomeIcon className="check-success" icon={faCheckCircle}/></h1>
+        {<Button onClick={()=>createPDF()} theme="success" className="create-pdf"> 
+           Cargando...  <FontAwesomeIcon icon={faFilePdf}/>
         </Button>}
-        {isGenerating && <Button className="waiting-pdf"> <FontAwesomeIcon icon={faClock}/> Generando PDF</Button> }
-        {isDownloadable && <Button className="download-pdf" href={downloadURL}> Descargar PDF <FontAwesomeIcon icon={faFilePdf}/></Button>}
-        <div>
-        {isDownloadable && <Button className="whatsapp-message" href={finalWhatsApp()}> WhatsApp <FontAwesomeIcon icon={faPhone}/></Button>}
-        {isDownloadable && <Button className="next-btn" href={finalWhatsApp()}> Siguiente <FontAwesomeIcon icon={faArrowRight}/></Button>}
-
         </div>
+        }
+          {/* {isGenerating && <Button onClick={()=>createPDF()} theme="success" className="create-pdf"> 
+           Cargando...  <FontAwesomeIcon icon={faFilePdf}/>
+        </Button>} */}
+        {isGenerating && <Button className="waiting-pdf"> <FontAwesomeIcon icon={faClock}/> Generando PDF</Button> }
+       { isDownloadable && <div className="final-options">
+       <h5> Siguientes pasos</h5>
+            <Card>
+                <CardBody className="body">
+                {<Button className="download-pdf" href={downloadURL}> Descargar PDF <FontAwesomeIcon icon={faFilePdf}/></Button>}
+
+                {<Button className="whatsapp-message" href={finalWhatsApp()}> WhatsApp <FontAwesomeIcon icon={faPhone}/></Button>}
+                </CardBody>
+            </Card>
+        </div>}
         </div>
     )
 }
