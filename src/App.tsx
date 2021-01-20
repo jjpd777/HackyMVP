@@ -4,7 +4,12 @@ import Menu, { MenuItem } from './containers/Menu/Menu';
 import { Button } from 'shards-react';
 import Checkout from './containers/Checkout/Checkout';
 import { menuItemsMock } from './menu';
-import Header from './containers/Header/Header'
+import Header from './containers/Header/Header';
+
+// -- JUAN's NEW IMPORTS
+import CRUD from './SaaS/DevModules/CRUD';
+
+// --
 
 import {
   faLocationArrow,
@@ -52,7 +57,7 @@ function App() {
 
   return (
     <div className="App">
-      
+      <CRUD/>
       <section className="container">
         {currentPage === PageEnum.MENU && (
           <>

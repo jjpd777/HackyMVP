@@ -6,10 +6,19 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+// ---------
+
+import { FirebaseAppProvider } from 'reactfire';
+import config from './SaaS/Database/firebaseConfig';
+
+
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <FirebaseAppProvider firebaseConfig={config}>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>,
+  </FirebaseAppProvider>,
   document.getElementById('root')
 );
 
