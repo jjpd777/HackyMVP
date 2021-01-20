@@ -8,6 +8,11 @@ import Header from './containers/Header/Header';
 
 // -- JUAN's NEW IMPORTS
 import CRUD from './SaaS/DevModules/CRUD';
+import Inventory from './SaaS/Inventory/Inventory';
+import {
+  BrowserRouter as Router,
+  Switch, Route, Link
+} from "react-router-dom";
 
 // --
 
@@ -56,8 +61,18 @@ function App() {
   };
 
   return (
+    <>
     <div className="App">
-      <CRUD/>
+      <Router>
+
+      <Switch>
+            <Route exact path={["/inventario"]}>
+              <Inventory/>
+            </Route>
+          </Switch>
+      <Switch>
+
+            <Route exact path={["/"]}>
       <section className="container">
         {currentPage === PageEnum.MENU && (
           <>
@@ -82,6 +97,9 @@ function App() {
           ></Checkout>
         )}
       </section>
+      </Route>
+      </Switch>
+
       <br />
       <br></br>
       <br></br>
@@ -99,7 +117,9 @@ function App() {
         </div>
       )) ||
         null}
+        </Router>
     </div>
+    </>
   );
 }
 

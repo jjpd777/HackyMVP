@@ -18,7 +18,7 @@ function Header(){
   const restDetails = 
   {
     "id": 1,
-    "srcImage":"https://scontent-mia3-2.cdninstagram.com/v/t51.2885-19/s320x320/120482521_151410903307821_6112966007451726566_n.jpg?_nc_ht=scontent-mia3-2.cdninstagram.com&_nc_ohc=LYBLNlM8j9EAX_oL28U&oh=6535a9a7179f64b4b6c78f7e5bcab086&oe=5FA973D7",
+    "srcImage":"https://solagroguate.com/wp-content/uploads/2020/05/g2994.png",
     "atrestaurant": ' @lalloronagt',
     "instaURL": 'https://www.instagram.com/lalloronagt/',
     "tagline": '',

@@ -1,13 +1,9 @@
 import { useFirebaseApp } from 'reactfire';
 
 // COOL!
-const STORENAME = "GERONA"
+
 const ROOT = "LISTOSOFTWARE-DEV"
-
-const GENERAL_DEMO = ROOT + "/record/"
-
 const INVENTORY_URL = ROOT + "/inventory/";
-const DAILYORDERS =  ROOT + "/orders-factory";
 
 
 
@@ -20,6 +16,26 @@ export const newMHDMY = () => {
   var mm = String(today.getMonth() + 1).padStart(2, '0');
   var yyyy = today.getFullYear();
   return hr + ":" + min + "&" + dd + '-' + mm + '-' + yyyy;
+};
+
+export const InventoryDB = ()=>{
+    const database = useFirebaseApp().database();
+
+    const insertInventory = (data)=>{
+        const ref = database.ref(INVENTORY_URL).push();
+        data["insertionID"] = ref.key;
+        return ref.set(data);
+    };
+    const readInventory = ()=>{
+        const ref = database.ref(INVENTORY_URL);
+        return ref;
+    };
+    const updateInventory = (data, id)=>{
+        const target = INVENTORY_URL + id;
+        return database.ref(target).update(data);
+    };
+
+    return {insertInventory, readInventory, updateInventory}
 }
 
 export const CRUD_HELPER = ()=>{
@@ -31,16 +47,16 @@ export const CRUD_HELPER = ()=>{
         data["insertionID"] = ref.key;
         return ref.set(data);
     };
-    const read = ()=>{
-        const ref = database.ref(INVENTORY_URL);
+    const read = (id)=>{
+        const ref = database.ref(INVENTORY_URL+id);
         return ref;
     };
-    const update = (data)=>{
-        const target = INVENTORY_URL;
+    const update = (data, id)=>{
+        const target = INVENTORY_URL + id;
         return database.ref(target).update(data);
     };
-    const delet = (data)=>{
-        const target = INVENTORY_URL;
+    const delet = (id)=>{
+        const target = INVENTORY_URL+ id;
         return database.ref(target).remove();
     };
 

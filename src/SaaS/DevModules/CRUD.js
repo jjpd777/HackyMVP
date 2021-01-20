@@ -7,25 +7,26 @@ import {
 
 import {CRUD_HELPER} from '../Database/DatabaseFunctions';
 import {keyMaper} from './HelperCRUD';
+import './CRUD.scss'
 
 
 
 function CRUD (){
     const [ product, setProduct] = useState("");
-    const [elements, setElements] = useState();
+    const [elements, setElements] = useState([]);
     const {create, read, update, delet} = CRUD_HELPER();
-    const objects = read();
 
     useEffect(()=>{
-        const ref = read();
-        const valRef = ref.on('value', (snapshot) => {
-            const data = keyMaper(snapshot.val());
+        const ref = read("");
+        const valRef = ref.on('value', (x) => {
+            const snapVal = x.val();
+            if(!snapVal)return;
+
+            const data = keyMaper(snapVal);
             setElements(data);
           });
         return ()=> valRef.off('value', valRef)
     },[]);
-
-    console.log(elements, "objectivo")
 
     const testCreate = ()=>{
         const insertJson = {
@@ -34,17 +35,29 @@ function CRUD (){
             "jum":0
         }
         create(insertJson)
-    }
+    };
+
+    const testUpdate = ()=>{
+        const sampleID = elements[0].insertionID;
+        if(!sampleID) return;
+        update({"jum": 100}, sampleID)
+    };
+
+
+    const testDelete = ()=>{
+        const sampleID = elements[0].insertionID;
+        if(!sampleID) return;
+        delet(sampleID)
+    };
+
+   
+  
+
     return(
         <div className="crud-container">
-            <FormInput
-                type="number"
-                value={"solid"}
-                onChange={(e) => {
-                  setProduct(e.target.value);
-                }}
-              />
-              <Button onClick={testCreate}></Button>
+            <Button className="btn" onClick={testCreate} > Test Create</Button>
+            <Button className="btn" onClick={testDelete}> Test Delete</Button>
+            <Button className="btn" onClick={testUpdate}> Test Update</Button>
         </div>
     )
 }
