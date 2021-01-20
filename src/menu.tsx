@@ -7,7 +7,7 @@ export const menuItemsMock = [
     price: 135.0,
     brief:'adobado, pastor, res, pollo, chuleta',
     image:
-      'https://drive.google.com/uc?export=view&id=1NdTtiwTus0qrTxdQMVCWGKXSdA0t0M3x',
+      '',
   },
   {
     id: 2,
