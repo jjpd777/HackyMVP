@@ -95,14 +95,14 @@ function ItemCard(props: ItemCardProps) {
         }}
         centered={true}
       >
-        <ModalHeader>{menuItem.name}</ModalHeader>
+        <ModalHeader>{menuItem.category}</ModalHeader>
         <ModalBody className="modal-body">
           <div className="item-image">
             <img src={menuItem.image} width="200" />
           </div>
 
           <div className="item-description">{menuItem.description}</div>
-          <div className="item-price">Qtz. {menuItem.price}</div>
+          <div className="item-price">{menuItem.name}</div>
           <div className="add-cart">
             <InputGroup className="plus-minus">
               <InputGroupAddon type="prepend">
@@ -137,7 +137,7 @@ function ItemCard(props: ItemCardProps) {
             </InputGroup>
             <br></br>
             <Button pill theme="success" onClick={()=>setModalOpen(!modalOpen)}>
-                Seguir comprando
+                Continuar
             </Button>
           </div>
         </ModalBody>

@@ -73,11 +73,11 @@ function Menu(props: MenuProps) {
 
   return (
     <div className="container">
-      <div className="tagline">🍻🌮🍤 Sea Food & Tacos</div>
+      <div className="tagline">Expertos en aguacate 🥑🇬🇹</div>
       <div className="search">
         <InputGroup>
           <FormInput
-            placeholder="¿Qué se te antoja?"
+            placeholder="¿Qué busca?"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />

@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
-
+import { Button } from 'shards-react';
+import {
+  BrowserRouter as Router,
+  Switch, Route, Link
+} from "react-router-dom";
+import './Header.scss'
 import {
   faLocationArrow,
   faClock,
@@ -33,10 +38,19 @@ function Header(){
 return (
   <div>
         <img src={restDetails["srcImage"]} />
-        <h6>
-          La Llorona GT
-        </h6>
-        <p>
+        <div>
+        <Link to="/">
+          <Button className="nav-btn">
+              Registar envío
+          </Button>
+        </Link>
+        <Link to="/inventario">
+          <Button  className="nav-btn">
+              Inventario
+          </Button>
+        </Link>
+        </div>
+        {/* <p>
           <FontAwesomeIcon icon={faClock} /> {' '} {restDetails["schedule"]}
         </p>
         {restDetails["serviceZones"].map((zones)=>
@@ -55,7 +69,7 @@ return (
           <a href={restDetails["cellphones"][0]}>41288133</a> {'  '}{' '}
           <FontAwesomeIcon icon={faCamera}/>
           <a href={restDetails["instaURL"]}>{restDetails["atrestaurant"]}</a>
-        </p>
+        </p> */}
   </div>
   );
 }

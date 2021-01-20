@@ -27,10 +27,12 @@ function CardInventory (props){
 
     return(
         <>
-        <div onClick={()=> setCardToBeEdited() }>
-            <Card>
-                <CardBody>
+        <div className="edit-inv-card" onClick={()=> setCardToBeEdited() }>
+            <Card className="edit-card">
+                <CardTitle className="card-title">
                 <h5>{name}</h5>
+                </CardTitle>
+                <CardBody className="card-price">
                 <h5>Qtz.{price}</h5>
                 </CardBody>
             </Card>

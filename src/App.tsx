@@ -9,6 +9,8 @@ import Header from './containers/Header/Header';
 // -- JUAN's NEW IMPORTS
 import CRUD from './SaaS/DevModules/CRUD';
 import Inventory from './SaaS/Inventory/Inventory';
+import {InventoryDB} from './SaaS/Database/DatabaseFunctions';
+import {keyMaper} from './SaaS/HelperFunctions/BasicHelpers'
 import {
   BrowserRouter as Router,
   Switch, Route, Link
@@ -42,10 +44,24 @@ function App() {
   const [cart, setCartItems] = useState<CartItem[]>([]);
   const [currentPage, setCurrentPage] = useState<PageEnum>(PageEnum.MENU);
 
-  useEffect(() => {
-    // Call API to load the menu
-    setMenuItems(menuItemsMock);
-  }, []);
+  const {readInventory} = InventoryDB();
+
+  // useEffect(() => {
+  //   // Call API to load the menu
+  //   setMenuItems(menuItemsMock);
+  // }, []);
+
+  
+useEffect(() => {
+  const ref = readInventory();
+  const refVal = ref.on('value', function (snapshot) {
+    const snapVal = snapshot.val();
+    if(!snapVal)return;
+    const data = keyMaper(snapVal);
+    setMenuItems(data);
+  });
+  return () => ref.off('value', refVal)
+}, [])
 
 
   const getTotalCartValue = () => {
@@ -63,8 +79,12 @@ function App() {
   return (
     <>
     <div className="App">
+   
       <Router>
-
+      <header className="App-header">
+            <Header/>
+      </header>
+      
       <Switch>
             <Route exact path={["/inventario"]}>
               <Inventory/>
@@ -72,13 +92,10 @@ function App() {
           </Switch>
       <Switch>
 
-            <Route exact path={["/"]}>
+    <Route exact path={["/"]}>
       <section className="container">
         {currentPage === PageEnum.MENU && (
           <>
-          <header className="App-header">
-            <Header/>
-          </header>
           <Menu
             menuItems={menuItems}
             cart={cart}

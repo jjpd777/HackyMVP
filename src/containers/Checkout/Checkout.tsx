@@ -16,6 +16,8 @@ import {
 
 import { CartItem } from '../../App';
 import { MenuItem } from '../Menu/Menu';
+import {TransactionRecordDB} from '../../SaaS/Database/DatabaseFunctions';
+import {generateWhatsAppURL} from '../../SaaS/HelperFunctions/CheckoutHelpers';
 
 interface CheckoutProps {
   menuItems: MenuItem[];
@@ -30,6 +32,8 @@ function Checkout(props: CheckoutProps) {
   const [name, setName] = useState();
   const [address,setAddress] = useState();
   const [phone,setPhone] = useState();
+  const {createTransaction} = TransactionRecordDB();
+  const [additionalNotes, setAdditionalNotes] = useState("- Ninguna.")
 
   const [payMethod,setPayment] = useState(true)
   function getFormattedDate() {
@@ -83,43 +87,15 @@ function Checkout(props: CheckoutProps) {
       "fecha" : time,
       "pedido": order,
     }
-    console.log(newRow)
-    var url = 'https://sheet2api.com/v1/WExfuaSVRrOs/ventaslalloronagt/venta-hora';
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newRow),
-    })
-    .then(response => response.json())
-    .then(newRow => {
-      console.log('Success:', newRow);
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
   }
-  const letsCheckout = (checkName,checkAddress,thisphone,payment) =>{
-    if(!checkName || !checkAddress || !thisphone) return
-    const getPayment = payment ? 'efectivo' : 'tarjeta';
+  const letsCheckout = () =>{
+    // name,address,phone,payMethod
+    if(!name || !address || !phone) return
+    const getPayment = payMethod ? 'efectivo' : 'tarjeta';
+    const x = [cart, menuItems, additionalNotes, "location"]
+    const redirectURL = generateWhatsAppURL("32872167",x )
 
-    let baseURL = "https://wa.me/50256243902?text=";
-    let textBody="Hola El Chinito Veloz!%0AMi nombre es *" +String(checkName)+"* y me interesa hacer un pedido a *"+String(checkAddress)+"*." + ".%0A%0AMi pedido es el siguiente:%0A";
-    let finalpart = "*Total*%20Qtz.%20" +String(props.totalCartValue)+ "%0A%0AQuiero por favor pagar en *"+ getPayment+ "*. Muchas gracias de antemano%21"
-
-    cart.forEach((cartItem) => {
-      menuItems.map((menuItem) => {
-        if (cartItem.itemId === menuItem.id) {
-          const tmp = "-(%20*x*%20"+ String(cartItem.quantity) +")%20" + menuItem.name + "%0A"
-          textBody+=tmp
-        }
-      });
-    });
-    textBody=craftString(textBody);
-    var purchase = baseURL+textBody+"%0A"+finalpart;
-
-    return purchase;
+    return redirectURL;
   }
   
   return (
@@ -193,11 +169,18 @@ function Checkout(props: CheckoutProps) {
             setPhone(e.target.value);
           }}
         />
+          <FormTextarea
+          className="input"
+          placeholder="Notas adicionales"
+          onChange={(e) => {
+            setAdditionalNotes(e.target.value);
+          }}
+        />
       </div>
       <br></br>
       <Button 
         onClick={()=>writeOrder(name,address,phone,payMethod)} 
-        href={letsCheckout(name,address,phone,payMethod)} 
+        href={letsCheckout()} 
         className="button" block>
         Pedir via WhatsApp
       </Button>

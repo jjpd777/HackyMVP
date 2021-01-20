@@ -42,13 +42,23 @@ function Inventory(){
 
    
     const inputElementsEmpty = inputElements.find((x)=> x==="");
+    const checkEmptyStrings = ()=>{
+        inputElements.forEach((x)=>{
+            if(x==="") return true;
+        })
+        return false;
+    }
 
     const createEntry = ()=>{
-        if(inputElementsEmpty) return;
+        if((checkEmptyStrings)) return;
         const x = {
+            id:'',
             category: category,
             name: name,
-            price: price
+            description: '',
+            price: price,
+            brief:'',
+            image:'',
         }
         insertInventory(x);
         setNextInsertFlag(true);
@@ -109,7 +119,7 @@ function Inventory(){
         </div>}
        {!insertMode && 
        <div className="edit-inventory">
-                {getCat().map((x)=><Button onClick={()=>setCurrentCat(x)}>{x}</Button>)}
+                {getCat().map((x)=><Button className="categories" onClick={()=>setCurrentCat(x)}>{x}</Button>)}
                 {!!inventory && editID==="" && inventory.map((x)=>x.category ===currentCat && <><CardInventory itemInfo={x} editHelper={setEditID} fullHelpers = {inputFunctions}/></>)}
         
         <div className="edition-is-on">
@@ -127,7 +137,7 @@ function Inventory(){
                 </>)}
                 {editID!=="" && 
                 <>
-                <Button onClick={()=>cancelEdit()}> Cancelar</Button> <Button onClick={()=>updateItem()}>Confirmar</Button>
+                <Button className="action-no" onClick={()=>cancelEdit()}> Cancelar</Button> <Button className="action-yes" onClick={()=>updateItem()}>Confirmar</Button>
                 </>}
         </div>
         </div>}
