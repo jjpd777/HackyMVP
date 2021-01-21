@@ -92,8 +92,8 @@ function Checkout(props: CheckoutProps) {
     // name,address,phone,payMethod
     if(!name || !address || !phone) return
     const getPayment = payMethod ? 'efectivo' : 'tarjeta';
-    const x = [cart, menuItems, additionalNotes, "location"]
-    const redirectURL = generateWhatsAppURL("32872167",x )
+    const x = [cart, menuItems, additionalNotes, name, address]
+    const redirectURL = generateWhatsAppURL(phone,x )
 
     return redirectURL;
   }

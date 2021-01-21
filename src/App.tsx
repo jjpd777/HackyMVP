@@ -51,15 +51,16 @@ function App() {
   //   setMenuItems(menuItemsMock);
   // }, []);
 
-  
+
 useEffect(() => {
   const ref = readInventory();
+  console.log("DEBUGGING", ref)
   const refVal = ref.on('value', function (snapshot) {
     const snapVal = snapshot.val();
     if(!snapVal)return;
     const data = keyMaper(snapVal);
     setMenuItems(data);
-  });
+  }, error=>console.log("BRUH", error));
   return () => ref.off('value', refVal)
 }, [])
 

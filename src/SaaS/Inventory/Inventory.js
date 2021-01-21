@@ -42,15 +42,9 @@ function Inventory(){
 
    
     const inputElementsEmpty = inputElements.find((x)=> x==="");
-    const checkEmptyStrings = ()=>{
-        inputElements.forEach((x)=>{
-            if(x==="") return true;
-        })
-        return false;
-    }
 
     const createEntry = ()=>{
-        if((checkEmptyStrings)) return;
+        if(name ==="" || price ===0 ||category==="") return;
         const x = {
             id:'',
             category: category,
