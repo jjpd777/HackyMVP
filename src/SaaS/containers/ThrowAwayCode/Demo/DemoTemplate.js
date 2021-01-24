@@ -10,18 +10,19 @@ import {
   } from "react-router-dom";
 import {
     faLocationArrow, faMoneyBillAlt, faCreditCard, 
-    faFilePdf,faCheckCircle, faDotCircle, faCheck, faPencilAlt, faPhone, faCashRegister, faEnvelope, faArrowLeft, faGlasses
+    faFilePdf,faCheckCircle, faDotCircle, faCheck, faPencilAlt, faPhone, faCashRegister, faEnvelope, faArrowLeft, faGlasses, faPeopleCarry, faTshirt
 
 } from '@fortawesome/free-solid-svg-icons';
 import satLogo from '../../../../final-art-sat.jpeg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {callAPI4Receipt, buildAPIcall, request2API,parseAPIresponse} from './ReceiptUtils'
-import {ReceiptDB} from '../../../../services/DBservice';
-import GeneratePDF from './GeneratePDF/GeneratePDF'
+import GeneratePDF from './GeneratePDF/GeneratePDF';
+import {Schemas} from './../Database/Schemas';
 
 
 import './DemoTemplate.scss';
 import {createPDF, craftString }from './GeneratePDF/UtilsPDF';
+import {ReceiptDB, DateUtils} from '../Database/DatabaseFunctions';
 
 
 function DemoTemplate(props) {
@@ -29,6 +30,7 @@ function DemoTemplate(props) {
     const PAYMENT_MENTHODS = ["efectivo", "tarjeta"];
     const [redirectURL, setRedirectURL] = useState("");
     const readyFlag = redirectURL !== "";
+    const [isConsumptionProduct, setConsumptionCategory] = useState(false);
     const [consumption, setConsumption] = useState("servicios profesionales");
     const [name, setName] = useState("Anónimo");
     const [total, setTotal] = useState(0);
@@ -43,14 +45,20 @@ function DemoTemplate(props) {
     const [isReadyForNext, setIsReadyForNext] = useState(false);
     const [proceedHelper, setProceedH] = useState(false);
 
+    const {insertReceipt} = ReceiptDB();
+    const {ReceiptFormat} = Schemas();
+    const {TIMESTAMP_GENERATOR} = DateUtils();
+
+
+
 
     const paymentMethod = isCashSelected ? "efectivo" : "tarjeta";
+    const typeOfReceipt = isConsumptionProduct ? "producto" : "servicio" 
 
     const TEXT_HELPER = ["Nombre cliente:", "Consumo:", "Total consumido Qtz:", "Número de NIT:", "Dirección:", "Número celular:", "Método de pago:"];
     const FIELDS_HELPER = [name, consumption, total, nit, address, phoneNum, paymentMethod];
     const METHODS_HELPER = [setName, setConsumption, setTotal, setNIT, setAddress, setPhoneNum]
 
-    const {insertReceipt} = ReceiptDB();
 
 
     const generateReceipt = () => {
@@ -63,16 +71,40 @@ function DemoTemplate(props) {
         request2API(APIreq).then(data=>{
         const TAX_DETAIL = parseAPIresponse(data);
         const whatsAppTaxURL = callAPI4Receipt(FIELDS_HELPER,TAX_DETAIL);
+        //timestamp, whatsAppURL, purchaseSummary, infoCall2SAT, issuedInEmergency
+        //const orderDetails ={
 
+        // }
+        const timestamp = TIMESTAMP_GENERATOR();
+        const summary = {
+            name: name,
+            total:total,
+            paymentMethod: paymentMethod,
+            taxInfo:nit,
+            consumption: consumption
+        }
+        const infoCall2SAT = {
+            req: APIreq,
+            res: data
+        };
+        const issuedInEmergency = false;
+
+        const receiptProps = [timestamp, whatsAppTaxURL, summary, infoCall2SAT, issuedInEmergency ]
         
+        const RECEIPT_SCHEMA = ReceiptFormat(receiptProps);
         var insertionData = {};
-        insertionData['whatsAppURL'] = whatsAppTaxURL;
-        insertionData['req'] = APIreq;
-        insertionData['res'] = data;
+        // insertionData['whatsAppURL'] = whatsAppTaxURL;
+        // insertionData['req'] = APIreq;
+        // insertionData['res'] = data;
+        // insertionData['timestamp'] = timestamp;
+        // insertionData['valid'] = true;
+
+
         setRedirectURL(whatsAppTaxURL);
-        insertReceipt(insertionData);
+        // insertReceipt(insertionData);
         setAPILoading(false);
         setIsReadyForNext(true);
+        insertReceipt(RECEIPT_SCHEMA);
 
         })
        
@@ -93,13 +125,12 @@ function DemoTemplate(props) {
            { reviewed && <div className="revision-text">
            <Card  className="card">
                 <CardBody className="card-body">
+                    <h3>{typeOfReceipt} <FontAwesomeIcon icon={isConsumptionProduct ? faTshirt : faPeopleCarry}/></h3>
                 {TEXT_HELPER.map((x, ix) =>
                 <>
                 
-                <h5><FontAwesomeIcon icon={faCheck}/> <b>{x}</b></h5>
-                <h4>{x==="Total consumido Qtz:" && "Qtz. "}{FIELDS_HELPER[ix]}</h4>
-                
-                
+                <h5> <b>{x}</b></h5>
+                <h4><FontAwesomeIcon icon={faCheck}/> {' '}{x==="Total consumido Qtz:" && "Qtz. "}{FIELDS_HELPER[ix]}</h4>
                 </>)
             }
             </CardBody>
@@ -123,6 +154,8 @@ function DemoTemplate(props) {
                 )}
             </div>}
            { !reviewed && !isDone && <div className="demo-summary">
+               <h3>Método de pago</h3>
+
                 <Button pill className={isCashSelected ? "pill-btn" : "not-pill-btn"} onClick={() => {
                     setCashOrCard(true);
                 }}
@@ -135,6 +168,22 @@ function DemoTemplate(props) {
 
                 >
                     <FontAwesomeIcon icon={faCreditCard} />{'  Tarjeta'}
+                </Button>
+            </div>}
+            { !reviewed && !isDone && <div className="demo-summary">
+                <h3>Naturaleza de la factura</h3>
+                <Button pill className={!isConsumptionProduct ? "pill-btn" : "not-pill-btn"} onClick={() => {
+                    setConsumptionCategory(false);
+                }}
+                >
+                    <FontAwesomeIcon icon={faTshirt} />{'  Bienes'}
+                </Button>
+                <Button pill className={isConsumptionProduct ? "pill-btn" : "not-pill-btn"} onClick={() => {
+                    setConsumptionCategory(true);
+                }}
+
+                >
+                    <FontAwesomeIcon icon={faPeopleCarry} />{'  Servicios'}
                 </Button>
             </div>}
             <div className="final-action-buttons-demo">
