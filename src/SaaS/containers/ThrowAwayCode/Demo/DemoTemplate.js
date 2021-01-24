@@ -38,11 +38,11 @@ function DemoTemplate(props) {
     const [paymentPTR, setPaymentPTR] = useState(1);
     const [apiCallLoading, setAPILoading] = useState(false);
     const [isCashSelected, setCashOrCard] = useState(true);
-    const [pdfURL, setPDFurl] = useState("");
     const [reviewed, setReviewed] = useState(false);
     const [isDone, setDone] = useState(false);
     const [isReadyForNext, setIsReadyForNext] = useState(false);
-    const [pdfFlag, setPDFFlag] = useState(false);
+    const [proceedHelper, setProceedH] = useState(false);
+
 
     const paymentMethod = isCashSelected ? "efectivo" : "tarjeta";
 
@@ -73,17 +73,13 @@ function DemoTemplate(props) {
         insertReceipt(insertionData);
         setAPILoading(false);
         setIsReadyForNext(true);
-        setPDFFlag(true);
+
         })
        
 
 
     }
 
-    const nextPaymentMethod = () => {
-        const newPointer = (paymentPTR + 1) % PAYMENT_MENTHODS.length;
-        setPaymentPTR(newPointer);
-    };
     console.log(paymentMethod)
     return (
         <>
@@ -128,13 +124,13 @@ function DemoTemplate(props) {
             </div>}
            { !reviewed && !isDone && <div className="demo-summary">
                 <Button pill className={isCashSelected ? "pill-btn" : "not-pill-btn"} onClick={() => {
-                    setCashOrCard(!isCashSelected);
+                    setCashOrCard(true);
                 }}
                 >
                     <FontAwesomeIcon icon={faMoneyBillAlt} />{'  Efectivo'}
                 </Button>
                 <Button pill className={!isCashSelected ? "pill-btn" : "not-pill-btn"} onClick={() => {
-                    setCashOrCard(!isCashSelected);
+                    setCashOrCard(false);
                 }}
 
                 >
@@ -184,8 +180,8 @@ function DemoTemplate(props) {
             </div>
                 <div className="pdf-section">
                 {/* {readyFlag && <Button className="download-pdf" href={pdfURL}> Descargar PDF <FontAwesomeIcon icon={faFilePdf}/>  </Button>} */}
-                {readyFlag && <GeneratePDF whatsAppURL={redirectURL} printingElements={FIELDS_HELPER} pdfFlag ={pdfFlag} />}
-                { readyFlag && <Button className="go-back" onClick={()=>navHelper("")}> <FontAwesomeIcon icon={faArrowLeft}/>Regresar </Button>}            
+                {readyFlag && <GeneratePDF whatsAppURL={redirectURL} printingElements={FIELDS_HELPER} proceedH={setProceedH} />}
+                { readyFlag && proceedHelper && <Button className="go-back" onClick={()=>navHelper("")}> <FontAwesomeIcon icon={faArrowLeft}/>Regresar </Button>}            
                 </div>
         </div>
         </>

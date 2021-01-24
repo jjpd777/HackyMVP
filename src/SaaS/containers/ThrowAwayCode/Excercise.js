@@ -29,7 +29,7 @@ function Excercise(){
     const [user, setUser] = useState("");
     const [currentCategory, setCurrentCategory] = useState("");
     const PASS = "paralistos";
-    const PASSWORDVALID = user === PASS;
+    const PASSWORDVALID = user !== PASS;
 
     const textHelper = ["Facturación", "Registro", "Contabilidad"]
     const faviconHelper = [faCashRegister, faPencilAlt, faGlasses]

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './GeneratePDF.scss';
 import { degrees, PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import {
-    faClock, faMoneyBillAlt, faCreditCard,faFilePdf, faPhone, faGlasses, faArrowRight, faCheckCircle
+    faClock, faMoneyBillAlt, faCreditCard,faFilePdf, faPhone, faGlasses, faArrowRight, faCheckCircle, faLongArrowAltRight
 
 } from '@fortawesome/free-solid-svg-icons';
 import {createPDF }from './UtilsPDF';
@@ -16,15 +16,19 @@ import {
 
 import firebase from 'firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import generate from '@babel/generator';
 
 const download = require("downloadjs");
 
 
 function GeneratePDF(props) {
-    const {whatsAppURL, pdfFlag} = props;
+    const {whatsAppURL, proceedH} = props;
     const [header, setHeader] = useState("");
     const [downloadURL, setDownloadURL] = useState("");
     const [isGenerating, setIsGenerating] = useState(false);
+    const [proceed, setProceed ] = useState(false);
+    const [triggerPDF, setTriggerPDF] = useState(true);
+
     const craftString = (message) => {
   
         message = message.split("%").join("%25")
@@ -38,9 +42,9 @@ function GeneratePDF(props) {
         return message;
     };
 
-    useEffect(()=>{
-        if(pdfFlag) createPDF()
-    },[pdfFlag])
+    // useEffect(()=>{
+    //     if(pdfFlag) createPDF()
+    // },[pdfFlag])
 
     async function createPDF() {
         const url = "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/factura-001204-listosoftware.pdf?alt=media&token=95cfac58-2ae0-41db-9449-f2e186a5ebf1"
@@ -76,6 +80,7 @@ function GeneratePDF(props) {
             file2write.getDownloadURL().then(function (url) {
               setDownloadURL(url);
               setIsGenerating(false);
+              setTriggerPDF(false);
             })
         }
             )
@@ -91,24 +96,28 @@ function GeneratePDF(props) {
 
     return (
         <div className="pdf-module">
-       { !isGenerating && !isDownloadable &&
+       { !isGenerating && !isDownloadable && !proceed &&
        <div>
        <h3>Certificación exitosa!</h3>
        <h1><FontAwesomeIcon className="check-success" icon={faCheckCircle}/></h1>
-        {<Button onClick={()=>createPDF()} theme="success" className="create-pdf"> 
-           Cargando...  <FontAwesomeIcon icon={faFilePdf}/>
+        {!proceed && <Button onClick={()=>{setProceed(true); proceedH(true)}} theme="success" className="create-pdf"> 
+           Siguiente paso  <FontAwesomeIcon icon={faLongArrowAltRight}/>
         </Button>}
         </div>
         }
           {/* {isGenerating && <Button onClick={()=>createPDF()} theme="success" className="create-pdf"> 
            Cargando...  <FontAwesomeIcon icon={faFilePdf}/>
         </Button>} */}
-        {isGenerating && <Button className="waiting-pdf"> <FontAwesomeIcon icon={faClock}/> Generando PDF</Button> }
-       { isDownloadable && <div className="final-options">
+        {/* {isGenerating && <Button className="waiting-pdf"> <FontAwesomeIcon icon={faClock}/>  <FontAwesomeIcon icon={faFilePdf}/>
+         Generando PDF</Button> } */}
+       { proceed && 
+       <div className="final-options">
        <h5> Siguientes pasos</h5>
             <Card>
                 <CardBody className="body">
-                {<Button className="download-pdf" href={downloadURL}> Descargar PDF <FontAwesomeIcon icon={faFilePdf}/></Button>}
+                {triggerPDF && !isGenerating && <Button className="download-pdf" onClick={()=> createPDF()}> Generar PDF <FontAwesomeIcon icon={faFilePdf}/></Button>}
+                {isGenerating && <Button className="download-pdf" onClick={()=> {}}> Generarando... <FontAwesomeIcon icon={faFilePdf}/></Button>}
+                {!triggerPDF && <Button className="download-pdf" href={downloadURL}> Descargar PDF <FontAwesomeIcon icon={faFilePdf}/></Button>}
 
                 {<Button className="whatsapp-message" href={finalWhatsApp()}> WhatsApp <FontAwesomeIcon icon={faPhone}/></Button>}
                 </CardBody>

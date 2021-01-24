@@ -32,13 +32,6 @@ export async function createPDF() {
     const hourX = baseX + 310;
     const hourY = baseY + 14;
 
-    // firstPage.drawText("10-10-2049", {
-    //   x: hourX,
-    //   y: height / 2 + hourY,
-    //   size: 7,
-    //   font: helveticaFont,
-    //   color: rgb(0.1, 0.1, 0.1),
-    // })
     const pdfBytes = await pdfDoc.save();
     var storageRef = firebase.storage().ref();
     const stringDate = "factura-listosoftware";
