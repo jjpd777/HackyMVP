@@ -21,28 +21,37 @@ import {prepare2WritePDF} from '../SpecialHelpers/GeneratePDF/BuildPDF';
 
 function CardTemplate(props){
     const {receiptInfo} = props;
-    const customer = receiptInfo.purchaseSummary;
-    const name = customer.name;
-    const payMethod = customer.paymentMethod;
-    const taxInfo = customer.taxInfo;
-    const total = customer.total;
-    const tstamp = receiptInfo.timestamp;
-    const whatsAppURL = receiptInfo.whatsAppURL;
-    const [pdfURL, setPDF] = useState("");
+    const customer = receiptInfo.purchaseSummary; const name = customer.name;
+    const payMethod = customer.paymentMethod; const consumption = customer.consumption;
+    const taxInfo = customer.taxInfo; const whatsAppURL = receiptInfo.whatsAppURL;
+    const total = customer.total; const tstamp = receiptInfo.timestamp;
+
+    const responseSAT = receiptInfo.infoCall2SAT.res.body.success;
+    const authNum = responseSAT.Autorizacion; const seriesNum = responseSAT.Serie;
+    const verifyNum = responseSAT.NUMERO;
+    const address = customer.address ? customer.address : "Ciudad de Guatemala";
+
+    const issuedTimestamp = receiptInfo.timestamp.split("&").join(" ");
+
+    const [pdfURL, setPDF] = useState(""); 
     const [pdfLoading, setPDFLoading] = useState(false);
+    const CUSTOMER_FIELDS = [name, taxInfo,address]
+    const SAT_RESPONSE = ["Qtz."+String(total),consumption, seriesNum, verifyNum, authNum];
+    
 
     async function fetchAndCreatePDF () {
        
-    
-        const {TIMESTAMP_GENERATOR} = DateUtils();
-        const props = TIMESTAMP_GENERATOR();
+        const PDF_PROPS = [CUSTOMER_FIELDS,SAT_RESPONSE, issuedTimestamp]
 
-        const pdfBytes = await prepare2WritePDF(props);
+        const {TIMESTAMP_GENERATOR} = DateUtils();
+        const tstamp = TIMESTAMP_GENERATOR().split('&')[1];
+
+        const pdfBytes = await prepare2WritePDF(PDF_PROPS);
         var storageRef = firebase.storage().ref();
-        const stringDate = "factura-listosoftware";
+        const stringDate =  tstamp + "-factura-listosoftware";
         setPDFLoading(true);
         var file2write = storageRef.child(stringDate+'.pdf')
-        file2write.put(pdfBytes).then( async function (snapshot) {
+        file2write.put(pdfBytes).then( function (snapshot) {
              file2write.getDownloadURL().then(function (url) {
                 setPDF(url);
                 setPDFLoading(false)
@@ -51,12 +60,6 @@ function CardTemplate(props){
             )
     
     }
-
-
-    useEffect(()=>{
-        console.log("EVENTUALLY", pdfURL)
-
-    },[pdfURL])
 
     const [showFlag, setShowFlag] = useState(false);
 

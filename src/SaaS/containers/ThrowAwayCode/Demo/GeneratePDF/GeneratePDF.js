@@ -6,6 +6,8 @@ import {
 
 } from '@fortawesome/free-solid-svg-icons';
 import {createPDF }from './UtilsPDF';
+import {prepare2WritePDF} from '../../SpecialHelpers/GeneratePDF/BuildPDF';
+import {DateUtils} from '../../Database/DatabaseFunctions'
 
 import {
     Button,
@@ -22,13 +24,15 @@ const download = require("downloadjs");
 
 
 function GeneratePDF(props) {
-    const {whatsAppURL, proceedH} = props;
+    const {whatsAppURL, proceedH, pdfProps} = props;
     const [header, setHeader] = useState("");
     const [downloadURL, setDownloadURL] = useState("");
     const [isGenerating, setIsGenerating] = useState(false);
     const [proceed, setProceed ] = useState(false);
     const [triggerPDF, setTriggerPDF] = useState(true);
 
+    
+    console.log(pdfProps)
     const craftString = (message) => {
   
         message = message.split("%").join("%25")
@@ -46,44 +50,28 @@ function GeneratePDF(props) {
     //     if(pdfFlag) createPDF()
     // },[pdfFlag])
 
-    async function createPDF() {
-        const url = "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/factura-001204-listosoftware.pdf?alt=media&token=95cfac58-2ae0-41db-9449-f2e186a5ebf1"
-        const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer())
-        const pdfDoc = await PDFDocument.load(existingPdfBytes)
-        
-        const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica)
+    async function fetchAndCreatePDF() {
+        const [CUSTOMER_FIELDS,SAT_RESPONSE] = pdfProps;
+        const {TIMESTAMP_GENERATOR} = DateUtils();
+        const tstamp = TIMESTAMP_GENERATOR().split('&')[1];
 
-        const pages = pdfDoc.getPages()
-        const firstPage = pages[0]
-        const { width, height } = firstPage.getSize();
+        const PDF_PROPS = [CUSTOMER_FIELDS,SAT_RESPONSE, tstamp]
 
-        var baseX = 205;
-        var baseY = 339;
 
-        const hourX = baseX + 310;
-        const hourY = baseY + 14;
-
-        // firstPage.drawText("10-10-2049", {
-        //   x: hourX,
-        //   y: height / 2 + hourY,
-        //   size: 7,
-        //   font: helveticaFont,
-        //   color: rgb(0.1, 0.1, 0.1),
-        // })
-        const pdfBytes = await pdfDoc.save();
+        const pdfBytes = await prepare2WritePDF(PDF_PROPS);
         var storageRef = firebase.storage().ref();
-        const stringDate = "factura-listosoftware";
-
-        var file2write = storageRef.child(stringDate+'.pdf')
+        const stringDate =  tstamp + "-factura-listosoftware";
         setIsGenerating(true);
-        file2write.put(pdfBytes).then(function (snapshot) {
-            file2write.getDownloadURL().then(function (url) {
-              setDownloadURL(url);
-              setIsGenerating(false);
-              setTriggerPDF(false);
+        var file2write = storageRef.child(stringDate+'.pdf')
+        file2write.put(pdfBytes).then( function (snapshot) {
+             file2write.getDownloadURL().then(function (url) {
+                setDownloadURL(url);
+                setIsGenerating(false);
+                setTriggerPDF(false);
             })
         }
             )
+    
     }
     const finalWhatsApp = ()=>{
         const x = craftString(downloadURL)
@@ -115,7 +103,7 @@ function GeneratePDF(props) {
        <h5> Siguientes pasos</h5>
             <Card>
                 <CardBody className="body">
-                {triggerPDF && !isGenerating && <Button className="download-pdf" onClick={()=> createPDF()}> Generar PDF <FontAwesomeIcon icon={faFilePdf}/></Button>}
+                {triggerPDF && !isGenerating && <Button className="download-pdf" onClick={()=> fetchAndCreatePDF()}> Generar PDF <FontAwesomeIcon icon={faFilePdf}/></Button>}
                 {isGenerating && <Button className="download-pdf" onClick={()=> {}}> Generarando... <FontAwesomeIcon icon={faFilePdf}/></Button>}
                 {!triggerPDF && <Button className="download-pdf" href={downloadURL}> Descargar PDF <FontAwesomeIcon icon={faFilePdf}/></Button>}
 

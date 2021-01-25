@@ -49,6 +49,9 @@ function DemoTemplate(props) {
     const {ReceiptFormat} = Schemas();
     const {TIMESTAMP_GENERATOR} = DateUtils();
 
+    const [seriesNum, setSeries] = useState("-");
+    const [verifyNum, setVerify] = useState("-");
+    const [authNum, setAuthNum] = useState("-")
 
 
 
@@ -59,7 +62,9 @@ function DemoTemplate(props) {
     const FIELDS_HELPER = [name, consumption, total, nit, address, phoneNum, paymentMethod];
     const METHODS_HELPER = [setName, setConsumption, setTotal, setNIT, setAddress, setPhoneNum]
 
-
+    const PDF_CUSTOMER_FIELDS = [name, nit,address];
+    const PDF_SAT_RESPONSE = ["Qtz."+String(total),consumption, seriesNum, verifyNum, authNum];
+    const PDF_PROPS = [PDF_CUSTOMER_FIELDS, PDF_SAT_RESPONSE]
 
     const generateReceipt = () => {
         if(!phoneNum || total ===0) return;
@@ -81,23 +86,20 @@ function DemoTemplate(props) {
             total:total,
             paymentMethod: paymentMethod,
             taxInfo:nit,
-            consumption: consumption
+            consumption: consumption,
+            address: address
         }
         const infoCall2SAT = {
             req: APIreq,
             res: data
         };
         const issuedInEmergency = false;
+        const responseSAT = data.body.success;
+        setSeries(responseSAT.Serie); setAuthNum(responseSAT.Autorizacion); setVerify(responseSAT.NUMERO)
 
         const receiptProps = [timestamp, whatsAppTaxURL, summary, infoCall2SAT, issuedInEmergency ]
         
         const RECEIPT_SCHEMA = ReceiptFormat(receiptProps);
-        var insertionData = {};
-        // insertionData['whatsAppURL'] = whatsAppTaxURL;
-        // insertionData['req'] = APIreq;
-        // insertionData['res'] = data;
-        // insertionData['timestamp'] = timestamp;
-        // insertionData['valid'] = true;
 
 
         setRedirectURL(whatsAppTaxURL);
@@ -229,7 +231,7 @@ function DemoTemplate(props) {
             </div>
                 <div className="pdf-section">
                 {/* {readyFlag && <Button className="download-pdf" href={pdfURL}> Descargar PDF <FontAwesomeIcon icon={faFilePdf}/>  </Button>} */}
-                {readyFlag && <GeneratePDF whatsAppURL={redirectURL} printingElements={FIELDS_HELPER} proceedH={setProceedH} />}
+                {readyFlag && <GeneratePDF whatsAppURL={redirectURL} printingElements={FIELDS_HELPER} proceedH={setProceedH} pdfProps = {PDF_PROPS} />}
                 { readyFlag && proceedHelper && <Button className="go-back" onClick={()=>navHelper("")}> <FontAwesomeIcon icon={faArrowLeft}/>Regresar </Button>}            
                 </div>
         </div>
