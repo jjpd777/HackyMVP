@@ -1,10 +1,12 @@
 import { useFirebaseApp, useUser } from 'reactfire';
 
 // COOL!
-const STORENAME = "GERONA"
-const ROOT = "LISTOSOFTWARE"
+const STORENAME = "PRUEBA"
+const ROOT = "PLATICAME"
 
-const GENERAL_DEMO = ROOT + "/record/"
+const GENERAL_DEMO = ROOT + "/record/";
+
+const LIVE_DEMO = ROOT+ '/record/'
 
 const INVENTORY_URL = ROOT + "/inventory/";
 const DAILYORDERS =  ROOT + "/orders-factory";
@@ -54,3 +56,13 @@ export const ReceiptDB = ()=>{
   return {insertReceipt}
 }
 
+
+export const PlaticameDB = ()=>{
+  const database = useFirebaseApp().database();
+  const insertRequest = (data)=>{
+    const DESTINATION = LIVE_DEMO + '/' + DateforSection();
+    return database.ref(DESTINATION).push(data);
+  };
+
+  return {insertRequest}
+}

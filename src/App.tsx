@@ -6,7 +6,7 @@ import Checkout from './containers/Checkout/Checkout';
 import Header from './containers/Header/Header';
 import { InventoryDB } from './services/DBservice';
 
-
+import ForwardWhatsApp from './ForwardChat';
 import { useUser, useFirebaseApp } from 'reactfire';
 
 
@@ -53,9 +53,15 @@ function App() {
       <div className="App">
         <Router>
 
-          <Switch>
+          {/* <Switch>
             <Route exact path={["/"]}>
                 <Header />
+            </Route>
+          </Switch> */}
+
+          <Switch>
+            <Route exact path={["/"]}>
+                <ForwardWhatsApp/>
             </Route>
           </Switch>
 
@@ -63,28 +69,28 @@ function App() {
             <Route path={["/:handle"]} children={<Exercise/>}/>
           </Switch> */}
 
-          <Switch>
+          {/* <Switch>
             <Route exact path={["/demostracion"]}>
               <Exercise/>
             </Route>
-          </Switch>
+          </Switch> */}
 
-          <Switch>
+          {/* <Switch>
             <Route exact path={["/registro"]}>
               <Signup/>
             </Route>
-          </Switch>
+          </Switch> */}
           
-          <Switch>
+          {/* <Switch>
             <Route exact path={["/login"]}>
              {user && <Login/>}
              {user && <Logout/>}
             </Route>
-          </Switch>
+          </Switch> */}
           
 
         </Router>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </>
   );
