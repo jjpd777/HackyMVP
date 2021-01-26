@@ -54,14 +54,13 @@ function App() {
 
 useEffect(() => {
   const ref = readInventory();
-  console.log("DEBUGGING", ref)
   const refVal = ref.on('value', function (snapshot) {
     const snapVal = snapshot.val();
-    if(!snapVal)return;
+    // if(!snapVal)return;
     const data = keyMaper(snapVal);
     setMenuItems(data);
-  }, error=>console.log("BRUH", error));
-  return () => ref.off('value', refVal)
+  });
+  return () => ref.off('value', refVal);
 }, [])
 
 
@@ -82,17 +81,17 @@ useEffect(() => {
     <div className="App">
    
       <Router>
-      <header className="App-header">
+      <div className="App-header">
             <Header/>
-      </header>
+      </div>
       
       <Switch>
-            <Route exact path={["/inventario"]}>
+            <Route path={["/inventario"]}>
               <Inventory/>
             </Route>
           </Switch>
-      <Switch>
 
+      <Switch>
     <Route exact path={["/"]}>
       <section className="container">
         {currentPage === PageEnum.MENU && (

@@ -65,7 +65,7 @@ function ItemCard(props: ItemCardProps) {
   };
 
   return (
-    <div className="card-container">
+    <div onClick={addOneToCart} className="card-container">
       <Card className="card">
         <CardBody className="card-body">
           {menuItem.image !=="" && (<img width="150" src={menuItem.image}/>)}
@@ -84,7 +84,7 @@ function ItemCard(props: ItemCardProps) {
         className="button"
         theme="secondary"
       >
-        Añadir a la orden: (
+        Añadidos: (
         {cart.find((x) => x.itemId === menuItem.id)?.quantity || 0})
       </Button>
 

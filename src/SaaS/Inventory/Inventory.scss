@@ -1,6 +1,8 @@
 .switch-insert-edit{
     margin-top:1rem;
     margin-bottom:1rem;
+    margin-right:5px;
+    margin-left:5px;
     background-color:rgb(120, 230, 120);
     border:0;
     color:black;
@@ -9,6 +11,12 @@
 .insert-inventory{
     margin: 0 auto;
     max-width: 15rem;
+    .inserting-mode{
+        .input-first{
+            padding:10px;
+        }
+    }
+    
     .insert-btn{
         background-color: green;
         margin-top:1rem;
@@ -31,13 +39,26 @@
 }
 
 .edition-is-on{
+    margin:0 auto;
+    .input{
+        margin-top:10px;
+    }
     .action-no{
         margin-top:1rem;
+        font-size:1.5rem;
         border:0;
         background-color: rgb(245, 105, 105);
     }
+    .action-delete{
+        margin-top:1rem;
+        border:0;
+        font-weight: 700;
+        color:red;
+        background-color: rgb(238, 194, 194);
+    }
     .action-yes{
         margin-top:1rem;
+        font-size:1.5rem;
         border:0;
         background-color: rgb(91, 107, 0);
     }

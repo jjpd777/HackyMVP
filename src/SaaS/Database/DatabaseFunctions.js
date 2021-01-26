@@ -40,8 +40,13 @@ export const InventoryDB = ()=>{
         const target = INVENTORY_URL + id;
         return database.ref(target).update(data);
     };
+    const deleteInventory = (id)=>{
+        const target = INVENTORY_URL + id;
+        return database.ref(target).remove();
 
-    return {insertInventory, readInventory, updateInventory}
+    }
+
+    return {insertInventory, readInventory, updateInventory, deleteInventory}
 }
 
 export const TransactionRecordDB = ()=>{

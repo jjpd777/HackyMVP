@@ -27,21 +27,24 @@ function Inventory(){
     const [insertMode, setInsertMode] = useState(true); 
     const CURRENT_CATEGORY = insertMode ? "Insertar inventario" : "Editar inventario";
 
-    const {readInventory, insertInventory, updateInventory} = InventoryDB();
+    const {readInventory, insertInventory, updateInventory, deleteInventory} = InventoryDB();
+
+    const sortAlphabetically = (x)=>{
+        return x.sort((a,b)=> a.name.localeCompare(b.name))
+    }
 
     useEffect(()=>{
         const ref = readInventory();
-        const valRef = ref.on('value', (x) => {
+        const valRef = ref.on('value', function (x) {
             const snapVal = x.val();
-            if(!snapVal)return;
             const data = keyMaper(snapVal);
-            setInventory(data);
+            setInventory(sortAlphabetically(data));
           });
-        return ()=> valRef.off('value', valRef)
+        return ()=> ref.off('value', valRef)
     },[]);
 
    
-    const inputElementsEmpty = inputElements.find((x)=> x==="");
+
 
     const createEntry = ()=>{
         if(name ==="" || price ===0 ||category==="") return;
@@ -73,7 +76,6 @@ function Inventory(){
 
     };
     const updateItem = ()=>{
-        if(inputElementsEmpty) return;
         const x = {
             category: category,
             name: name,
@@ -82,19 +84,24 @@ function Inventory(){
         updateInventory(x, editID);
         inputFunctions.map((f)=>f(""));
         setEditID("");
-    }   
+    };
+
+    const deleteItem = ()=>{
+        deleteInventory(editID);
+    }
 
     return(
         <>
         <div className="inventory-mini-header">
-            <Button className="switch-insert-edit"onClick={()=> setInsertMode(!insertMode)}> {CURRENT_CATEGORY} </Button>
+        <Button className="switch-insert-edit"onClick={()=> setInsertMode(true)}> {"Insertar"} </Button>
+        <Button className="switch-insert-edit"onClick={()=> setInsertMode(false)}> {"Editar"} </Button>
         </div>
         {insertMode && <div className="insert-inventory">
             {!nextInsertFlag &&<div className="inserting-mode">
                 {inputElements.map((val, ix)=>
                 <>
                  <FormInput
-                    className="input"
+                    className="input-first"
                     placeholder= {inputDescription[ix]}
                     value={val}
                     onChange={(e) => {
@@ -132,6 +139,10 @@ function Inventory(){
                 {editID!=="" && 
                 <>
                 <Button className="action-no" onClick={()=>cancelEdit()}> Cancelar</Button> <Button className="action-yes" onClick={()=>updateItem()}>Confirmar</Button>
+                <div>
+                    <h3>- - Precaución - -</h3>
+                <Button className="action-delete" onClick={deleteItem}> Eliminar</Button>
+                </div>
                 </>}
         </div>
         </div>}
