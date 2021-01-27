@@ -15,18 +15,17 @@ const NAME_CODE_ADDRESS = {
 
 const STOREINFO = () => {
     const storeTaxName = STORE_LEGAL_NAME;
-    const storeID = "1";
+    var ts = Math.round((new Date()).getTime() / 1000);
 
-    const storeInfo = {
-        "nombre": "La Borgoña",
-        "sede": storeTaxName,
-        "numeroSede": storeID,
-        "nit": STORE_TAX_INFORMATION,
-        "direccion" :"",
-        "numeroInterno": "",
-        "serie":"ZZZ"
 
-    };
+    const storeInfo = "infoTienda": {
+		"nombre": "Lic. Rodolfo Enrique Galdámez",
+		"sede": "Lic. Rodolfo Enrique Galdámez",
+		"numeroSede": "1",
+        "nit": "5555108",
+        "numeroInterno": ts,
+		"serie": "Z",
+	}
     return storeInfo;
 };
 const TRANSACTIONINFO = ()=> {

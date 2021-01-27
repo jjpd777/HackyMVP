@@ -79,7 +79,7 @@ function TaxSegment(props) {
             consumption: consumption,
             address: address
         }
-
+  
         var infoCall2SAT = {}; var whatsAppTaxURL = ""; var issuedInEmergency = false;
         const timestamp = TIMESTAMP_GENERATOR();
 
@@ -89,6 +89,8 @@ function TaxSegment(props) {
                 req: APIreq,
                 res: data
             };
+            console.log("REQUEST", APIreq);
+            console.log("RESP", data)
             if (data.statusCode === 200) {
                 const TAX_DETAIL = parseAPIresponse(data);
                 whatsAppTaxURL = callAPI4Receipt(FIELDS_HELPER, TAX_DETAIL);

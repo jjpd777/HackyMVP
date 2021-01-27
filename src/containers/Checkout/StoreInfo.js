@@ -21,21 +21,24 @@ const NAME_CODE_ADDRESS = {
 
 
 const STOREINFO = () => {
+    var ts = Math.round((new Date()).getTime() / 1000);
     const storeTaxName = STORE_LEGAL_NAME;
     const storeID = "1";
-
     const storeInfo = {
-        "nombre": "La Borgoña",
-        "sede": storeTaxName,
-        "numeroSede": storeID,
-        "nit": STORE_TAX_INFORMATION
-    };
+		"nombre": "Fusion Ingenieria",
+		"sede": "Fusion Ingenieria",
+		"numeroSede": "1",
+		"nit": "46398279",
+		"numeroInterno": "122423",
+		"serie": "Z"
+	}
     return storeInfo;
 };
 const TRANSACTIONINFO = ()=> {
     const resp = {
     "tipoaccion": "certificacion",
     "tipodoc": "factura",
+    "contingencia":""
 };
 return resp;
 };

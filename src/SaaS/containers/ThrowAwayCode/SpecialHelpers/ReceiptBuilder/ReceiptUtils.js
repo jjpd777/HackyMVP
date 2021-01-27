@@ -129,15 +129,15 @@ export const buildAPIcall = (payMethod, customerName, nit, consumedGoods, total,
         "infoConsumidor": {
             "nombre": customerName,
             "pago": payMethod,
-            "factura": {
-                "Nit": verifiedNIT,
-                "email": "compuetc@gmail.com",
-                "departamento": "Sacatepequez",
-                "municipio": "Jocotenango",
-                "codigo postal": "1010",
-                "direccion": "13 calle 1-53 los llanos",
-                "telefono": "42007503"
-            },
+            "factura":{
+              "Nit": "123456789",
+              "email" :"TEST@gmail.com",
+              "departamento" :"",
+              "municipio" :"",
+              "codigo postal" :"",
+              "direccion" :"",
+              "telefono" :""
+              },
         },
     };
     response["infoTienda"] = StoreInformation.STOREINFO();
