@@ -21,7 +21,11 @@ const STOREINFO = () => {
         "nombre": "La Borgoña",
         "sede": storeTaxName,
         "numeroSede": storeID,
-        "nit": STORE_TAX_INFORMATION
+        "nit": STORE_TAX_INFORMATION,
+        "direccion" :"",
+        "numeroInterno": "",
+        "serie":"ZZZ"
+
     };
     return storeInfo;
 };
