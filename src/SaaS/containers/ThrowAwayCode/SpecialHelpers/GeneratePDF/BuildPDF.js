@@ -1,6 +1,5 @@
 
-import { degrees, PDFDocument, rgb, StandardFonts } from 'pdf-lib';
-import firebase from 'firebase';
+import {PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import {DateUtils} from '../../Database/DatabaseFunctions';
 
 
@@ -17,7 +16,6 @@ const SUB_HEADERS = ()=>{
 }
 
 const INPUT_FIELDS = (A,B, issuedTimestamp)=>{
-  const {TIMESTAMP_GENERATOR} = DateUtils();
     const STORE_FIELDS = ["Listo Software","46398279", issuedTimestamp
     ,"Ofibodegas Jade, Carretera a El Salvador"]
     const CUSTOMER_FIELDS = A;

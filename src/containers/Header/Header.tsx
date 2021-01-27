@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './Header.scss'
 import { DateforSection } from '../../services/DBservice';
 import listoLogo from '../../logo_v22.png';
-import fireLogo from '../../fire-logo.png'
+import fireLogo from '../../refurbished-logo.png'
 import felLogo from '../../fel-rm.png';
 import wazup from '../../wzup.png';
 import dopy from '../../dopezt.jpeg';

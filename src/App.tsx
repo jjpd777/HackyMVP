@@ -59,15 +59,15 @@ function App() {
             </Route>
           </Switch>
 
-          {/* <Switch>
-            <Route path={["/:handle"]} children={<Exercise/>}/>
-          </Switch> */}
-
           <Switch>
+            <Route path={["/:handle"]} children={<Exercise/>}/>
+          </Switch>
+
+          {/* <Switch>
             <Route exact path={["/demostracion"]}>
               <Exercise/>
             </Route>
-          </Switch>
+          </Switch> */}
 
           <Switch>
             <Route exact path={["/registro"]}>

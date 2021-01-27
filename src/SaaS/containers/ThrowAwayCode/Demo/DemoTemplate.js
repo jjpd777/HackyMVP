@@ -13,7 +13,9 @@ import {
     faFilePdf,faCheckCircle, faDotCircle, faCheck, faPencilAlt, faPhone, faCashRegister, faEnvelope, faArrowLeft, faGlasses, faPeopleCarry, faTshirt
 
 } from '@fortawesome/free-solid-svg-icons';
-import satLogo from '../../../../final-art-sat.jpeg'
+import satLogo from '../../../../final-art-sat.jpeg';
+import welcome from '../../../../welcomee.png';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {callAPI4Receipt, buildAPIcall, request2API,parseAPIresponse} from './ReceiptUtils'
 import GeneratePDF from './GeneratePDF/GeneratePDF';
@@ -76,10 +78,7 @@ function DemoTemplate(props) {
         request2API(APIreq).then(data=>{
         const TAX_DETAIL = parseAPIresponse(data);
         const whatsAppTaxURL = callAPI4Receipt(FIELDS_HELPER,TAX_DETAIL);
-        //timestamp, whatsAppURL, purchaseSummary, infoCall2SAT, issuedInEmergency
-        //const orderDetails ={
-
-        // }
+        
         const timestamp = TIMESTAMP_GENERATOR();
         const summary = {
             name: name,
@@ -123,6 +122,7 @@ function DemoTemplate(props) {
                 {/* <img className="listo-logo" src={fireLogo} /> */}
                 </Link>
                 {(!reviewed && !isReadyForNext  && !apiCallLoading )&& <Button className="go-back" onClick={()=>navHelper("")}> <FontAwesomeIcon icon={faArrowLeft}/>Regresar </Button>}                
+
                 </div>
            { reviewed && <div className="revision-text">
            <Card  className="card">
