@@ -49,6 +49,11 @@ return (
               Inventario
           </Button>
         </Link>
+        <Link to="/envios">
+          <Button  className="nav-btn">
+              Envíos
+          </Button>
+        </Link>
         </div>
         {/* <p>
           <FontAwesomeIcon icon={faClock} /> {' '} {restDetails["schedule"]}
