@@ -49,50 +49,13 @@ function App() {
   console.log("USER BABY", user)
 
   return (
-    <>
       <div className="App">
-        <Router>
-
-          {/* <Switch>
-            <Route exact path={["/"]}>
-                <Header />
-            </Route>
-          </Switch> */}
-
-          <Switch>
-            <Route exact path={["/"]}>
-                <ForwardWhatsApp/>
-            </Route>
-          </Switch>
-
-          {/* <Switch>
-            <Route path={["/:handle"]} children={<Exercise/>}/>
-          </Switch> */}
-
-          {/* <Switch>
-            <Route exact path={["/demostracion"]}>
-              <Exercise/>
-            </Route>
-          </Switch> */}
-
-          {/* <Switch>
-            <Route exact path={["/registro"]}>
-              <Signup/>
-            </Route>
-          </Switch> */}
-          
-          {/* <Switch>
-            <Route exact path={["/login"]}>
-             {user && <Login/>}
-             {user && <Logout/>}
-            </Route>
-          </Switch> */}
-          
-
-        </Router>
-        {/* <Footer /> */}
+      <ForwardWhatsApp/>
+      <br></br>
+      <div>
+        <h3>Siempre listos.</h3>
       </div>
-    </>
+      </div>
   );
 }
 

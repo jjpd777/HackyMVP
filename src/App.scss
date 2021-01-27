@@ -1,57 +1,61 @@
 .App {
   text-align: center;
+  background-color: rgb(250, 211, 211);
+  height: 120%;
+  margin: 0;
+  // padding-bottom:-2rem;
 }
 
-.App-header {
-  padding-bottom: 1.5625rem;
-  background-color: #fffaf7;
-  min-height: 20vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-  border-bottom: dashed 3px #ff7707;
-  border
+// .App-header {
+//   padding-bottom: 1.5625rem;
+//   background-color: #fffaf7;
+//   min-height: 20vh;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: center;
+//   font-size: calc(10px + 2vmin);
+//   color: white;
+//   border-bottom: dashed 3px #ff7707;
 
-  img {
-    margin: 2rem 1.3rem 1rem 1.3rem;
-    width: 10rem;
-  }
-}
-.demo-div{
-  h4{
-    color:red;
-    font-weight: 800;
-  }
-  .instructions{
-    justify-content: left;
-  }
-}
-.App-link {
-  color: #61dafb;
-}
-.switch-inv{
-  font-weight: 900;
-  margin-inline: 1rem;
-}
-.fixed-checkout {
-  background-color: #ffffff;
-  position: fixed;
-  bottom: 0rem;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 20px;
 
-  .checkout-button {
-    width: 63%;
-    background-color: #3a9e42;
-    font-weight: 600;
-    border: #011627;
-  }
-  .checkout-button:hover {
-    background-color: #013057;
-  }
-}
+//   img {
+//     margin: 2rem 1.3rem 1rem 1.3rem;
+//     width: 10rem;
+//   }
+// }
+// .demo-div{
+//   h4{
+//     color:red;
+//     font-weight: 800;
+//   }
+//   .instructions{
+//     justify-content: left;
+//   }
+// }
+// .App-link {
+//   color: #61dafb;
+// }
+// .switch-inv{
+//   font-weight: 900;
+//   margin-inline: 1rem;
+// }
+// .fixed-checkout {
+//   background-color: #ffffff;
+//   position: fixed;
+//   bottom: 0rem;
+//   width: 100%;
+//   display: flex;
+//   justify-content: center;
+//   padding: 20px;
+
+//   .checkout-button {
+//     width: 63%;
+//     background-color: #3a9e42;
+//     font-weight: 600;
+//     border: #011627;
+//   }
+//   .checkout-button:hover {
+//     background-color: #013057;
+//   }
+// }

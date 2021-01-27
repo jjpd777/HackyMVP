@@ -7,11 +7,11 @@ import {
     FormTextarea, InputGroupText
 } from 'shards-react';
 import './ForwardChat.scss';
-import platica from './platicame.png'
+import platica from './platicame-redesign.png'
 import {
     faChessRook,
     faCamera,
-    faEnvelope, faVolumeUp, faPencilAlt
+    faEnvelope, faVolumeUp, faPencilAlt, faPhoneAlt, faGlasses
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { PlaticameDB, newMHDMY } from './services/DBservice';
@@ -61,16 +61,16 @@ function ForwardWhatsApp() {
             <div>
                 <img className="platica-logo" src={platica} />
             </div>
-            <div className="footer" onClick={() => "listosoftware.web.app/"} >
+            <div className="sub-header-text" onClick={() => "listosoftware.web.app/"} >
                 <h6  >Impulsado por</h6>
                 <Button className="link" href={"https://listosoftware.web.app/"}> Listo Software</Button>
 
             </div>
-            <div className="country-div">
+            {/* <div className="country-div">
 
                 <Button className="country" onClick={() => nextCountry()}> {country[0]} {country[1]}</Button>
-            </div>
-           {!revision && <Card>
+            </div> */}
+           {!revision && <Card className="t-card">
                 <CardBody>
                 <div>
                         <h4>Celular destino:</h4>
@@ -103,7 +103,7 @@ function ForwardWhatsApp() {
                 </CardBody>
             </Card>}
             {revision && <div>
-                <Card>
+                <Card className="t-card">
                     <CardBody>
                         <h4>Destino: </h4><h3><b>{country[1]}</b>{' '}{phone}</h3>
                         <h4>Mensaje: </h4><h3>{message}</h3>
@@ -112,9 +112,8 @@ function ForwardWhatsApp() {
                 <Button className="edit" onClick={() =>{ setRevision(false) ; setRedirect("")}}>  <FontAwesomeIcon icon={faPencilAlt} /> Editar</Button>
                 
             </div>}
-            <Button className="send" onClick={()=> revision ? insertRequest(x) : craftURL() } href={redirect}> <FontAwesomeIcon icon={faEnvelope} /> {checkoutText} </Button>
+            <Button className="send" onClick={()=> revision ? insertRequest(x) : craftURL() } href={redirect}> <FontAwesomeIcon icon={revision ? faPhoneAlt: faGlasses} /> {checkoutText} </Button>
         </div>
-
     )
 
 }
