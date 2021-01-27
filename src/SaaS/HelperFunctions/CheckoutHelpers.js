@@ -23,18 +23,18 @@ const craftString = (message) => {
   }
 
 export const generateWhatsAppURL = (destinationPhone, orderInformtion) => {
-    const [cart, menuItems, additionalNotes, name, address] = orderInformtion;
+    const [cart, menuItems, additionalNotes, name, address, currentPayment] = orderInformtion;
     let baseURL = "https://wa.me/502"+ destinationPhone +"?text=";
     const  orderDetail = craftString("Por este medio le envío%20un comprobante de su pedido el día de hoy.%0A%0A*Por favor confirmar que la información sea la correcta.*%0A%0A")
     let textBody = craftString("Buenos días le escribe *Ever* de%20de%20parte%20de%20*SOLAGRO*%0A%0A") + orderDetail;
     const customerPreface = "%0A*-- INFORMACIÓN DEL CLIENTE --*"
-    const customerSummary = customerPreface+ "%0A*Nombre de cliente*:%0A"+ name +"%0A*Nombre de la finca*:%0A" + address
+    const customerSummary = customerPreface+ "%0A*Nombre de cliente*:%0A"+ name +"%0A*Nombre de la finca*:%0A" + address +"%0A*Método de pago*%0A"+currentPayment +"%0A";
     var totalPurchase = 0;
     cart.map((cartItem) => {
       menuItems.map((menuItem) => {
         if (cartItem.itemId === menuItem.id) {
           totalPurchase+= (cartItem.quantity * menuItem.price);
-          const tmp = "%20( *x%20" + String(cartItem.quantity) + "* ) %20" + menuItem.name + "%20*Qtz.* "+ menuItem.price + "%0A"
+          const tmp = "%20( *x%20" + String(cartItem.quantity) + "* ) %20" + menuItem.name + "%20*Qtz.* "+ (menuItem.price*cartItem.quantity) + "%0A"
           textBody += tmp
         }
       });

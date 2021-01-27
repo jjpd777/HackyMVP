@@ -65,7 +65,7 @@ function ItemCard(props: ItemCardProps) {
   };
 
   return (
-    <div onClick={addOneToCart} className="card-container">
+    <div className="card-container">
       <Card className="card">
         <CardBody className="card-body">
           {menuItem.image !=="" && (<img width="150" src={menuItem.image}/>)}

@@ -15,6 +15,7 @@ import {
   BrowserRouter as Router,
   Switch, Route, Link
 } from "react-router-dom";
+import ReceiptRecords from './SaaS/ReceiptRecords/ReceiptRecords'
 
 // --
 
@@ -55,9 +56,7 @@ function App() {
 useEffect(() => {
   const ref = readInventory();
   const refVal = ref.on('value', function (snapshot) {
-    const snapVal = snapshot.val();
-    // if(!snapVal)return;
-    const data = keyMaper(snapVal);
+    const snapVal = snapshot.val(); const data = keyMaper(snapVal);
     setMenuItems(data);
   });
   return () => ref.off('value', refVal);
@@ -88,6 +87,11 @@ useEffect(() => {
       <Switch>
             <Route path={["/inventario"]}>
               <Inventory/>
+            </Route>
+          </Switch>
+          <Switch>
+            <Route path={["/envios"]}>
+              <ReceiptRecords/>
             </Route>
           </Switch>
 

@@ -4,7 +4,7 @@ import { useFirebaseApp } from 'reactfire';
 
 const ROOT = "LISTOSOFTWARE-DEV"
 const INVENTORY_URL = ROOT + "/inventory/";
-const SALES_URL = ROOT + "/transacions/";
+const SALES_URL = ROOT + "/transactions/";
 
 
 export const newMHDMY = () => {
@@ -52,15 +52,22 @@ export const InventoryDB = ()=>{
 export const TransactionRecordDB = ()=>{
     const database = useFirebaseApp().database();
 
-    const destination = SALES_URL + directoryPathGenerator();
+    const destination = SALES_URL + newMHDMY().split("&")[1]+"/";
 
     const createTransaction = (data)=>{
         const ref = database.ref(destination).push();
         data["insertionID"] = ref.key;
         return ref.set(data);
     }
+    const readTransactions = ()=>{
+        return database.ref(SALES_URL)
+    }
+    const updateTransaction = (id, data)=>{
+        const target = SALES_URL + id;
+        return database.ref(target).update(data);
+    }
 
-    return {createTransaction}
+    return {createTransaction, readTransactions, updateTransaction}
 }
 
 

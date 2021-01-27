@@ -16,7 +16,7 @@ import {
 
 import { CartItem } from '../../App';
 import { MenuItem } from '../Menu/Menu';
-import {TransactionRecordDB} from '../../SaaS/Database/DatabaseFunctions';
+import {TransactionRecordDB, newMHDMY} from '../../SaaS/Database/DatabaseFunctions';
 import {generateWhatsAppURL} from '../../SaaS/HelperFunctions/CheckoutHelpers';
 
 interface CheckoutProps {
@@ -28,7 +28,12 @@ interface CheckoutProps {
 
 function Checkout(props: CheckoutProps) {
   const { menuItems, cart } = props;
-
+  const FINCAS = [["GUANACASTE","50000621"],["ANDARES","55100361"],["PEÑA BLANCA","45058365"]];
+  const PAYMENT_OPTION = ["PAGO CONTADO", "CRÉDITO 8 DÍAS", "CRÉDITO 15 DÍAS", "CRÉDITO 30 DÍAS"]
+  const [ptr, setPtr] = useState(0);
+  const [paymentPtr, setPaymentPtr] = useState(0);
+  const [currentFarm, setCurrentFarm] = useState(FINCAS[ptr]);
+  const [currentPayment, setCurrentPayment] = useState(PAYMENT_OPTION[ptr]);
   const [name, setName] = useState();
   const [address,setAddress] = useState();
   const [phone,setPhone] = useState();
@@ -36,11 +41,7 @@ function Checkout(props: CheckoutProps) {
   const [additionalNotes, setAdditionalNotes] = useState("- Ninguna.")
 
   const [payMethod,setPayment] = useState(true)
-  function getFormattedDate() {
-    var date = new Date();
-    var str = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +  date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-    return str;
-}
+  
   const getCartItems = () => {
     let cartItems: any[] = [];
     cart.forEach((cartItem) => {
@@ -64,37 +65,48 @@ function Checkout(props: CheckoutProps) {
     message = message.replace(hashtag,"%20")
     return message;
   }
-  
+  const nextFarm = ()=>{
+    const t = (ptr+1)% FINCAS.length;
+    setPtr(t); setCurrentFarm(FINCAS[t]);
+  };
+  const nextPayment = ()=>{
+    const t = (paymentPtr+1)% PAYMENT_OPTION.length;
+    setPaymentPtr(t); setCurrentPayment(PAYMENT_OPTION[t]);
+  }
   const writeOrder=(checkName,checkAddress,thisphone,payment)=>{
-    if(!checkName || !checkAddress || !thisphone) return
     const getPayment = payment ? 'efectivo' : 'tarjeta';
-    let order = "";
+    let order = {}
     cart.forEach((cartItem) => {
       menuItems.map((menuItem) => {
         if (cartItem.itemId === menuItem.id) {
-          const tmp = "[(x"+ String(cartItem.quantity) +") " + menuItem.name + " ]"
-          order+=tmp
+          order[menuItem.name] = {
+            quantity: cartItem.quantity,
+            price: menuItem.price,
+          }
         }
       });
     });
-    const time = getFormattedDate();
+    const time = newMHDMY();
     const newRow = {
       "nombre" : checkName,
-      "direccion" : checkAddress,
-      "celular" : thisphone,
-      "pago" : getPayment,
+      "status" : true,
+      "finca" : currentFarm[0],
+      "celular" : currentFarm[1],
+      "pago" : currentPayment,
       "total": props.totalCartValue,
       "fecha" : time,
       "pedido": order,
-    }
+    };
+    createTransaction(newRow)
+    const x = [cart, menuItems, additionalNotes, name, currentFarm[0],currentPayment ]
+    const redirectURL = generateWhatsAppURL(currentFarm[1],x )
+    console.log(redirectURL)
   }
   const letsCheckout = () =>{
     // name,address,phone,payMethod
-    if(!name || !address || !phone) return
-    const getPayment = payMethod ? 'efectivo' : 'tarjeta';
-    const x = [cart, menuItems, additionalNotes, name, address]
-    const redirectURL = generateWhatsAppURL(phone,x )
-
+    if(!name) return
+    const x = [cart, menuItems, additionalNotes, name, currentFarm[0],currentPayment ]
+    const redirectURL = generateWhatsAppURL(currentFarm[1],x )
     return redirectURL;
   }
   
@@ -125,7 +137,7 @@ function Checkout(props: CheckoutProps) {
       </div>
       <br />
       <div>
-      <FormRadio
+      {/* <FormRadio
             inline
             name="cash"
             checked={payMethod}
@@ -144,18 +156,25 @@ function Checkout(props: CheckoutProps) {
             }}
           >
             Tarjeta
-      </FormRadio>
+      </FormRadio> */}
+      <div>
+      <Button onClick={nextFarm}>
+        {currentFarm[0]}
+      </Button>  <Button onClick={nextPayment}>
+        {currentPayment}
+      </Button>
+      </div>
       </div>
       <div className="shipping-info">
         <FormInput
           className="input"
-          placeholder="Nombre completo"
+          placeholder="Nombre del quien recibe"
           value={name}
           onChange={(e) => {
             setName(e.target.value);
           }}
         />
-        <FormTextarea
+        {/* <FormTextarea
           className="input"
           placeholder="Dirección del domicilio"
           onChange={(e) => {
@@ -168,7 +187,7 @@ function Checkout(props: CheckoutProps) {
           onChange={(e) => {
             setPhone(e.target.value);
           }}
-        />
+        /> */}
           <FormTextarea
           className="input"
           placeholder="Notas adicionales"
@@ -182,7 +201,7 @@ function Checkout(props: CheckoutProps) {
         onClick={()=>writeOrder(name,address,phone,payMethod)} 
         href={letsCheckout()} 
         className="button" block>
-        Pedir via WhatsApp
+        Enviar via WhatsApp
       </Button>
       <Button onClick={props.onBack} className="button-secondary" outline block>
         Regresar al Menu
