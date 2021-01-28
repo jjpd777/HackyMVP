@@ -78,8 +78,7 @@ function Excercise(){
       { !categoryBool && currentCategory==="Registro"  && <CardCollection navHelper = {setCurrentCategory}/>}
 
         </div>
-    </div> :(
-    <div className="prompt-password">
+        <div className="prompt-password">
         <h4>Bienvenido </h4>
             <h2>Lic. Galdámez!</h2>
             <img className="welcome-logo" src={welcome} />
@@ -95,7 +94,10 @@ function Excercise(){
             }}
         />
             
-    </div>)
+    </div>
+    </div> :(
+        <h3>Sorry</h3>
+    )
     }
     </>
     )

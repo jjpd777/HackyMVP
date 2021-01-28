@@ -18,7 +18,7 @@ const STOREINFO = () => {
     var ts = Math.round((new Date()).getTime() / 1000);
 
 
-    const storeInfo = "infoTienda": {
+    const storeInfo = {
 		"nombre": "Lic. Rodolfo Enrique Galdámez",
 		"sede": "Lic. Rodolfo Enrique Galdámez",
 		"numeroSede": "1",
