@@ -46,15 +46,11 @@ function ForwardWhatsApp() {
         setRedirect("https://wa.me/" + country[1] + phone + "?text=" + parseText);
     };
 
-    const countries = [["🇬🇹", "+502"], ["🇨🇴", "+57"]]
+    const countries = [["🇲🇽","+52"],["🇬🇹", "+502"],["🇧🇿", "+501"],["🇸🇻","+503"],["🇭🇳","+504"], ["🇨🇴", "+57"],["🇵🇷", "+1"], ["🇺🇸","+1"], ["🇪🇸","+34"]]
     const [countriesPTR, setPTR] = useState(0);
-    const [country, setCountry] = useState(countries[0]);
-    const nextCountry = () => {
-        const t = (countriesPTR + 1) % countries.length;
-        setPTR(t); setCountry(countries[t])
-    };
-
-    const checkoutText = revision ? "WhatsApp" : "Revisar texto"
+    const [country, setCountry] = useState(countries[1]);
+  
+    const checkoutText = revision ? "WhatsApp" : "Revisar"
 
     return (
         <div className="palacio">
@@ -64,7 +60,9 @@ function ForwardWhatsApp() {
             <div className="sub-header-text" onClick={() => "listosoftware.web.app/"} >
                 <h6  >Impulsado por</h6>
                 <Button className="link" href={"https://listosoftware.web.app/"}> Listo Software</Button>
-
+            <div className="flags">
+                {countries.map((x, ix)=><h2 onClick={()=>setCountry(countries[ix]) }> {x[0]}</h2>)}
+            </div>
             </div>
             {/* <div className="country-div">
 
