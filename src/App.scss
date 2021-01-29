@@ -1,9 +1,23 @@
 .App {
   text-align: center;
-  background-color: rgb(250, 211, 211);
+  background-color: rgb(250, 248, 248);
   height: 120%;
   margin: 0;
+  padding: 15px;
   // padding-bottom:-2rem;
+  h1{
+    font-style:italic;
+  }
+  h3{
+    color:red;
+  }
+  h2{
+    font-family:arial;
+  }
+  h5{
+
+    font-weight: 750;
+  }
 }
 
 // .App-header {

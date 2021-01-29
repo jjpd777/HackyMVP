@@ -50,10 +50,14 @@ function App() {
 
   return (
       <div className="App">
-      <ForwardWhatsApp/>
       <br></br>
       <div>
-        <h3>Siempre listos.</h3>
+        <h2>Juan José Palacio Duque </h2>
+        <h3>07/07/1995</h3>
+        <h2>Proud Latin American Hacker</h2>
+        <h1>@ The Internet</h1>
+        <h1>- - - </h1>
+        <h5>Ratchet is practical.</h5>
       </div>
       </div>
   );
