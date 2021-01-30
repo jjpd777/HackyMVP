@@ -8,6 +8,7 @@ import Header from './containers/Header/Header';
 
 // -- JUAN's NEW IMPORTS
 import CRUD from './SaaS/DevModules/CRUD';
+import SalesReport from './SaaS/AdminConsole/SalesReport/SalesReport'
 
 // --
 
@@ -57,7 +58,7 @@ function App() {
 
   return (
     <div className="App">
-      <CRUD/>
+      {/* <SalesReport/> */}
       <section className="container">
         {currentPage === PageEnum.MENU && (
           <>
