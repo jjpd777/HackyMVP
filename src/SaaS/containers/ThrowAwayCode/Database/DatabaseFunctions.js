@@ -47,6 +47,34 @@ export const InventoryDB = () => {
   return {root4inventory, insert2factory, root4previousInv };
 };
 
+export const SaasDB = (x) => {
+  const R = x==="lic-galdamez" ? "GALDAMEZ" : x;
+  const database = useFirebaseApp().database();
+  const {dateforSection} = DateUtils();
+
+  const CUSTOMER_TABLE  = R + "/DEV1/";
+  const SAT_TABLE = CUSTOMER_TABLE + "/taxSAT/"
+
+
+  const root4taxSAT = () => {
+    const D = R +"/PRODUCTION/taxSAT/"
+
+    return database.ref(D);
+  };
+  const root4previousInv = () => {
+    const DESTINATION = SAT_TABLE + '/' + dateforSection();
+    return database.ref(DESTINATION);
+  };
+  const insertTaxSAT = (data)=>{
+    const DESTINATION = SAT_TABLE + '/' + dateforSection();
+    const x = database.ref(DESTINATION).push();
+    data["id"] = x.key;
+    return x.set(data)
+  };
+
+  return {root4taxSAT, insertTaxSAT, root4previousInv };
+};
+
 export const ReceiptDB = ()=>{
   const database = useFirebaseApp().database();
   const {dateforSection} = DateUtils();

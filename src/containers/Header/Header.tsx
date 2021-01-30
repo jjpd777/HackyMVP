@@ -60,7 +60,7 @@ return (
               <PreviousInventory/>
             </Route>
           </Switch> */}
-          <Link to="/demostracion">
+          <Link to="/demo">
             <Button className="view-demo" pill > Demostración <FontAwesomeIcon className="check-it" icon={faEye}/></Button>
           </Link>
           </h5>

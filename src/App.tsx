@@ -68,21 +68,6 @@ function App() {
               <Exercise/>
             </Route>
           </Switch> */}
-
-          <Switch>
-            <Route exact path={["/registro"]}>
-              <Signup/>
-            </Route>
-          </Switch>
-          
-          <Switch>
-            <Route exact path={["/login"]}>
-             {user && <Login/>}
-             {user && <Logout/>}
-            </Route>
-          </Switch>
-          
-
         </Router>
         <Footer />
       </div>

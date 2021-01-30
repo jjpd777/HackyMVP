@@ -12,14 +12,16 @@ import { faCheckCircle, faBook, faCreditCard, faArrowLeft,
     faClock
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {ReceiptDB} from '../Database/DatabaseFunctions'
+import {ReceiptDB, SaasDB} from '../Database/DatabaseFunctions'
 
 import './CardCollection.scss';
 
 function CardCollection(props){
     const {readReceipts} = ReceiptDB();
-    const {navHelper} = props;
-    const ref = readReceipts();
+    const {navHelper, currentUser} = props;
+    const {root4taxSAT} = SaasDB(currentUser);
+
+    const ref = root4taxSAT();
     const [dates, setDates] = useState([]);
     const [months, setMonths] = useState([]);
     const [receipts, setReceipts] = useState([]);
@@ -28,7 +30,9 @@ function CardCollection(props){
 
     useEffect(() => {
         const refVal = ref.on('value', function (snapshot) {
-            const snp = snapshot.val(); const dates = Object.keys(snp);
+            const snp = snapshot.val(); 
+            if(!snp) return;
+            const dates = Object.keys(snp);
             setDates(dates);
             var recp=[]
             dates.map((day) => {
@@ -64,7 +68,7 @@ function CardCollection(props){
 </div>
 <div>
     {/* <Button> {dates}</Button> */}
-    {receipts.length !==0 && receipts.map((x)=> !x.issuedInEmergency ? <CardTemplate receiptInfo = {x}/> : <h3>En contingencia</h3>)}
+    {receipts.length !==0 && receipts.map((x)=> !x.issuedInEmergency ? <CardTemplate receiptInfo = {x}/> : null)}
     </div>
 </>
 

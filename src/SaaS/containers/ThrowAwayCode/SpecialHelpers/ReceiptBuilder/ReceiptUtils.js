@@ -1,6 +1,7 @@
 
-import StoreInformation from '../StoreInformation';
+import StoreInformation, {STOREINFO} from '../StoreInformation';
 import {DateUtils} from '../../Database/DatabaseFunctions';
+
 
   
   const craftString = (message) => {
@@ -123,7 +124,7 @@ export const parseAPIresponse = (data)=>{
 
 }
 
-export const buildAPIcall = (payMethod, customerName, nit, consumedGoods, total, isConsumptionGood) => {
+export const buildAPIcall = (payMethod, customerName, nit, consumedGoods, total, isConsumptionGood, customerTable) => {
     const verifiedNIT = nitIsValid(nit) ? nit : 'CF';
     var response = {
         "infoConsumidor": {
@@ -140,7 +141,7 @@ export const buildAPIcall = (payMethod, customerName, nit, consumedGoods, total,
               },
         },
     };
-    response["infoTienda"] = StoreInformation.STOREINFO();
+    response["infoTienda"] = STOREINFO(customerTable);
     response["Transaccion"] = StoreInformation.TRANSACTIONINFO();
     response["compra"] = purchaseJson(isConsumptionGood, consumedGoods, total);
 

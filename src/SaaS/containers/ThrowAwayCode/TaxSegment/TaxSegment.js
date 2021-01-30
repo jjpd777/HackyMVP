@@ -25,11 +25,12 @@ import { Schemas } from '../Database/Schemas';
 
 import './TaxSegment.scss';
 import { createPDF, craftString } from '../SpecialHelpers/GeneratePDF/UtilsPDF';
-import { ReceiptDB, DateUtils } from '../Database/DatabaseFunctions';
+import { ReceiptDB, DateUtils, SaasDB } from '../Database/DatabaseFunctions';
 
 
 function TaxSegment(props) {
-    const { navHelper } = props;
+    const { navHelper, currentUser } = props;
+    const {insertTaxSAT} = SaasDB(!!currentUser ? currentUser : "demostracion");
     const [redirectURL, setRedirectURL] = useState("");
     const readyFlag = redirectURL !== "";
     const [isConsumptionProduct, setConsumptionCategory] = useState(false);
@@ -70,7 +71,7 @@ function TaxSegment(props) {
     const generateReceipt = () => {
         if (!phoneNum || total === 0) return;
         setReviewed(false); setDone(true); setAPILoading(true);
-        const APIreq = buildAPIcall(paymentMethod, name, nit, consumption, total, isConsumptionProduct);
+        const APIreq = buildAPIcall(paymentMethod, name, nit, consumption, total, isConsumptionProduct, currentUser);
         const summary = {
             name: name,
             total: total,
@@ -89,8 +90,6 @@ function TaxSegment(props) {
                 req: APIreq,
                 res: data
             };
-            console.log("REQUEST", APIreq);
-            console.log("RESP", data)
             if (data.statusCode === 200) {
                 const TAX_DETAIL = parseAPIresponse(data);
                 whatsAppTaxURL = callAPI4Receipt(FIELDS_HELPER, TAX_DETAIL);
@@ -102,7 +101,8 @@ function TaxSegment(props) {
             };
             var receiptProps = [timestamp, whatsAppTaxURL, summary, infoCall2SAT, issuedInEmergency]
             const RECEIPT_SCHEMA = ReceiptFormat(receiptProps);
-            insertReceipt(RECEIPT_SCHEMA);
+            // insertReceipt(RECEIPT_SCHEMA);
+            insertTaxSAT(RECEIPT_SCHEMA)
             setRedirectURL(whatsAppTaxURL); setAPILoading(false); setIsReadyForNext(true);
 
         })
@@ -111,7 +111,6 @@ function TaxSegment(props) {
 
     }
 
-    console.log(paymentMethod)
     return (
         <>
             <div className="demo-container">

@@ -30,9 +30,10 @@ function Excercise(){
     let { handle } = useParams();
     const [user, setUser] = useState("");
     const [currentCategory, setCurrentCategory] = useState("");
-    const PASS = '0791';
-    const PASSWORDVALID = String(user) !== PASS;
-    const currentCustomerFlag = handle ==="lic-galdamez"
+    const PASS = handle ==="lic-galdamez"? '0791' : '1234';
+    const PASSWORDVALID = String(user) === PASS;
+    const currentCustomerFlag = handle ==="lic-galdamez" || handle === 'demo';
+    const welcomingName = handle === 'demo' ? "¡a la demostración!" : "Lic. Galdámez";
 
     const textHelper = ["Facturación", "Registro"]
     const faviconHelper = [faCashRegister, faPencilAlt, faGlasses]
@@ -41,10 +42,10 @@ function Excercise(){
     const solagro = "https://solagroguate.com/wp-content/uploads/2020/05/g2994.png"
     return(
     <>
-    {!currentCustomerFlag && <h3>Sorry that's not available</h3>}
+
     {/* <img className="solagro-logo" src={solagro} /> */}
     {PASSWORDVALID && <img className="exercise-logo" src={fireLogo} />}
-    {handle !=="lic-galdamez"}
+
     {/* {!(PASSWORDVALID && currentCustomerFlag) &&
         <div className="prompt-password">
         <FormInput
@@ -73,16 +74,20 @@ function Excercise(){
       <FontAwesomeIcon icon={faArrowLeft}/>Regresar</Button>} */}
       </div>
         <div>
-      { !categoryBool && currentCategory==="Facturación" && <TaxSegment navHelper = {setCurrentCategory}/>}
+      { !categoryBool && currentCategory==="Facturación" && <TaxSegment navHelper = {setCurrentCategory} currentUser={handle}/>}
       {/* { !categoryBool && currentCategory==="Contabilidad"  && <Excell navHelper = {setCurrentCategory}/>} */}
-      { !categoryBool && currentCategory==="Registro"  && <CardCollection navHelper = {setCurrentCategory}/>}
+      { !categoryBool && currentCategory==="Registro"  && <CardCollection navHelper = {setCurrentCategory} currentUser={handle}/>}
 
         </div>
-        <div className="prompt-password">
+        
+    </div> :(
+        <>
+        {currentCustomerFlag && <div className="prompt-password">
         <h4>Bienvenido </h4>
-            <h2>Lic. Galdámez!</h2>
+            <h2>{welcomingName}</h2>
             <img className="welcome-logo" src={welcome} />
-
+       {handle ==="demo" && <h3>Contraseña:</h3>}
+        {handle ==="demo" && <h2>1234</h2>}
         <FormInput
             className="input"
             type="number"
@@ -94,9 +99,8 @@ function Excercise(){
             }}
         />
             
-    </div>
-    </div> :(
-        <h3>Sorry</h3>
+    </div>}
+{ !currentCustomerFlag &&   <h3>Página no disponible</h3>}    </>
     )
     }
     </>
