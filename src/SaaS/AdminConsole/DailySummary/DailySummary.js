@@ -41,7 +41,7 @@ function DailySummary() {
     const chooseMonth = (x)=>{
         console.log(currentMonth)
         setCurrentMonth(x);
-        setCurrentDay(x[1][15]);
+        setCurrentDay(x[1][14]);
     }
 
     return (

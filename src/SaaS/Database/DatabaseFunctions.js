@@ -35,6 +35,17 @@ export const PoS_DB =() =>{
         return database.ref(x);
     }
     return {readSales, readDayofSales}
+};
+
+export const CashRegisterDB = ()=>{
+    const database = useFirebaseApp().database();
+    const readOpenCloseDay = (S, D)=>{
+        const x = "BORGONA/"+S+"/open-close/"+D;
+        return database.ref(x)
+
+    }
+    return {readOpenCloseDay}
+
 }
 
 export const CRUD_HELPER = ()=>{
