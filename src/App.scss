@@ -1,5 +1,21 @@
 .App {
   text-align: center;
+  .borgona-logo{
+    align-self: auto;
+    margin-top:20px;
+  }
+  .section-nav{
+    background-color: transparent;
+    color:black;
+    margin-bottom:15px;
+    font-size: 1.5rem;
+    margin-inline: 10px;
+  }
+}
+.password-input{
+  max-width: 20rem;
+  margin: 0 auto;
+  margin-top:100px;
 }
 
 .App-header {

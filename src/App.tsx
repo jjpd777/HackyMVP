@@ -1,25 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import './App.scss';
-import Menu, { MenuItem } from './containers/Menu/Menu';
-import { Button } from 'shards-react';
-import Checkout from './containers/Checkout/Checkout';
+import { Button, FormInput } from 'shards-react';
 import { menuItemsMock } from './menu';
 import Header from './containers/Header/Header';
-
+import borgonaLogo from './borgo.png'
 // -- JUAN's NEW IMPORTS
 import CRUD from './SaaS/DevModules/CRUD';
-import SalesReport from './SaaS/AdminConsole/SalesReport/SalesReport'
+import SalesReport from './SaaS/AdminConsole/SalesReport/SalesReport';
+import {
+  BrowserRouter as Router,
+  Switch, Route, Link
+} from "react-router-dom";
+import DailySummary from "./SaaS/AdminConsole/DailySummary/DailySummary"
 
 // --
 
 import {
-  faLocationArrow,
-  faClock,
-  faMotorcycle,
-  faHandshake,
-  faPhone,
-  faCreditCard,
-  faMapPin,
   faShoppingBasket,
   faCamera,
 } from '@fortawesome/free-solid-svg-icons';
@@ -34,72 +30,42 @@ export enum PageEnum {
   CHECKOUT,
 }
 function App() {
-  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+
   const [cart, setCartItems] = useState<CartItem[]>([]);
   const [currentPage, setCurrentPage] = useState<PageEnum>(PageEnum.MENU);
-
-  useEffect(() => {
-    // Call API to load the menu
-    setMenuItems(menuItemsMock);
-  }, []);
-
-
-  const getTotalCartValue = () => {
-    let totalVal = 0;
-    cart.forEach((cartItem) => {
-      menuItems.map((menuItem) => {
-        if (cartItem.itemId === menuItem.id) {
-          totalVal += cartItem.quantity * menuItem.price;
-        }
-      });
-    });
-    return totalVal;
-  };
+  const [userPassword, setPassword] = useState("");
+  const CORRECT_PASSWORD = userPassword ==="0991";
+  const [navHelper, setNavHelper] = useState(false);
 
   return (
     <div className="App">
-      {/* <SalesReport/> */}
-      <section className="container">
-        {currentPage === PageEnum.MENU && (
-          <>
-          <header className="App-header">
-            <Header/>
-          </header>
-          <Menu
-            menuItems={menuItems}
-            cart={cart}
-            setCartItems={setCartItems}
-          ></Menu>
-          </>
-        )}
-        {currentPage === PageEnum.CHECKOUT && (
-          <Checkout
-            menuItems={menuItems}
-            cart={cart}
-            totalCartValue={getTotalCartValue()}
-            onBack={() => {
-              setCurrentPage(PageEnum.MENU);
-            }}
-          ></Checkout>
-        )}
-      </section>
-      <br />
-      <br></br>
-      <br></br>
-      {(cart.length && currentPage === PageEnum.MENU && (
-        <div className="fixed-checkout">
-          <Button
-            onClick={() => {
-              setCurrentPage(PageEnum.CHECKOUT);
-            }}
-            className="checkout-button"
-            block
-          >
-            Ver el pedido! - Qtz.{getTotalCartValue()}
+      <img className="borgona-logo" src={borgonaLogo}/>
+     { !CORRECT_PASSWORD ? <div className="password-input">
+        <h3>Ingresar contraseña</h3>
+        <FormInput 
+        className="input"
+        type="text"
+        size="lg"
+        placeholder={"Ingresar contraseña..."}
+        value={userPassword}
+        onChange={(e) => {
+          setPassword(e.target.value);
+        }}
+        />
+      </div> :
+      <div className="admin-console">
+        <div>
+        <Button className="section-nav" onClick={()=>setNavHelper(false)}>
+            Reportes diarios
           </Button>
+          <Button className="section-nav" onClick={()=>setNavHelper(true)}>
+            Reporte Global
+          </Button>
+          
         </div>
-      )) ||
-        null}
+       {!navHelper && <DailySummary/>}
+{ navHelper && <SalesReport/>}      
+</div> }
     </div>
   );
 }

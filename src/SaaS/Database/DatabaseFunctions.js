@@ -22,6 +22,21 @@ export const newMHDMY = () => {
   return hr + ":" + min + "&" + dd + '-' + mm + '-' + yyyy;
 }
 
+export const PoS_DB =() =>{
+    const database = useFirebaseApp().database();
+
+    const readSales = (Q)=>{
+        const x = "BORGONA/"+Q+"/sales/"
+        return database.ref(x);
+    };
+    const readDayofSales = (S, D)=>{
+        const x = "BORGONA/"+S+"/sales/"+D;
+        console.log("PATH",x)
+        return database.ref(x);
+    }
+    return {readSales, readDayofSales}
+}
+
 export const CRUD_HELPER = ()=>{
     const database = useFirebaseApp().database();
     const target = INVENTORY_URL;

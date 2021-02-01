@@ -1,0 +1,44 @@
+.drop-main{
+    font-size: 1.5rem;
+}
+.drop-down{
+    margin: 0 auto;
+    align-content: center;
+    max-width: 10rem;
+    font-size: 2rem;
+    background-color: transparent;
+    .drop-main{
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    .current-day{
+        font-size: 1.5rem;
+    }
+    .menu{
+        align-content: center;
+
+        margin: 0 auto;
+        .actions{
+            font-size:1.5rem;
+        }
+    }
+    .actions{
+        font-size: 1.5rem;
+
+        align-content: center;
+
+        justify-content: center;
+        // background-color: red;
+        font-size:1.5rem;
+        margin: 0 auto;
+    }
+}
+.months{
+    background-color: transparent;
+    color:black;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right:10px;
+    margin-left:10px;
+    font-size: 1.5rem;
+}
