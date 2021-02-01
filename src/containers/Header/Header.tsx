@@ -59,9 +59,9 @@ return (
               <PreviousInventory/>
             </Route>
           </Switch> */}
-          <Link to="/demostracion">
+          {/* <Link to="/demostracion">
             <Button className="view-demo" pill > Demostración <FontAwesomeIcon className="check-it" icon={faEye}/></Button>
-          </Link>
+          </Link> */}
           </h5>
           <img className="dopy" src={dopy} />
           <h4>
