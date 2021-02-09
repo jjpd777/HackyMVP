@@ -52,6 +52,13 @@ function App() {
       <div className="App">
       <ForwardWhatsApp/>
       <br></br>
+      <Router>
+      <Switch>
+            <Route exact path={["/hashtable"]}>
+              <a>{"https://google.com"}</a>
+            </Route>
+          </Switch> 
+        </Router>
       <div>
         <h3>Siempre listos.</h3>
       </div>

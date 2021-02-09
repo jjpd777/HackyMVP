@@ -17,15 +17,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { PlaticameDB, newMHDMY } from './services/DBservice';
 const craftString = (message) => {
     var hashtag = /#/gi;
-    message = message.replace(hashtag, "%23")
-    message = message.replace(":", "%3A")
-    message = message.replace(hashtag, "%20")
-    return message;
+    var x = message.split(" ").join("%20");
+    x = x.split("\n").join("%0A")
+    // message = message.replace(hashtag, "%23")
+    // message = message.replace(":", "%3A")
+    // message = message.replace(hashtag, "%20")
+    return x;
 }
 
 
 function ForwardWhatsApp() {
-    const [message, setMessage] = useState("Buenas, por favor...");
+    const BASEMESSAGE = "*Facturación  por WhatsApp*\n\nBuenos días nuestro software ofrece:\n\n"+
+    "=> Envío de  facturas electrónicas *en PDF por WhatsApp*\n"+
+    "=> Envío de reporte al contador *en Excel por WhatsApp*\n" +
+    "=> Almacenamiento de *PDFs en la nube*\n\n"+
+    "¿Le gustaría ver un video de demostración?";
+
+    const [message, setMessage] = useState(BASEMESSAGE);
     const [phone, setPhone] = useState("");
     const { insertRequest } = PlaticameDB();
     const [redirect, setRedirect] = useState("");
@@ -92,7 +100,7 @@ function ForwardWhatsApp() {
                         className="input-message"
                         type="text"
                         size="lg"
-                        placeholder={message}
+                        placeholder={"Escribe acá tu mensaje."}
                         onChange={(e) => {
                             setMessage(e.target.value);
                         }}
