@@ -22,6 +22,7 @@ function SalesCard(props){
 
     const [cancelSale, setCancel] = useState(false);
     const salesSummary = salesItem.summary;
+    const taxData = salesItem.taxData;
     console.log(salesSummary)
     const tstamp = salesSummary.timestamp.split('&')[0];
     const status = salesSummary.status;
@@ -32,37 +33,60 @@ function SalesCard(props){
     const taxString = salesSummary.taxInfo;
     const {updateSale, updateSaleDynamically} = SalesDB();
     const STORE = "GERONA";
-    const writeCancelledSale = (key)=> {
-        updateLedger();
-        const update = { 'summary/status': 'cancelled'};
-        setCancel(false);
-        updateSaleDynamically(store, key,update);
 
+    const request2API = async (body) => {
+      const rsp = await fetch(
+        'https://vrit6y3xga.execute-api.us-east-2.amazonaws.com/v1/fact1',
+        {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(body),
+        }
+      );
+        console.log(rsp, "JSON RESPONSE")
+      return rsp.json();
+    };
+    const cancelViaAPI = async ()=>{
+      return request2API({
+        "Transaccion": {
+          "tipoaccion" : "anulacion",
+          "tipodoc" : "factura"
+        },
+        "infoAnulacion": {
+          "serieDoc": "Z",
+          "noDoc": taxData.req.infoTienda.numeroInterno,
+          "uuidDoc": taxData.res.body.success.Autorizacion,
+        },
+        "infoTienda": {
+          "nombre": taxData.req.infoTienda.nombre,
+          "sede": taxData.req.infoTienda.sede,
+          "numeroSede": taxData.req.infoTienda.numeroSede,
+          "nit": taxData.req.infoTienda.nit
+        }
+      })
+    }
+    const writeCancelledSale = async (key)=> {
 
+      if(taxData.res!=="none"){ await cancelViaAPI().then(x=>{
+          const update = { 'summary/status': 'cancelled', 'cancellationRes': x};
+          setCancel(false);
+          updateSaleDynamically(store, key,update);})
+      }else{
+          const update = { 'summary/status': 'cancelled', 'cancellationRes': "none"};
+          setCancel(false);
+          updateSaleDynamically(store, key,update);
+        }
+
+       
     }
     const triggerCancel = ()=>{
         if(!boolFlag) return
         setCancel(!cancelSale);
     };
-    const updateLedger = () => {
-      const unixTimestamp = unixTime();
-      const readableTime = newMHDMY();
-      const storeName = GET_STORE_NAME();
-  
-        cartElements.map((x) => {
-          const data = {
-            unix: unixTimestamp,
-            timestamp: readableTime,
-            productID: x.id,
-            type: "VENTA_CANCELACION",
-            store: storeName,
-            productName: x.name,
-            price: x.price,
-            units: -x.quantity,
-          };
-      insertLedgerEntry(data);
-        })
-      };
+
     return(
         <>
     <div className="main-card" onClick={()=>triggerCancel()} >

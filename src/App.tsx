@@ -152,11 +152,11 @@ useEffect(()=>{
         : (
           <>
           <div className="report-container">
-          <Switch>
+          {/* <Switch>
               <Route exact path={["/"]}>
               <Report/>
               </Route>
-            </Switch>
+            </Switch> */}
           </div>
           <div className="container">
            

@@ -72,18 +72,6 @@ function Sales() {
     }, [STORE_PTR])
     
   
-      // useEffect(() => {
-      //   const ref = getAllSales();
-
-      //   const refVal = ref.on('value', function (snapshot) {
-      //     const snap = snapshot.val();
-      //     if(!snap) return;
-      //     const respKeys = Object.keys(snap);
-      //     console.log("Days of service", respKeys)
-      //     setDaysofSale(respKeys)
-      //   }, error => console.log(error));
-      //   return () => ref.off('value', refVal)
-      // }, []);
 
       useEffect(()=>{
         var ptr =0;
