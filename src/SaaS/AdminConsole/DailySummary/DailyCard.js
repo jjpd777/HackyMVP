@@ -124,11 +124,10 @@ function DailyCard(props){
 
     const balanceText = ()=>{
         var cashB="Efectivo cuadró cabal"; var cardB = "Tarjeta cuadró cabal";
-        if(balances[0]>0) cashB="Sobró Qtz."+ String(balances[0])+ " de efectivo";
-        else if(balances[0]<0) cashB="Faltó Qtz." + String(balances[0]) + " de efectivo";
-        if(balances[1]>0) cashB="Sobró Qtz."+ String(balances[1]) + " de tarjeta.";
-        else if(balances[1]<0) cashB="Faltó Qtz." + String(balances[1]+ " de tarjeta.")
-        console.log("BALANCEs", cashB)
+        if(balances[0]>0){ cashB="Sobró Qtz."+ String(balances[0])+ " de efectivo"};
+        if(balances[0]<0) {cashB="Faltó Qtz." + String(balances[0]) + " de efectivo";}
+        if(balances[1]>0){ cashB="Sobró Qtz."+ String(balances[1]) + " de tarjeta.";}
+        if(balances[1]<0){ cashB="Faltó Qtz." + String(balances[1]+ " de tarjeta.")}
         return [cashB, cardB];
     }
     return(

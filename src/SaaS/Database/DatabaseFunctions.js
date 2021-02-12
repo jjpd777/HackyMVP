@@ -2,7 +2,7 @@ import { useFirebaseApp } from 'reactfire';
 
 // COOL!
 const STORENAME = "GERONA"
-const ROOT = "LISTOSOFTWARE-DEV"
+const ROOT = "LISTOSOFTWARE"
 
 const GENERAL_DEMO = ROOT + "/record/"
 
