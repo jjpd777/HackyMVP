@@ -2,9 +2,11 @@ import { useFirebaseApp } from 'reactfire';
 
 // COOL!
 
-const ROOT = "LISTOSOFTWARE-DEV"
+const ROOT = "HONOLULU"
 const INVENTORY_URL = ROOT + "/inventory/";
 const SALES_URL = ROOT + "/transactions/";
+const CABIN_RECORD = ROOT + "/cabin-record/";
+const CABIN_MASTER = ROOT + "/cabin-master/";
 
 
 export const newMHDMY = () => {
@@ -17,11 +19,43 @@ export const newMHDMY = () => {
   return hr + ":" + min + "&" + dd + '-' + mm + '-' + yyyy;
 };
 
-const directoryPathGenerator = ()=>{
-    const date = newMHDMY().split("&")[1]
-    const path = date.split("-").join("/");
-    return path;
+export const newMonthYear = ()=>{
+  var today = new Date();
+  var mm = String(today.getMonth() + 1).padStart(2, '0');
+  var yyyy = today.getFullYear();
+  return mm + '-'+yyyy;
+}
 
+
+
+export const CreateCabinGuest = ()=>{
+    const database = useFirebaseApp().database();
+
+    const insertCabinGuest = (x, cabin)=>{
+        const d = CABIN_RECORD+ cabin+ "/";
+        const ref = database.ref(d).push();
+        x['insertionID'] = ref.key; ref.set(x);
+        return ref.key;
+    };
+    const readCabinGuests = (cabin)=>{
+        const d = CABIN_MASTER;
+        return database.ref(d);
+    };
+    const setMasterCabin = (x, cabin)=>{
+        const d = CABIN_MASTER + cabin;
+        return database.ref(d).set(x);
+    }
+    return {insertCabinGuest, readCabinGuests, setMasterCabin}
+}
+
+export const RegisterPurchase = ()=>{
+    const database = useFirebaseApp().database();
+    const insertPurchase = (cabin,k,data)=>{
+        const d = CABIN_RECORD + cabin+"/"+k+"/consumption/"
+        const ref = database.ref(d);
+        return ref.push(data);
+    };
+    return {insertPurchase};
 }
 
 export const InventoryDB = ()=>{

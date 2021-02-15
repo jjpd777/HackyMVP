@@ -47,15 +47,13 @@ function App() {
 
   const {readInventory} = InventoryDB();
 
-  // useEffect(() => {
-  //   // Call API to load the menu
-  //   setMenuItems(menuItemsMock);
-  // }, []);
+ 
 
 
 useEffect(() => {
   const ref = readInventory();
   const refVal = ref.on('value', function (snapshot) {
+    if(!snapshot.val())return;
     const snapVal = snapshot.val(); const data = keyMaper(snapVal);
     setMenuItems(data);
   });
@@ -83,7 +81,11 @@ useEffect(() => {
       <div className="App-header">
             <Header/>
       </div>
-      
+      <Switch>
+            <Route path={["/crud"]}>
+              <CRUD/>
+            </Route>
+          </Switch>
       <Switch>
             <Route path={["/inventario"]}>
               <Inventory/>
@@ -114,6 +116,7 @@ useEffect(() => {
             totalCartValue={getTotalCartValue()}
             onBack={() => {
               setCurrentPage(PageEnum.MENU);
+              setCartItems([]);
             }}
           ></Checkout>
         )}
@@ -133,7 +136,7 @@ useEffect(() => {
             className="checkout-button"
             block
           >
-            Ver el pedido! - Qtz.{getTotalCartValue()}
+            Ver la orden - Qtz.{getTotalCartValue()}
           </Button>
         </div>
       )) ||

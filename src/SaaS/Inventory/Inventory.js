@@ -19,8 +19,8 @@ function Inventory(){
     const [currentCat, setCurrentCat] = useState("")
     const [editID, setEditID] = useState("");
 
-    const inputElements =  [category, name, price];
-    const inputFunctions = [setCategory, setName, setPrice];
+    const inputElements =  [category, name];
+    const inputFunctions = [setCategory, setName];
     const inputDescription = ["Categoría:", "Nombre de producto:", "Precio en Qtz."];
 
     const [nextInsertFlag, setNextInsertFlag ]= useState(false);
@@ -37,6 +37,7 @@ function Inventory(){
         const ref = readInventory();
         const valRef = ref.on('value', function (x) {
             const snapVal = x.val();
+            if(!snapVal) return;
             const data = keyMaper(snapVal);
             setInventory(sortAlphabetically(data));
           });
@@ -44,14 +45,17 @@ function Inventory(){
     },[]);
 
    
-
+    const cleanString = (x)=>{
+        const r = x.trim();
+        return r.toLowerCase();
+    }
 
     const createEntry = ()=>{
         if(name ==="" || price ===0 ||category==="") return;
         const x = {
             id:'',
-            category: category,
-            name: name,
+            category: cleanString(category),
+            name: cleanString(name),
             description: '',
             price: price,
             brief:'',
@@ -109,6 +113,17 @@ function Inventory(){
                     }}
                 />
                 </>)}
+                <div>
+                <FormInput
+                    className="input-first"
+                    type="number"
+                    // value={price}
+                    placeholder={0}
+                    onChange={(e) => {
+                    setPrice(e.target.value);
+                    }}
+                />
+                </div>
                 <Button onClick={()=>createEntry()} className="insert-btn">
                     Insertar
                 </Button>

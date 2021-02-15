@@ -23,7 +23,7 @@ function Header(){
   const restDetails = 
   {
     "id": 1,
-    "srcImage":"https://solagroguate.com/wp-content/uploads/2020/05/g2994.png",
+    "srcImage":"https://www.hotelhonolulu.com.gt/wp-content/uploads/2016/05/logo-1.png",
     "atrestaurant": ' @lalloronagt',
     "instaURL": 'https://www.instagram.com/lalloronagt/',
     "tagline": '',
@@ -41,7 +41,7 @@ return (
         <div>
         <Link to="/">
           <Button className="nav-btn">
-              Registar envío
+              Menú
           </Button>
         </Link>
         <Link to="/inventario">
@@ -49,11 +49,7 @@ return (
               Inventario
           </Button>
         </Link>
-        <Link to="/envios">
-          <Button  className="nav-btn">
-              Envíos
-          </Button>
-        </Link>
+      
         </div>
         {/* <p>
           <FontAwesomeIcon icon={faClock} /> {' '} {restDetails["schedule"]}

@@ -4,25 +4,41 @@
   margin-top: 4rem;
   .button {
     background-color: #011627;
+    margin-top: 1rem;
     font-weight: 600;
+    font-size: 2rem;
     border: #011627;
   }
   .button:hover {
     background-color: #013057;
   }
+  h2{
+    margin-top:1.5rem;
+  }
 
   .button-secondary {
     border-color: #011627;
     color: #011627;
+    font-size: 1.5rem;
   }
   .button-secondary:hover {
     border-color: #014073;
     background-color: transparent;
+    
+  }
+  .cabins{
+    background-color: orange;
+    border-color:transparent;
+    color:black;
+    font-size: 1.5rem;
+    margin-inline: 5px;
+    margin-block-start: 7.5px;
   }
 }
 .list-item {
   display: flex;
   flex-direction: row;
+  font-size: 1.7rem;
   justify-content: space-between;
   font-weight: 400;
   color: #2b2b2b;
@@ -32,6 +48,7 @@
     padding: 40px;
   }
   .input {
+    font-size:2.2rem;
     margin-top: 20px;
   }
 }

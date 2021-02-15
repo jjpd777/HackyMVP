@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ItemCard.scss';
 import { Button } from 'shards-react';
 import {
@@ -6,16 +6,13 @@ import {
   CardBody,
   CardTitle,
   CardSubtitle,
-  Modal,
-  ModalBody,
-  ModalHeader,
-  InputGroup,
-  InputGroupText,
-  InputGroupAddon,
-  FormInput,
 } from 'shards-react';
+import {
+  faTrash} from '@fortawesome/free-solid-svg-icons';
+
 import { CartItem } from '../../App';
 import { MenuItem } from '../../containers/Menu/Menu';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface ItemCardProps {
   menuItem: MenuItem;
@@ -26,6 +23,7 @@ interface ItemCardProps {
 function ItemCard(props: ItemCardProps) {
   const { menuItem, cart, setCartItems } = props;
   const [modalOpen, setModalOpen] = useState(false);
+  const [currentQ, setCurrentQ] = useState("");
 
   const addOneToCart = () => {
     if (cart.find((x) => x.itemId === menuItem.id)) {
@@ -64,84 +62,34 @@ function ItemCard(props: ItemCardProps) {
     }
   };
 
+  useEffect(()=>{
+    if (
+      cart.find(
+        (x) =>
+          x.itemId === menuItem.id &&
+          cart.find((x) => x.itemId === menuItem.id)!.quantity > 0
+      )
+    ) setCurrentQ(String(cart.find((x) => x.itemId === menuItem.id)!.quantity));
+    else setCurrentQ(""); 
+  },[cart])
+
+
+
   return (
-    <div className="card-container">
-      <Card className="card">
+    <div>
+    <div onClick={addOneToCart} className="card-container">
+      <Card  className="card">
         <CardBody className="card-body">
           {menuItem.image !=="" && (<img width="150" src={menuItem.image}/>)}
           <div className="card-content">
             <CardTitle>{menuItem.name}</CardTitle>
-            <CardSubtitle>{menuItem.brief}</CardSubtitle>
-            <p>{menuItem.description}</p>
           </div>
           <div className="card-price">Qtz.{menuItem.price}</div>
         </CardBody>
+        <div className="card-q"> {currentQ}</div>
       </Card>
-      <Button
-        onClick={() => {
-          setModalOpen(true);
-        }}
-        className="button"
-        theme="secondary"
-      >
-        Añadidos: (
-        {cart.find((x) => x.itemId === menuItem.id)?.quantity || 0})
-      </Button>
-
-      <Modal
-        open={modalOpen}
-        toggle={() => {
-          setModalOpen(!modalOpen);
-        }}
-        centered={true}
-      >
-        <ModalHeader>{menuItem.category}</ModalHeader>
-        <ModalBody className="modal-body">
-          <div className="item-image">
-            <img src={menuItem.image} width="200" />
-          </div>
-
-          <div className="item-description">{menuItem.description}</div>
-          <div className="item-price">{menuItem.name}</div>
-          <div className="add-cart">
-            <InputGroup className="plus-minus">
-              <InputGroupAddon type="prepend">
-                <Button
-                  onClick={() => {
-                    removeOneFromCart();
-                  }}
-                  theme="secondary"
-                >
-                  - 
-                </Button>
-              </InputGroupAddon>
-              <FormInput
-                type="number"
-                value={
-                  cart.find((x) => x.itemId === menuItem.id)?.quantity || 0
-                }
-                onChange={(e) => {
-                  console.log(e.target.value);
-                }}
-              />
-              <InputGroupAddon type="append">
-                <Button
-                  onClick={() => {
-                    addOneToCart();
-                  }}
-                  theme="secondary"
-                >
-                  +
-                </Button>
-              </InputGroupAddon>
-            </InputGroup>
-            <br></br>
-            <Button pill theme="success" onClick={()=>setModalOpen(!modalOpen)}>
-                Continuar
-            </Button>
-          </div>
-        </ModalBody>
-      </Modal>
+    </div>
+    {currentQ !=="" &&<Button  onClick={removeOneFromCart} className="remove" theme="danger"> <FontAwesomeIcon icon={faTrash} /></Button>}
     </div>
   );
 }
