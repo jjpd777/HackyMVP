@@ -111,10 +111,9 @@ function Checkout(props: CheckoutProps) {
           {getCartItems().map((item, index) => {
             return (
               <ListGroupItem className="list-item" key={index}>
-                <div>
-                  ( x{item.quantity} )  {item.name}
+                <div className="review">
+            ({item.quantity})   {item.name}
                 </div>
-                <div>Qtz. {item.price * item.quantity}</div>
               </ListGroupItem>
             );
           })}

@@ -82,7 +82,7 @@ function ItemCard(props: ItemCardProps) {
         <CardBody className="card-body">
           <div className="card-content">
             {/* <CardTitle>{menuItem.name}</CardTitle> */}
-            <h3>{menuItem.name}</h3>
+            <h4>{menuItem.name}</h4>
           </div>
           <div className="card-price">Qtz.{menuItem.price}</div>
         </CardBody>

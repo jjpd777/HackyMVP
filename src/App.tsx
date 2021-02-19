@@ -116,7 +116,7 @@ useEffect(() => {
             totalCartValue={getTotalCartValue()}
             onBack={() => {
               setCurrentPage(PageEnum.MENU);
-              setCartItems([]);
+              // setCartItems([]);
             }}
           ></Checkout>
         )}
