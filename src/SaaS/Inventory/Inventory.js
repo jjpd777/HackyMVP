@@ -19,8 +19,8 @@ function Inventory(){
     const [currentCat, setCurrentCat] = useState("")
     const [editID, setEditID] = useState("");
 
-    const inputElements =  [category, name];
-    const inputFunctions = [setCategory, setName];
+    const inputElements =  [category, name, price];
+    const inputFunctions = [setCategory, setName, setPrice];
     const inputDescription = ["Categoría:", "Nombre de producto:", "Precio en Qtz."];
 
     const [nextInsertFlag, setNextInsertFlag ]= useState(false);
@@ -104,14 +104,14 @@ function Inventory(){
             {!nextInsertFlag &&<div className="inserting-mode">
                 {inputElements.map((val, ix)=>
                 <>
-                 <FormInput
+                { ix!==2 && <FormInput
                     className="input-first"
                     placeholder= {inputDescription[ix]}
                     value={val}
                     onChange={(e) => {
                     inputFunctions[ix](e.target.value);
                     }}
-                />
+                />}
                 </>)}
                 <div>
                 <FormInput
@@ -135,7 +135,7 @@ function Inventory(){
         </div>}
        {!insertMode && 
        <div className="edit-inventory">
-                {getCat().map((x)=><Button className="categories" onClick={()=>setCurrentCat(x)}>{x}</Button>)}
+                {getCat().map((x)=><Button className="categories" onClick={()=>{setCurrentCat(x); setEditID("")}}>{x}</Button>)}
                 {!!inventory && editID==="" && inventory.map((x)=>x.category ===currentCat && <><CardInventory itemInfo={x} editHelper={setEditID} fullHelpers = {inputFunctions}/></>)}
         
         <div className="edition-is-on">
@@ -150,7 +150,10 @@ function Inventory(){
                     inputFunctions[ix](e.target.value);
                     }}
                 />
-                </>)}
+                </>)
+            
+            }
+    
                 {editID!=="" && 
                 <>
                 <Button className="action-no" onClick={()=>cancelEdit()}> Cancelar</Button> <Button className="action-yes" onClick={()=>updateItem()}>Confirmar</Button>

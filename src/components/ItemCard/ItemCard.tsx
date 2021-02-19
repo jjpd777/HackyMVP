@@ -80,9 +80,9 @@ function ItemCard(props: ItemCardProps) {
     <div onClick={addOneToCart} className="card-container">
       <Card  className="card">
         <CardBody className="card-body">
-          {menuItem.image !=="" && (<img width="150" src={menuItem.image}/>)}
           <div className="card-content">
-            <CardTitle>{menuItem.name}</CardTitle>
+            {/* <CardTitle>{menuItem.name}</CardTitle> */}
+            <h3>{menuItem.name}</h3>
           </div>
           <div className="card-price">Qtz.{menuItem.price}</div>
         </CardBody>
