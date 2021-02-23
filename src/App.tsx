@@ -18,6 +18,9 @@ import DailySummary from "./SaaS/AdminConsole/DailySummary/DailySummary"
 import {
   faShoppingBasket,
   faCamera,
+  faPencilAlt,
+  faCalendar,
+  faCalendarAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -56,10 +59,10 @@ function App() {
       <div className="admin-console">
         <div>
         <Button className="section-nav" onClick={()=>setNavHelper(false)}>
-            Reportes diarios
+           <FontAwesomeIcon icon={faPencilAlt} /> Reporte diario
           </Button>
           <Button className="section-nav" onClick={()=>setNavHelper(true)}>
-            Reporte Global
+          <FontAwesomeIcon icon={faCalendarAlt} /> Reporte global
           </Button>
           
         </div>

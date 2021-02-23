@@ -16,7 +16,16 @@ function DailySummary() {
     const [openDropdown, setOpenDropdown] = useState(false);
     const STORES = ["GERONA","COMERCIA" ,"NOVITA", "PLAZOLETA",
          "FRAIJANES","AUTOPAN"];
+    const monthsKeyPair = {
+        "01" : "enero",
+        "02" : "febrero",
+        "03" : "marzo"
+    };
 
+    const currentDayParser = (x)=>{
+        const ix = x.split('-');
+        return ix[0] + " "+ monthsKeyPair[ix[1]]+ " " + ix[2]
+    }
     const jan = () => {
         var january = [];
         for (var i = 1; i < 32; i++) {
@@ -33,8 +42,16 @@ function DailySummary() {
         }
         return february;
     };
+    const march = () => {
+        var february = [];
+        for (var i = 1; i < 32; i++) {
+            const ix = (i < 10 ? "0"  : "") + String(i);
+            february.push(String(ix) + "-03-2021");
+        }
+        return february;
+    };
     // const [feb, setFeb] = useState([]);
-    const MONTH_ARRAY = [["Enero", jan()], ["Febrero", feb()]]
+    const MONTH_ARRAY = [["Enero", jan()], ["Febrero", feb()],["Marzo",march()]]
     const [pointer, setPointer] = useState(0);
     const [currentMonth, setCurrentMonth] = useState(MONTH_ARRAY[pointer]);
 
@@ -49,11 +66,11 @@ function DailySummary() {
             {MONTH_ARRAY.map(x=><Button className="months" onClick={()=>chooseMonth(x)}>{x[0]}</Button>)}
             <div className="drop-down">
             <Dropdown className="drop-main" open={openDropdown} toggle={()=>setOpenDropdown(!openDropdown)}>
-                <DropdownToggle className="current-day">{currentDay}</DropdownToggle>
+                <DropdownToggle className="current-day">{currentDayParser(currentDay)}</DropdownToggle>
                 <DropdownMenu className="menu" right>
                     {currentMonth[1].map(x=><DropdownItem 
                     onClick={()=>setCurrentDay(x)}
-                     className="months"><h2>{x}</h2></DropdownItem>)}
+                     className="monthsy"><h2>{currentDayParser(x)}</h2></DropdownItem>)}
                 </DropdownMenu>
             </Dropdown>
             </div>

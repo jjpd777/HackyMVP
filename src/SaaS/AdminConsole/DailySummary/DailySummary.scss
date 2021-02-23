@@ -4,15 +4,22 @@
 .drop-down{
     margin: 0 auto;
     align-content: center;
-    max-width: 10rem;
+    max-width: 15rem;
     font-size: 2rem;
     background-color: transparent;
     .drop-main{
         font-size: 1.5rem;
         margin-bottom: 2rem;
+        // background-color: orange;
     }
     .current-day{
         font-size: 1.5rem;
+        // width:20rem;
+        // min-width: 15rem;
+        margin: 0 auto;
+        background-color: rgb(255, 255, 173);
+        color:black;
+        border:brown;
     }
     .menu{
         align-content: center;
@@ -34,11 +41,17 @@
     }
 }
 .months{
-    background-color: transparent;
+
+    background-color: rgb(255, 233, 37);
+    border-color:transparent;
     color:black;
-    margin-top: 20px;
+    margin-top: 2ßpx;
     margin-bottom: 20px;
     margin-right:10px;
     margin-left:10px;
     font-size: 1.5rem;
+    h2{
+        font-size:1.5rem;
+        margin-top:-2rem;
+    }
 }
