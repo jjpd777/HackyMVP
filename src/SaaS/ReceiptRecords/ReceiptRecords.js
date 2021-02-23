@@ -7,7 +7,7 @@ import {keyMaper} from '../DevModules/HelperCRUD';
 import ReceiptsCard from './ReceiptsCard'
 
 
-import {TransactionRecordDB} from '../Database/DatabaseFunctions';
+import {TransactionRecordDB, DailyRecordDB} from '../Database/DatabaseFunctions';
 // import {keyMaper} from './HelperCRUD';
 import './ReceiptRecords.scss'
 
@@ -15,22 +15,36 @@ import './ReceiptRecords.scss'
 
 function ReceiptRecords (){
     const[receipts, setReceipts] = useState([]);
-    const {readTransactions} = TransactionRecordDB()
-    useEffect(()=>{
-        const ref = readTransactions();
-        const valRef = ref.on('value', (x) => {
-            const snapVal = x.val();
-            if(!snapVal)return;
-            setReceipts(keyMaper(keyMaper(snapVal)[0]).reverse())
-          });
+    const {readFromDaily} = DailyRecordDB();
+    const {readTransactions} = TransactionRecordDB();
+    const [references, setReferences] = useState([]);
+    const [todaysObjects, setTodayObjects] = useState([])
+    // useEffect(()=>{
+    //     const ref = readTransactions();
+    //     const valRef = ref.on('value', (x) => {
+    //         const snapVal = x.val();
+    //         if(!snapVal)return;
+    //         setReceipts(keyMaper(keyMaper(snapVal)[0]).reverse())
+    //       });
 
-        return ()=> ref.off('value', valRef)
-    },[]);
-    console.log(receipts)
+    //     return ()=> ref.off('value', valRef)
+    // },[]);
+    useEffect(()=>{
+      const ref = readFromDaily();
+      const valRef = ref.on('value', (x) => {
+          if(!x.val())return;
+        setReferences(keyMaper(x.val()).reverse())
+        });
+      return ()=> ref.off('value', valRef)
+  },[]);
+
+    console.log("REFERENCES", references)
     return(
-        <>
-        {receipts.map((x)=><ReceiptsCard info={x}/>)}
-        </>
+        <div>
+          <br></br>
+          <br></br>
+        {references.map((x)=><ReceiptsCard info={x}/>)}
+        </div>
     )
 }
 

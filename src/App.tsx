@@ -92,7 +92,7 @@ useEffect(() => {
             </Route>
           </Switch>
           <Switch>
-            <Route path={["/envios"]}>
+            <Route path={["/ordenes"]}>
               <ReceiptRecords/>
             </Route>
           </Switch>
@@ -116,8 +116,8 @@ useEffect(() => {
             totalCartValue={getTotalCartValue()}
             onBack={() => {
               setCurrentPage(PageEnum.MENU);
-              // setCartItems([]);
             }}
+            setCartItems={setCartItems}
           ></Checkout>
         )}
       </section>

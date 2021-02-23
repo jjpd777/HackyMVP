@@ -19,7 +19,7 @@ import {
 
 import { CartItem } from '../../App';
 import { MenuItem } from '../Menu/Menu';
-import {TransactionRecordDB, newMHDMY, RegisterPurchase, CreateCabinGuest} from '../../SaaS/Database/DatabaseFunctions';
+import {DailyRecordDB, newMHDMY, RegisterPurchase, CreateCabinGuest} from '../../SaaS/Database/DatabaseFunctions';
 import {generateWhatsAppURL} from '../../SaaS/HelperFunctions/CheckoutHelpers';
 import { keyMaper } from '../../SaaS/HelperFunctions/BasicHelpers';
 
@@ -28,6 +28,8 @@ interface CheckoutProps {
   cart: CartItem[];
   totalCartValue: number;
   onBack: () => void;
+  setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
+
 }
 
 function Checkout(props: CheckoutProps) {
@@ -37,6 +39,7 @@ function Checkout(props: CheckoutProps) {
   const {insertPurchase} = RegisterPurchase();
   const [elements, setElements] = useState<any>([]);
   const [cabin, setCabin] = useState<any>();
+  const {insert2Daily} = DailyRecordDB();
 
 
   useEffect(()=>{
@@ -93,13 +96,16 @@ function Checkout(props: CheckoutProps) {
       order: order,
       total: total
     }
-    insertPurchase(cabin.cabin, cabin.insertionID, data)
+    const orderPath = insertPurchase(cabin.cabin, cabin.insertionID, data);
+    // Insert a reference to the order
+    insert2Daily(orderPath);
     
   }
  
   const logAndReset = ()=>{
     if(!cabin) return;
     processOrder(); setCabin(null);
+    props.setCartItems([])
     props.onBack();
     
   }

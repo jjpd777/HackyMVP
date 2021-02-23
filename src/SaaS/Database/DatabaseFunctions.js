@@ -7,6 +7,7 @@ const INVENTORY_URL = ROOT + "/inventory/";
 const SALES_URL = ROOT + "/transactions/";
 const CABIN_RECORD = ROOT + "/cabin-record/";
 const CABIN_MASTER = ROOT + "/cabin-master/";
+const DAILY_RECORD = ROOT + "/daily-record/";
 
 
 export const newMHDMY = () => {
@@ -53,11 +54,29 @@ export const RegisterPurchase = ()=>{
     const insertPurchase = (cabin,k,data)=>{
         const d = CABIN_RECORD + cabin+"/"+k+"/consumption/"
         const ref = database.ref(d);
-        return ref.push(data);
+        const pushK = ref.push(data).key;
+        return d+pushK;
     };
     return {insertPurchase};
 }
 
+export const DailyRecordDB = ()=>{
+    const database = useFirebaseApp().database();
+    const TODAY = newMHDMY().split('&')[1];
+    const insert2Daily = (x)=>{
+        const ref = database.ref(DAILY_RECORD+ TODAY);
+        return ref.push(x);
+    };
+    const readFromDaily = ()=>{
+        return database.ref(DAILY_RECORD+ TODAY);
+    };
+    const readOnce = (x)=>{
+        return database.ref(x);
+    }
+    return {insert2Daily, readFromDaily, readOnce};
+
+
+}
 export const InventoryDB = ()=>{
     const database = useFirebaseApp().database();
 
