@@ -137,8 +137,8 @@ function Checkout(props: CheckoutProps) {
     "Victor Manuel Reyes Rivera": "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_4_5725059954.png?alt=media&token=bf8d0a1c-6041-40f9-bb98-40ee16a83327",
     "Edin Gilberto Borja Molina": "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_5_3004968665.png?alt=media&token=b551d73b-34ff-49f4-aae2-e4937aca16bf",
     "Manuel Borja":"https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_5_7993497549.png?alt=media&token=8f101e14-f957-4cd0-8861-b23dc811f9a1",
-    "René de Jesús Pérez" : "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_3_5673844416.png?alt=media&token=c3db2cd5-e522-4d23-b9b5-96f5a0388547"
-  
+    "René de Jesús Pérez" : "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/imageedit_3_5673844416.png?alt=media&token=c3db2cd5-e522-4d23-b9b5-96f5a0388547",
+    "Saúl Jiménez Sandoval" : "https://firebasestorage.googleapis.com/v0/b/firebasefinallyjuan.appspot.com/o/Saul-alejandro.png?alt=media&token=f527b2b9-b358-45fd-894e-5b19655d2214"
   };
 
   useEffect(() => {
@@ -350,6 +350,11 @@ function Checkout(props: CheckoutProps) {
         xCoord =410;
         resize = 0.15;
         yCoord = 60;
+      }
+      if (person === "Saúl Jiménez Sandoval") {
+        xCoord =430;
+        resize = 0.25;
+        yCoord = 35;
       }
       return [resize, xCoord, yCoord]
     }
