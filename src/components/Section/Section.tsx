@@ -15,6 +15,7 @@ import { CartItem } from '../../App';
 import { groupBy } from 'lodash';
 import { MenuItem } from '../../containers/Menu/Menu';
 import ItemCard from '../ItemCard/ItemCard';
+import { Container, Row, Col } from "shards-react";
 
 interface SectionProps {
   title: string;
@@ -25,6 +26,24 @@ interface SectionProps {
 
 function Section(props: SectionProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const PoSCardsByRow = (ix) => {
+
+    if (ix < props.menuItems.length) return (
+
+      <Col>
+        <ItemCard
+          menuItem={props.menuItems[ix]}
+          cart={props.cart}
+          setCartItems={props.setCartItems}
+        ></ItemCard>
+      </Col>
+    )
+    else
+      return (
+        <Col>
+        </Col>
+      )
+  }
   return (
     <div className="section-container">
       <div className="section-header">
@@ -41,11 +60,12 @@ function Section(props: SectionProps) {
         {props.menuItems.map((value, index) => {
           return (
             <>
-              <ItemCard
-                menuItem={value}
-                cart={props.cart}
-                setCartItems={props.setCartItems}
-              ></ItemCard>
+            {(index % 3 === 0) && (<Container className="dr-example-container">
+                  <Row>
+                    {PoSCardsByRow(index)}
+                    {PoSCardsByRow(index + 1)}
+                  </Row>
+                </Container>)}
             </>
           );
         })}

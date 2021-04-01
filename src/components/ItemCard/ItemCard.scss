@@ -2,7 +2,7 @@
 .card {
   box-shadow: #577399;
   border-radius: 4px;
-  max-height: 10rem;
+  max-height: 12rem;
   z-index: -1;
 }
 .remove{
@@ -11,7 +11,7 @@
   margin-top:-1rem;
 }
 .card-container {
-  padding: 30px;
+  padding: 5px;
   // height:10rem;
   .button {
     margin-top: -30px;
@@ -34,6 +34,7 @@
 .card-content {
   text-align: left;
   padding: 20px;
+  
   h5,
   h6 {
     margin-left:1rem;

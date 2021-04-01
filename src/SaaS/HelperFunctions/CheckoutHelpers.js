@@ -15,12 +15,32 @@ export const TRANSACTION_SCHEMA = (props)=>{
 };
 
 const craftString = (message) => {
-    var hashtag = /#/gi;
-    message = message.replace(hashtag, "%23");
-    message = message.replace(":", "%3A");
+    message = message.split("#").join("%23");
+    message = message.split(":").join("%3A");
     message = message.split(" ").join("%20");
-    return message;
+    return message + "%0A";
   }
+const boldFormat =(x)=> "*"+String(x)+"*";
+
+const shoppingCartString = (cart)=>{
+  let x="";
+  cart.map(item=> x+= "*x* "+boldFormat(item.quantity)+ " "+ item.name + ": Q. "+ boldFormat((Number(item.price)*Number(item.quantity)))+"%0A")
+  return x;
+}
+
+  export const honoluluWhatsAppURL = (destinationPhone, shoppingCart) => {
+  
+    const timestamp = shoppingCart.timestamp.split('&').join(' ')
+    const customer = shoppingCart.cabinNumber.split('-');
+    const consumerType = (customer[0] === "cabin" ? "cabaña "  : "visitante ") + customer[1];
+    let baseURL = "https://wa.me/"+ destinationPhone +"?text=";
+    const  orderDetail = craftString("Registro de compra para "+ boldFormat(consumerType)+ "%0ARealizado a las: "+ boldFormat(timestamp))+"%0A"
+    const consumption = craftString("*ORDEN A COCINA:*%0A%0A"+shoppingCartString(shoppingCart.order));
+    const additionalNotes = craftString("%0A%0ANotas adicionales: "+shoppingCart.notes);
+    const finalTotal = craftString( "%0A*===>* TOTAL Qtz. " + boldFormat(shoppingCart.total) )
+    
+    return baseURL + orderDetail + consumption + finalTotal +additionalNotes;
+  };
 
 export const generateWhatsAppURL = (destinationPhone, orderInformtion) => {
     const [cart, menuItems, additionalNotes, name, address, currentPayment] = orderInformtion;

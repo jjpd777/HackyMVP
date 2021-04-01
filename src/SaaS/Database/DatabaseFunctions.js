@@ -8,6 +8,7 @@ const SALES_URL = ROOT + "/transactions/";
 const CABIN_RECORD = ROOT + "/cabin-record/";
 const CABIN_MASTER = ROOT + "/cabin-master/";
 const DAILY_RECORD = ROOT + "/daily-record/";
+const GLOBAL_TALLY = ROOT + "/global-tally/";
 
 
 export const newMHDMY = () => {
@@ -74,8 +75,16 @@ export const DailyRecordDB = ()=>{
         return database.ref(x);
     }
     return {insert2Daily, readFromDaily, readOnce};
+};
 
-
+export const InsertGlobalTally = ()=>{
+    const database = useFirebaseApp().database();
+    const TODAY = newMHDMY().split('&')[1];
+    const insert2Global = (data)=>{
+        const ref = database.ref(GLOBAL_TALLY+TODAY);
+        return ref.push(data);
+    }
+    return {insert2Global};
 }
 export const InventoryDB = ()=>{
     const database = useFirebaseApp().database();

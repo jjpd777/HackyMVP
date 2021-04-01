@@ -44,11 +44,11 @@ return (
               Menú
           </Button>
         </Link>
-        <Link to="/ordenes">
+        {/* <Link to="/ordenes">
           <Button  className="nav-btn">
               Órdenes
           </Button>
-        </Link>
+        </Link> */}
         <Link to="/inventario">
           <Button  className="nav-btn">
               Inventario

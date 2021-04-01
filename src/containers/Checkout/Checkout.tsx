@@ -19,8 +19,10 @@ import {
 
 import { CartItem } from '../../App';
 import { MenuItem } from '../Menu/Menu';
-import {DailyRecordDB, newMHDMY, RegisterPurchase, CreateCabinGuest} from '../../SaaS/Database/DatabaseFunctions';
-import {generateWhatsAppURL} from '../../SaaS/HelperFunctions/CheckoutHelpers';
+import {DailyRecordDB, newMHDMY, 
+  RegisterPurchase, CreateCabinGuest,
+   InsertGlobalTally} from '../../SaaS/Database/DatabaseFunctions';
+import {generateWhatsAppURL, honoluluWhatsAppURL} from '../../SaaS/HelperFunctions/CheckoutHelpers';
 import { keyMaper } from '../../SaaS/HelperFunctions/BasicHelpers';
 
 interface CheckoutProps {
@@ -40,6 +42,15 @@ function Checkout(props: CheckoutProps) {
   const [elements, setElements] = useState<any>([]);
   const [cabin, setCabin] = useState<any>();
   const {insert2Daily} = DailyRecordDB();
+  const {insert2Global} = InsertGlobalTally();
+
+  const cabinList = [
+    "cabin-01", "cabin-02", "cabin-03",
+    "cabin-04", "cabin-05", "cabin-06", 
+    "cabin-07", "cabin-08", "cabin-09",
+    "cabin-10", "cabin-11", "cabin-12",
+    "cabin-13", "cabin-14", "cabin-15", 
+  ]
 
 
   useEffect(()=>{
@@ -73,7 +84,7 @@ function Checkout(props: CheckoutProps) {
     });
     return cartItems;
   };
-  
+  console.log(cabin, "CABIN UMBER")
   
   const processOrder =()=>{
     let order:any= []; var total=0;
@@ -94,11 +105,24 @@ function Checkout(props: CheckoutProps) {
       status: true,
       timestamp: newMHDMY(),
       order: order,
-      total: total
+      total: total,
+      cabinNumber: cabin,
     }
-    const orderPath = insertPurchase(cabin.cabin, cabin.insertionID, data);
-    // Insert a reference to the order
-    insert2Daily(orderPath);
+    // const orderPath = insertPurchase(cabin.cabin, cabin.insertionID, data);
+    // // Insert a reference to the order
+    // insert2Daily(orderPath);
+    insert2Global(data);
+
+    // const shoppingCart = {
+    //   timestamp: "11:11&13-03-2021",
+    //   cabinNumber: cabin,
+    //   order: [{name:"Pescado frito", price:"100",quantity:"4"}],
+    //   notes: "- Ninguna",
+    //   total: 250
+    // } ; 
+    const popout = honoluluWhatsAppURL("19043000741",data)
+    window.open(popout)
+
     
   }
  
@@ -108,6 +132,11 @@ function Checkout(props: CheckoutProps) {
     props.setCartItems([])
     props.onBack();
     
+  }
+
+  const parseCabinString = (x)=>{
+    const single = x.split('-')[1];
+    return single.slice(0,1) === '0' ? single.slice(1) : single;
   }
   
   return (
@@ -136,8 +165,8 @@ function Checkout(props: CheckoutProps) {
       </div>
       <br />
       <div>
-        {!!cabin ? <h2>Cabaña {cabin.cabin.split('-')[1]}</h2> : <h3> Escoger cabaña</h3>}
-        {elements.map(x=><Button className="cabins" onClick={()=> {setCabin(x)}}> {x.cabin.split('-')[1]}</Button>)}
+        {!!cabin ? <h2>Cabaña {parseCabinString(cabin)}</h2> : <h3> Escoger cabaña</h3>}
+        {cabinList.map(x=><Button className="cabins" onClick={()=> {setCabin(x)}}> {parseCabinString(x)}</Button>)}
      
       </div>
       <div className="shipping-info">
