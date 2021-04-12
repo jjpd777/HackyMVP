@@ -101,7 +101,8 @@ export const SalesDB = () => {
   const { getStandardDate } = DateUtil();
   const timestamp = getStandardDate();
   const getAllSales = () => {
-    const db = database.ref(SALES_URL);
+    const dt = getStandardDate();
+    const db = database.ref(SALES_URL + dt);
     return db;
   };
   const getDaySales = (date) => {

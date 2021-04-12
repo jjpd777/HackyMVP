@@ -10,7 +10,7 @@ import Inventory from './containers/Inventory/Inventory';
 import Movements from './containers/Movements/Movements';
 import DBservice, {AdminReportsDB, DateUtil, StoreDetailUtil,
   DailyTransactionsDB, SalesDB,
-  InventoryDB
+  InventoryDB, 
 } from "./services/DBservice";
 import { Switch, Route, Link } from "react-router-dom";
 import AddItem from './containers/AddItems/AddItems';
@@ -35,7 +35,7 @@ export enum PageEnum {
 
 function App() {
   const getFitFlag = DBservice.getFitFlag();
-  const {getStandardDate} = DateUtil();
+  const {getStandardDate, newMHDMY} = DateUtil();
   const {root4shops} = AdminReportsDB();
   const {getDailyTransactions} = DailyTransactionsDB();
   const {getAllSales} = SalesDB();
@@ -77,7 +77,11 @@ useEffect(()=>{
     const snap = snapshot.val();
     if(!snap) return;
     const respKeys = Object.keys(snap);
+    console.log("THIS ARE THE KEYS", respKeys )
+    console.log("AND THE ITEMS",snap )
+    const today = getStandardDate()
     setSalesItems(respKeys.map((k)=>snap[k]))
+    console.log("GOTCHA",snap[today])
   });
   return () => ref.off('value', refVal)
 }, [])
