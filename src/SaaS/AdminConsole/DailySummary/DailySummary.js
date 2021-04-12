@@ -19,7 +19,8 @@ function DailySummary() {
     const monthsKeyPair = {
         "01" : "enero",
         "02" : "febrero",
-        "03" : "marzo"
+        "03" : "marzo",
+        "04" : "abril"
     };
 
     const currentDayParser = (x)=>{
@@ -50,8 +51,16 @@ function DailySummary() {
         }
         return february;
     };
+    const april = ()=>{
+        var april = [];
+        for (var i = 1; i < 31; i++) {
+            const ix = (i < 10 ? "0"  : "") + String(i);
+            april.push(String(ix) + "-04-2021");
+        }
+        return april;
+    }
     // const [feb, setFeb] = useState([]);
-    const MONTH_ARRAY = [["Enero", jan()], ["Febrero", feb()],["Marzo",march()]]
+    const MONTH_ARRAY = [["Enero", jan()], ["Febrero", feb()],["Marzo",march()], ["Abril", april()]]
     const [pointer, setPointer] = useState(0);
     const [currentMonth, setCurrentMonth] = useState(MONTH_ARRAY[pointer]);
 
