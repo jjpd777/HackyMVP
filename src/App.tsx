@@ -4,8 +4,13 @@ import Menu, { MenuItem } from './containers/Menu/Menu';
 import { Button } from 'shards-react';
 import Checkout from './containers/Checkout/Checkout';
 import Header from './containers/Header/Header';
-import { InventoryDB } from './services/DBservice';
-
+import { InventoryDB, SeedMazatlan } from './services/DBservice';
+import {
+  ListGroup,
+  ListGroupItem,
+  FormInput,
+  FormRadio,
+} from 'shards-react';
 
 import { useUser, useFirebaseApp } from 'reactfire';
 
@@ -42,12 +47,25 @@ function App() {
   const [menuItems, setMenuItems] = useState<any[]>([]);
   const [cart, setCartItems] = useState<CartItem[]>([]);
   const [currentPage, setCurrentPage] = useState<PageEnum>(PageEnum.CHECKOUT);
-
+  const [inputField, setInputField] = useState<any>();
   // const firebase = useFirebaseApp();
   const { root4inventory } = InventoryDB();
   const user = useUser();
   console.log("USER BABY", user)
+  const {seedingValue, createRegistry} = SeedMazatlan();
+      const storeNames = ["morales", "zacapa-ii", "jutiapa","teculutan","zacapa-iii"];
 
+  const iterateSeeding = ()=>{
+     storeNames.map((x)=>{
+       seedingValue(x);
+     })
+  }
+
+  const triggerRegistry =()=>{
+    storeNames.map((x)=>{
+      createRegistry(x);
+    })
+  }
   return (
     <>
       <div className="App">
@@ -56,6 +74,17 @@ function App() {
           <Switch>
             <Route exact path={["/"]}>
                 <Header />
+                <Button
+                onClick={()=>{
+                  iterateSeeding();
+                }}
+                >
+                </Button>
+                <Button
+                onClick={()=>{triggerRegistry()}}
+                >
+                  Brothereerererer
+                </Button>
             </Route>
           </Switch>
 

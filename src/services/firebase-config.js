@@ -3,13 +3,14 @@ import "firebase/auth";
 import "firebase/firestore";
 
 var config = {
-  apiKey: "AIzaSyAcCtzvRGCUQJ4smMF14uKmelpYmGW6zTU",
-  authDomain: "fir-finallyjuan.firebaseapp.com",
-  databaseURL: "https://fir-finallyjuan.firebaseio.com",
-  projectId: "firebasefinallyjuan",
-  storageBucket: "firebasefinallyjuan.appspot.com",
-  messagingSenderId: "33788123767",
-  appId: "1:33788123767:web:fd20df98a6aad97c810472"
+  apiKey: "AIzaSyCDclOgGIRs5ra32jJ4mGXh520vFiTLn9o",
+  authDomain: "listosoftware-826ef.firebaseapp.com",
+  databaseURL: "https://listosoftware-826ef-default-rtdb.firebaseio.com",
+  projectId: "listosoftware-826ef",
+  storageBucket: "listosoftware-826ef.appspot.com",
+  messagingSenderId: "735903886998",
+  appId: "1:735903886998:web:80b15491995485c6c21cb7",
+  measurementId: "G-JG0THFYX1G"
 };
 
 // const config = {
