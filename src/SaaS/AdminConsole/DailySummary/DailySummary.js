@@ -20,7 +20,9 @@ function DailySummary() {
         "01" : "enero",
         "02" : "febrero",
         "03" : "marzo",
-        "04" : "abril"
+        "04" : "abril",
+        "05" : "mayo", 
+        "06" : "junio"
     };
 
     const currentDayParser = (x)=>{
@@ -44,12 +46,12 @@ function DailySummary() {
         return february;
     };
     const march = () => {
-        var february = [];
+        var march = [];
         for (var i = 1; i < 32; i++) {
             const ix = (i < 10 ? "0"  : "") + String(i);
-            february.push(String(ix) + "-03-2021");
+            march.push(String(ix) + "-03-2021");
         }
-        return february;
+        return march;
     };
     const april = ()=>{
         var april = [];
@@ -59,8 +61,27 @@ function DailySummary() {
         }
         return april;
     }
+    const may = ()=>{
+        var m = [];
+        for (var i = 1; i < 32; i++) {
+            const ix = (i < 10 ? "0"  : "") + String(i);
+            m.push(String(ix) + "-05-2021");
+        }
+        return m;
+    }
+
+    const june = ()=>{
+        var m = [];
+        for (var i = 1; i < 31; i++) {
+            const ix = (i < 10 ? "0"  : "") + String(i);
+            m.push(String(ix) + "-06-2021");
+        }
+        return m;
+    }
+   
     // const [feb, setFeb] = useState([]);
-    const MONTH_ARRAY = [["Enero", jan()], ["Febrero", feb()],["Marzo",march()], ["Abril", april()]]
+    const MONTH_ARRAY = [["Enero", jan()], ["Febrero", feb()],["Marzo",march()], ["Abril", april()],
+                        ["Mayo", may()], ["Junio", june()]]
     const [pointer, setPointer] = useState(0);
     const [currentMonth, setCurrentMonth] = useState(MONTH_ARRAY[pointer]);
 

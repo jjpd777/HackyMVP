@@ -30,7 +30,7 @@ function SalesCard(props){
     const [sales, setSales] = useState([]);
 
     const [summaryItems, setSummaryItems] = useState(defaultVals);
-    console.log("SALESES", month)
+
 
     useEffect(()=>{
         const ref = readSales(name);
@@ -42,6 +42,9 @@ function SalesCard(props){
             const matchMonth = keys.filter(x =>x.split('-')[1]===String(month));
             matchMonth.map(k => allSales.push(keyMaper(snap[k])));
             setSales(allSales);
+
+            // keys.map((k)=> x => x.split('-')[1]===String(month) ? allSales.push(keyMaper(snap[x])): null )
+            // setSales(allSales)
           });
         return ()=> ref.off('value', valRef)
     },[month]);
