@@ -60,7 +60,12 @@ export const ReceiptDB = ()=>{
 export const PlaticameDB = ()=>{
   const database = useFirebaseApp().database();
   const insertRequest = (data)=>{
-    const DESTINATION = LIVE_DEMO + '/' + DateforSection();
+    var today = new Date();
+    var mm = String(today.getMonth() + 1).padStart(2, '0');
+    var yyyy = today.getFullYear();
+    const path = ROOT+ "/update-v1/" + yyyy +"/"+ mm + "/"
+    const DESTINATION = path + '/' + DateforSection();
+    console.log(DESTINATION, "DESTI")
     return database.ref(DESTINATION).push(data);
   };
 

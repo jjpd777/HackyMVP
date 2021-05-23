@@ -39,25 +39,30 @@ function ForwardWhatsApp() {
     const [redirect, setRedirect] = useState("");
     const [revision, setRevision] = useState(false);
 
+    const countries = [["🇲🇽","+52"],["🇬🇹", "+502"],["🇧🇿", "+501"],["🇸🇻","+503"],
+    ["🇭🇳","+504"], ["🇨🇴", "+57"],["🇵🇷", "+1"], ["🇺🇸","+1"], ["🇪🇸","+34"],]
+    const countries2 = [["🇦🇷","+54"],["🇧🇷","+55"],["🇵🇾","+595"],["🇪🇨","+593"],
+    ["🇻🇪", "+58"], ["🇭🇹","+509"], ["🇧🇴", "+591"],["🇮🇳","+91"],["🇨🇦","+1"]]
+
+    const [country, setCountry] = useState(countries[1]);
+
     const x = {
         message: message,
         phoneNumber: phone,
         timestamp: newMHDMY(),
+        countryFlag: country[0],
+        countryPrefix: country[1].split('+').join('00'),
     };
-
 
     const craftURL = () => {
         if (phone === "") return;
-
+        console.log("MANIGG",x);
         setRevision(true);
         const parseText = craftString(message);
         setRedirect("https://wa.me/" + country[1] + phone + "?text=" + parseText);
     };
 
-    const countries = [["🇲🇽","+52"],["🇬🇹", "+502"],["🇧🇿", "+501"],["🇸🇻","+503"],["🇭🇳","+504"], ["🇨🇴", "+57"],["🇵🇷", "+1"], ["🇺🇸","+1"], ["🇪🇸","+34"]]
-    const [countriesPTR, setPTR] = useState(0);
-    const [country, setCountry] = useState(countries[1]);
-  
+
     const checkoutText = revision ? "WhatsApp" : "Revisar"
 
     return (
@@ -65,17 +70,16 @@ function ForwardWhatsApp() {
             <div>
                 <img className="platica-logo" src={platica} />
             </div>
-            <div className="sub-header-text" onClick={() => "listosoftware.web.app/"} >
-                <h6  >Impulsado por</h6>
-                <Button className="link" href={"https://listosoftware.web.app/"}> Listo Software</Button>
+
+
             <div className="flags">
                 {countries.map((x, ix)=><h2 onClick={()=>setCountry(countries[ix]) }> {x[0]}</h2>)}
             </div>
-            </div>
-            {/* <div className="country-div">
 
-                <Button className="country" onClick={() => nextCountry()}> {country[0]} {country[1]}</Button>
-            </div> */}
+            <div className="flags">
+            {countries2.map((x, ix)=><h2 onClick={()=>setCountry(countries2[ix]) }> {x[0]}</h2>)}
+            </div>
+
            {!revision && <Card className="t-card">
                 <CardBody>
                 <div>
@@ -119,6 +123,8 @@ function ForwardWhatsApp() {
                 
             </div>}
             <Button className="send" onClick={()=> revision ? insertRequest(x) : craftURL() } href={redirect}> <FontAwesomeIcon icon={revision ? faPhoneAlt: faGlasses} /> {checkoutText} </Button>
+                <br></br>
+                <br></br>
         </div>
     )
 
