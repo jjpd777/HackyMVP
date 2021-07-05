@@ -7,6 +7,7 @@ import borgonaLogo from './borgo.png'
 // -- JUAN's NEW IMPORTS
 import CRUD from './SaaS/DevModules/CRUD';
 import SalesReport from './SaaS/AdminConsole/SalesReport/SalesReport';
+import VoidReceipt from './SaaS/AdminConsole/VoidReceipt/VoidReceipt';
 import {
   BrowserRouter as Router,
   Switch, Route, Link
@@ -39,6 +40,7 @@ function App() {
   const [userPassword, setPassword] = useState("");
   const CORRECT_PASSWORD = userPassword !=="0991";
   const [navHelper, setNavHelper] = useState(false);
+  const [receiptPage, setReceiptPage] = useState(false);
 
   return (
     <div className="App">
@@ -61,14 +63,15 @@ function App() {
         <Button className="section-nav" onClick={()=>setNavHelper(false)}>
            <FontAwesomeIcon icon={faPencilAlt} /> Reporte diario
           </Button>
-          <Button className="section-nav" onClick={()=>setNavHelper(true)}>
+          <Button className="section-nav" onClick={()=>{setReceiptPage(false);setNavHelper(true)}}>
           <FontAwesomeIcon icon={faCalendarAlt} /> Reporte global
           </Button>
-          <Button className="section-nav" onClick={()=>setNavHelper(true)}>
+          <Button className="section-nav" onClick={()=>{setReceiptPage(true)}}>
           <FontAwesomeIcon icon={faCalendarAlt} /> Anular facturas
           </Button>
           
         </div>
+        {receiptPage && <VoidReceipt/>}
        {!navHelper && <DailySummary/>}
 { navHelper && <SalesReport/>}      
 </div> }
