@@ -37,7 +37,7 @@ function App() {
   const [cart, setCartItems] = useState<CartItem[]>([]);
   const [currentPage, setCurrentPage] = useState<PageEnum>(PageEnum.MENU);
   const [userPassword, setPassword] = useState("");
-  const CORRECT_PASSWORD = userPassword ==="0991";
+  const CORRECT_PASSWORD = userPassword !=="0991";
   const [navHelper, setNavHelper] = useState(false);
 
   return (
@@ -63,6 +63,9 @@ function App() {
           </Button>
           <Button className="section-nav" onClick={()=>setNavHelper(true)}>
           <FontAwesomeIcon icon={faCalendarAlt} /> Reporte global
+          </Button>
+          <Button className="section-nav" onClick={()=>setNavHelper(true)}>
+          <FontAwesomeIcon icon={faCalendarAlt} /> Anular facturas
           </Button>
           
         </div>
