@@ -112,7 +112,7 @@ function SalesCard(props){
         </CardBody>
       </Card>
       </div>
-{ cancelSale &&  <Button onClick={()=> writeCancelledSale(insertSale)}className="cancel-sale"> <FontAwesomeIcon icon={faTrash}/></Button>}        
+{/* // { cancelSale &&  <Button onClick={()=> writeCancelledSale(insertSale)}className="cancel-sale"> <FontAwesomeIcon icon={faTrash}/></Button>}         */}
 </>
     )
 }
