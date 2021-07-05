@@ -34,7 +34,14 @@ export const PoS_DB =() =>{
         console.log("PATH",x)
         return database.ref(x);
     }
-    return {readSales, readDayofSales}
+    const updateSaleDynamically = (shop, key, data) => {
+        // const timestamp = newMHDMY().split('&')[1];
+        const timestamp = "04-07-2021";
+        const db = database.ref(ROOT+"/"+shop + "/sales/"+ timestamp);
+        console.log(db, "BRJ")
+        return db.child(key).update(data);
+      };
+    return {readSales, readDayofSales, updateSaleDynamically}
 };
 
 export const CashRegisterDB = ()=>{

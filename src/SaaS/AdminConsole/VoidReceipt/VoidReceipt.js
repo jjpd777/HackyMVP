@@ -14,7 +14,7 @@ const STORES = ["GERONA","COMERCIA" ,"NOVITA", "PLAZOLETA",
          "FRAIJANES","AUTOPAN"];
 
 function VoidReceipt() {
-    const {readDayofSales}= PoS_DB(); 
+    const {readDayofSales, updateSaleDynamically}= PoS_DB(); 
     const [currentDay, setCurrentDay] = useState(newMHDMY().split('&')[1]);
     const [openDropdown, setOpenDropdown] = useState(false);
     const [currentStore, setCurrentStore] = useState(STORES[0]);
@@ -58,13 +58,7 @@ function VoidReceipt() {
         })
       }
 
-    const chooseVoidType =()=>{
-        if(taxData.req==="none"){
-            console.log("cancelled");
-        }else{
-            cancelViaAPI()
-        }
-    }
+  
 
     useEffect(()=>{
         const ref = readDayofSales(currentStore, "04-07-2021");
@@ -84,7 +78,27 @@ function VoidReceipt() {
         console.log(x);
     }
     
-    
+    const writeCancelledSale = async (key)=> {
+
+      if(taxData.res!=="none"){ await cancelViaAPI().then(x=>{
+          console.log(taxData)
+          const update = { 'summary/status': 'cancelled', 'cancellationRes': x};
+          setNullReceipt(false);
+          console.log(currentStore, key, update, "TERERERE");
+          console.log(taxData.req.infoTienda.numeroInterno,taxData.res.body.success.Autorizacion,taxData.req.infoTienda.nombre,
+              taxData.req.infoTienda.sede,
+              taxData.req.infoTienda.numeroSede,
+              taxData.req.infoTienda.nit
+          )
+          updateSaleDynamically(currentStore, key,update);})
+      }else{
+          const update = { 'summary/status': 'cancelled', 'cancellationRes': "none"};
+          setNullReceipt(false);
+          updateSaleDynamically(currentStore, key,update);
+        }
+
+       
+    }
 
     return(
     <div>
@@ -104,9 +118,10 @@ function VoidReceipt() {
                 <h5>{x.summary.timestamp.split('&').join(' ')}</h5>
                 <h5>Qtz. {x.summary.total} </h5>
                 <h5>STATUS: {x.summary.status==='valid'? 'Vigente' : 'Anulada'}</h5>
+                <h4>{taxData?.req==='none'? "Envío": "NIT: "+ x.summary.taxInfo}</h4>
                 <h5>{x.summary.paymentMethod}</h5>
             </CardBody>
-            {(nullRec && examineRec.insertionID===x.insertionID && x.summary.status==='valid') && <Button onClick={()=>{chooseVoidType()}}>Anular</Button>}
+            {(nullRec && examineRec.insertionID===x.insertionID && x.summary.status==='valid') && <Button onClick={()=>{writeCancelledSale(x.insertionID)}}>Anular</Button>}
         </div>
         )}
         </div>
