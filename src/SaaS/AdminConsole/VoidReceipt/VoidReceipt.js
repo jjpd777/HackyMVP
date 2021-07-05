@@ -61,7 +61,7 @@ function VoidReceipt() {
   
 
     useEffect(()=>{
-        const ref = readDayofSales(currentStore, "04-07-2021");
+        const ref = readDayofSales(currentStore, currentDay);
         const valRef = ref.on('value', (snapshot) => {
             const snap = snapshot.val(); 
             if(!snap) return;

@@ -38,7 +38,7 @@ function App() {
   const [cart, setCartItems] = useState<CartItem[]>([]);
   const [currentPage, setCurrentPage] = useState<PageEnum>(PageEnum.MENU);
   const [userPassword, setPassword] = useState("");
-  const CORRECT_PASSWORD = userPassword !=="0991";
+  const CORRECT_PASSWORD = userPassword ==="0991";
   const [navHelper, setNavHelper] = useState(false);
   const [receiptPage, setReceiptPage] = useState(false);
 
@@ -72,8 +72,8 @@ function App() {
           
         </div>
         {receiptPage && <VoidReceipt/>}
-       {!navHelper && <DailySummary/>}
-{ navHelper && <SalesReport/>}      
+       {!navHelper && (!receiptPage) && <DailySummary/>}
+{ navHelper && (!receiptPage) && <SalesReport/>}      
 </div> }
     </div>
   );

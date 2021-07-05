@@ -35,9 +35,8 @@ export const PoS_DB =() =>{
         return database.ref(x);
     }
     const updateSaleDynamically = (shop, key, data) => {
-        // const timestamp = newMHDMY().split('&')[1];
-        const timestamp = "04-07-2021";
-        const db = database.ref(ROOT+"/"+shop + "/sales/"+ timestamp);
+        const timestamp = newMHDMY().split('&')[1];
+        const db = database.ref("BORGONA/"+shop + "/sales/"+ timestamp);
         console.log(db, "BRJ")
         return db.child(key).update(data);
       };
