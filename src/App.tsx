@@ -60,7 +60,7 @@ function App() {
       </div> :
       <div className="admin-console">
         <div>
-        <Button className="section-nav" onClick={()=>setNavHelper(false)}>
+        <Button className="section-nav" onClick={()=>{setNavHelper(false);setReceiptPage(false);}}>
            <FontAwesomeIcon icon={faPencilAlt} /> Reporte diario
           </Button>
           <Button className="section-nav" onClick={()=>{setReceiptPage(false);setNavHelper(true)}}>
@@ -72,8 +72,8 @@ function App() {
           
         </div>
         {receiptPage && <VoidReceipt/>}
-       {!navHelper && (!receiptPage) && <DailySummary/>}
-{ navHelper && (!receiptPage) && <SalesReport/>}      
+       {(!navHelper && (!receiptPage)) && <DailySummary/>}
+{ (navHelper && (!receiptPage) )&& <SalesReport/>}      
 </div> }
     </div>
   );

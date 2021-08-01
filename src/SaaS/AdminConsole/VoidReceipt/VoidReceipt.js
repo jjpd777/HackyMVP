@@ -64,6 +64,7 @@ function VoidReceipt() {
         const ref = readDayofSales(currentStore, currentDay);
         const valRef = ref.on('value', (snapshot) => {
             const snap = snapshot.val(); 
+            if(!snap)setDayReceipts([])
             if(!snap) return;
             const keys = Object.keys(snap);
             setDayReceipts(keys.map((k)=>snap[k]).reverse());
