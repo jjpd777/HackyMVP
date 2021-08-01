@@ -11,9 +11,14 @@ const keyMaper = (x)=>{
 };
 function numberWithCommas(x) {
     if(!x)return;
+    return x
+    // var t = x.toFixed(2)
+    // return t.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+function otherNumber (x){
+    if(!x) return;
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
-
 function DailyCard(props){
     const {name, dayMonth, setDay, presentDay} = props;
     const [balances, setBalances] = useState([]);
@@ -37,9 +42,10 @@ function DailyCard(props){
     const [fullDetail, setFullDetail] = useState(false);
 
     const calculateBalance = ()=>{
-        const cashBalance = Number(closeRegister.closeAmountCash) - (Number(openRegister.openAmountCash) + Number(summaryItems.totalCash));
-        const cardBalance = Number(closeRegister.cashBalance) - Number( summaryItems.totalCard);
+        const cashBalance = parseFloat(closeRegister.closeAmountCash) - (parseFloat(openRegister.openAmountCash) + parseFloat(summaryItems.totalCash));
+        const cardBalance = parseFloat(closeRegister.cashBalance) - parseFloat( summaryItems.totalCard);
         setBalances([numberWithCommas(cashBalance), numberWithCommas(cardBalance)])
+        // console.log("BROTHER", summaryItems.openAmountCash)
 
     }
 
@@ -83,17 +89,18 @@ function DailyCard(props){
         var taxedTickets = 0;
         x.map((saleJson)=> {
             const j = saleJson.summary;
+            const pf = Number(j.total)
             if(j.status ==='valid'){
-                total += j.total;
+                total += pf;
                 validTickets+=1; 
                 if(j.paymentMethod ==="efectivo"){
-                    totalCash+=j.total;
-            }else {totalCard+=j.total;}
+                    totalCash+= pf;
+            }else {totalCard+=pf;}
             
             if(saleJson.taxData.req !=='none'){
                 taxedTickets+=1;
-                if(j.paymentMethod ==="efectivo") totalCashSAT +=j.total;
-                else totalCardSAT +=j.total;
+                if(j.paymentMethod ==="efectivo") {totalCashSAT += pf
+                }else {totalCardSAT += pf};
             }
         }
         }
@@ -135,10 +142,10 @@ function DailyCard(props){
             <Card className="card-element">
             <CardBody>
             <h3>{name}</h3>
-            <h2><b>Qtz.</b>{summaryItems.totalSales}</h2>
+            <h2><b>Qtz.</b>{otherNumber(summaryItems.totalSales.toFixed(2))}</h2>
                 <h3><b>Qtz.</b>{summaryItems.averageTicket} / ticket</h3>
-                <h4><b>Qtz.</b>{summaryItems.totalCash} en efectivo</h4>
-                <h4><b>Qtz.</b>{summaryItems.totalCard} en tarjeta</h4>
+                <h4><b>Qtz.</b>{summaryItems.totalCash.toFixed(2)} en efectivo</h4>
+                <h4><b>Qtz.</b>{summaryItems.totalCard.toFixed(2)} en tarjeta</h4>
                 <h5>Total tickets {summaryItems.totalValidTickets}</h5>
                  <h5>Total facturados {summaryItems.totalTaxedTickets}</h5>
                 
@@ -150,8 +157,8 @@ function DailyCard(props){
                 <h5><b>Qtz.</b>{summaryItems.totalCardSAT} en tarjeta</h5>
                 <h3>- - -</h3>
 
-            {!!openRegister && <h5>Abrió {openRegister.name} con Qtz.{numberWithCommas(openRegister.openAmountCash)}</h5>}
-            {!!closeRegister &&<h5>Cerró { closeRegister.name} con Qtz.{numberWithCommas(closeRegister.closeAmountCash)}</h5>}
+            {!!openRegister && <h5>Abrió {openRegister.name} con Qtz.{otherNumber(openRegister.openAmountCash)}</h5>}
+            {!!closeRegister &&<h5>Cerró { closeRegister.name} con Qtz.{(closeRegister.closeAmountCash)}</h5>}
             {!!closeRegister &&<h5>=> {balanceText()[0]}</h5>}
             {!!closeRegister &&<h5>=> {balanceText()[1]}</h5>}
             </div>}

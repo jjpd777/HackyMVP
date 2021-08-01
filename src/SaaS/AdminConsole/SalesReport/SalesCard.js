@@ -9,7 +9,14 @@ const keyMaper = (x)=>{
 
 function numberWithCommas(x) {
     if(!x)return;
+    return x;
+    // return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function otherNumber(x){
+    if(!x) return;
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
 }
 
 function SalesCard(props){
@@ -57,18 +64,19 @@ function SalesCard(props){
         var taxedTickets = 0;
         x.map((element)=> element.map( (saleJson) => {
             const j = saleJson.summary;
+            const pf = parseFloat(j.total)
 
             if(j.status ==='valid'){
-                total += j.total;
+                total += pf;
                 validTickets+=1; 
                 if(j.paymentMethod ==="efectivo"){
-                    totalCash+=j.total;
-            }else {totalCard+=j.total;}
+                    totalCash+=pf;
+            }else {totalCard+= pf;}
             
             if(saleJson.taxData.req !=='none'){
                 taxedTickets+=1;
-                if(j.paymentMethod ==="efectivo") totalCashSAT +=j.total;
-                else totalCardSAT +=j.total;
+                if(j.paymentMethod ==="efectivo") totalCashSAT += pf;
+                else totalCardSAT += pf;
             }
         }}
         ));
@@ -97,10 +105,10 @@ function SalesCard(props){
         <Card className="card-element">
             <CardBody>
             <h3>{name}</h3>
-            <h2><b>Qtz.</b>{summaryItems.totalSales}</h2>
+            <h2><b>Qtz.</b>{otherNumber(summaryItems.totalSales.toFixed(2))}</h2>
                 <h3><b>Qtz.</b>{summaryItems.averageTicket} / ticket</h3>
-                <h4><b>Qtz.</b>{summaryItems.totalCash} en efectivo</h4>
-                <h4><b>Qtz.</b>{summaryItems.totalCard} en tarjeta</h4>
+                <h4><b>Qtz.</b>{summaryItems.totalCash.toFixed(2)} en efectivo</h4>
+                <h4><b>Qtz.</b>{summaryItems.totalCard.toFixed(2)} en tarjeta</h4>
             <h3>- - -</h3>
                 <h5><b>Facturación</b></h5>
                 <h5><b>Qtz.</b>{summaryItems.totalCashSAT} en efectivo</h5>

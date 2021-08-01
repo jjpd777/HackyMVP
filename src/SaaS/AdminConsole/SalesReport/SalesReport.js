@@ -14,7 +14,8 @@ const STORES = ["GERONA","COMERCIA" ,"NOVITA", "PLAZOLETA",
 "FRAIJANES","AUTOPAN"];
 // const STORES = ["AUTOPAN"]
 const MONTH = [["01","Enero"],["02", "Febrero"],["03", "Marzo"], 
-        ["04", "Abril"],["05", "Mayo"], ["06","Junio"],["07","Julio"]];
+        ["04", "Abril"],["05", "Mayo"], ["06","Junio"],["07","Julio"], 
+        ["08", "Agosto"]];
 
 
 function SalesReport (){
