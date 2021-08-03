@@ -90,9 +90,9 @@ function DailySummary() {
     }
     const august = ()=>{
         var m = [];
-        for (var i = 1; i < 32; i++) {
+        for (var i = 1; i < 31; i++) {
             const ix = (i < 10 ? "0"  : "") + String(i);
-            m.push(String(ix) + "-07-2021");
+            m.push(String(ix) + "-08-2021");
         }
         return m;
     }
